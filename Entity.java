@@ -2,11 +2,11 @@ import java.util.ArrayList;
 
 
 public class Entity {
-	// All entities can attack, have health, have names...
-	int health;
-	String name;
-	int gold;
-	ArrayList<Item> backpack;
+	// All entities can attack, have health, have names...?
+	private int health;
+	private String name;
+	private int gold;
+	private ArrayList<Item> backpack;
 
 	// maybe not all entities start at full health, etc.
 	public Entity(String name){
