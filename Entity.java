@@ -6,6 +6,7 @@ public class Entity {
 	private int health;
 	private String name;
 	private int gold;
+	private float damage;
 	private ArrayList<Item> backpack;
 
 	// maybe not all entities start at full health, etc.
@@ -15,16 +16,44 @@ public class Entity {
 		this.gold = 0;
 
 	}
+	
+	// get and set functions to change entity's health, damage, name, gold...etc
 	public int getHealth(){
 		return this.health;
+	}
+	public void setHealth(int newHealth){
+		health = newHealth;
 	}
 	
 	public String getName(){
 		return this.name;
 	}
+	public void setName(String newName){
+		name = newName;
+	}
 	
 	public int getGold(){
 		return this.gold;
+	}
+	public void setGold(int newGold){
+		gold = newGold;
+	}
+	
+	public float getDamage(){
+		return this.damage;
+	}
+	public void setDamage(float newDamage){
+		damage = newDamage;
+	}
+	
+	public ArrayList<Item> getBackpack(){			// may be useless.. shall see
+		return this.backpack;
+	}
+	public void addBackpack(Item item){				// add an item to the backpack
+		backpack.add(item);
+	}
+	public void removeBackpack(Item item){			// remove an item from the backpack
+		backpack.remove(item);
 	}
 	
 	public ArrayList<Item> die(){
