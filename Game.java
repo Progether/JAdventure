@@ -1,7 +1,7 @@
 
 public class Game {
 	// Some instance variables?
-//	Player player;
+	//	Player player;
 	String playerName;
 	boolean nameInput;
 	public Game(){
@@ -9,7 +9,7 @@ public class Game {
 	}
 	
 	public void init(){
-//		this.player = new Player();
+	//	this.player = new Player();
 		nameInput = true;
 	}
 	
