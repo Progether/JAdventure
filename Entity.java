@@ -5,6 +5,7 @@ public class Entity {
 	// All entities can attack, have health, have names...?
 	private int health;
 	private String name;
+	private int level;
 	private int gold;
 	private float damage;
 	private ArrayList<Item> backpack;
@@ -18,10 +19,17 @@ public class Entity {
 	}
 	
 	// get and set functions to change entity's health, damage, name, gold...etc
-	public int getHealth(){
+	public int getHealthMax(){
 		return this.health;
 	}
-	public void setHealth(int newHealth){
+	public void setHealthMax(int newHealth){
+		health = newHealth;
+	}
+	
+	public int getHealthCurrent(){
+		return this.health;
+	}
+	public void setHealthCurrent(int newHealth){
 		health = newHealth;
 	}
 	
@@ -30,6 +38,13 @@ public class Entity {
 	}
 	public void setName(String newName){
 		name = newName;
+	}
+	
+	public int getLevel(){
+		return this.level;
+	}
+	public void setLevel(int newLevel){
+		level = newLevel;
 	}
 	
 	public int getGold(){
