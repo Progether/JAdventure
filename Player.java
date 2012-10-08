@@ -1,8 +1,8 @@
 
 public class Player extends Entity{
 
-	public Player(String name){
-		super(name);
+	public Player(){
+		//super(name);
 
 	}
 }
