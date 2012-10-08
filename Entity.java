@@ -3,26 +3,36 @@ import java.util.ArrayList;
 
 public class Entity {
 	// All entities can attack, have health, have names...?
-	private int health;
+	private int healthMax;
+	private int healthCurrent;
 	private String name;
+	private int level;
 	private int gold;
 	private float damage;
 	private ArrayList<Item> backpack;
 
 	// maybe not all entities start at full health, etc.
-	public Entity(String name){
-		this.health = 100;
+	public Entity(){
+		this.healthMax = 100;
 		this.name = name;
 		this.gold = 0;
+		this.backpack = new ArrayList<Item>();
 
 	}
 	
 	// get and set functions to change entity's health, damage, name, gold...etc
-	public int getHealth(){
-		return this.health;
+	public int getHealthMax(){
+		return this.healthMax;
 	}
-	public void setHealth(int newHealth){
-		health = newHealth;
+	public void setHealthMax(int newHealth){
+		healthMax = newHealth;
+	}
+	
+	public int getHealthCurrent(){
+		return this.healthCurrent;
+	}
+	public void setHealthCurrent(int newHealth){
+		healthCurrent = newHealth;
 	}
 	
 	public String getName(){
@@ -30,6 +40,13 @@ public class Entity {
 	}
 	public void setName(String newName){
 		name = newName;
+	}
+	
+	public int getLevel(){
+		return this.level;
+	}
+	public void setLevel(int newLevel){
+		level = newLevel;
 	}
 	
 	public int getGold(){
