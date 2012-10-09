@@ -14,7 +14,7 @@ public class Entity {
 	// maybe not all entities start at full health, etc.
 	public Entity(){
 		this.healthMax = 100;
-		this.name = name;
+		this.name = "default";
 		this.gold = 0;
 		this.backpack = new ArrayList<Item>();
 
