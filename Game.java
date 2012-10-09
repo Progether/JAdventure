@@ -2,38 +2,19 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
-	// Some instance variables?
-	//	Player player;
-	String playerName;
-	boolean nameInput;
+	
+	public ArrayList<Monster> monsterList = new ArrayList<Monster>();
+	public Map map = new Map();
+	public MonsterCreator createMonster = new MonsterCreator();
+	public Player player = new Player();	
+	public Scanner scanner = new Scanner(System.in);
 	String userInput;
 	
 	public Game(){
-		
+		initialize();
 	}
 	
-	public void init(){
-	//	this.player = new Player();
-		nameInput = true;
-	}
-	
-	public void input(String userInputString){
-		if(nameInput){
-			this.playerName = userInputString;
-			System.out.println("Hello, " + playerName + "!");
-			nameInput = false;
-		}
-		else{
-			System.out.println(userInputString);
-		}
-	}
-	
-	public void quit(){
-		System.out.println("Bye-bye!");
-	}
-	
-	public void Basic(Player player, ArrayList<Monster> monsterList, Scanner scanner)
-    {
+	public void commands(){
 		String userInput;
 		
         while (true)
@@ -46,50 +27,28 @@ public class Game {
 
             if (userInput.toLowerCase().equals("clear"))
             {
-            	System.out.println("not implemented");
+            	clear();
             }
             else if (userInput.toLowerCase().equals("go to") || userInput.toLowerCase().equals("goto"))
             {
-            	System.out.println("RUN 'GO TO' COMMAND");
+            	go_to();
             }
             else if (userInput.toLowerCase().equals("help"))
             {
-            	System.out.println("Commands:");
-            	System.out.println("- Clear:             Clears the screen.");
-            	System.out.println("- Go to <Location>:  Takes you to a location.");
-            	System.out.println("- Help:              Gives you a list of commands.");
-            	System.out.println("- Locations:         Gives you a list of Locations.");
-            	System.out.println("- Monsters:          Tells you if any monsters are nearby");
-            	System.out.println("- Stats:             Shows your name, gold, location and backpack.");
-            	System.out.println("- Quit:              Exits the game.");
+            	help();
             }
             else if (userInput.toLowerCase().equals("locations"))
             {
-            	System.out.println("Locations:");
-            	System.out.println("- Arena");
-            	System.out.println("- Blacksmith");
-            	System.out.println("- Temple");
+            	Locations();
             }
             else if (userInput.toLowerCase().equals("monsters"))
             {
-            	System.out.println("Nearby Monsters:");
-                if (monsterList.isEmpty())
-                {
-                	System.out.println("- None");
-                }
-                else
-                {
-                    for (Monster monster : monsterList)
-                    {
-                    	System.out.println("- " + monster.getName());
-                    }
-                }
+            	monsters(monsterList);
 
             }
             else if (userInput.toLowerCase().equals("stats"))
             {
-                Interface(player);
-            	//System.out.println("not implemented");
+            	stats(player);
             }
             else if (userInput.toLowerCase().equals("quit"))
             {
@@ -109,8 +68,60 @@ public class Game {
             }
         }
     }
-	
-	public void Interface(Player player)
+	public void initialize(){
+		
+		// generates monsters
+		for (int i = 0; i < 5; i++){
+			createMonster.Generate(player, monsterList);
+		}	
+				
+		// Read user's first input
+		System.out.println("Welcome to {Applzor, add7, geniuus, Malfunction, bdong_ and Qasaur}'s text adventure game!");		
+		System.out.print("Please type in your name (this will be used as your character name): ");
+		String userInput = scanner.next();
+		player.setName(userInput);
+		
+		
+	}
+		
+	// COMMANDS
+	private void clear() {		
+		System.out.println("not implemented");
+	}	
+	private void go_to() {
+		System.out.println("RUN 'GO TO' COMMAND");
+	}	
+	private void help() {
+		System.out.println("Commands:");
+    	System.out.println("- Clear:             Clears the screen.");
+    	System.out.println("- Go to <Location>:  Takes you to a location.");
+    	System.out.println("- Help:              Gives you a list of commands.");
+    	System.out.println("- Locations:         Gives you a list of Locations.");
+    	System.out.println("- Monsters:          Tells you if any monsters are nearby");
+    	System.out.println("- Stats:             Shows your name, gold, location and backpack.");
+    	System.out.println("- Quit:              Exits the game.");
+	}	
+	private void Locations() {
+		System.out.println("Locations:");
+    	System.out.println("- Arena");
+    	System.out.println("- Blacksmith");
+    	System.out.println("- Temple");
+	}	
+	private void monsters(ArrayList<Monster> monsterList) {
+		System.out.println("Nearby Monsters:");
+        if (monsterList.isEmpty())
+        {
+        	System.out.println("- None");
+        }
+        else
+        {
+            for (Monster monster : monsterList)
+            {
+            	System.out.println("- " + monster.getName());
+            }
+        }
+	}	
+	private void stats(Player player)
     {
 		System.out.println("\n--------------------------------------------------------------------\n");
 		System.out.println("Name: " + player.getName() + "       ");
@@ -128,6 +139,5 @@ public class Game {
             }
         }
         System.out.println("\n--------------------------------------------------------------------");
-    }   
-	
+    }  
 }
