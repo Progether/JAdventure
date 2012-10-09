@@ -1,23 +1,20 @@
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MonsterCreator {
 	
 	Random random = new Random();
 	
-	public void Generate(Player player, List<Monster> monsterList) {
-		for (int i = 0; i < 5; i++) {
+	public void Generate(Player player, ArrayList<Monster> monsterList) {
 			Monster monster = new Monster();
+			int level = player.getLevel();
 			
-			monster.setHealthMax((int)GenerateHealth(player.getLevel()));
+			monster.setHealthMax((int)GenerateHealth(level));
 			monster.setHealthCurrent(monster.getHealthMax());
-			monster.setDamage(GenerateDamage(player.getLevel()));
-			monster.setName("Bugbear");
+			monster.setDamage(GenerateDamage(level));
+			monster.setName(GenerateName(level));
 			
-			monsterList.add(monster);
-			
-		}
-		
+			monsterList.add(monster);		
 	}
 	
 	private float GenerateHealth(int level){
@@ -38,6 +35,23 @@ public class MonsterCreator {
 		damage = random.nextInt(10);
 		
 		return damage;
+	}
+	
+	private String GenerateName(int level){
+		String name = "unassigned";
+		level = random.nextInt(15);
+		
+		if (level <= 5){
+            name = "Bugbear";
+        }
+        else if (level > 5 && level <= 10){
+            name = "Goblin";
+        }
+        else if (level > 10){
+            name = "Troll";
+        }
+		
+		return name;
 	}
 
 }
