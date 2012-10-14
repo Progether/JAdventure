@@ -1,12 +1,20 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+<<<<<<< HEAD
+//	main class, gets user input and calls functions
+=======
+>>>>>>> 82079993406d08dff905e86034d70e0f98f3e0cf
 public class Game {
 	
 	public ArrayList<Monster> monsterList = new ArrayList<Monster>();
 	public Map map = new Map();
 	public MonsterCreator createMonster = new MonsterCreator();
+<<<<<<< HEAD
+	public Player player = new Player();
+=======
 	public Player player = new Player();	
+>>>>>>> 82079993406d08dff905e86034d70e0f98f3e0cf
 	public Scanner scanner = new Scanner(System.in);
 	String userInput;
 	
@@ -14,12 +22,60 @@ public class Game {
 		initialize();
 	}
 	
+<<<<<<< HEAD
+	// gets user input to call commands
+=======
+>>>>>>> 82079993406d08dff905e86034d70e0f98f3e0cf
 	public void commands(){
 		String userInput;
 		
         while (true)
         {
             // Displays the interface
+<<<<<<< HEAD
+        	System.out.println("\n" + "Enter a Command:");
+
+            userInput = scanner.next();
+
+			String userInputLowerCase = userInput.toLowerCase();
+			switch (userInputLowerCase) {
+				case "clear":	clear();
+								break;
+
+				case "go to": case "goto":
+									go_to();
+									break;
+
+				case "help":		help();
+									break;
+
+				case "locations":	Locations();
+									break;
+
+				case "monsters":	monsters(monsterList);
+									break;
+
+				case "stats":		stats(player);
+									break;
+
+				case "quit":		System.exit(0);
+									break;
+
+
+				default:			System.out.print("\n" + "I don't know what '");
+									//Console.ForegroundColor = ConsoleColor.DarkRed;
+									System.out.print(userInput);
+									//Console.ResetColor();
+									System.out.println("' means.");
+									System.out.println("Type HELP for a list of"
+											+ "commands.");
+									break;
+
+			}
+		}
+	}
+	public void initialize(){
+=======
         	System.out.println("\n" + "Enter a Command:\n");
 
             userInput = scanner.next();
@@ -70,6 +126,7 @@ public class Game {
     }
 	public void initialize(){
 		
+>>>>>>> 82079993406d08dff905e86034d70e0f98f3e0cf
 		// generates monsters
 		for (int i = 0; i < 5; i++){
 			createMonster.Generate(player, monsterList);
@@ -80,8 +137,11 @@ public class Game {
 		System.out.print("Please type in your name (this will be used as your character name): ");
 		String userInput = scanner.next();
 		player.setName(userInput);
+<<<<<<< HEAD
+=======
 		
 		
+>>>>>>> 82079993406d08dff905e86034d70e0f98f3e0cf
 	}
 		
 	// COMMANDS
@@ -126,6 +186,12 @@ public class Game {
 		System.out.println("\n--------------------------------------------------------------------\n");
 		System.out.println("Name: " + player.getName() + "       ");
 		System.out.println("Gold: " + player.getGold() + "       ");
+<<<<<<< HEAD
+		System.out.println("Max Health / Health: " + player.getHealthMax()
+				+ " / " + player.getHealthCurrent());
+		System.out.println("Damage: " + player.getDamage());
+=======
+>>>>>>> 82079993406d08dff905e86034d70e0f98f3e0cf
 		//System.out.println("Location: " + player.getLocation + "      ");
 		System.out.println("Backpack: ");
 		

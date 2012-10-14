@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 
+<<<<<<< HEAD
+// superclass for all entities (inludes player, monsters...)
+=======
 
+>>>>>>> 82079993406d08dff905e86034d70e0f98f3e0cf
 public class Entity {
 	// All entities can attack, have health, have names...?
 	private int healthMax;
@@ -8,7 +12,12 @@ public class Entity {
 	private String name;
 	private int level;
 	private int gold;
+<<<<<<< HEAD
+	private double damage;
+	private int defence;
+=======
 	private float damage;
+>>>>>>> 82079993406d08dff905e86034d70e0f98f3e0cf
 	private ArrayList<Item> backpack;
 
 	// maybe not all entities start at full health, etc.
@@ -56,6 +65,22 @@ public class Entity {
 		gold = newGold;
 	}
 	
+<<<<<<< HEAD
+	public double getDamage(){
+		return this.damage;
+	}
+	public void setDamage(double newDamage){
+		damage = newDamage;
+	}
+	
+	public int getDefence() {
+		return this.defence;
+	}
+	public void setDefence(int newDefence){
+		defence = newDefence;
+	}
+	
+=======
 	public float getDamage(){
 		return this.damage;
 	}
@@ -63,6 +88,7 @@ public class Entity {
 		damage = newDamage;
 	}
 	
+>>>>>>> 82079993406d08dff905e86034d70e0f98f3e0cf
 	public ArrayList<Item> getBackpack(){			// may be useless.. shall see
 		return this.backpack;
 	}
