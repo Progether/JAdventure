@@ -1,78 +1,83 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
+//	main class, gets user input and calls functions
+
 public class Game {
 	
 	public ArrayList<Monster> monsterList = new ArrayList<Monster>();
 	public Map map = new Map();
 	public MonsterCreator createMonster = new MonsterCreator();
-	public Player player = new Player();	
+	public Player player = new Player();
 	public Scanner scanner = new Scanner(System.in);
 	String userInput;
 	
 	public Game(){
 		initialize();
-	}
-	
+	}	
+
+	// gets user input to call commands
 	public void commands(){
 		String userInput;
 		
         while (true)
         {
             // Displays the interface
-        	System.out.println("\n" + "Enter a Command:\n");
+
+        	System.out.println("\n" + "Enter a Command:");
 
             userInput = scanner.next();
-            System.out.println();
 
-            if (userInput.toLowerCase().equals("clear"))
-            {
-            	clear();
-            }
-            else if (userInput.toLowerCase().equals("go to") || userInput.toLowerCase().equals("goto"))
-            {
-            	go_to();
-            }
-            else if (userInput.toLowerCase().equals("help"))
-            {
-            	help();
-            }
-            else if (userInput.toLowerCase().equals("locations"))
-            {
-            	Locations();
-            }
-            else if (userInput.toLowerCase().equals("monsters"))
-            {
-            	monsters(monsterList);
+			String userInputLowerCase = userInput.toLowerCase();
+			switch (userInputLowerCase) {
+			
+				case "attack":		
+					for (Monster monster : monsterList)
+					attack(player, monster);
+			
+				case "clear":		clear();
+									break;
 
-            }
-            else if (userInput.toLowerCase().equals("stats"))
-            {
-            	stats(player);
-            }
-            else if (userInput.toLowerCase().equals("quit"))
-            {
-                break;
-            }
-            else if (userInput.isEmpty()){
-            	System.out.print("Please enter a command, type HELP for a list of commands.");
-            }
-            else
-            {
-            	System.out.print("\n" + "I don't know what '");
-                //Console.ForegroundColor = ConsoleColor.DarkRed;
-                System.out.print(userInput);
-                //Console.ResetColor();
-                System.out.print("' means.");
-                System.out.println();
-            }
-        }
-    }
+				case "go to": case "goto":
+									go_to();
+									break;
+
+				case "help":		help();
+									break;
+
+				case "locations":	locations();
+									break;
+
+				case "monsters":	monsters(monsterList);
+									break;
+
+				case "stats":		stats(player);
+									break;
+
+				case "quit":		System.exit(0);
+									break;
+
+
+				default:			System.out.print("\n" + "I don't know what '");
+									//Console.ForegroundColor = ConsoleColor.DarkRed;
+									System.out.print(userInput);
+									//Console.ResetColor();
+									System.out.println("' means.");
+									System.out.println("Type HELP for a list of"
+											+ "commands.");
+									break;
+
+			}
+		}
+	}
+
 	public void initialize(){
 		
+
 		// generates monsters
-		for (int i = 0; i < 5; i++){
-			createMonster.Generate(player, monsterList);
+		for (int i = 0; i < 1; i++){
+			createMonster.Generate(monsterList);
 		}	
 				
 		// Read user's first input
@@ -80,11 +85,34 @@ public class Game {
 		System.out.print("Please type in your name (this will be used as your character name): ");
 		String userInput = scanner.next();
 		player.setName(userInput);
-		
-		
+
 	}
 		
 	// COMMANDS
+	private void attack(Entity player, Entity monster) {
+		System.out.println("----------------------------------");
+		
+		System.out.println("p_damage: " + player.getDamage());
+		System.out.println("m_armour: " + monster.getArmour());
+				
+		System.out.println("mh_before: " + monster.getHealthCurrent());
+		player.attack(player, monster);
+		System.out.println("mh_after: " + monster.getHealthCurrent());
+		
+		System.out.println("----------------------------------");
+		
+		System.out.println("----------------------------------");
+		
+		System.out.println("m_damage: " + monster.getDamage());
+		System.out.println("p_armour: " + player.getArmour());
+				
+		System.out.println("ph_before: " + player.getHealthCurrent());
+		monster.attack(monster, player);
+		System.out.println("ph_after: " + player.getHealthCurrent());
+		
+		System.out.println("----------------------------------");
+		
+	}
 	private void clear() {		
 		System.out.println("not implemented");
 	}	
@@ -101,7 +129,7 @@ public class Game {
     	System.out.println("- Stats:             Shows your name, gold, location and backpack.");
     	System.out.println("- Quit:              Exits the game.");
 	}	
-	private void Locations() {
+	private void locations() {
 		System.out.println("Locations:");
     	System.out.println("- Arena");
     	System.out.println("- Blacksmith");
@@ -126,6 +154,11 @@ public class Game {
 		System.out.println("\n--------------------------------------------------------------------\n");
 		System.out.println("Name: " + player.getName() + "       ");
 		System.out.println("Gold: " + player.getGold() + "       ");
+
+		System.out.println("Max Health / Health: " + player.getHealthMax()
+				+ " / " + player.getHealthCurrent());
+		System.out.println("Damage: " + player.getDamage());
+
 		//System.out.println("Location: " + player.getLocation + "      ");
 		System.out.println("Backpack: ");
 		

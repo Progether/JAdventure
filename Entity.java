@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
 
+// superclass for all entities (includes player, monsters...)
+
 public class Entity {
 	// All entities can attack, have health, have names...?
 	private int healthMax;
@@ -8,12 +10,15 @@ public class Entity {
 	private String name;
 	private int level;
 	private int gold;
-	private float damage;
+	private double damage;
+	private int defence;
+
 	private ArrayList<Item> backpack;
 
 	// maybe not all entities start at full health, etc.
 	public Entity(){
 		this.healthMax = 100;
+		this.healthCurrent = this.healthMax;
 		this.name = "default";
 		this.gold = 0;
 		this.backpack = new ArrayList<Item>();
@@ -56,12 +61,21 @@ public class Entity {
 		gold = newGold;
 	}
 	
-	public float getDamage(){
+
+	public double getDamage(){
 		return this.damage;
 	}
-	public void setDamage(float newDamage){
+	public void setDamage(double newDamage){
 		damage = newDamage;
 	}
+	
+	public int getArmour() {
+		return this.defence;
+	}
+	public void setArmour(int newArmour){
+		defence = newArmour;
+	}
+	
 	
 	public ArrayList<Item> getBackpack(){			// may be useless.. shall see
 		return this.backpack;
@@ -71,6 +85,21 @@ public class Entity {
 	}
 	public void removeBackpack(Item item){			// remove an item from the backpack
 		backpack.remove(item);
+	}
+	
+	public void attack(Entity attacker, Entity defender){
+		double a_Damage = attacker.getDamage();
+		int d_Armour = defender.getArmour();
+		int d_Health = defender.getHealthCurrent();
+		int baseArmour = 100;
+		double armourFactor;
+		
+		armourFactor = 0.12 * (baseArmour + d_Armour) / 100;
+		d_Health = d_Health - (int)(a_Damage * (1 - armourFactor));		
+		
+		// set defender health to new health
+		defender.setHealthCurrent(d_Health);
+		
 	}
 	
 	public ArrayList<Item> die(){
