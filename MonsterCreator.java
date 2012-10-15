@@ -5,49 +5,57 @@ public class MonsterCreator {
 	
 	Random random = new Random();
 	
-	public void Generate(Player player, ArrayList<Monster> monsterList) {
+	public void Generate(ArrayList<Monster> monsterList) {
 			Monster monster = new Monster();
-			int level = player.getLevel();
 			
-			monster.setHealthMax((int)GenerateHealth(level));
+			monster.setHealthMax((int)GenerateHealth());
 			monster.setHealthCurrent(monster.getHealthMax());
-			monster.setDamage(GenerateDamage(level));
-			monster.setName(GenerateName(level));
+			
+			monster.setArmour(GenerateArmour());
+			monster.setDamage(GenerateDamage());
+			monster.setName(GenerateName());
 			
 			monsterList.add(monster);		
 	}
 	
-	private float GenerateHealth(int level){
+	private int GenerateArmour(){
+		int armour = 1;
+		random = new Random();
+		
+		armour = random.nextInt(100);
+		
+		return armour;
+	}
+	
+	private float GenerateHealth(){
 		float health = 100;
 		random = new Random();
 		
-		//health = (level * 10) + random.nextInt(level * 25);
 		health = random.nextInt(100);
 		
 		return health;
 	}
 	
-	private float GenerateDamage(int level){
-		float damage = 1;
+	private double GenerateDamage(){
+		double damage = 1;
 		random = new Random();
 		
-		//damage = level + random.nextInt(level * 5);
 		damage = random.nextInt(10);
 		
 		return damage;
 	}
 	
-	private String GenerateName(int level){
+	private String GenerateName(){
 		String name = "unassigned";
-		level = random.nextInt(15);
+		int temp = random.nextInt(15);
 		
-		if (level <= 5){
+		if (temp <= 5){
             name = "Bugbear";
         }
-        else if (level > 5 && level <= 10){
+        else if (temp > 5 && temp <= 10){
             name = "Goblin";
         }
-        else if (level > 10){
+        else if (temp > 10){
             name = "Troll";
         }
 		
