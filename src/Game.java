@@ -1,3 +1,4 @@
+package src;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -143,11 +144,6 @@ public class Game {
 		System.out.println("\n--------------------------------------------------------------------\n");
 		System.out.println("Name: " + player.getName() + "       ");
 		System.out.println("Gold: " + player.getGold() + "       ");
-
-		System.out.println("Max Health / Health: " + player.getHealthMax()
-				+ " / " + player.getHealthCurrent());
-		System.out.println("Damage: " + player.getDamage());
-
 
 		System.out.println("Max Health / Health: " + player.getHealthMax()
 				+ " / " + player.getHealthCurrent());
