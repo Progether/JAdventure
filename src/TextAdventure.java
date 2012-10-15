@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-
+package src;
 
 public class TextAdventure {	
 	public static void main(String[] args) {
