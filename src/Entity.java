@@ -1,3 +1,4 @@
+package src;
 import java.util.ArrayList;
 
 // superclass for all entities (includes player, monsters...)
