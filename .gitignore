@@ -1,6 +1,14 @@
 *.class
 
+*.classpath
+
+
 # Package Files #
+
 *.jar
 *.war
 *.ear
+
+
+# Directories #
+bin
