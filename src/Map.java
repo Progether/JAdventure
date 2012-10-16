@@ -1,4 +1,3 @@
-package src;
 public class Map {
 
 	public enum Locations {
@@ -6,5 +5,5 @@ public class Map {
 		BLACKSMITH,
 		TEMPLE,
 	}
-	
+
 }

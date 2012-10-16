@@ -1,17 +1,16 @@
-package src;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 //	main class, gets user input and calls functions
 public class Game {
-	
+
 	public ArrayList<Monster> monsterList = new ArrayList<Monster>();
 	public Map map = new Map();
 	public MonsterCreator createMonster = new MonsterCreator();
 	public Player player = new Player();
 	public Scanner scanner = new Scanner(System.in);
 	String userInput;
-	
+
 	public Game(){
 		initialize();
 	}	
@@ -19,7 +18,7 @@ public class Game {
 	// gets user input to call commands
 	public void commands(){
 		String userInput;
-		
+
         while (true)
         {
             // Displays the interface
@@ -29,8 +28,10 @@ public class Game {
 
 			String userInputLowerCase = userInput.toLowerCase();
 			switch (userInputLowerCase) {
-				case "clear":	clear();
-								break;
+//				case "attack":		attack(player,monster);
+//									break;
+				case "clear":		clear();
+									break;
 
 				case "go to": case "goto":
 									go_to();
@@ -70,38 +71,47 @@ public class Game {
 		for (int i = 0; i < 1; i++){
 			createMonster.Generate(monsterList);
 		}	
-				
+
 		// Read user's first input
-		System.out.println("Welcome to {Applzor, add7, geniuus, Malfunction, bdong_ and Qasaur}'s text adventure game!");		
-		System.out.print("Please type in your name (this will be used as your character name): ");
+//		System.out.println("Welcome to {Applzor, add7, geniuus, Malfunction, bdong_ and Qasaur}'s text adventure game!");		
+//		System.out.print("Please type in your name (this will be used as your character name): ");
+//		String userInput = scanner.next();
+//		player.setName(userInput);
+		
+		System.out.println("Hey... you alive?");
+		System.out.println("*You let out a groan...*");
+		System.out.println("Hey mate, you need to wake up. The guards will be coming around soon and they put a spear through the last guy they found still asleep.");
+		System.out.println("*Slowly you sit up.*");
+		System.out.println("That's the way! I'm Thorall, what's your name?");
 		String userInput = scanner.next();
 		player.setName(userInput);
-	}
+		System.out.println("Welcome to Silliya " + player.getName() + ".");
 		
+	}
+
 	// COMMANDS
 	private void attack(Entity player, Entity monster) {
 		System.out.println("----------------------------------");
-		
+
 		System.out.println("p_damage: " + player.getDamage());
 		System.out.println("m_armour: " + monster.getArmour());
-				
+
 		System.out.println("mh_before: " + monster.getHealthCurrent());
 		player.attack(player, monster);
 		System.out.println("mh_after: " + monster.getHealthCurrent());
-		
+
 		System.out.println("----------------------------------");
-		
+
 		System.out.println("----------------------------------");
-		
+
 		System.out.println("m_damage: " + monster.getDamage());
 		System.out.println("p_armour: " + player.getArmour());
-				
+
 		System.out.println("ph_before: " + player.getHealthCurrent());
 		monster.attack(monster, player);
 		System.out.println("ph_after: " + player.getHealthCurrent());
-		
+
 		System.out.println("----------------------------------");
-		
 	}
 	private void clear() {		
 		System.out.println("not implemented");
@@ -151,7 +161,7 @@ public class Game {
 
 		//System.out.println("Location: " + player.getLocation + "      ");
 		System.out.println("Backpack: ");
-		
+
         if (player.getBackpack().isEmpty()){
         	System.out.println("- Empty");
         }
