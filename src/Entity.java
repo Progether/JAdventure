@@ -29,13 +29,16 @@ public class Entity {
 		return this.healthMax;
 	}
 	public void setHealthMax(int newHealth){
-		healthMax = newHealth;
+        if (this.getHealthCurrent() > newHealth) {
+            this.setHealthCurrent(newHealth);
+        }
+        healthMax = newHealth;
 	}
 
 	public int getHealthCurrent(){
 		return this.healthCurrent;
 	}
-	public void setHealthCurrent(int newHealth){
+	public void setHealthCurrent(int newHealth) {
 		healthCurrent = newHealth;
 	}
 

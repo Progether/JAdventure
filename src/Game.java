@@ -4,15 +4,37 @@ import java.util.Scanner;
 //	main class, gets user input and calls functions
 public class Game {
 
+    private static String licensing = "JAdventure  Copyright (C) 2013  Progether\n" +
+            "This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.\n" +
+            "This is free software, and you are welcome to redistribute it\n" +
+            "under certain conditions; type `show c' for details.\n";
+
+    private static String warranty = "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n" +
+            "APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT\n" +
+            "HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM \"AS IS\" WITHOUT WARRANTY\n" +
+            "OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,\n" +
+            "THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR\n" +
+            "PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM\n" +
+            "IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n" +
+            "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n";
+
+    private static String copying = "You may convey verbatim copies of the Program's source code as you\n" +
+            "receive it, in any medium, provided that you conspicuously and\n" +
+            "appropriately publish on each copy an appropriate copyright notice;\n" +
+            "keep intact all notices stating that this License and any\n" +
+            "non-permissive terms added in accord with section 7 apply to the code;\n" +
+            "keep intact all notices of the absence of any warranty; and give all\n" +
+            "recipients a copy of this License along with the Program.\n";
+
 	public ArrayList<Monster> monsterList = new ArrayList<Monster>();
 	public Map map = new Map();
 	public MonsterCreator createMonster = new MonsterCreator();
 	public Player player = new Player();
 	public Scanner scanner = new Scanner(System.in);
-	String userInput;
 
 	public Game(){
-		initialize();
+        System.out.println(licensing);
+        initialize();
 	}	
 
 	// gets user input to call commands
@@ -24,17 +46,14 @@ public class Game {
             // Displays the interface
         	System.out.println("\n" + "Enter a Command:");
 
-            userInput = scanner.next();
-
-			String userInputLowerCase = userInput.toLowerCase();
-			switch (userInputLowerCase) {
+            userInput = scanner.nextLine().toLowerCase();
+            switch (userInput.split(" ")[0]) {
 //				case "attack":		attack(player,monster);
 //									break;
-				case "clear":		clear();
-									break;
 
-				case "go to": case "goto":
-									go_to();
+				case "goto":
+
+									goTo(userInput.substring(userInput.indexOf(' ')+1));
 									break;
 
 				case "help":		help();
@@ -52,13 +71,20 @@ public class Game {
 				case "quit":		System.exit(0);
 									break;
 
+                case "show c":      System.out.println(copying);
+                                    break;
+
+                case "show w":      System.out.println(warranty);
+                                    break;
+
 
 				default:			System.out.print("\n" + "I don't know what '");
 									//Console.ForegroundColor = ConsoleColor.DarkRed;
-									System.out.print(userInput);
+                                    /* String[] to a string that actually makes sense */
+                                    System.out.print(userInput);
 									//Console.ResetColor();
 									System.out.println("' means.");
-									System.out.println("Type HELP for a list of"
+									System.out.println("Type 'help' for a list of "
 											+ "commands.");
 									break;
 
@@ -75,7 +101,7 @@ public class Game {
 		// Read user's first input
 //		System.out.println("Welcome to {Applzor, add7, geniuus, Malfunction, bdong_ and Qasaur}'s text adventure game!");		
 //		System.out.print("Please type in your name (this will be used as your character name): ");
-//		String userInput = scanner.next();
+//		String userInput = scanner.nextLine();
 //		player.setName(userInput);
 		
 		System.out.println("Hey... you alive?");
@@ -83,7 +109,7 @@ public class Game {
 		System.out.println("Hey mate, you need to wake up. The guards will be coming around soon and they put a spear through the last guy they found still asleep.");
 		System.out.println("*Slowly you sit up.*");
 		System.out.println("That's the way! I'm Thorall, what's your name?");
-		String userInput = scanner.next();
+		String userInput = scanner.nextLine();
 		player.setName(userInput);
 		System.out.println("Welcome to Silliya " + player.getName() + ".");
 		
@@ -112,22 +138,21 @@ public class Game {
 		System.out.println("ph_after: " + player.getHealthCurrent());
 
 		System.out.println("----------------------------------");
-	}
-	private void clear() {		
-		System.out.println("not implemented");
-	}	
-	private void go_to() {
-		System.out.println("RUN 'GO TO' COMMAND");
-	}	
+    }
+	private void goTo(String location) {
+        /*
+        TODO Change player's location
+        Change String location to the related Location enum, then move player to the related Location enum
+        */
+    }
 	private void help() {
 		System.out.println("Commands:");
-    	System.out.println("- Clear:             Clears the screen.");
-    	System.out.println("- Go to <Location>:  Takes you to a location.");
-    	System.out.println("- Help:              Gives you a list of commands.");
-    	System.out.println("- Locations:         Gives you a list of Locations.");
-    	System.out.println("- Monsters:          Tells you if any monsters are nearby");
-    	System.out.println("- Stats:             Shows your name, gold, location and backpack.");
-    	System.out.println("- Quit:              Exits the game.");
+    	System.out.println("- goto location:  Takes you to a location.");
+    	System.out.println("- help:              Gives you a list of commands.");
+    	System.out.println("- locations:         Gives you a list of Locations.");
+    	System.out.println("- monsters:          Tells you if any monsters are nearby");
+    	System.out.println("- stats:             Shows your name, gold, location and backpack.");
+    	System.out.println("- quit:              Exits the game.");
 	}	
 	private void locations() {
 		System.out.println("Locations:");
@@ -155,7 +180,7 @@ public class Game {
 		System.out.println("Name: " + player.getName() + "       ");
 		System.out.println("Gold: " + player.getGold() + "       ");
 
-		System.out.println("Max Health / Health: " + player.getHealthMax()
+		System.out.println("Health: " + player.getHealthMax()
 				+ " / " + player.getHealthCurrent());
 		System.out.println("Damage: " + player.getDamage());
 
