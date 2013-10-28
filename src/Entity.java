@@ -32,11 +32,16 @@ public class Entity {
 	//to increase or decrease damage to monsters based on level and vice versa
 	public double levelMult(int attackL, int defenderL){
 		double m = 1;
+		/*
+		 * for every level the attack is above the defender, he gets a 10% damage 
+		 * increase and vice-versa for the defender for every level
+		 * ahead of the attacker.
+		 */
+		
 		if (attackL > defenderL){
-			m = (attackL - defenderL) * 1.25;
-			//Need to modify this to get better values defenders that are 1 level ahead
+			m = (attackL - defenderL) * 1.05;
 		} else if (attackL < defenderL) {
-			m = (defenderL - attackL) * 0.2;
+			m = (defenderL - attackL) * .1;
 			return m;
 		} else if (attackL == defenderL){
 			return m;
@@ -51,7 +56,7 @@ public class Entity {
 	}
 	
 	//Basic attack method this can be used by both entities
-	//Modifes damage based on entity.level and defending entity.armor
+	//Modifies damage based on entity.level and defending entity.armor
 	public double basicAttack(Entity defender){
 		double damageDone = 0;
 		//Calculate damage multiplier and reduce attack by armor
@@ -61,7 +66,7 @@ public class Entity {
 		System.out.println("Player attack damage: " + this.damage);
 		System.out.println("Player attack multiplier: " + levelMult(this.level, defender.level));
 		System.out.println("Defender armour: " + defender.armour);
-		System.out.println("Defender armour redcued damage by: " + (defender.armour * .25));
+		System.out.println("Defender armour redcued damage by: " + (defender.armour * .333));
 		System.out.println("Player modified attack damage: " + damageDone);
 		//End Debug
 		return damageDone;

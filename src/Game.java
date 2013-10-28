@@ -54,12 +54,10 @@ public class Game {
 
 
 				default:			System.out.print("\n" + "I don't know what '");
-									//Console.ForegroundColor = ConsoleColor.DarkRed;
 									System.out.print(userInput);
-									//Console.ResetColor();
 									System.out.println("' means.");
 									System.out.println("Type HELP for a list of"
-											+ "commands.");
+														+ "commands.");
 									break;
 
 			}

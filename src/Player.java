@@ -30,7 +30,7 @@ public class Player extends Entity{
 		*/
 		this.healthMax = 100;
 		this.armour = 1;
-		this.damage = 10;
-		this.level = 1;
+		this.damage = 50;
+		this.level = 5;
 	}
 }
