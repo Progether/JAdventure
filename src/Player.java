@@ -4,11 +4,13 @@ import java.util.Random;
 public class Player extends Entity{
 
 	public Player(){
-		//super(name);
-		// set maxHealth
+
+		//this needs to be worked on, these values should have a default value
+		//set for the begining of the game.
+		/*
 		Random randGen = new Random();
 
-		int healthMax = 20, armour = 0, rand;
+		int healthMax = 20, armour = 1, rand;
 		double damage = 0;
 		for (int i = 0; i < 120; i++) {
 			rand = randGen.nextInt(3);
@@ -25,10 +27,10 @@ public class Player extends Entity{
 		//	round damage
 		damage = Math.round(damage * 4);
 		damage /= 4; //	Wasn't working above... (always x.0)
-
-		setHealthMax(healthMax);
-		setArmour(armour);
-		setDamage(damage);
-		setLevel(1);
+		*/
+		this.healthMax = 100;
+		this.armour = 1;
+		this.damage = 10;
+		this.level = 1;
 	}
 }

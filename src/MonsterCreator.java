@@ -8,19 +8,20 @@ public class MonsterCreator {
 	public void Generate(ArrayList<Monster> monsterList) {
 			Monster monster = new Monster();
 
-			monster.setHealthMax((int)GenerateHealth());
-			monster.setHealthCurrent(monster.getHealthMax());
+			monster.healthMax = ((int)GenerateHealth());
+			monster.health = (monster.healthMax);
 
-			monster.setArmour(GenerateArmour());
-			monster.setDamage(GenerateDamage());
-			monster.setName(GenerateName());
+			monster.armour = (GenerateArmour());
+			monster.damage = (GenerateDamage());
+			monster.name = (GenerateName());
 
 			monsterList.add(monster);		
 	}
 
 	private int GenerateArmour(){
 		int armour = 1;
-		random = new Random();
+		//Redundant and unneeded
+		//random = new Random();
 
 		armour = random.nextInt(100);
 
@@ -29,7 +30,8 @@ public class MonsterCreator {
 
 	private float GenerateHealth(){
 		float health = 100;
-		random = new Random();
+		//Redundant and unneeded
+		//random = new Random();
 
 		health = random.nextInt(100);
 
@@ -38,7 +40,8 @@ public class MonsterCreator {
 
 	private double GenerateDamage(){
 		double damage = 1;
-		random = new Random();
+		//Redundant and unneeded
+		//random = new Random();
 
 		damage = random.nextInt(10);
 
