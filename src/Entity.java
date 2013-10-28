@@ -39,9 +39,9 @@ public class Entity {
 		 */
 		
 		if (attackL > defenderL){
-			m = (attackL - defenderL) * 1.05;
+			m = 1 + ((attackL - defenderL) * .1);
 		} else if (attackL < defenderL) {
-			m = (defenderL - attackL) * .1;
+			m = 1 - ((defenderL - attackL) * .1);
 			return m;
 		} else if (attackL == defenderL){
 			return m;

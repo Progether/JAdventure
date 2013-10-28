@@ -31,6 +31,6 @@ public class Player extends Entity{
 		this.healthMax = 100;
 		this.armour = 1;
 		this.damage = 50;
-		this.level = 5;
+		this.level = 8;
 	}
 }
