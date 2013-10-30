@@ -81,3 +81,6 @@ To help make code more readable, understandable, and consistent, each contributo
 
 Changelog
 ------------
+30OCT2013 - projectdelphai cleaned code to new project standards. 
+          - Added projectdelphai as a contributor.
+          - Created milestone for completing menu system.
