@@ -9,11 +9,13 @@ public class Menus {
 		 *  Welcoming message
 		 *  Game Title
 		 *  
-		 *  Start Game
-		 *  Save Game
-		 *  Exit Game
+		 *  startGame()
+		 *  saveGame()
+		 *  exitGame()
+		 *  
+		 *  Possibly parsed from XMLParser so menu items
+		 *  can be adjusted without re-compile.
 		 */
 		
 	}
-    
 }
