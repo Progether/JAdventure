@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menus>
+	<Main>
+		<option>[1]Start</option>
+		<option>[2]Save</option>
+	</Main>
+</menus>
