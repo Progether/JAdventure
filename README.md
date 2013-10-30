@@ -81,9 +81,8 @@ To help make code more readable, understandable, and consistent, each contributo
 
 Changelog
 ------------
-<<<<<<< HEAD
-30OCT2013 1.- projectdelphai cleaned code to new project standards. 
-          1.- Added projectdelphai as a contributor.
-          1.- Created milestone for completing menu system.
+30OCT2013 
+- projectdelphai cleaned code to new project standards. 
+- Added projectdelphai as a contributor.
+- Created milestone for completing menu system.
 =======
->>>>>>> parent of 0fd83bc... Update README.md
