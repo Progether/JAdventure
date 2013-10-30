@@ -5,6 +5,7 @@ public class Map {
 		BLACKSMITH,
 		TEMPLE,
 	}
+
 	public void getLocations(){
 		
 	}
