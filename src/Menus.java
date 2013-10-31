@@ -1,10 +1,8 @@
 
 public class Menus {
-    Menus(){
-    	Menus.mainMenu();
-    }
+    Menus(){ }
 
-	private static void mainMenu() {
+	static void mainMenu(String reqMenu) {
 		/*
 		 *  Welcoming message
 		 *  Game Title
@@ -16,6 +14,7 @@ public class Menus {
 		 *  Possibly parsed from XMLParser so menu items
 		 *  can be adjusted without re-compile.
 		 */
+		
 		
 	}
 }
