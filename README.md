@@ -43,6 +43,10 @@ Then start the game with:
 
     java TextAdventure
 
+To start a new game:
+
+    start
+
 Get a list of commands with:
 
     help
@@ -85,3 +89,6 @@ Changelog
 - projectdelphai cleaned code to new project standards. 
 - Added projectdelphai as a contributor.
 - Created milestone for completing menu system.
+- started work on json menus
+- made main menu
+- started work for profile saves

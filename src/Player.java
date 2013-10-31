@@ -31,7 +31,7 @@ public class Player extends Entity {
          this.level = 8;
      } else {
          this.healthMax = 100;
-         this.armour = 3;
+         this.armour = 1;
          this.damage = 50;
          this.level = 8;
      }

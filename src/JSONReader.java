@@ -8,71 +8,79 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 public class JSONReader {
-
-	JSONReader() { }
-	
-	 // Global scanner to be used by this class
-	static Scanner input = new Scanner(System.in);
-	
-	// Begin getMenu method
-	public static void getMenu(String menuName){
-		System.out.println("getMenu");
-		// Get top-level menu
-		try {
-			int i = 1;
-		
-			JSONParser parser = new JSONParser();
-			Object jsonFile = parser.parse(new FileReader("json/menus.json"));
-			JSONObject jsonObject = (JSONObject) jsonFile;
-		
-			JSONArray menu = (JSONArray) jsonObject.get(menuName);
-			Iterator<String> iter = menu.iterator();
-		
-			while (iter.hasNext()){
-				System.out.println("[" + i + "] " + iter.next());
-				i++;
-			}
-		
-		
-			} catch (Exception e){
-					System.out.println("wrong choice");
-			}
-		// This is wrong, needs to be changed to 
-		// check for exit value in json object
-		// it pulls.
-		if (input.nextInt() != 3){
-			getSubMenus(menuName);
-		}
-	}
-	// End getMenus method
-	
-	// Begin subMenus Method
-	// Currently working on subMenus and how to handle
-	// input from the other method.
-	public static void getSubMenus(String topMenu){
-		System.out.println("getSubMenus");
-		while(input.nextInt() != 0){
-			try {
-				int i = 1;
-			
-				JSONParser parser = new JSONParser();
-				Object jsonFile = parser.parse(new FileReader("json/menus.json"));
-				JSONObject jsonObject = (JSONObject) jsonFile;
-			
-				JSONArray menu = (JSONArray) jsonObject.get(topMenu);
-				Iterator<Integer> iter = menu.iterator();
-			
-				while (iter.hasNext()){
-					System.out.println("[" + i + "] " + iter.next());
-					i++;
-				}
-			
-			} catch (Exception e){
-						System.out.println("Incorrect choice");
-		    }	
-		}
-	}
-	// End subMenus method
+    
+    Scanner input = new Scanner(System.in);
+    
+    public void getMenu(String menuName) {
+        int i = 1;
+        
+        JSONParser parser = new JSONParser();
+        String json = getJsonData("json/menus.json");
+        try {
+            Object jsonFile = parser.parse(json);
+            JSONObject jsonObject = (JSONObject) jsonFile;
+            JSONArray menu = (JSONArray) jsonObject.get(menuName);
+            Iterator<String> iter = menu.iterator();
+            
+            while (iter.hasNext()){
+                System.out.println("[" + i + "] " + iter.next());
+                i++;
+            }
+            
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        // This is wrong, needs to be changed to 
+        // check for exit value in json object
+	// it pulls.
+        //if (input.nextInt() != 3) {
+        //getSubMenus(menuName);
+        //}
+    }
+    // End getMenus method
+    // Begin subMenus Method
+    // Currently working on subMenus and how to handle
+    // input from the other method.
+    public void getSubMenus(String topMenu){
+        System.out.println("getSubMenus");
+        while(input.nextInt() != 0){
+            try {
+                int i = 1;
+                
+                JSONParser parser = new JSONParser();
+                Object jsonFile = parser.parse(new FileReader("json/menus.json"));
+                JSONObject jsonObject = (JSONObject) jsonFile;
+                
+                JSONArray menu = (JSONArray) jsonObject.get(topMenu);
+                Iterator<Integer> iter = menu.iterator();
+                
+                while (iter.hasNext()){
+                    System.out.println("[" + i + "] " + iter.next());
+                    i++;
+                }
+                
+            } catch (Exception e){
+                System.out.println("Incorrect choice");
+            }	
+        }
+    }
+    
+    public String getJsonData(String fileName) {
+        String line = null;
+        String json = line;
+        try {
+            FileReader fileReader = new FileReader(fileName);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            while((line = bufferedReader.readLine()) != null) {
+                json = line;
+            }
+            bufferedReader.close();
+        } catch(FileNotFoundException ex) {
+            System.out.println( "Unable to open file '" + fileName + "'");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+    
 }
-		
-		
