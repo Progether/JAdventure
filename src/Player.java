@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class Player extends Entity {
 
-    public Player(){
+    public Player(String typeOfPlayer){
      // this needs to be worked on, these values should have a default value
      // set for the begining of the game.
      /*
@@ -24,10 +24,17 @@ public class Player extends Entity {
      damage = Math.round(damage * 4);
      damage /= 4; //	Wasn't working above... (always x.0)
      */
-     this.healthMax = 100;
-     this.armour = 1;
-     this.damage = 50;
-     this.level = 8;
+     if (typeOfPlayer.equals("new")) {
+         this.healthMax = 100;
+         this.armour = 1;
+         this.damage = 50;
+         this.level = 8;
+     } else {
+         this.healthMax = 100;
+         this.armour = 3;
+         this.damage = 50;
+         this.level = 8;
+     }
     }
 
 }
