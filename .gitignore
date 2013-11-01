@@ -1,10 +1,6 @@
 *.class
 *.project
 *.classpath
-lib.*
-build.*
-test.*
-build.xml
 
 # Package Files #
 

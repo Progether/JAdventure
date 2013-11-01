@@ -29,19 +29,37 @@ Contributing
  1. Write tests (optional)
  1. Make a pull request between your branch and the Hawk554's master
 
-Playing the Game
---------------
+Setting Up The Game For Development or Gameplay
+-----------------
+
 You can download the game with:
 
     git clone https://github.com/hawk554/JAdventure
 
-Compile the game files with:
+###The Manual Way###
+
+cd to src/JAdventure
+Compile the game files in with:
 
     javac *
 
 Then start the game with:
 
     java TextAdventure
+
+###Run with Ant###
+
+Install apache-ant
+
+Run the game with:
+
+    ant run
+
+It will automatically compile, test, and run the game.
+
+
+Playing the Game
+--------------
 
 To start a new game:
 
