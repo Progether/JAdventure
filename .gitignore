@@ -11,3 +11,5 @@
 
 # Directories #
 bin
+
+!lib/*.jar
