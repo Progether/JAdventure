@@ -1,3 +1,5 @@
+package com.jadventure.game;
+
 import java.util.Scanner;
 
 public class Menus {
@@ -7,7 +9,7 @@ public class Menus {
     public void menuSwitch(String userInput) {
         // The manual menu. Deprecated for development of json menus
         /*
-        System.out.println("Welcome to JAdventure! Pick an option: ");
+        System.out.println("Welcome to com.jadventure.game! Pick an option: ");
         System.out.println("1. start - Start New Game (Not Implemented Yet)");
         System.out.println("2. save - Save Game (Not Implemented Yet)");
         System.out.println("3. load - Load Game (Not Implemented Yet)");

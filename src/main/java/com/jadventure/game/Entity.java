@@ -1,5 +1,7 @@
-import java.util.Random;
+package com.jadventure.game;
+
 import java.util.ArrayList;
+import java.util.Random;
 
 // superclass for all entities (includes player, monsters...)
 

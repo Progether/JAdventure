@@ -1,9 +1,13 @@
-import org.json.simple.*;
+package com.jadventure.game;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
-import org.json.simple.parser.ParseException;
-import java.io.*;
+import org.json.simple.parser.JSONParser;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -20,6 +24,8 @@ public class JSONReader {
             Object jsonFile = parser.parse(json);
             JSONObject jsonObject = (JSONObject) jsonFile;
             JSONArray menu = (JSONArray) jsonObject.get(menuName);
+
+            @SuppressWarnings("unchecked")
             Iterator<String> iter = menu.iterator();
             
             while (iter.hasNext()){
@@ -50,8 +56,9 @@ public class JSONReader {
                 JSONParser parser = new JSONParser();
                 Object jsonFile = parser.parse(new FileReader("json/menus.json"));
                 JSONObject jsonObject = (JSONObject) jsonFile;
-                
                 JSONArray menu = (JSONArray) jsonObject.get(topMenu);
+
+                @SuppressWarnings("unchecked")
                 Iterator<Integer> iter = menu.iterator();
                 
                 while (iter.hasNext()){

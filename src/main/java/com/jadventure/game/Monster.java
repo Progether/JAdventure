@@ -1,4 +1,4 @@
-import java.util.Random;
+package com.jadventure.game;
 
 public class Monster extends Entity {
     

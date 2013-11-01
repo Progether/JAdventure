@@ -1,3 +1,5 @@
+package com.jadventure.game;
+
 public class Item {
 
 	public Item(int itemID) {

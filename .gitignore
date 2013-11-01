@@ -1,17 +1,15 @@
 *.class
-*.project
-*.classpath
-lib.*
+*.eml
+*.iml
+.idea
+.settings
 build.*
 test.*
 build.xml
 
 # Package Files #
-
-*.jar
 *.war
 *.ear
-
 
 # Directories #
 bin
