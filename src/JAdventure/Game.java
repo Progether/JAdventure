@@ -24,39 +24,38 @@ public class Game {
             userInput = input.next();
             
             String userInputLowerCase = userInput.toLowerCase();
-            switch (userInputLowerCase) {
+
+            if(userInputLowerCase.equals("attack")) { 
                 // Doesn't actually do anything - partially implemented
-                case "attack":
-                    this.player.basicAttack(monster);
-                    break;
+                this.player.basicAttack(monster);
+            }
+            else if(userInputLowerCase.equals("clear")) {
                 // Not implemented yet
-                case "clear":	
-                    clear();
-                    break;
+                clear();
+            }
+            else if(userInputLowerCase.equals("go to") || userInputLowerCase.equals("goto")) {
                 // Not implemented yet                    
-                case "go to": case "goto":
-                    go_to();
-                    break;
-                case "help":
-                    help();
-                    break;
+                go_to();
+            }
+            else if(userInputLowerCase.equals("help")) {
+                help();
+            }
+            else if(userInputLowerCase.equals("locations")) {
                 // Doesn't work 
-                case "locations":
-                    System.out.println(Map.Locations.valueOf("Arena"));
-                    break;
-                case "monsters":
-                    monsters(monsterList);
-                    break;
-                case "stats":		
-                    stats(this.player);
-                    break;
-                case "quit":	
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("I don't know what '" + userInput + "' means");
-                    System.out.println("Type HELP for a list of commands.");
-                    break;
+                System.out.println(Map.Locations.valueOf("Arena"));
+            }
+            else if(userInputLowerCase.equals("monsters")) {
+                monsters(monsterList);
+            }
+            else if(userInputLowerCase.equals("stats")) {
+                stats(this.player);
+            }
+            else if(userInputLowerCase.equals("quit")) {
+                System.exit(0);
+            }
+            else {
+                System.out.println("I don't know what '" + userInput + "' means");
+                System.out.println("Type HELP for a list of commands.");
             }
         }
     }

@@ -15,24 +15,23 @@ public class Menus {
         String userInput = input.next();
         */
         userInput = userInput.toLowerCase();
-        switch (userInput) {
-            case "start":
-                Game game = new Game("new");
-                game.commands();
-                break;
-            case "exit":
-                System.out.println("Goodbye!");
-                System.exit(0);
-                break;
-            case "save":
-                System.out.println("Not implemented yet");
-                break;
-            case "load":
-                System.out.println("Not implemented yet");
-                break;
-            default:
-                System.out.print("\nI don't know what '" + userInput + "' means");
-                break;
+
+        if(userInput.equals("start")) {
+             Game game = new Game("new");
+             game.commands();
+        }
+        else if(userInput.equals("exit")) {
+             System.out.println("Goodbye!");
+             System.exit(0);
+        }
+        else if(userInput.equals("save")) {
+             System.out.println("Not implemented yet");
+        }
+        else if(userInput.equals("load")) {
+             System.out.println("Not implemented yet");
+        }
+        else {
+             System.out.print("\nI don't know what '" + userInput + "' means");
         }
     }
 }
