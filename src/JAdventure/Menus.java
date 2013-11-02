@@ -16,18 +16,18 @@ public class Menus {
         */
         userInput = userInput.toLowerCase();
 
-        if(userInput == "start") {
+        if(userInput.equals("start")) {
              Game game = new Game("new");
              game.commands();
         }
-        else if(userInput == "exit") {
+        else if(userInput.equals("exit")) {
              System.out.println("Goodbye!");
              System.exit(0);
         }
-        else if(userInput == "save") {
+        else if(userInput.equals("save")) {
              System.out.println("Not implemented yet");
         }
-        else if(userInput == "load") {
+        else if(userInput.equals("load")) {
              System.out.println("Not implemented yet");
         }
         else {

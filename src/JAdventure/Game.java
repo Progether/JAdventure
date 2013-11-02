@@ -25,32 +25,32 @@ public class Game {
             
             String userInputLowerCase = userInput.toLowerCase();
 
-            if(userInputLowerCase=="attack") { 
+            if(userInputLowerCase.equals("attack")) { 
                 // Doesn't actually do anything - partially implemented
                 this.player.basicAttack(monster);
             }
-            else if(userInputLowerCase=="clear") {
+            else if(userInputLowerCase.equals.("clear")) {
                 // Not implemented yet
                 clear();
             }
-            else if(userInputLowerCase=="go to" || userInputLowerCase=="goto") {
+            else if(userInputLowerCase.equals("go to") || userInputLowerCase.equals("goto")) {
                 // Not implemented yet                    
                 go_to();
             }
-            else if(userInputLowerCase=="help") {
+            else if(userInputLowerCase.equals("help")) {
                 help();
             }
-            else if(userInputLowerCase=="locations") {
+            else if(userInputLowerCase.equals("locations")) {
                 // Doesn't work 
                 System.out.println(Map.Locations.valueOf("Arena"));
             }
-            else if(userInputLowerCase=="monsters") {
+            else if(userInputLowerCase.equals("monsters")) {
                 monsters(monsterList);
             }
-            else if(userInputLowerCase=="stats") {
+            else if(userInputLowerCase.equals("stats")) {
                 stats(this.player);
             }
-            else if(userInputLowerCase=="quit") {
+            else if(userInputLowerCase.equals("quit")) {
                 System.exit(0);
             }
             else {
