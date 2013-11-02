@@ -29,7 +29,7 @@ public class Game {
                 // Doesn't actually do anything - partially implemented
                 this.player.basicAttack(monster);
             }
-            else if(userInputLowerCase.equals.("clear")) {
+            else if(userInputLowerCase.equals("clear")) {
                 // Not implemented yet
                 clear();
             }
