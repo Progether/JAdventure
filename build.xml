@@ -2,7 +2,7 @@
 
 <project name="JAdventure" basedir="." default="main">
 
-  <property name="src.dir" value="src" />
+  <property name="src.dir" value="src/JAdventure" />
 
   <property name="main-class" value="JAdventure" />
   

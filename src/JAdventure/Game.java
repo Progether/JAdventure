@@ -13,7 +13,9 @@ public class Game {
     
     public Game(String typeOfGame) {
         this.player = new Player(typeOfGame);
-        initialize();
+        if (typeOfGame.equals("new")) {
+            initialize();
+        }
     }	
 
     // gets user input to call commands
@@ -28,10 +30,6 @@ public class Game {
             if(userInputLowerCase.equals("attack")) { 
                 // Doesn't actually do anything - partially implemented
                 this.player.basicAttack(monster);
-            }
-            else if(userInputLowerCase.equals("clear")) {
-                // Not implemented yet
-                clear();
             }
             else if(userInputLowerCase.equals("go to") || userInputLowerCase.equals("goto")) {
                 // Not implemented yet                    
@@ -51,7 +49,7 @@ public class Game {
                 stats(this.player);
             }
             else if(userInputLowerCase.equals("quit")) {
-                System.exit(0);
+                break;
             }
             else {
                 System.out.println("I don't know what '" + userInput + "' means");
@@ -104,10 +102,6 @@ public class Game {
         
         System.out.println("----------------------------------");
     }
-    
-    private void clear() {		
-        System.out.println("not implemented");
-    }	
     
     private void go_to() {
         System.out.println("RUN 'GO TO' COMMAND");
