@@ -2,10 +2,6 @@
 *.eml
 *.iml
 .idea
-.settings
-build.*
-test.*
-build.xml
 
 # Package Files #
 *.war
@@ -13,3 +9,5 @@ build.xml
 
 # Directories #
 bin
+
+!lib/*.jar

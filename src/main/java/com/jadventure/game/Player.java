@@ -1,5 +1,7 @@
 package com.jadventure.game;
 
+import java.util.HashMap;
+
 public class Player extends Entity {
 
     public Player(String typeOfPlayer){
@@ -30,10 +32,13 @@ public class Player extends Entity {
          this.damage = 50;
          this.level = 8;
      } else {
-         this.healthMax = 100;
-         this.armour = 1;
-         this.damage = 50;
-         this.level = 8;
+         @SuppressWarnings("unchecked")
+         HashMap<String,String> playerData = new JSONReader().getProfileData(typeOfPlayer);
+         this.name = playerData.get("name");
+         this.healthMax = Integer.parseInt(playerData.get("healthMax"));
+         this.armour = Integer.parseInt(playerData.get("armour"));
+         this.damage = Integer.parseInt(playerData.get("damage"));
+         this.level = Integer.parseInt(playerData.get("level"));
      }
     }
 

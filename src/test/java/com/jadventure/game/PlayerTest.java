@@ -16,9 +16,9 @@ public class PlayerTest {
 
     @Test
     public void oldPlayer() {
-        Player player = new Player("testPlayer");
-        int expected = 3;
-        int actual = player.armour;
+        Player player = new Player("test");
+        String expected = "test";
+        String actual = player.name;
         assertEquals("Failure - old player not properly loaded", expected, actual);
     }
 

@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Scanner;
+import java.util.HashMap;
 
 public class JSONReader {
     
@@ -43,6 +44,7 @@ public class JSONReader {
         //getSubMenus(menuName);
         //}
     }
+
     // End getMenus method
     // Begin subMenus Method
     // Currently working on subMenus and how to handle
@@ -89,5 +91,17 @@ public class JSONReader {
         }
         return json;
     }
-    
+   
+    public HashMap getProfileData(String playerName) {
+        String jsonData = getJsonData("json/profiles/"+playerName+"/"+playerName+"_profile.json");
+        try {
+            JSONParser parser = new JSONParser();
+            Object jsonFile = parser.parse(jsonData);
+            JSONObject jsonObject = (JSONObject) jsonFile;
+            return jsonObject;
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        return new HashMap();
+    }
 }

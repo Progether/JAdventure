@@ -15,7 +15,9 @@ public class Game {
     
     public Game(String typeOfGame) {
         this.player = new Player(typeOfGame);
-        initialize();
+        if (typeOfGame.equals("new")) {
+            initialize();
+        }
     }	
 
     // gets user input to call commands
@@ -26,39 +28,34 @@ public class Game {
             userInput = input.next();
             
             String userInputLowerCase = userInput.toLowerCase();
-            switch (userInputLowerCase) {
+
+            if(userInputLowerCase.equals("attack")) { 
                 // Doesn't actually do anything - partially implemented
-                case "attack":
-                    this.player.basicAttack(monster);
-                    break;
-                // Not implemented yet
-                case "clear":	
-                    clear();
-                    break;
+                this.player.basicAttack(monster);
+            }
+            else if(userInputLowerCase.equals("go to") || userInputLowerCase.equals("goto")) {
                 // Not implemented yet                    
-                case "go to": case "goto":
-                    go_to();
-                    break;
-                case "help":
-                    help();
-                    break;
+                go_to();
+            }
+            else if(userInputLowerCase.equals("help")) {
+                help();
+            }
+            else if(userInputLowerCase.equals("locations")) {
                 // Doesn't work 
-                case "locations":
-                    System.out.println(Map.Locations.valueOf("Arena"));
-                    break;
-                case "monsters":
-                    monsters(monsterList);
-                    break;
-                case "stats":		
-                    stats(this.player);
-                    break;
-                case "quit":	
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("I don't know what '" + userInput + "' means");
-                    System.out.println("Type HELP for a list of commands.");
-                    break;
+                System.out.println(Map.Locations.valueOf("Arena"));
+            }
+            else if(userInputLowerCase.equals("monsters")) {
+                monsters(monsterList);
+            }
+            else if(userInputLowerCase.equals("stats")) {
+                stats(this.player);
+            }
+            else if(userInputLowerCase.equals("quit")) {
+                break;
+            }
+            else {
+                System.out.println("I don't know what '" + userInput + "' means");
+                System.out.println("Type HELP for a list of commands.");
             }
         }
     }
@@ -107,10 +104,6 @@ public class Game {
         
         System.out.println("----------------------------------");
     }
-    
-    private void clear() {		
-        System.out.println("not implemented");
-    }	
     
     private void go_to() {
         System.out.println("RUN 'GO TO' COMMAND");
