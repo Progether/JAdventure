@@ -1,7 +1,7 @@
 package com.jadventure.game;
 
-import java.util.Scanner;
 import java.io.File;
+import java.util.Scanner;
 
 public class Menus {
 
@@ -29,9 +29,6 @@ public class Menus {
             else if(userInput.equals("exit")) {
                 System.out.println("Goodbye!");
                 System.exit(0);
-            }
-            else if(userInput.equals("save")) {
-                System.out.println("Not implemented yet");
             }
             else if(userInput.equals("load")) {
                 String test = "false";

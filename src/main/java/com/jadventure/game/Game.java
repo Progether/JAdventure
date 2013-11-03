@@ -32,28 +32,24 @@ public class Game {
             if(userInputLowerCase.equals("attack")) { 
                 // Doesn't actually do anything - partially implemented
                 this.player.basicAttack(monster);
-            }
-            else if(userInputLowerCase.equals("go to") || userInputLowerCase.equals("goto")) {
+            } else if(userInputLowerCase.equals("go to") || userInputLowerCase.equals("goto")) {
                 // Not implemented yet                    
                 go_to();
-            }
-            else if(userInputLowerCase.equals("help")) {
+            } else if(userInputLowerCase.equals("help")) {
                 help();
-            }
-            else if(userInputLowerCase.equals("locations")) {
+            } else if(userInputLowerCase.equals("locations")) {
                 // Doesn't work 
                 System.out.println(Map.Locations.valueOf("Arena"));
-            }
-            else if(userInputLowerCase.equals("monsters")) {
+            } else if(userInputLowerCase.equals("monsters")) {
                 monsters(monsterList);
-            }
-            else if(userInputLowerCase.equals("stats")) {
+            } else if(userInputLowerCase.equals("stats")) {
                 stats(this.player);
-            }
-            else if(userInputLowerCase.equals("quit")) {
+            } else if(userInputLowerCase.equals("quit")) {
                 break;
-            }
-            else {
+            } else if(userInputLowerCase.equals("save")) {
+                new JSONReader().saveProfileData(player);
+                System.out.println("Your game data was saved.");
+            } else {
                 System.out.println("I don't know what '" + userInput + "' means");
                 System.out.println("Type HELP for a list of commands.");
             }
