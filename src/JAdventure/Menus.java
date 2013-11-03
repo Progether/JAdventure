@@ -28,9 +28,6 @@ public class Menus {
                 System.out.println("Goodbye!");
                 System.exit(0);
             }
-            else if(userInput.equals("save")) {
-                System.out.println("Not implemented yet");
-            }
             else if(userInput.equals("load")) {
                 String test = "false";
                 System.out.println("What is the name of the avatar you want to load?");

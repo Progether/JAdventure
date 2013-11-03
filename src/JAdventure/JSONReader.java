@@ -1,7 +1,6 @@
-import org.json.simple.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import java.io.*;
 import java.util.Iterator;
@@ -84,6 +83,18 @@ public class JSONReader {
         }
         return json;
     }
+
+    public void writeJsonData(String filename, JSONObject object) {
+        File file = new File(filename);
+        try {
+            file.getParentFile().mkdirs();
+            PrintWriter writer = new PrintWriter(file, "UTF-8");
+            writer.println(object);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
    
     public HashMap getProfileData(String playerName) {
         String jsonData = getJsonData("json/profiles/"+playerName+"/"+playerName+"_profile.json");
@@ -97,4 +108,18 @@ public class JSONReader {
         }
         return new HashMap();
     }
+
+    public void saveProfileData(final Player player) {
+        JSONObject playerData = new JSONObject()
+        {{
+             put("name", player.name);
+             put("healthMax", player.healthMax);
+             put("armour", player.armour);
+             put("damage", player.damage);
+             put("level", player.level);
+        }};
+        String filename = "json/profiles/"+player.name+"/"+player.name+"_profile.json";
+        writeJsonData(filename, playerData);
+    }
+
 }
