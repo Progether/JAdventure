@@ -1,4 +1,4 @@
-import java.util.Scanner;
+package com.jadventure.game;
 
 public class JAdventure {
 

@@ -2,31 +2,25 @@
 
 <project name="JAdventure" basedir="." default="main">
 
-  <property name="src.dir" value="src/JAdventure" />
+  <property name="src.dir" value="src/main/java" />
+  <property name="src.test.dir" value="src/test/java" />
 
-  <property name="main-class" value="JAdventure" />
+  <property name="main-class" value="com.jadventure.game.JAdventure" />
   
   <property name="build.dir" value="build" />
   <property name="classes.dir" value="${build.dir}/classes" />
   <property name="jar.dir" value="${build.dir}/jar" />
   <property name="lib.dir" value="lib"/>
-  <property name="test.dir" value="test"/>
 
   <path id="classpath">
     <fileset dir="${lib.dir}" includes="**/*.jar"/>
   </path>
   <path id="application" location="${jar.dir}/${ant.project.name}.jar"/>
 
-  <path id="test.classpath">
-    <pathelement path="${test.dir}"/>
-    <pathelement path="${lib.dir}/junit-4.11.jar"/>
-    <pathelement path="${lib.dir}/hamcrest-core-1.3.jar"/>
-    <pathelement path="${classes.dir}"/>
-  </path>
-
   <target name="compile">
     <mkdir dir="${classes.dir}"/>
     <javac debug="true" includeantruntime="false" srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath"/>
+    <javac debug="true" includeantruntime="false" srcdir="${src.test.dir}" destdir="${classes.dir}" classpathref="classpath"/>
   </target>
 
   <target name="jar" depends="compile">

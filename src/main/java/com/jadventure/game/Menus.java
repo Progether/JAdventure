@@ -1,5 +1,7 @@
-import java.util.Scanner;
+package com.jadventure.game;
+
 import java.io.File;
+import java.util.Scanner;
 
 public class Menus {
 

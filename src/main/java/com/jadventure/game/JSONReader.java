@@ -1,11 +1,18 @@
+package com.jadventure.game;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
-import java.util.HashMap;
 
 public class JSONReader {
     
@@ -20,6 +27,8 @@ public class JSONReader {
             Object jsonFile = parser.parse(json);
             JSONObject jsonObject = (JSONObject) jsonFile;
             JSONArray menu = (JSONArray) jsonObject.get(menuName);
+
+            @SuppressWarnings("unchecked")
             Iterator<String> iter = menu.iterator();
             
             while (iter.hasNext()){
@@ -51,8 +60,9 @@ public class JSONReader {
                 JSONParser parser = new JSONParser();
                 Object jsonFile = parser.parse(new FileReader("json/menus.json"));
                 JSONObject jsonObject = (JSONObject) jsonFile;
-                
                 JSONArray menu = (JSONArray) jsonObject.get(topMenu);
+
+                @SuppressWarnings("unchecked")
                 Iterator<Integer> iter = menu.iterator();
                 
                 while (iter.hasNext()){
@@ -110,6 +120,7 @@ public class JSONReader {
     }
 
     public void saveProfileData(final Player player) {
+        @SuppressWarnings("unchecked")
         JSONObject playerData = new JSONObject()
         {{
              put("name", player.name);

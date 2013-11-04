@@ -1,4 +1,5 @@
-import java.util.Random;
+package com.jadventure.game;
+
 import java.util.HashMap;
 
 public class Player extends Entity {
@@ -31,6 +32,7 @@ public class Player extends Entity {
          this.damage = 50;
          this.level = 8;
      } else {
+         @SuppressWarnings("unchecked")
          HashMap<String,String> playerData = new JSONReader().getProfileData(typeOfPlayer);
          this.name = playerData.get("name");
          this.healthMax = Integer.parseInt(playerData.get("healthMax"));
