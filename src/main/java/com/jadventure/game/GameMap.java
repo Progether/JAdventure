@@ -1,6 +1,6 @@
 package com.jadventure.game;
 
-public class Map {
+public class GameMap {
 
 	public enum Locations {
 		ARENA,
