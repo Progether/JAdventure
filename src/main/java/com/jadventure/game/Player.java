@@ -1,12 +1,15 @@
 package com.jadventure.game;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 
 public class Player extends Entity {
     protected static String getProfileFileName(String name) {
@@ -19,14 +22,21 @@ public class Player extends Entity {
     }
 
     public static Player load(String name) {
+        Player player = null;
+
         Gson gson = new Gson();
         String fileName = getProfileFileName(name);
         try {
-            return gson.fromJson(new FileReader(fileName), Player.class);
+            Reader reader = new FileReader(fileName);
+            player = gson.fromJson(reader, Player.class);
+            reader.close();
         } catch (FileNotFoundException ex) {
             System.out.println( "Unable to open file '" + fileName + "'.");
-            return null;
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
+
+        return player;
     }
 
     public Player(){
@@ -57,29 +67,21 @@ public class Player extends Entity {
         this.level = 8;
     }
 
-    // PlayerStub class is used to save only needed fields
-    protected class PlayerStub {
-        String name;
-        int healthMax;
-        int armour;
-        double damage;
-        int level;
-
-        protected PlayerStub() {
-            this.name = Player.this.name;
-            this.healthMax = Player.this.healthMax;
-            this.armour = Player.this.armour;
-            this.damage = Player.this.damage;
-            this.level = Player.this.level;
-        }
-    }
-
     public void save() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("name", this.name);
+        jsonObject.addProperty("healthMax", this.healthMax);
+        jsonObject.addProperty("armour", this.armour);
+        jsonObject.addProperty("damage", this.damage);
+        jsonObject.addProperty("level", this.level);
+
         Gson gson = new Gson();
         String fileName = getProfileFileName(this.name);
         new File(fileName).getParentFile().mkdirs();
         try {
-            gson.toJson(new PlayerStub(), new FileWriter(fileName));
+            Writer writer = new FileWriter(fileName);
+            gson.toJson(jsonObject, writer);
+            writer.close();
             System.out.println("Your game data was saved.");
         } catch (IOException ex) {
             System.out.println("Unable to save to file '" + fileName + "'.");

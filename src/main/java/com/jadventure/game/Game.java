@@ -13,15 +13,14 @@ public class Game {
     public Monster monster = new Monster();
     Player player;
     
-    // This constructor is used for a new game
-    public Game() {
-        this(new Player());
-        initialize();
-    }
-
     // This constructor is used for an existing game
     public Game(Player player) {
-        this.player = player;
+        if (player == null) { // New Game
+            this.player = new Player();
+            initialize();
+        } else { // Existing Game
+            this.player = player;
+        }
     }
 
     // gets user input to call commands
