@@ -7,18 +7,21 @@ import java.util.Scanner;
 public class Game {
     
     public ArrayList<Monster> monsterList = new ArrayList<Monster>();
-    public Map map = new Map();
+    public GameMap map = new GameMap();
     public MonsterCreator createMonster = new MonsterCreator();
     public Scanner input = new Scanner(System.in);
     public Monster monster = new Monster();
     Player player;
     
-    public Game(String typeOfGame) {
-        this.player = new Player(typeOfGame);
-        if (typeOfGame.equals("new")) {
+    // This constructor is used for an existing game
+    public Game(Player player) {
+        if (player == null) { // New Game
+            this.player = new Player();
             initialize();
+        } else { // Existing Game
+            this.player = player;
         }
-    }	
+    }
 
     // gets user input to call commands
     public void commands() {
@@ -39,7 +42,7 @@ public class Game {
                 help();
             } else if(userInputLowerCase.equals("locations")) {
                 // Doesn't work 
-                System.out.println(Map.Locations.valueOf("Arena"));
+                System.out.println(GameMap.Locations.valueOf("Arena"));
             } else if(userInputLowerCase.equals("monsters")) {
                 monsters(monsterList);
             } else if(userInputLowerCase.equals("stats")) {
@@ -47,8 +50,7 @@ public class Game {
             } else if(userInputLowerCase.equals("quit")) {
                 break;
             } else if(userInputLowerCase.equals("save")) {
-                new JSONReader().saveProfileData(player);
-                System.out.println("Your game data was saved.");
+                player.save();
             } else {
                 System.out.println("I don't know what '" + userInput + "' means");
                 System.out.println("Type HELP for a list of commands.");
