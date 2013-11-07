@@ -40,7 +40,7 @@
       </classpath>
       <formatter usefile="false" type="plain" />
       <batchtest fork="yes">
-        <fileset dir="${src.dir}" includes="*Test.java"/>
+        <fileset dir="${src.test.dir}" includes="**/*Test.java"/>
       </batchtest>
     </junit>
   </target>
@@ -49,7 +49,7 @@
     <java fork="true" classname="${main-class}">
       <classpath>
         <path refid="classpath"/>
-        <path location="${jar.dir}/${ant.project.name}.jar"/>
+        <path refid="application"/>
       </classpath>
     </java>
   </target>
