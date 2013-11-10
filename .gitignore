@@ -1,14 +1,14 @@
 *.class
-*.project
-*.classpath
-
+*.eml
+*.iml
+.idea
 
 # Package Files #
-
-*.jar
 *.war
 *.ear
-
+build/jar/*.jar
 
 # Directories #
 bin
+
+!lib/*.jar
