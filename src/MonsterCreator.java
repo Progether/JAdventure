@@ -8,7 +8,7 @@ public class MonsterCreator {
 	public void Generate(ArrayList<Monster> monsterList) {
 			Monster monster = new Monster();
 
-			monster.setHealthMax((int)GenerateHealth());
+			monster.setHealthMax(GenerateHealth());
 			monster.setHealthCurrent(monster.getHealthMax());
 
 			monster.setArmour(GenerateArmour());
@@ -19,30 +19,15 @@ public class MonsterCreator {
 	}
 
 	private int GenerateArmour(){
-		int armour = 1;
-		random = new Random();
-
-		armour = random.nextInt(100);
-
-		return armour;
+		return random.nextInt(10);
 	}
 
-	private float GenerateHealth(){
-		float health = 100;
-		random = new Random();
-
-		health = random.nextInt(100);
-
-		return health;
+	private int GenerateHealth(){
+        return random.nextInt(100);
 	}
 
 	private double GenerateDamage(){
-		double damage = 1;
-		random = new Random();
-
-		damage = random.nextInt(10);
-
-		return damage;
+		return random.nextInt(10);
 	}
 
 	private String GenerateName(){

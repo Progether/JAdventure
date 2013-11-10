@@ -4,7 +4,6 @@
 
 
 # Package Files #
-
 *.jar
 *.war
 *.ear
@@ -12,3 +11,7 @@
 
 # Directories #
 bin
+.*
+
+# IDE Files #
+*.iml
