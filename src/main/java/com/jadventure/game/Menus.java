@@ -13,16 +13,18 @@ import java.util.Scanner;
  * Time: 11:09 PM
  * To change this template use File | Settings | File Templates.
  */
-public class MainMenu {
+public class Menus {
     protected List<MenuItem> menuItems = new ArrayList<MenuItem>();
     protected Map<String, MenuItem> commandMap = new HashMap<String, MenuItem>();
 
-    public MainMenu() {
+    public void mainMenu() {
         this.menuItems.add(new MenuItem("Start", "Starts a new Game", "new"));
         this.menuItems.add(new MenuItem("Load", "Loads an existing Game"));
         this.menuItems.add(new MenuItem("Exit", null, "quit"));
+        displayMenu();
+    }
 
-        // Initialize Command Map
+    public void displayMenu() {
         int i = 1;
         for (MenuItem menuItem: menuItems) {
             commandMap.put(String.valueOf(i), menuItem);
@@ -33,6 +35,7 @@ public class MainMenu {
 
             i ++;
         }
+        render();
     }
 
     public void render() {
@@ -58,8 +61,8 @@ public class MainMenu {
 
         Scanner input = new Scanner(System.in);
         String command = input.next();
-        if (commandMap.containsKey(command)) {
-            return commandMap.get(command);
+        if (commandMap.containsKey(command.toLowerCase())) {
+            return commandMap.get(command.toLowerCase());
         } else {
             System.out.println("I don't know what '" + command + "' means.");
             return null;

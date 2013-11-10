@@ -6,6 +6,7 @@
 # Package Files #
 *.war
 *.ear
+build/jar/*.jar
 
 # Directories #
 bin
