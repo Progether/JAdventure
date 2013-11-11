@@ -35,11 +35,6 @@ public class Entity {
     // to increase or decrease damage to monsters based on level and vice versa
     public double levelMult(int attackL, int defenderL) {
         double m = 1;
-        /*
-         * for every level the attack is above the defender, he gets a 10% damage 
-         * increase and vice-versa for the defender for every level
-         * ahead of the attacker.
-        */
         
         if (attackL > defenderL) {
             m = 1 + ((attackL - defenderL) * .1);
@@ -52,13 +47,6 @@ public class Entity {
         return m;
     }
 
-    // Will implement critical striking that will double attack
-    public boolean criticalStrike() {
-        
-        
-        return true;
-    }
-    
     // Basic attack method this can be used by both entities
     // Modifies damage based on entity.level and defending entity.armor
     public double basicAttack(Entity defender) {
