@@ -14,19 +14,13 @@ import java.util.Scanner;
  * To change this template use File | Settings | File Templates.
  */
 public class Menus {
+    protected int menuID;
     protected List<MenuItem> menuItems = new ArrayList<MenuItem>();
     protected Map<String, MenuItem> commandMap = new HashMap<String, MenuItem>();
 
-    public void mainMenu() {
-        this.menuItems.add(new MenuItem("Start", "Starts a new Game", "new"));
-        this.menuItems.add(new MenuItem("Load", "Loads an existing Game"));
-        this.menuItems.add(new MenuItem("Exit", null, "quit"));
-        displayMenu();
-    }
-
-    public void displayMenu() {
+    public void displayMenu(List<MenuItem> m) {
         int i = 1;
-        for (MenuItem menuItem: menuItems) {
+        for (MenuItem menuItem: m) {
             commandMap.put(String.valueOf(i), menuItem);
             commandMap.put(menuItem.getKey(), menuItem);
             for (String command: menuItem.getAltCommands()) {
@@ -35,21 +29,21 @@ public class Menus {
 
             i ++;
         }
-        render();
+        render(m);
     }
 
-    public void render() {
+    public void render(List<MenuItem> m) {
         while (true) {
-           MenuItem menuItem = selectMenu();
+           MenuItem menuItem = selectMenu(m);
             if (menuItem != null)
-                menuSelected(menuItem);
+                determineMenu(menuItem);
         }
     }
 
-    protected MenuItem selectMenu() {
+    protected MenuItem selectMenu(List<MenuItem> m) {
         // Print Menu Items
         int i = 1;
-        for (MenuItem menuItem: menuItems) {
+        for (MenuItem menuItem: m) {
             System.out.print("[" + i + "] " + menuItem.getCommand());
             if (menuItem.getDescription() != null) {
                 System.out.print(" - " + menuItem.getDescription());
@@ -69,33 +63,13 @@ public class Menus {
         }
     }
 
-    public void menuSelected(MenuItem menuItem) {
-        Scanner input = new Scanner(System.in);
-
-        String key = menuItem.getKey();
-        if(key.equals("start")) {
-            Game game = new Game(null);
-            game.commands();
+    public void determineMenu(MenuItem m){
+        if (menuID == 1) {
+            MainMenu.mainMenuSelected(m);
         }
-        else if(key.equals("exit")) {
-            System.out.println("Goodbye!");
-            System.exit(0);
-        }
-        else if(key.equals("load")) {
-            System.out.println("What is the name of the avatar you want to load?");
-            Player player = null;
-
-            while (player == null) {
-                key = input.next();
-                if (Player.profileExists(key)) {
-                    player = Player.load(key);
-                } else {
-                    System.out.println("That user doesn't exist. Try again.");
-                }
-            }
-
-            Game game = new Game(player);
-            game.commands();
+        else if (menuID == 2) {
+            PlayerMenu.playerMenuSelected(m);
         }
     }
 }
+
