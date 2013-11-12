@@ -12,6 +12,17 @@ import java.util.Scanner;
  * Date: 04/11/13
  * Time: 11:09 PM
  * To change this template use File | Settings | File Templates.
+ *
+ * Creating a new menu
+ * ======
+ * MenuID
+ * ======
+ * System-level should be 1 - 19
+ * Player-level should be 20-50
+ * Debug-level should be 90-100
+ *
+ * Any new menu will need it's ID and method name under determineMenu
+ * Please use DebugMenu.java as an example on how to create the new menu
  */
 public class Menus {
     protected int menuID;
@@ -67,8 +78,11 @@ public class Menus {
         if (menuID == 1) {
             MainMenu.mainMenuSelected(m);
         }
-        else if (menuID == 2) {
+        else if (menuID == 20) {
             PlayerMenu.playerMenuSelected(m);
+        }
+        else if (menuID == 90){
+            DebugMenu.debugMenuSelected(m);
         }
     }
 }

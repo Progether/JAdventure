@@ -13,13 +13,15 @@ public class PlayerMenu extends Menus {
     public static Player player;
 
     PlayerMenu(Player p) {
-        this.menuID = 2;
+        this.menuID = 20;
         player = p;
+
         this.menuItems.add(new MenuItem("Stats", "Displays player stats"));
         this.menuItems.add(new MenuItem("Backpack", "Displays current items in backpack"));
         this.menuItems.add(new MenuItem("Save", "Save Game"));
         this.menuItems.add(new MenuItem("Testing", "for testing purposes only"));
         this.menuItems.add(new MenuItem("Debug", "Debugging only"));
+        this.menuItems.add(new MenuItem("Exit", "Exits back to Main Menu"));
 
         displayMenu(menuItems);
     }
@@ -36,6 +38,12 @@ public class PlayerMenu extends Menus {
         }
         else if (key.equals("save")){
             player.save();
+        }
+        else if (key.equals("debug")){
+            new DebugMenu(player);
+        }
+        else if (key.equals("exit")){
+            // Create method to kill PlayerMenu and revert back to MainMenu
         }
 
 

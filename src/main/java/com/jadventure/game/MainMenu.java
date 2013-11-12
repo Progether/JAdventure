@@ -11,11 +11,12 @@ import java.util.Scanner;
 public class MainMenu extends Menus {
 
      MainMenu(){
-            this.menuID = 1;
-             this.menuItems.add(new MenuItem("Start", "Starts a new Game", "new"));
-             this.menuItems.add(new MenuItem("Load", "Loads an existing Game"));
-             this.menuItems.add(new MenuItem("Exit", null, "quit"));
-             displayMenu(this.menuItems);
+         this.menuID = 1;
+         this.menuItems.add(new MenuItem("Start", "Starts a new Game", "new"));
+         this.menuItems.add(new MenuItem("Load", "Loads an existing Game"));
+         this.menuItems.add(new MenuItem("Exit", null, "quit"));
+
+         displayMenu(this.menuItems);
          }
 
     public static void mainMenuSelected(MenuItem m) {
@@ -43,7 +44,6 @@ public class MainMenu extends Menus {
             }
 
             Game game = new Game(player);
-            game.commands();
         }
     }
 }
