@@ -7,7 +7,6 @@ import java.util.Scanner;
 public class Game {
     
     public ArrayList<Monster> monsterList = new ArrayList<Monster>();
-    public GameMap map = new GameMap();
     public MonsterCreator createMonster = new MonsterCreator();
     public Scanner input = new Scanner(System.in);
     public Monster monster = new Monster();

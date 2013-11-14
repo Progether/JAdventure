@@ -11,17 +11,18 @@ import java.util.Scanner;
 public class MainMenu extends Menus {
 
      MainMenu(){
-         this.menuID = 1;
          this.menuItems.add(new MenuItem("Start", "Starts a new Game", "new"));
          this.menuItems.add(new MenuItem("Load", "Loads an existing Game"));
          this.menuItems.add(new MenuItem("Exit", null, "quit"));
 
-         displayMenu(this.menuItems);
+         while(true) {
+             MenuItem selectedItem = displayMenu(this.menuItems);
+             mainMenuSelected(selectedItem);
          }
+     }
 
     public static void mainMenuSelected(MenuItem m) {
         Scanner input = new Scanner(System.in);
-        System.out.println("mainMenuSelected from MainMenu");
         String key = m.getKey();
         if(key.equals("start")) {
             new Game(null);

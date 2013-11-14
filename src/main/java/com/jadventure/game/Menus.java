@@ -20,7 +20,7 @@ import java.util.Scanner;
  * System-level should be 1 - 19
  * Player-level should be 20-50
  * Debug-level should be 90-100
- *
+ 
  * Any new menu will need it's ID and method name under determineMenu
  * Please use DebugMenu.java as an example on how to create the new menu
  */
@@ -29,7 +29,7 @@ public class Menus {
     protected List<MenuItem> menuItems = new ArrayList<MenuItem>();
     protected Map<String, MenuItem> commandMap = new HashMap<String, MenuItem>();
 
-    public void displayMenu(List<MenuItem> m) {
+    public MenuItem displayMenu(List<MenuItem> m) {
         int i = 1;
         for (MenuItem menuItem: m) {
             commandMap.put(String.valueOf(i), menuItem);
@@ -40,15 +40,13 @@ public class Menus {
 
             i ++;
         }
-        render(m);
+        MenuItem selectedItem = render(m);
+        return selectedItem;
     }
 
-    public void render(List<MenuItem> m) {
-        while (true) {
-           MenuItem menuItem = selectMenu(m);
-            if (menuItem != null)
-                determineMenu(menuItem);
-        }
+    public MenuItem render(List<MenuItem> m) {
+        MenuItem menuItem = selectMenu(m);
+        return menuItem;
     }
 
     protected MenuItem selectMenu(List<MenuItem> m) {
@@ -74,16 +72,5 @@ public class Menus {
         }
     }
 
-    public void determineMenu(MenuItem m){
-        if (menuID == 1) {
-            MainMenu.mainMenuSelected(m);
-        }
-        else if (menuID == 20) {
-            PlayerMenu.playerMenuSelected(m);
-        }
-        else if (menuID == 90){
-            DebugMenu.debugMenuSelected(m);
-        }
-    }
 }
 
