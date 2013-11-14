@@ -26,16 +26,18 @@ public class DebugMenu extends Menus {
         boolean continueMenu = true;
         while (continueMenu == true) {
             MenuItem selectedItem = displayMenu(this.menuItems);
-            if(!debugmenuSelected(selectedItem)) {
+            if(!debugMenuSelected(selectedItem)) {
                 continueMenu = false;
             }
         }
     }
 
-    public static void debugMenuSelected(MenuItem m){
+    public static boolean debugMenuSelected(MenuItem m){
         Scanner input = new Scanner(System.in);
         String key = m.getKey();
-        // Create actions for menu items.
-
+         if (key.equals("exit")) {
+             return false;
+         }
+         return true;
     }
 }
