@@ -24,20 +24,22 @@ public class DebugMenu extends Menus {
         this.menuItems.add(new MenuItem("Exit", "Exits Debug Menu"));
 
         boolean continueMenu = true;
-        while (continueMenu == true) {
+        // == true not neccessary below
+        while (continueMenu) {
             MenuItem selectedItem = displayMenu(this.menuItems);
-            if(!debugMenuSelected(selectedItem)) {
-                continueMenu = false;
-            }
+            testOption(selectedItem);
+            
+            //if the person didn't select exit, the game continues
+            continueMenu = !didSelectExit(selectedItem);
         }
     }
-
-    public static boolean debugMenuSelected(MenuItem m){
+    private static boolean didSelectExit(MenuItem m){
+        return (m.getKey().equalsIgnoreCase("exit"));
+    }
+    private static void testOption(MenuItem m){
         Scanner input = new Scanner(System.in);
         String key = m.getKey();
-         if (key.equals("exit")) {
-             return false;
-         }
-         return true;
+        //put the options in here, check PlayerMenu for equivelent code
+         
     }
 }

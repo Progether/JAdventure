@@ -23,3 +23,5 @@ bin
 
 !lib/*.jar
 >>>>>>> 3ccbc765d7a6e86a393718b09bc51ea418104144
+/nbproject/private/
+/nbbuild/
