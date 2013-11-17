@@ -7,9 +7,9 @@ import java.util.Scanner;
 public class Game {
     
     public ArrayList<Monster> monsterList = new ArrayList<Monster>();
-    public MonsterCreator createMonster = new MonsterCreator();
+    public MonsterFactory monsterFactory = new MonsterFactory();
     public Scanner input = new Scanner(System.in);
-    public Monster monster = new Monster();
+    public Monster monster;
     Player player;
 
     public Game(Player player) {
