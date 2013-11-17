@@ -13,6 +13,11 @@ import java.io.Writer;
 import java.util.ArrayList;
 
 public class Player extends Entity {
+    private Player(){
+        setBackpack(new ArrayList<Item>());
+        Item milk = new Item(1);
+        addItemToBackpack(milk);
+    }
     protected static String getProfileFileName(String name) {
         return "json/profiles/" + name + "/" + name + "_profile.json";
     }
@@ -40,34 +45,45 @@ public class Player extends Entity {
         return player;
     }
 
-    public Player(){
-        this.healthMax = 100;
-        this.health = 100;
-        this.armour = 1;
-        this.damage = 50;
-        this.level = 1;
-        
-        this.backpack = new ArrayList<Item>();
-        Item milk = new Item(1);
-        this.backpack.add(milk);
-    }
+    
+    
+    // This is known as the singleton pattern. It allows for only 1 instance of a player.
+    public static Player player;
+    
+    public static Player getInstance(){
+        if(player == null){
+            // Instead of having a huge constuctor, this is much more readable.
+            player =  new Player();
+            player.setHealthMax(100);
+            player.setHealth(100);
+            player.setArmour(1);
+            player.setDamage(50);
+            player.setLevel(1);
 
+            return player;
+            
+        }
+        return player;
+    }
+    public void addItem(Item i){
+        
+    }
     public void getStats(){
-        System.out.println("Player name: " + name +
-                            "\nHealth/Max: " + health + "/" + healthMax +
-                            "\nDamage/Armour: " + damage + "/" + armour +
-                            "\n" + name + "'s level: " + level);
+        System.out.println("Player name: " + getName() +
+                            "\nHealth/Max: " + getHealth() + "/" + getHealthMax() +
+                            "\nDamage/Armour: " + getDamage() + "/" + getArmour() +
+                            "\n" + getName() + "'s level: " + getLevel());
     }
 
     public void getBackPack() {
         System.out.println("\n--------------------------------------------------------------------\n");
         System.out.println("Backpack: ");
 
-        if (this.backpack.isEmpty()) {
+        if (getBackpack().isEmpty()) {
             System.out.println("--Empty--");
         }
         else {
-            for (Item item : this.backpack) {
+            for (Item item : getBackpack()) {
                 System.out.println("- " + item.getName());
             }
         }    System.out.println("\n--------------------------------------------------------------------");
@@ -75,14 +91,14 @@ public class Player extends Entity {
 
     public void save() {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("name", this.name);
-        jsonObject.addProperty("healthMax", this.healthMax);
-        jsonObject.addProperty("armour", this.armour);
-        jsonObject.addProperty("damage", this.damage);
-        jsonObject.addProperty("level", this.level);
+        jsonObject.addProperty("name", getName());
+        jsonObject.addProperty("healthMax", getHealthMax());
+        jsonObject.addProperty("armour", getArmour());
+        jsonObject.addProperty("damage", getDamage());
+        jsonObject.addProperty("level", getLevel());
 
         Gson gson = new Gson();
-        String fileName = getProfileFileName(this.name);
+        String fileName = getProfileFileName(getName());
         new File(fileName).getParentFile().mkdirs();
         try {
             Writer writer = new FileWriter(fileName);

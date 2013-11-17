@@ -7,20 +7,20 @@ public class MonsterCreator {
     
     Random random = new Random();
     
-    public void Generate(ArrayList<Monster> monsterList) {
+    public void generate(ArrayList<Monster> monsterList) {
         Monster monster = new Monster();
         
-        monster.healthMax = ((int)GenerateHealth());
-        monster.health = (monster.healthMax);
+        monster.setHealthMax((int)generateHealth());
+        monster.setHealth(monster.getHealthMax());
         
-        monster.armour = (GenerateArmour());
-        monster.damage = (GenerateDamage());
-        monster.name = (GenerateName());
+        monster.setArmour(generateArmour());
+        monster.setDamage(generateDamage());
+        monster.setName(generateName());
         
         monsterList.add(monster);		
     }
     
-    private int GenerateArmour() {
+    private int generateArmour() {
         int armour = 1;
         // Redundant and unneeded
         // random = new Random();
@@ -29,7 +29,7 @@ public class MonsterCreator {
         return armour;
     }
     
-    private float GenerateHealth() {
+    private float generateHealth() {
         float health = 100;
         // Redundant and unneeded
         // random = new Random();
@@ -38,7 +38,7 @@ public class MonsterCreator {
         return health;
     }
     
-    private double GenerateDamage() {
+    private double generateDamage() {
         double damage = 1;
         // Redundant and unneeded
         // random = new Random();
@@ -46,7 +46,7 @@ public class MonsterCreator {
         return damage;
     }
     
-    private String GenerateName() {
+    private String generateName() {
         String name = "unassigned";
         int temp = random.nextInt(15);
         
