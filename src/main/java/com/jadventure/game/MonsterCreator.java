@@ -3,21 +3,24 @@ package com.jadventure.game;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * @deprecated
+ */
 public class MonsterCreator {
     
     Random random = new Random();
     
     public void Generate(ArrayList<Monster> monsterList) {
-        Monster monster = new Monster();
-        
-        monster.healthMax = ((int)GenerateHealth());
-        monster.health = (monster.healthMax);
-        
-        monster.armour = (GenerateArmour());
-        monster.damage = (GenerateDamage());
-        monster.name = (GenerateName());
-        
-        monsterList.add(monster);		
+//        Monster monster = new Monster()
+//        
+//        monster.healthMax = ((int)GenerateHealth());
+//        monster.health = (monster.healthMax);
+//        
+//        monster.armour = (GenerateArmour());
+//        monster.damage = (GenerateDamage());
+//        monster.name = (GenerateName());
+//        
+//        monsterList.add(monster);		
     }
     
     private int GenerateArmour() {
