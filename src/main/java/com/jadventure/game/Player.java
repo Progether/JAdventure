@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.ArrayList;
 
 public class Player extends Entity {
     protected static String getProfileFileName(String name) {
@@ -45,6 +46,10 @@ public class Player extends Entity {
         this.armour = 1;
         this.damage = 50;
         this.level = 1;
+        
+        this.backpack = new ArrayList<Item>();
+        Item milk = new Item(1);
+        this.backpack.add(milk);
     }
 
     public void getStats(){

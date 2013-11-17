@@ -105,6 +105,10 @@ To help make code more readable, understandable, and consistent, each contributo
 
 Changelog
 ------------
+14NOV2013
+- cleaned up code
+- added basics for proper items
+
 30OCT2013 
 - projectdelphai cleaned code to new project standards. 
 - Added projectdelphai as a contributor.
