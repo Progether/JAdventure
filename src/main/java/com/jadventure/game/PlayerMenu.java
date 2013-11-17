@@ -19,14 +19,18 @@ public class PlayerMenu extends Menus {
         this.menuItems.add(new MenuItem("Stats", "Displays player stats"));
         this.menuItems.add(new MenuItem("Backpack", "Displays current items in backpack"));
         this.menuItems.add(new MenuItem("Save", "Save Game"));
-        this.menuItems.add(new MenuItem("Testing", "for testing purposes only"));
-        this.menuItems.add(new MenuItem("Debug", "Debugging only"));
         this.menuItems.add(new MenuItem("Exit", "Exits back to Main Menu"));
 
-        displayMenu(menuItems);
+        boolean continueGame = true;
+        while (continueGame == true) {
+            MenuItem selectedItem = displayMenu(this.menuItems);
+            if(!playerMenuSelected(selectedItem)) {
+                continueGame = false;
+            }
+        }
     }
 
-    public static void playerMenuSelected(MenuItem m){
+    public static boolean playerMenuSelected(MenuItem m){
         Scanner input = new Scanner(System.in);
         String key = m.getKey();
 
@@ -43,12 +47,9 @@ public class PlayerMenu extends Menus {
             new DebugMenu(player);
         }
         else if (key.equals("exit")){
-            // Create method to kill PlayerMenu and revert back to MainMenu
+            return false;
         }
-
-
-
-
-    }
+        return true;
+    };
     
 }

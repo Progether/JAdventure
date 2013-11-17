@@ -21,15 +21,23 @@ public class DebugMenu extends Menus {
         this.menuItems.add(new MenuItem("pGold", "Modify Player Gold"));
         this.menuItems.add(new MenuItem("pGold", "Modify Player Backpack"));
         this.menuItems.add(new MenuItem("Stats", "Display current player stats"));
-        this.menuItems.add(new MenuItem("exit", "Exits Debug Menu"));
+        this.menuItems.add(new MenuItem("Exit", "Exits Debug Menu"));
 
-        displayMenu(menuItems);
+        boolean continueMenu = true;
+        while (continueMenu == true) {
+            MenuItem selectedItem = displayMenu(this.menuItems);
+            if(!debugMenuSelected(selectedItem)) {
+                continueMenu = false;
+            }
+        }
     }
 
-    public static void debugMenuSelected(MenuItem m){
+    public static boolean debugMenuSelected(MenuItem m){
         Scanner input = new Scanner(System.in);
         String key = m.getKey();
-        // Create actions for menu items.
-
+         if (key.equals("exit")) {
+             return false;
+         }
+         return true;
     }
 }
