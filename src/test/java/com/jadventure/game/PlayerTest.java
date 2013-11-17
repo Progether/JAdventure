@@ -8,9 +8,9 @@ public class PlayerTest {
 
     @Test
     public void newPlayer() {
-        Player player = new Player();
+        Player player = Player.getInstance();
         int expected = 1;
-        int actual = player.armour;
+        int actual = player.getArmour();
         assertEquals("Failure - new player not properly created", expected, actual);
     }
 
@@ -18,7 +18,7 @@ public class PlayerTest {
     public void oldPlayer() {
         Player player = Player.load("test");
         String expected = "test";
-        String actual = player.name;
+        String actual = player.getName();
         assertEquals("Failure - old player not properly loaded", expected, actual);
     }
 

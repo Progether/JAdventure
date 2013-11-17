@@ -7,18 +7,18 @@ import java.util.Scanner;
 public class Game {
     
     public ArrayList<Monster> monsterList = new ArrayList<Monster>();
-    public MonsterFactory monsterFactory = new MonsterFactory();
+    public MonsterFactory monsterFactory = new MonsterFactory(); 
     public Scanner input = new Scanner(System.in);
     public Monster monster;
-    Player player;
+    Player player = null;
 
     public Game(Player player) {
         if (player == null) { // New Game
-            this.player = new Player();
+            this.player = Player.getInstance();
             newGameStart();
         } else { // Existing Game
             this.player = player;
-            System.out.println("Welcome back " + player.name + "!");
+            System.out.println("Welcome back " + player.getName() + "!");
             new PlayerMenu(player);
         }
     }
@@ -31,9 +31,10 @@ public class Game {
         System.out.println("*Slowly you sit up.*");
         System.out.println("That's the way! I'm Thorall, what's your name? ");
         String userInput = input.next();
-        this.player.name = (userInput);
-        System.out.println("Welcome to Silliya " + this.player.name + ".");
+        player.setName(userInput);
+        System.out.println("Welcome to Silliya " + this.player.getName() + ".");
         System.out.println("You can type help for a list of commands");
+        
         new PlayerMenu(player);
         
     }
@@ -43,25 +44,25 @@ public class Game {
     private void attackStats(Entity player, Entity monster) {
         System.out.println("----------------------------------");
         
-        System.out.println("p_damage: " + this.player.damage);
-        System.out.println("m_armour: " + monster.armour);
+        System.out.println("p_damage: " + this.player.getDamage());
+        System.out.println("m_armour: " + monster.getArmour());
         
-        System.out.println("mh_before: " + monster.health);
+        System.out.println("mh_before: " + monster.getArmour());
         // Replacing with new attack method
         // player.basicAttack(monster);
-        System.out.println("mh_after: " + monster.health);
+        System.out.println("mh_after: " + monster.getHealth());
         
         System.out.println("----------------------------------");
         
         System.out.println("----------------------------------");
         
-        System.out.println("m_damage: " + monster.damage);
-        System.out.println("p_armour: " + this.player.armour);
+        System.out.println("m_damage: " + monster.getDamage());
+        System.out.println("p_armour: " + this.player.getArmour());
         
-        System.out.println("ph_before: " + this.player.health);
+        System.out.println("ph_before: " + this.player.getHealth());
         // Replacing with new attack method
         // monster.attack(monster, player);
-        System.out.println("ph_after: " + this.player.health);
+        System.out.println("ph_after: " + this.player.getHealth());
         
         System.out.println("----------------------------------");
     }

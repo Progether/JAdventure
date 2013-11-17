@@ -105,6 +105,15 @@ To help make code more readable, understandable, and consistent, each contributo
 
 Changelog
 ------------
+
+16NOV2013
+- changed the variables from public to private in Entity class
+- created setters and getters in Entity class
+- added the singleton pattern in the player class so that only one player can ever be instasiated except when loading
+- changed accessing public variables of Entity to accessing them through accessor "get" methods.
+    - Instead of player.backpack it's player.getBackpack()
+-cleaned up code in all the menus (PlayerMenu, DebugMenu...)
+
 14NOV2013
 - cleaned up code
 - added basics for proper items

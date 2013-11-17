@@ -5,20 +5,20 @@ import java.util.Random;
 
 // superclass for all entities (includes player, monsters...)
 
-public class Entity {
+public abstract class Entity {
     
     // All entities can attack, have health, have names...?
-    public int healthMax;
-    public int health;
-    public String name;
+    private int healthMax;
+    private int health;
+    private String name;
     // levelMult is used to add a multiplier to the attack damage
-    public int level;
-    public int gold;
-    public double damage = 30;
-    public int critChance = 0;
+    private  int level;
+    private  int gold;
+    private double damage = 30;
+    private int critChance = 0;
     // Every point in armour reduces an attackers attack by .33
-    public int armour;
-    public ArrayList<Item> backpack;
+    private int armour;
+    private ArrayList<Item> backpack;
     Random globalRand = new Random();
     
     // maybe not all entities start at full health, etc.
@@ -71,5 +71,81 @@ public class Entity {
        }
        return this.backpack;
     }
+    // Setters and Getters
     
+    public int getHealth() {
+        return this.health;
+    }
+        
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    public double getDamage() {
+        return damage;
+    }
+
+    public void setDamage(double damage) {
+        this.damage = damage;
+    }
+
+    public int getCritChance() {
+        return critChance;
+    }
+
+    public void setCritChance(int critChance) {
+        this.critChance = critChance;
+    }
+
+    public int getArmour() {
+        return armour;
+    }
+
+    public void setArmour(int armour) {
+        this.armour = armour;
+    }
+
+    public int getHealthMax() {
+        return healthMax;
+    }
+
+    public void setHealthMax(int healthMax) {
+        this.healthMax = healthMax;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public ArrayList<Item> getBackpack() {
+        return backpack;
+    }
+
+    public void setBackpack(ArrayList<Item> backpack) {
+        this.backpack = backpack;
+    }
+    public void addItemToBackpack(Item i){
+        backpack.add(i);
+    }
 }
