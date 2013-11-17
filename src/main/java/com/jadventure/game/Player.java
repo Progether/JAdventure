@@ -53,14 +53,14 @@ public class Player extends Entity {
     public static Player getInstance(){
         if(player == null){
             // Instead of having a huge constuctor, this is much more readable.
-            Player p =  new Player();
-            p.setHealthMax(100);
-            p.setHealth(100);
-            p.setArmour(1);
-            p.setDamage(50);
-            p.setLevel(1);
-            System.out.println(p);
-            return p;
+            player =  new Player();
+            player.setHealthMax(100);
+            player.setHealth(100);
+            player.setArmour(1);
+            player.setDamage(50);
+            player.setLevel(1);
+
+            return player;
             
         }
         return player;

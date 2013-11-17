@@ -30,7 +30,6 @@ public class Game {
         System.out.println("Hey mate, you need to wake up. The guards will be coming around soon and they put a spear through the last guy they found still asleep.");
         System.out.println("*Slowly you sit up.*");
         System.out.println("That's the way! I'm Thorall, what's your name? ");
-        System.out.println(player);
         String userInput = input.next();
         player.setName(userInput);
         System.out.println("Welcome to Silliya " + this.player.getName() + ".");
