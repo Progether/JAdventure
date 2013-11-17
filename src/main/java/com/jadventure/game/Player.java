@@ -15,7 +15,13 @@ import java.util.ArrayList;
 public class Player extends Entity {
 	
     public String locationType;
-	
+    
+    private Player(){
+        setBackpack(new ArrayList<Item>());
+        Item milk = new Item(1);
+        addItemToBackpack(milk);
+    }
+
     protected static String getProfileFileName(String name) {
         return "json/profiles/" + name + "/" + name + "_profile.json";
     }
@@ -89,11 +95,11 @@ public class Player extends Entity {
 
     public void save() {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("name", this.name);
-        jsonObject.addProperty("healthMax", this.healthMax);
-        jsonObject.addProperty("armour", this.armour);
-        jsonObject.addProperty("damage", this.damage);
-        jsonObject.addProperty("level", this.level);
+        jsonObject.addProperty("name", getName());
+        jsonObject.addProperty("healthMax", getHealthMax());
+        jsonObject.addProperty("armour", getArmour());
+        jsonObject.addProperty("damage", getDamage());
+        jsonObject.addProperty("level", getLevel());
         jsonObject.addProperty("locationType", this.locationType);
 
         Gson gson = new Gson();
