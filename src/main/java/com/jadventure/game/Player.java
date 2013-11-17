@@ -13,6 +13,9 @@ import java.io.Writer;
 import java.util.ArrayList;
 
 public class Player extends Entity {
+	
+	public String locationType;
+	
     protected static String getProfileFileName(String name) {
         return "json/profiles/" + name + "/" + name + "_profile.json";
     }
@@ -80,6 +83,7 @@ public class Player extends Entity {
         jsonObject.addProperty("armour", this.armour);
         jsonObject.addProperty("damage", this.damage);
         jsonObject.addProperty("level", this.level);
+        jsonObject.addProperty("locationType", this.locationType);
 
         Gson gson = new Gson();
         String fileName = getProfileFileName(this.name);
@@ -92,5 +96,9 @@ public class Player extends Entity {
         } catch (IOException ex) {
             System.out.println("Unable to save to file '" + fileName + "'.");
         }
+    }
+    
+    public String getLocationType(){
+    	return this.locationType;
     }
 }
