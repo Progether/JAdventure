@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Player extends Entity {
 	
-	public String locationType;
+    public String locationType;
 	
     protected static String getProfileFileName(String name) {
         return "json/profiles/" + name + "/" + name + "_profile.json";
