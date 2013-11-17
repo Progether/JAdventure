@@ -13,6 +13,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 
 public class Player extends Entity {
+    public String locationType;
     private Player(){
         setBackpack(new ArrayList<Item>());
         Item milk = new Item(1);
@@ -96,7 +97,8 @@ public class Player extends Entity {
         jsonObject.addProperty("armour", getArmour());
         jsonObject.addProperty("damage", getDamage());
         jsonObject.addProperty("level", getLevel());
-
+        jsonObject.addProperty("locationType", this.locationType);
+        
         Gson gson = new Gson();
         String fileName = getProfileFileName(getName());
         new File(fileName).getParentFile().mkdirs();
@@ -108,5 +110,8 @@ public class Player extends Entity {
         } catch (IOException ex) {
             System.out.println("Unable to save to file '" + fileName + "'.");
         }
+    }
+    public String getLocationType(){
+    	return this.locationType;
     }
 }
