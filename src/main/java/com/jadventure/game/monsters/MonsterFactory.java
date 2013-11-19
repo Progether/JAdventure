@@ -1,4 +1,6 @@
-package com.jadventure.game;
+package com.jadventure.game.monsters;
+
+import com.jadventure.game.Player;
 
 import java.util.Random;
 /**
