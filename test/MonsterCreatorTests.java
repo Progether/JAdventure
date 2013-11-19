@@ -19,7 +19,7 @@ public class MonsterCreatorTests {
     @Before
     public void setUp() {
         monsterCreator = new MonsterCreator();
-        monsterArrayList = new ArrayList<>();
+        monsterArrayList = new ArrayList<Monster>();
         monsterCreator.Generate(monsterArrayList);
     }
 
