@@ -100,7 +100,7 @@ public class Player extends Entity {
         jsonObject.addProperty("armour", getArmour());
         jsonObject.addProperty("damage", getDamage());
         jsonObject.addProperty("level", getLevel());
-        jsonObject.addProperty("locationType", this.locationType);
+        jsonObject.addProperty("locationType", this.locationType.toString());
 
         Gson gson = new Gson();
         String fileName = getProfileFileName(getName());
