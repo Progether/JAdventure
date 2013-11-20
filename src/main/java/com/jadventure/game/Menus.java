@@ -20,7 +20,6 @@ import java.util.Scanner;
  * System-level should be 1 - 19
  * Player-level should be 20-50
  * Debug-level should be 90-100
- 
  * Any new menu will need it's ID and method name under determineMenu
  * Please use DebugMenu.java as an example on how to create the new menu
  */
