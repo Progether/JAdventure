@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Player extends Entity {
 	
-    public String locationType;
+    public LocationType locationType = null;
     
     private Player(){
         setBackpack(new ArrayList<Item>());
@@ -115,7 +115,7 @@ public class Player extends Entity {
         }
     }
     
-    public String getLocationType(){
+    public LocationType getLocationType(){
     	return this.locationType;
     }
 }
