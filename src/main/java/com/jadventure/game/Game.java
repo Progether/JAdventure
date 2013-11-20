@@ -1,5 +1,7 @@
 package com.jadventure.game;
 
+import com.jadventure.game.monsters.*;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
