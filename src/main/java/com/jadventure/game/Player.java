@@ -80,7 +80,7 @@ public class Player extends Entity {
     }
 
     public void getBackPack() {
-        System.out.println("\n--------------------------------------------------------------------\n");
+        System.out.println("\n--------------------------------------------------------------------");
         System.out.println("Backpack: ");
 
         if (getBackpack().isEmpty()) {
