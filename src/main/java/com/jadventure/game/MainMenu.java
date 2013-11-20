@@ -18,7 +18,6 @@ public class MainMenu extends Menus {
          while(true) {
              MenuItem selectedItem = displayMenu(this.menuItems);
              testOption(selectedItem);
-             
          }
      }
     private static void testOption(MenuItem m) {
