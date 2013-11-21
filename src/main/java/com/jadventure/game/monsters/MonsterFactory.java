@@ -1,4 +1,7 @@
-package com.jadventure.game;
+package com.jadventure.game.monsters;
+
+import com.jadventure.game.Player;
+import com.jadventure.game.LocationType;
 
 import java.util.Random;
 /**
@@ -14,7 +17,7 @@ public class MonsterFactory {
         Random random = new Random();
         int randomInt;
         switch (player.getLocationType()) {
-            case "forest":
+            case FOREST:
                 randomInt = random.nextInt(3);
                 if (randomInt == 0)
                     return new Troll(player.getLevel());
@@ -22,11 +25,11 @@ public class MonsterFactory {
                     return new Goblin(player.getLevel());
                 else
                     return new Bugbear(player.getLevel());
-            case "swamp":
+            case SWAMP:
                 randomInt = random.nextInt(2);
                 return (randomInt == 1) ? new Goblin(player.getLevel()) : new Troll(player.getLevel());
                 
-            case "mountain":
+            case MOUNTAIN:
                 randomInt = random.nextInt(4);
                 if (randomInt == 0)
                     return new Giant(player.getLevel());
@@ -37,7 +40,7 @@ public class MonsterFactory {
                 else
                     return new Skeleton(player.getLevel());
                 
-            case "cave":
+            case CAVE:
                 randomInt = random.nextInt(3);
                 if (randomInt == 0)
                     return new Troll(player.getLevel());
@@ -46,7 +49,7 @@ public class MonsterFactory {
                 else
                     return new Goblin(player.getLevel());
                 
-            case "plains":
+            case PLAINS:
                 randomInt = random.nextInt(2);
                 return (randomInt == 1) ? new Bugbear(player.getLevel()) : new Goblin(player.getLevel()) ;
                 

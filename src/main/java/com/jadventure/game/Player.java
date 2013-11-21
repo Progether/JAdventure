@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Player extends Entity {
 	
-    public String locationType;
+    public LocationType locationType = null;
     
     private Player(){
         setBackpack(new ArrayList<Item>());
@@ -80,7 +80,7 @@ public class Player extends Entity {
     }
 
     public void getBackPack() {
-        System.out.println("\n--------------------------------------------------------------------\n");
+        System.out.println("\n--------------------------------------------------------------------");
         System.out.println("Backpack: ");
 
         if (getBackpack().isEmpty()) {
@@ -100,7 +100,7 @@ public class Player extends Entity {
         jsonObject.addProperty("armour", getArmour());
         jsonObject.addProperty("damage", getDamage());
         jsonObject.addProperty("level", getLevel());
-        jsonObject.addProperty("locationType", this.locationType);
+        jsonObject.addProperty("locationType", this.locationType.toString());
 
         Gson gson = new Gson();
         String fileName = getProfileFileName(getName());
@@ -115,7 +115,7 @@ public class Player extends Entity {
         }
     }
     
-    public String getLocationType(){
+    public LocationType getLocationType(){
     	return this.locationType;
     }
 }
