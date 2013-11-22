@@ -21,6 +21,9 @@ public class MainMenu extends Menus {
          }
      }
     private static void testOption(MenuItem m) {
+        if(m == null) {
+            return;
+        }
         Scanner input = new Scanner(System.in);
         String key = m.getKey();
         if(key.equals("start")) {
