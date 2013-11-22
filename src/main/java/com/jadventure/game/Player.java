@@ -79,7 +79,7 @@ public class Player extends Entity {
                             "\n" + getName() + "'s level: " + getLevel());
     }
 
-    public void getBackPack() {
+    public void printBackPack() {
         System.out.println("\n--------------------------------------------------------------------");
         System.out.println("Backpack: ");
 

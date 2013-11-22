@@ -11,6 +11,7 @@ import java.util.Scanner;
  */
 public class PlayerMenu extends Menus {
     public static Player player;
+    private boolean continueGame = true;
 
     PlayerMenu(Player p) {
         this.menuID = 20;
@@ -22,35 +23,30 @@ public class PlayerMenu extends Menus {
         this.menuItems.add(new MenuItem("Save", "Save Game"));
         this.menuItems.add(new MenuItem("Exit", "Exits back to Main Menu"));
 
-        boolean continueGame = true;
         //Got rid of ==true, no point
         while (continueGame) {
             MenuItem selectedItem = displayMenu(this.menuItems);
-            testOptions(selectedItem);
-            
-            //if the person didn't select exit, the game continues
-            continueGame = !didSelectExit(selectedItem);
-               
+            this.testOptions(selectedItem);
         }
     }
-    private static boolean didSelectExit(MenuItem m){
-        return (m.getKey().equalsIgnoreCase("exit"));
-    }
-    private static void testOptions(MenuItem m){
+
+    private void testOptions(MenuItem m){
         Scanner input = new Scanner(System.in);
         String key = m.getKey();
 
-        if (key.equals("stats")){
+        if (key.equals("stats")) {
             player.getStats();
         }
-        else if (key.equals("backpack")){
-            player.getBackPack();
+        else if (key.equals("backpack")) {
+            player.printBackPack();
         }
-        else if (key.equals("save")){
+        else if (key.equals("save")) {
             player.save();
         }
-        else if (key.equals("debug")){
+        else if (key.equals("debug")) {
             new DebugMenu(player);
+        } else if (key.equals("exit")) {
+            this.continueGame = false;
         }
     }
     

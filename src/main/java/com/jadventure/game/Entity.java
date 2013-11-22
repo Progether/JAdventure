@@ -65,11 +65,15 @@ public abstract class Entity {
     }
     
     public ArrayList<Item> die() {
-       System.out.println(this.name + " has died. Oh look, he dropped:" );
-       for (Item item : this.backpack) {
-           System.out.println(item.getName());
-       }
-       return this.backpack;
+        System.out.println(this.name + " has died. Oh look, he dropped:" );
+        if(this.backpack.isEmpty()) {
+            System.out.println("Nothing.");
+        } else {
+            for (Item item : this.backpack) {
+                System.out.println(item.getName());
+            }
+        }
+        return this.backpack;
     }
     // Setters and Getters
     
