@@ -44,7 +44,7 @@ public class PlayerMenu extends Menus {
             player.getStats();
         }
         else if (key.equals("backpack")){
-            player.getBackPack();
+            player.printBackPack();
         }
         else if (key.equals("save")){
             player.save();
