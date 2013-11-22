@@ -40,13 +40,8 @@ public class Menus {
 
             i ++;
         }
-        MenuItem selectedItem = render(m);
+        MenuItem selectedItem = selectMenu(m);
         return selectedItem;
-    }
-
-    public MenuItem render(List<MenuItem> m) {
-        MenuItem menuItem = selectMenu(m);
-        return menuItem;
     }
 
     protected MenuItem selectMenu(List<MenuItem> m) {
