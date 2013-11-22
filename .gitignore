@@ -4,25 +4,19 @@
 .idea
 
 # Package Files #
-<<<<<<< HEAD
 *.jar
-=======
->>>>>>> 3ccbc765d7a6e86a393718b09bc51ea418104144
 *.war
 *.ear
 build/jar/*.jar
 
 # Directories #
 bin
-<<<<<<< HEAD
 .*
 
 # IDE Files #
 *.iml
-=======
 
 !lib/*.jar
->>>>>>> 3ccbc765d7a6e86a393718b09bc51ea418104144
 /nbproject/private/
 /nbbuild/
 
