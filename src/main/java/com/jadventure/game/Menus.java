@@ -60,7 +60,7 @@ public class Menus {
             return commandMap.get(command.toLowerCase());
         } else {
             System.out.println("I don't know what '" + command + "' means.");
-            return null;
+            return this.displayMenu(m);
         }
     }
 
