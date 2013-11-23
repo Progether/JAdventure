@@ -15,6 +15,7 @@ Contributors
  1. [Hawk554](https://github.com/hawk554)
  1. [projectdelphai](https://github.com/projectdelphai)
  1. [CageHN](https://github.com/CageHN)
+ 2. [blackwolf12333](https://github.com/blackwolf12333)
 
 
 Contributing
