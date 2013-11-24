@@ -1,6 +1,9 @@
-package com.jadventure.game;
+package com.jadventure.game.menus;
 
- import java.util.Scanner;
+import com.jadventure.game.menus.Menus;
+import com.jadventure.game.Player;
+import java.util.Scanner;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Hawk554
