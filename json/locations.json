@@ -1,0 +1,26 @@
+{
+    "1" : {
+        "id" : "1",
+        "title" : "First Location Ever",
+        "description" : "You are on the biggest, emptiest room ever.",
+        "locationType" : "CAVE",
+        "exits" : {
+            "NORTH" : {
+                "description" : "you see a dark corridor",
+                "location" : "2"
+            }
+        }
+    },
+    "2" : {
+        "id" : "2",
+        "title" : "Dark Corridor",
+        "description" : "This place is sooooo dark, you probably want to return where you came from.",
+        "locationType" : "CAVE",
+        "exits" : {
+            "SOUTH" : {
+                "description" : "you see a big empty room",
+                "location" : "1"
+            }
+        }
+    }
+}

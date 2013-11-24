@@ -1,6 +1,7 @@
 package com.jadventure.game;
 
-import com.jadventure.game.monsters.*;
+import com.jadventure.game.monsters.Monster;
+import com.jadventure.game.monsters.MonsterFactory;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -21,6 +22,8 @@ public class Game {
         } else { // Existing Game
             this.player = player;
             System.out.println("Welcome back " + player.getName() + "!");
+            System.out.println();
+            player.getLocation().print();
             new PlayerMenu(player);
         }
     }
@@ -36,9 +39,10 @@ public class Game {
         player.setName(userInput);
         System.out.println("Welcome to Silliya " + this.player.getName() + ".");
         System.out.println("You can type help for a list of commands");
+        System.out.println();
+        player.getLocation().print();
         
         new PlayerMenu(player);
-        
     }
     
     // COMMANDS
