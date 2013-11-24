@@ -2,6 +2,7 @@ package com.jadventure.game;
 
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
+import com.jadventure.game.CommandParser;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -11,6 +12,7 @@ public class Game {
     
     public ArrayList<Monster> monsterList = new ArrayList<Monster>();
     public MonsterFactory monsterFactory = new MonsterFactory(); 
+    public CommandParser parser = new CommandParser();
     public Scanner input = new Scanner(System.in);
     public Monster monster;
     Player player = null;
@@ -24,7 +26,7 @@ public class Game {
             System.out.println("Welcome back " + player.getName() + "!");
             System.out.println();
             player.getLocation().print();
-            new PlayerMenu(player);
+            gamePrompt(player);
         }
     }
     
@@ -42,9 +44,18 @@ public class Game {
         System.out.println();
         player.getLocation().print();
         
-        new PlayerMenu(player);
+        gamePrompt(player);
     }
-    
+
+    public void gamePrompt(Player player) {
+        boolean continuePrompt = true;
+        while (continuePrompt == true) {
+            System.out.println("Prompt:");
+            String command = input.next();
+            continuePrompt = parser.parse(player,command,continuePrompt);
+        }
+    }
+
     // COMMANDS
     // Command is being used for debugging at this time
     private void attackStats(Entity player, Entity monster) {
