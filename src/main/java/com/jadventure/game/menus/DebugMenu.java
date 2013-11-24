@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class DebugMenu extends Menus {
     public static Player player;
 
-    DebugMenu(Player p) {
+    public DebugMenu(Player p) {
         this.menuID = 90;
         player = p;
         this.menuItems.add(new MenuItem("pAttack", "Modify Player Attack"));
