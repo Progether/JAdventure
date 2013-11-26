@@ -1,4 +1,4 @@
-package com.jadventure.game;
+package com.jadventure.game.entities;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -6,6 +6,8 @@ import com.google.gson.JsonParser;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.navigation.LocationType;
+import com.jadventure.game.Item;
+import com.jadventure.game.classes.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
 public class Player extends Entity {
     private ILocation location;
     
-    private Player(){
+    public Player(){
         setBackpack(new ArrayList<Item>());
         Item milk = new Item(1);
         addItemToBackpack(milk);
@@ -64,17 +66,11 @@ public class Player extends Entity {
     // This is known as the singleton pattern. It allows for only 1 instance of a player.
     private static Player player;
     
-    public static Player getInstance(){
-        if(player == null){
+    public static Player getInstance(String playerClass){
+        if(playerClass.equals("recruit")){
             // Instead of having a huge constructor, this is much more readable.
-            player =  new Player();
-            player.setHealthMax(100);
-            player.setHealth(100);
-            player.setArmour(1);
-            player.setDamage(50);
-            player.setLevel(1);
+            player =  new Recruit();
             player.setLocation(LocationManager.INSTANCE.getInitialLocation());
-
             return player;
             
         }

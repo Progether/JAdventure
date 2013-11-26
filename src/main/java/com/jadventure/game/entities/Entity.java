@@ -1,4 +1,6 @@
-package com.jadventure.game;
+package com.jadventure.game.entities;
+
+import com.jadventure.game.Item;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -11,6 +13,8 @@ public abstract class Entity {
     private int healthMax;
     private int health;
     private String name;
+    private String className;
+    private String intro;
     // levelMult is used to add a multiplier to the attack damage
     private  int level;
     private  int gold;
@@ -133,7 +137,23 @@ public abstract class Entity {
     public void setName(String name) {
         this.name = name;
     }
+    
+    public String getClassName() {
+        return this.className;
+    }
 
+    public void setClassName(String className) {
+        this.className = className;
+    }
+     
+    public void setIntro(String intro) {
+        this.intro = intro;
+    }
+
+    public String getIntro() {
+        return this.intro;
+    }
+    
     public int getLevel() {
         return level;
     }

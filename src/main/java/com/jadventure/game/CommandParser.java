@@ -1,6 +1,7 @@
 package com.jadventure.game;
 
 import com.jadventure.game.menus.DebugMenu;
+import com.jadventure.game.entities.Player;
 
 public class CommandParser {
 

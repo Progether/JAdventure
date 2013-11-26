@@ -1,7 +1,7 @@
 package com.jadventure.game.menus;
 
 import com.jadventure.game.menus.Menus;
-import com.jadventure.game.Player;
+import com.jadventure.game.entities.Player;
 import java.util.Scanner;
 
 /**
