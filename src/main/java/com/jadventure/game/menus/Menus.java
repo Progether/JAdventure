@@ -1,4 +1,4 @@
-package com.jadventure.game;
+package com.jadventure.game.menus;
 
 import java.util.ArrayList;
 import java.util.HashMap;

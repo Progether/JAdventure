@@ -1,5 +1,9 @@
 package com.jadventure.game;
 
+import com.jadventure.game.menus.Menus;
+import com.jadventure.game.menus.MenuItem;
+import com.jadventure.game.Player;
+
 import java.util.Scanner;
 
 /**
@@ -13,7 +17,7 @@ public class PlayerMenu extends Menus {
     public static Player player;
     private boolean continueGame = true;
 
-    PlayerMenu(Player p) {
+    public PlayerMenu(Player p) {
         this.menuID = 20;
         player = p;
 

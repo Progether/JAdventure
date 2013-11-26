@@ -1,6 +1,10 @@
-package com.jadventure.game;
+package com.jadventure.game.menus;
+
+import com.jadventure.game.menus.Menus;
 
 import java.util.Scanner;
+import com.jadventure.game.Game;
+import com.jadventure.game.Player;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,7 +14,7 @@ import java.util.Scanner;
  */
 public class MainMenu extends Menus {
 
-     MainMenu(){
+     public MainMenu(){
          this.menuItems.add(new MenuItem("Start", "Starts a new Game", "new"));
          this.menuItems.add(new MenuItem("Load", "Loads an existing Game"));
          this.menuItems.add(new MenuItem("Exit", null, "quit"));
