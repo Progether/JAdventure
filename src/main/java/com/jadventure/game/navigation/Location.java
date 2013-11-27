@@ -11,7 +11,7 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class Location implements ILocation {
-    private int id;
+    private Coordinate coordinate;
     private String title;
     private String description;
     private LocationType locationType;
@@ -21,12 +21,12 @@ public class Location implements ILocation {
 
     }
 
-    public int getId() {
-        return id;
+    public Coordinate getCoordinate() {
+        return coordinate;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
     }
 
     public String getTitle() {
@@ -65,8 +65,9 @@ public class Location implements ILocation {
         System.out.println(getTitle() + ":");
         System.out.println(getDescription());
         System.out.println();
-        for(Direction direction: getExits().keySet()) {
-            getExits().get(direction).print(direction);
+        for (Map.Entry<Direction,Exit> direction : getExits().entrySet()) {
+            System.out.println(direction.getKey());
+            System.out.println(direction.getValue().getDescription());
         }
         System.out.println();
     }

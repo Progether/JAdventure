@@ -21,8 +21,9 @@ import java.util.Map;
 public enum LocationManager {
     INSTANCE;
     private static final String FILE_NAME = "json/locations.json";
+    private JsonObject json;
 
-    private Map<Integer, ILocation> locations = new HashMap<Integer, ILocation>();
+    private Map<String, ILocation> locations = new HashMap<String, ILocation>();
 
     private LocationManager() {
         JsonParser parser = new JsonParser();
@@ -31,9 +32,12 @@ public enum LocationManager {
             Reader reader = new FileReader(FILE_NAME);
 
             JsonObject json = parser.parse(reader).getAsJsonObject();
+            this.json = json;
+            /*
             for(Map.Entry<String, JsonElement> entry: json.entrySet()) {
-                locations.put(Integer.valueOf(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));
+                locations.put(entry.getKey(), loadLocation(entry.getValue().getAsJsonObject()));
             }
+            */
             reader.close();
         } catch (FileNotFoundException ex) {
             System.out.println("Unable to load game locations.");
@@ -42,38 +46,40 @@ public enum LocationManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.json = json;
     }
 
     private Location loadLocation(JsonObject json) {
         Location location = new Location();
 
-        location.setId(json.get("id").getAsInt());
+        Coordinate coordinateString = new Coordinate(json.get("coordinate").getAsString());
+        location.setCoordinate(coordinateString);
         location.setTitle(json.get("title").getAsString());
         location.setDescription(json.get("description").getAsString());
         location.setLocationType(LocationType.valueOf(json.get("locationType").getAsString()));
-
-        JsonObject exits = json.get("exits").getAsJsonObject();
-        for(Map.Entry<String, JsonElement> entry: exits.entrySet()) {
-            location.getExits().put(Direction.valueOf(entry.getKey()), loadExit(entry.getValue().getAsJsonObject()));
-        }
+        location.getExits().put(Direction.NORTH, loadExit(coordinateString, Direction.NORTH));
+        location.getExits().put(Direction.SOUTH, loadExit(coordinateString, Direction.SOUTH));
+        location.getExits().put(Direction.EAST, loadExit(coordinateString, Direction.EAST));
+        location.getExits().put(Direction.WEST, loadExit(coordinateString, Direction.WEST));
 
         return location;
     }
-
-    private Exit loadExit(JsonObject json) {
-        Exit exit = new Exit();
-
-        exit.setDescription(json.get("description").getAsString());
-        exit.setLocation(new LocationProxy(json.get("location").getAsInt()));
-
+    
+    private Exit loadExit(Coordinate coordinate, Direction direction) {
+        String coordinateString = coordinate.x+","+coordinate.y+","+coordinate.z;
+        Exit exit = new Exit(coordinate, direction);
+        
         return exit;
     }
 
     public ILocation getInitialLocation() {
-        return getLocation(1);
+        Coordinate coordinate = new Coordinate("0,0,0");
+        return getLocation(coordinate);
     }
 
-    public ILocation getLocation(int id) {
-        return locations.get(id);
+    public ILocation getLocation(Coordinate coordinate) {
+        String coordinateString = coordinate.x+","+coordinate.y+","+coordinate.z;
+        Location location = loadLocation(this.json.get(coordinateString).getAsJsonObject());
+        return location;
     }
 }

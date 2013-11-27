@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.navigation.LocationType;
+import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.Item;
 import com.jadventure.game.classes.*;
 
@@ -51,7 +52,8 @@ public class Player extends Entity {
             player.setArmour(json.get("armour").getAsInt());
             player.setDamage(json.get("damage").getAsInt());
             player.setLevel(json.get("level").getAsInt());
-            player.setLocation(LocationManager.INSTANCE.getLocation(json.get("location").getAsInt()));
+            Coordinate coordinate = new Coordinate(json.get("location").getAsString());
+            player.setLocation(LocationManager.INSTANCE.getLocation(coordinate));
 
             reader.close();
         } catch (FileNotFoundException ex) {
@@ -110,7 +112,9 @@ public class Player extends Entity {
         jsonObject.addProperty("armour", getArmour());
         jsonObject.addProperty("damage", getDamage());
         jsonObject.addProperty("level", getLevel());
-        jsonObject.addProperty("location", getLocation().getId());
+        Coordinate coordinate = getLocation().getCoordinate();
+        String coordinateLocation = coordinate.x+","+coordinate.y+","+coordinate.z;
+        jsonObject.addProperty("location", coordinateLocation);
 
         Gson gson = new Gson();
         String fileName = getProfileFileName(getName());

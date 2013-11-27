@@ -10,7 +10,7 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public interface ILocation {
-    public int getId();
+    public Coordinate getCoordinate();
     public String getTitle();
     public String getDescription();
     public LocationType getLocationType();
