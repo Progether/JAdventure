@@ -21,6 +21,7 @@ import java.util.Map;
 public final class Exit {
     private String description;
     private ILocation location;
+    public Coordinate coordinate;
     // We can implement more functionality on the exits later, for example locked exits, or requisites to pass through
 
     public Exit(Coordinate coordinate, Direction direction) {
@@ -34,6 +35,7 @@ public final class Exit {
             json = getCoordinate(testCoordinate);
             if (json != null) {
                 this.description = json;
+                this.coordinate = testCoordinate;
             }
         } else if (direction == Direction.SOUTH) {
             coordinateString = coordinate.x+","+Integer.toString(Integer.parseInt(coordinate.y)-1)+","+coordinate.z;
@@ -41,6 +43,7 @@ public final class Exit {
             json = getCoordinate(testCoordinate);
             if (json != null) {
                 this.description = json;
+                this.coordinate = testCoordinate;
             }
         } else if (direction == Direction.EAST) {
             coordinateString = Integer.toString(Integer.parseInt(coordinate.x)+1)+","+coordinate.y+","+coordinate.z;
@@ -48,6 +51,7 @@ public final class Exit {
             json = getCoordinate(testCoordinate);
             if (json != null) {
                 this.description = json;
+                this.coordinate = testCoordinate;
             }
         } else if (direction == Direction.WEST) {
             coordinateString = Integer.toString(Integer.parseInt(coordinate.x)-1)+","+coordinate.y+","+coordinate.z;
@@ -56,6 +60,7 @@ public final class Exit {
             json = getCoordinate(coordinate);
             if (json != null) {
                 this.description = json;
+                this.coordinate = testCoordinate;
             }
         } else {
             System.out.println("No direction found");
@@ -82,6 +87,10 @@ public final class Exit {
         } catch (IOException e) {
         }
         return response;
+    }
+
+    public Coordinate getCoordinate() {
+        return this.coordinate;
     }
 
     public String getDescription() {

@@ -16,6 +16,12 @@ Contributors
  1. [projectdelphai](https://github.com/projectdelphai)
  1. [CageHN](https://github.com/CageHN)
 
+Usage
+-------------
+To move in a new direction:
+
+    gotoNORTH, gotoSOUTH, gotoEAST, gotoWEST
+
 
 Contributing
 -------------
