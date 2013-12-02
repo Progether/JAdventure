@@ -2,7 +2,7 @@
     "1" : {
         "id" : "1",
         "title" : "First Location Ever",
-        "description" : "You are on the biggest, emptiest room ever.",
+        "description" : "You are in the biggest, emptiest room ever.",
         "locationType" : "CAVE",
         "exits" : {
             "NORTH" : {
