@@ -14,6 +14,6 @@ public interface ILocation {
     public String getTitle();
     public String getDescription();
     public LocationType getLocationType();
-    public Map<Direction, Exit> getExits();
+    public Map<Direction, ILocation> getExits();
     public void print();
 }
