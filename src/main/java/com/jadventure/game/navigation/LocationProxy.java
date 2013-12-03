@@ -10,39 +10,39 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class LocationProxy implements ILocation {
-    private final int id;
+    private final Coordinate coordinate;
 
-    public LocationProxy(int id) {
-        this.id = id;
+    public LocationProxy(Coordinate coordinate) {
+        this.coordinate = coordinate;
     }
 
     @Override
-    public int getId() {
-        return id;
+    public Coordinate getCoordinate() {
+        return coordinate;
     }
 
     @Override
     public String getTitle() {
-        return LocationManager.INSTANCE.getLocation(id).getTitle();
+        return LocationManager.INSTANCE.getLocation(coordinate).getTitle();
     }
 
     @Override
     public String getDescription() {
-        return LocationManager.INSTANCE.getLocation(id).getDescription();
+        return LocationManager.INSTANCE.getLocation(coordinate).getDescription();
     }
 
     @Override
     public LocationType getLocationType() {
-        return LocationManager.INSTANCE.getLocation(id).getLocationType();
+        return LocationManager.INSTANCE.getLocation(coordinate).getLocationType();
     }
 
     @Override
     public Map<Direction, Exit> getExits() {
-        return LocationManager.INSTANCE.getLocation(id).getExits();
+        return LocationManager.INSTANCE.getLocation(coordinate).getExits();
     }
 
     @Override
     public void print() {
-        LocationManager.INSTANCE.getLocation(id).print();
+        LocationManager.INSTANCE.getLocation(coordinate).print();
     }
 }

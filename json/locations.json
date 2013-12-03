@@ -1,26 +1,32 @@
 {
-    "1" : {
-        "id" : "1",
+    "0,0,0" : {
+        "coordinate" : "0,0,0",
         "title" : "First Location Ever",
-        "description" : "You are in the biggest, emptiest room ever.",
-        "locationType" : "CAVE",
-        "exits" : {
-            "NORTH" : {
-                "description" : "you see a dark corridor",
-                "location" : "2"
-            }
-        }
+        "description" : "You are on the biggest, emptiest room ever.",
+        "locationType" : "CAVE"
     },
-    "2" : {
-        "id" : "2",
+    "0,1,0" : {
+        "coordinate" : "0,1,0",
         "title" : "Dark Corridor",
-        "description" : "This place is sooooo dark, you probably want to return where you came from.",
-        "locationType" : "CAVE",
-        "exits" : {
-            "SOUTH" : {
-                "description" : "you see a big empty room",
-                "location" : "1"
-            }
-        }
+        "description" : "A very long dark corridor.",
+        "locationType" : "CAVE"
+    },
+    "0,-1,0" : {
+        "coordinate" : "0,-1,0",
+        "title" : "Stairs",
+        "description" : "Stairs up to the outside world.",
+        "locationType" : "CAVE"
+    },
+    "1,0,0" : {
+        "coordinate" : "1,0,0",
+        "title" : "Side Passage",
+        "description" : "A side passage on your right",
+        "locationType" : "CAVE"
+    },
+    "-1,0,0" : {
+        "coordinate" : "-1,0,0",
+        "title" : "Side Passage",
+        "description" : "A side passage on your left",
+        "locationType" : "CAVE"
     }
 }
