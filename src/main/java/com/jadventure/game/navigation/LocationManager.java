@@ -59,7 +59,7 @@ public enum LocationManager {
     }
 
     public ILocation getInitialLocation() {
-        Coordinate coordinate = new Coordinate(0, 0, 0);
+        Coordinate coordinate = new Coordinate(0, 0, -1);
         return getLocation(coordinate);
     }
 
