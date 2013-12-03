@@ -15,7 +15,6 @@ public class Location implements ILocation {
     private String title;
     private String description;
     private LocationType locationType;
-    private Map<Direction, Exit> exits = new HashMap<Direction, Exit>();
 
     public Location() {
 
@@ -53,20 +52,24 @@ public class Location implements ILocation {
         this.locationType = locationType;
     }
 
-    public Map<Direction, Exit> getExits() {
+    public Map<Direction, ILocation> getExits() {
+        Map<Direction, ILocation> exits = new HashMap<Direction, ILocation>();
+        ILocation borderingLocation;
+        for(Direction direction: Direction.values()) {
+            borderingLocation = LocationManager.INSTANCE.getLocation(getCoordinate().getBorderingCoordinate(direction));
+            if (borderingLocation != null) {
+                exits.put(direction, borderingLocation);
+            }
+        }
         return exits;
-    }
-
-    public void setExits(Map<Direction, Exit> exits) {
-        this.exits = exits;
     }
 
     public void print() {
         System.out.println(getTitle() + ":");
         System.out.println(getDescription());
         System.out.println();
-        for (Map.Entry<Direction,Exit> direction : getExits().entrySet()) {
-            System.out.println(direction.getKey());
+        for (Map.Entry<Direction,ILocation> direction : getExits().entrySet()) {
+            System.out.print(direction.getKey().getDescription() + ", ");
             System.out.println(direction.getValue().getDescription());
         }
         System.out.println();

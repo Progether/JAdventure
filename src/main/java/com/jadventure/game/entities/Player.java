@@ -3,12 +3,12 @@ package com.jadventure.game.entities;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.jadventure.game.Item;
+import com.jadventure.game.classes.Recruit;
+import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.navigation.LocationType;
-import com.jadventure.game.navigation.Coordinate;
-import com.jadventure.game.Item;
-import com.jadventure.game.classes.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;

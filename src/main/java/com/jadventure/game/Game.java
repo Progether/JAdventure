@@ -1,10 +1,9 @@
 package com.jadventure.game;
 
+import com.jadventure.game.entities.Entity;
+import com.jadventure.game.entities.Player;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
-import com.jadventure.game.entities.Player;
-import com.jadventure.game.entities.Entity;
-import com.jadventure.game.CommandParser;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -47,10 +46,10 @@ public class Game {
 
     public void gamePrompt(Player player) {
         boolean continuePrompt = true;
-        while (continuePrompt == true) {
+        while (continuePrompt) {
             System.out.println("Prompt:");
-            String command = input.next();
-            continuePrompt = parser.parse(player,command,continuePrompt);
+            String command = input.next().toLowerCase();
+            continuePrompt = parser.parse(player, command, continuePrompt);
         }
     }
 
