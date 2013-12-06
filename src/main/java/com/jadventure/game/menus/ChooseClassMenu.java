@@ -11,6 +11,7 @@ public class ChooseClassMenu extends Menus {
 
     public ChooseClassMenu() {
         this.menuItems.add(new MenuItem("Recruit", "A soldier newly enlisted to guard the city of Silliya"));
+        this.menuItems.add(new MenuItem("SewerRat", "A member of the underground of Silliya"));
 
         while(true) {
             System.out.println("Choose a class to get started with:");
@@ -22,15 +23,17 @@ public class ChooseClassMenu extends Menus {
     }
 
     private static boolean testOption(MenuItem m) {
-        Scanner input = new Scanner(System.in);
         String key = m.getKey();
         if(key.equals("recruit")) {
             Player player = Player.getInstance("recruit");
             new Game(player, "new");
             return true;
-        }
-        else {
-        	return false;
+        } else if(key.equals("sewerrat")) {
+            Player player = Player.getInstance("sewerrat");
+            new Game(player, "new");
+            return true;
+        } else {
+            return false;
         }
     }
 }

@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.classes.Recruit;
+import com.jadventure.game.classes.SewerRat;
 import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationManager;
@@ -75,6 +76,10 @@ public class Player extends Entity {
             player.setLocation(LocationManager.INSTANCE.getInitialLocation());
             return player;
             
+        } else if(playerClass.equals("sewerrat")) {
+            player = new SewerRat();
+            player.setLocation(LocationManager.INSTANCE.getInitialLocation());
+            return player;
         }
         return player;
     }
