@@ -1,4 +1,4 @@
-package com.jadventure.game;
+package com.jadventure.game.items;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

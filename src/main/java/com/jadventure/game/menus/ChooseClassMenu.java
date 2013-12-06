@@ -15,16 +15,22 @@ public class ChooseClassMenu extends Menus {
         while(true) {
             System.out.println("Choose a class to get started with:");
             MenuItem selectedItem = displayMenu(this.menuItems);
-            testOption(selectedItem);
+            if(testOption(selectedItem)) {
+            	break;
+            }
         }
     }
 
-    private static void testOption(MenuItem m) {
+    private static boolean testOption(MenuItem m) {
         Scanner input = new Scanner(System.in);
         String key = m.getKey();
         if(key.equals("recruit")) {
             Player player = Player.getInstance("recruit");
             new Game(player, "new");
+            return true;
+        }
+        else {
+        	return false;
         }
     }
 }

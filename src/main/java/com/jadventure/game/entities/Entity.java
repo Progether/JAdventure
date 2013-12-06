@@ -1,6 +1,6 @@
 package com.jadventure.game.entities;
 
-import com.jadventure.game.Item;
+import com.jadventure.game.items.Item;
 
 import java.util.ArrayList;
 import java.util.Random;
