@@ -3,7 +3,7 @@ package com.jadventure.game.entities;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.jadventure.game.Item;
+import com.jadventure.game.items.Item;
 import com.jadventure.game.classes.Recruit;
 import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.navigation.ILocation;

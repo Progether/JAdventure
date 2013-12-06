@@ -1,6 +1,6 @@
 package com.jadventure.game.monsters;
 
-import com.jadventure.game.Item;
+import com.jadventure.game.items.Item;
 
 public class Bugbear extends Monster {
 	public Bugbear(int playerLevel){
