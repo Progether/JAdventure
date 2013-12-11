@@ -1,1 +1,30 @@
-{ "items" : { "1" : { "name" : "milk", "description" : "some delicious milk", "type" : "food", "healthMax" : "+5" } } }
+{
+  "items": {
+    "fmil1": {
+      "name": "milk",
+      "description": "some delicious milk",
+      "properties": {
+        "health": "+5"
+      }
+    },
+    "wshi1": {
+      "name": "shiv",
+      "description": "a small dagger",
+      "properties": {
+        "damage": "+3"
+      }
+    },
+    "wdag1": {
+      "name": "dagger",
+      "description": "a basic dagger",
+      "properties": {
+        "damage": "+5"
+      }
+    },
+    "tlap1": {
+      "name": "lock and pick",
+      "description": "tools to pick locks",
+      "properties": {}
+    }
+  }
+}

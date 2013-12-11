@@ -22,7 +22,7 @@ public abstract class Entity {
     private int critChance = 0;
     // Every point in armour reduces an attackers attack by .33
     private int armour;
-    private ArrayList<Item> backpack;
+    private static ArrayList<Item> backpack;
     Random globalRand = new Random();
     
     // maybe not all entities start at full health, etc.
@@ -169,7 +169,7 @@ public abstract class Entity {
     public void setBackpack(ArrayList<Item> backpack) {
         this.backpack = backpack;
     }
-    public void addItemToBackpack(Item i){
+    public static void addItemToBackpack(Item i){
         backpack.add(i);
     }
 }

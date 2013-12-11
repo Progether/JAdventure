@@ -15,7 +15,7 @@ import java.util.Map;
 public class Item {
     private String name;
 
-    public Item(int itemID) {
+    public Item(String itemID) {
         HashMap<String,String> itemData = lookUpItem(itemID);
         this.name = itemData.get("name");
     }
@@ -24,10 +24,10 @@ public class Item {
         return this.name;
     }
 
-    public HashMap<String,String> lookUpItem(int itemID) {
+    public HashMap<String,String> lookUpItem(String itemID) {
         HashMap<String,HashMap> items = loadItems();
         for (Map.Entry<String,HashMap> entry : items.entrySet()) {
-            if (entry.getKey().equals(Integer.toString(itemID))) {
+            if (entry.getKey().equals(itemID)) {
                 return entry.getValue();
             }
         }
