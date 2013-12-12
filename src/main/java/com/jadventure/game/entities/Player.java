@@ -25,7 +25,7 @@ public class Player extends Entity {
     
     public Player(){
         setBackpack(new ArrayList<Item>());
-        Item milk = new Item(1);
+        Item milk = new Item("fmil1");
         addItemToBackpack(milk);
     }
 
