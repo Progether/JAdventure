@@ -3,6 +3,8 @@ package com.jadventure.game.navigation;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.Gson;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,6 +12,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -54,7 +58,13 @@ public enum LocationManager {
         location.setTitle(json.get("title").getAsString());
         location.setDescription(json.get("description").getAsString());
         location.setLocationType(LocationType.valueOf(json.get("locationType").getAsString()));
-
+        if (json.has("items")) {
+            ArrayList<String> items = new Gson().fromJson(json.get("items"), new TypeToken<List<String>>(){}.getType());
+            location.setItems(items);
+        } else {
+            ArrayList<String> items = new ArrayList<String>();
+            location.setItems(items);
+        }
         return location;
     }
 
@@ -66,4 +76,5 @@ public enum LocationManager {
     public ILocation getLocation(Coordinate coordinate) {
         return locations.get(coordinate);
     }
+
 }

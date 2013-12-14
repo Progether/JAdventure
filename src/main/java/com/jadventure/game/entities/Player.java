@@ -145,4 +145,5 @@ public class Player extends Entity {
     public LocationType getLocationType(){
     	return getLocation().getLocationType();
     }
+
 }

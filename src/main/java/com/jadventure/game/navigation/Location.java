@@ -1,7 +1,19 @@
 package com.jadventure.game.navigation;
 
+import com.jadventure.game.items.Item;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,6 +27,7 @@ public class Location implements ILocation {
     private String title;
     private String description;
     private LocationType locationType;
+    private ArrayList<String> items;
 
     public Location() {
 
@@ -64,9 +77,29 @@ public class Location implements ILocation {
         return exits;
     }
 
+    public void setItems(ArrayList items) {
+        this.items = items;
+    }
+
+    public ArrayList<String> getItems() {
+        ArrayList<String> items = new ArrayList<String>();
+        for (String itemId : this.items) {
+            String itemName = new Item(itemId).getName();
+            items.add(itemName);
+        }
+        return items;
+    }
+
     public void print() {
         System.out.println(getTitle() + ":");
         System.out.println(getDescription());
+        ArrayList<String> publicItems = getItems();
+        if (!publicItems.isEmpty()) {
+            System.out.println("Items:");
+            for (String item : publicItems) {
+                System.out.println("    "+item);
+            }
+        }
         System.out.println();
         for (Map.Entry<Direction,ILocation> direction : getExits().entrySet()) {
             System.out.print(direction.getKey().getDescription() + ", ");

@@ -1,6 +1,7 @@
 package com.jadventure.game.navigation;
 
 import java.util.Map;
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,5 +16,6 @@ public interface ILocation {
     public String getDescription();
     public LocationType getLocationType();
     public Map<Direction, ILocation> getExits();
+    public ArrayList<String> getItems();
     public void print();
 }
