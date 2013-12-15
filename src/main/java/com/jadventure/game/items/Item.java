@@ -1,24 +1,21 @@
-package com.jadventure.game;
+package com.jadventure.game.items;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
 
 public class Item {
     private String name;
 
-    public Item(int itemID) {
+    public Item(String itemID) {
         HashMap<String,String> itemData = lookUpItem(itemID);
         this.name = itemData.get("name");
     }
@@ -27,10 +24,10 @@ public class Item {
         return this.name;
     }
 
-    public HashMap<String,String> lookUpItem(int itemID) {
+    public HashMap<String,String> lookUpItem(String itemID) {
         HashMap<String,HashMap> items = loadItems();
         for (Map.Entry<String,HashMap> entry : items.entrySet()) {
-            if (entry.getKey().equals(Integer.toString(itemID))) {
+            if (entry.getKey().equals(itemID)) {
                 return entry.getValue();
             }
         }

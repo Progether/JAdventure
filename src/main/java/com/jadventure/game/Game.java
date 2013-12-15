@@ -1,6 +1,9 @@
 package com.jadventure.game;
 
-import com.jadventure.game.monsters.*;
+import com.jadventure.game.entities.Entity;
+import com.jadventure.game.entities.Player;
+import com.jadventure.game.monsters.Monster;
+import com.jadventure.game.monsters.MonsterFactory;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -10,37 +13,46 @@ public class Game {
     
     public ArrayList<Monster> monsterList = new ArrayList<Monster>();
     public MonsterFactory monsterFactory = new MonsterFactory(); 
+    public CommandParser parser = new CommandParser();
     public Scanner input = new Scanner(System.in);
     public Monster monster;
     Player player = null;
 
-    public Game(Player player) {
-        if (player == null) { // New Game
-            this.player = Player.getInstance();
-            newGameStart();
-        } else { // Existing Game
+    public Game(Player player, String playerType) {
+        if (playerType.equals("new")) { // New Game
+            this.player = player;
+            newGameStart(player);
+        } else if (playerType.equals("old")) { // Existing Game
             this.player = player;
             System.out.println("Welcome back " + player.getName() + "!");
-            new PlayerMenu(player);
+            System.out.println();
+            player.getLocation().print();
+            gamePrompt(player);
+        } else {
+            System.out.println("Invalid player transfer");
         }
     }
     
-    public void newGameStart() {
-        // Opening dialog
-        System.out.println("Hey... you alive?");
-        System.out.println("*You let out a groan...*");
-        System.out.println("Hey mate, you need to wake up. The guards will be coming around soon and they put a spear through the last guy they found still asleep.");
-        System.out.println("*Slowly you sit up.*");
-        System.out.println("That's the way! I'm Thorall, what's your name? ");
+    public void newGameStart(Player player) {
+        System.out.println(player.getIntro());
         String userInput = input.next();
         player.setName(userInput);
         System.out.println("Welcome to Silliya " + this.player.getName() + ".");
-        System.out.println("You can type help for a list of commands");
+        System.out.println();
+        player.getLocation().print();
         
-        new PlayerMenu(player);
-        
+        gamePrompt(player);
     }
-    
+
+    public void gamePrompt(Player player) {
+        boolean continuePrompt = true;
+        while (continuePrompt) {
+            System.out.println("Prompt:");
+            String command = input.next().toLowerCase();
+            continuePrompt = parser.parse(player, command, continuePrompt);
+        }
+    }
+
     // COMMANDS
     // Command is being used for debugging at this time
     private void attackStats(Entity player, Entity monster) {

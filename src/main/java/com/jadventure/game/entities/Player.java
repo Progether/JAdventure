@@ -1,7 +1,15 @@
-package com.jadventure.game;
+package com.jadventure.game.entities;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.jadventure.game.items.Item;
+import com.jadventure.game.classes.Recruit;
+import com.jadventure.game.classes.SewerRat;
+import com.jadventure.game.navigation.Coordinate;
+import com.jadventure.game.navigation.ILocation;
+import com.jadventure.game.navigation.LocationManager;
+import com.jadventure.game.navigation.LocationType;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,12 +21,11 @@ import java.io.Writer;
 import java.util.ArrayList;
 
 public class Player extends Entity {
-	
-    public LocationType locationType = null;
+    private ILocation location;
     
-    private Player(){
+    public Player(){
         setBackpack(new ArrayList<Item>());
-        Item milk = new Item(1);
+        Item milk = new Item("fmil1");
         addItemToBackpack(milk);
     }
 
@@ -32,13 +39,23 @@ public class Player extends Entity {
     }
 
     public static Player load(String name) {
-        Player player = null;
+        Player player = new Player();
 
-        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
         String fileName = getProfileFileName(name);
         try {
             Reader reader = new FileReader(fileName);
-            player = gson.fromJson(reader, Player.class);
+            JsonObject json = parser.parse(reader).getAsJsonObject();
+
+            player.setName(json.get("name").getAsString());
+            player.setHealthMax(json.get("healthMax").getAsInt());
+            player.setHealth(json.get("health").getAsInt());
+            player.setArmour(json.get("armour").getAsInt());
+            player.setDamage(json.get("damage").getAsInt());
+            player.setLevel(json.get("level").getAsInt());
+            Coordinate coordinate = new Coordinate(json.get("location").getAsString());
+            player.setLocation(LocationManager.INSTANCE.getLocation(coordinate));
+
             reader.close();
         } catch (FileNotFoundException ex) {
             System.out.println( "Unable to open file '" + fileName + "'.");
@@ -49,29 +66,28 @@ public class Player extends Entity {
         return player;
     }
 
-    
-    
     // This is known as the singleton pattern. It allows for only 1 instance of a player.
-    public static Player player;
+    private static Player player;
     
-    public static Player getInstance(){
-        if(player == null){
-            // Instead of having a huge constuctor, this is much more readable.
-            player =  new Player();
-            player.setHealthMax(100);
-            player.setHealth(100);
-            player.setArmour(1);
-            player.setDamage(50);
-            player.setLevel(1);
-
+    public static Player getInstance(String playerClass){
+        if(playerClass.equals("recruit")){
+            // Instead of having a huge constructor, this is much more readable.
+            player =  new Recruit();
+            player.setLocation(LocationManager.INSTANCE.getInitialLocation());
             return player;
             
+        } else if(playerClass.equals("sewerrat")) {
+            player = new SewerRat();
+            player.setLocation(LocationManager.INSTANCE.getInitialLocation());
+            return player;
         }
         return player;
     }
+
     public void addItem(Item i){
         
     }
+
     public void getStats(){
         System.out.println("Player name: " + getName() +
                             "\nHealth/Max: " + getHealth() + "/" + getHealthMax() +
@@ -97,10 +113,13 @@ public class Player extends Entity {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("name", getName());
         jsonObject.addProperty("healthMax", getHealthMax());
+        jsonObject.addProperty("health", getHealthMax());
         jsonObject.addProperty("armour", getArmour());
         jsonObject.addProperty("damage", getDamage());
         jsonObject.addProperty("level", getLevel());
-        jsonObject.addProperty("locationType", this.locationType.toString());
+        Coordinate coordinate = getLocation().getCoordinate();
+        String coordinateLocation = coordinate.x+","+coordinate.y+","+coordinate.z;
+        jsonObject.addProperty("location", coordinateLocation);
 
         Gson gson = new Gson();
         String fileName = getProfileFileName(getName());
@@ -114,8 +133,17 @@ public class Player extends Entity {
             System.out.println("Unable to save to file '" + fileName + "'.");
         }
     }
-    
-    public LocationType getLocationType(){
-    	return this.locationType;
+
+    public ILocation getLocation() {
+        return location;
     }
+
+    public void setLocation(ILocation location) {
+        this.location = location;
+    }
+
+    public LocationType getLocationType(){
+    	return getLocation().getLocationType();
+    }
+
 }

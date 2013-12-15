@@ -1,6 +1,9 @@
-package com.jadventure.game;
+package com.jadventure.game.menus;
 
- import java.util.Scanner;
+import com.jadventure.game.menus.Menus;
+import com.jadventure.game.entities.Player;
+import java.util.Scanner;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Hawk554
@@ -10,7 +13,7 @@ package com.jadventure.game;
 public class DebugMenu extends Menus {
     public static Player player;
 
-    DebugMenu(Player p) {
+    public DebugMenu(Player p) {
         this.menuID = 90;
         player = p;
         this.menuItems.add(new MenuItem("pAttack", "Modify Player Attack"));

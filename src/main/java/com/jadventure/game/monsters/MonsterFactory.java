@@ -1,16 +1,16 @@
 package com.jadventure.game.monsters;
 
-import java.util.Random;
+import com.jadventure.game.entities.Player;
 
-import com.jadventure.game.Player;
+import java.util.Random;
 /**
  * the MonsterFactory generates random monsters appropriately according
  * to the players level and location
  */
 public class MonsterFactory {
-	Random random = new Random();
+    Random random = new Random();
     public Monster generateMonster() {
-        Player player = Player.getInstance();
+        Player player = Player.getInstance("recruit");
         switch (player.getLocationType()) {
             case FOREST:
                 return getForestMonster(player.getLevel());

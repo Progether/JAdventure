@@ -1,1 +1,115 @@
-{ "items" : { "1" : { "name" : "milk", "description" : "some delicious milk", "type" : "food", "healthMax" : "+5" } } }
+{
+  "items": {
+    "fmil1": {
+      "name": "milk",
+      "description": "some delicious milk",
+      "properties": {
+        "health": "+5",
+        "value": "10"
+      }
+    },
+    "fmil2": {
+      "name": "super milk",
+      "description": "this milk must have come from a super cow because it is extra delicious milk",
+      "properties": {
+        "health": "+15",
+        "value": "25"
+      }
+    },
+    "fram1": {
+      "name": "raw meat",
+      "description": "some delicious raw meat",
+      "properties": {
+        "health": "+2",
+        "value": "5"
+      }
+    },
+    "fcom1": {
+      "name": "cooked meat",
+      "description": "some delicious cooked meat",
+      "properties": {
+        "health": "+10",
+        "value": "15"
+      }
+    },
+    "fbum1": {
+      "name": "burnt meat",
+      "description": "some crispy burnt meat",
+      "properties": {
+        "health": "+4",
+        "value": "2"
+      }
+    },
+    "wshi1": {
+      "name": "shiv",
+      "description": "a small dagger",
+      "properties": {
+        "damage": "+3",
+        "value": "30"
+      }
+    },
+    "wdag1": {
+      "name": "dagger",
+      "description": "a basic dagger",
+      "properties": {
+        "damage": "+5",
+        "value": "50"
+      }
+    },
+    "wshs1": {
+      "name": "shortsword",
+      "description": "a basic shortsword",
+      "properties": {
+        "damage": "+7",
+        "value": "70"
+      }
+    },
+    "wspe1": {
+      "name": "spear",
+      "description": "a basic spear",
+      "properties": {
+        "damage": "+5",
+        "value": "50"
+      }
+    },
+    "ashi1": {
+      "name": "wooden shield",
+      "description": "a wooden shield, watch out for splinters!",
+      "properties": {
+        "armour": "+3",
+        "value": "30"
+      }
+    },
+    "arhl1": {
+      "name": "rusted helmet",
+      "description": "a rusted helmet, it will do for now",
+      "properties": {
+        "armour": "+4",
+        "value": "40"
+      }
+    },
+    "albr1": {
+      "name": "leather breastplate",
+      "description": "a leather breastplate, it will do for now",
+      "properties": {
+        "armour": "+5",
+        "value": "50"
+      }
+    },
+    "tlap1": {
+      "name": "lock and pick",
+      "description": "tools to pick locks",
+      "properties": {
+        "value": "20"
+      }
+    },
+   "phli1": {
+      "name": "Potion of Health",
+      "description": "Magic potion that increases vitality",
+      "properties": {
+        "healthMax": "+5",
+        "value": "100"
+      }
+    }
+  }
+}

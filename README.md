@@ -17,6 +17,12 @@ Contributors
  1. [CageHN](https://github.com/CageHN)
  2. [blackwolf12333](https://github.com/blackwolf12333)
 
+Usage
+-------------
+To move in a new direction:
+
+    gotoNORTH, gotoSOUTH, gotoEAST, gotoWEST
+
 
 Contributing
 -------------

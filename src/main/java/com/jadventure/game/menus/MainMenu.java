@@ -1,6 +1,11 @@
-package com.jadventure.game;
+package com.jadventure.game.menus;
+
+import com.jadventure.game.menus.Menus;
 
 import java.util.Scanner;
+import com.jadventure.game.Game;
+import com.jadventure.game.entities.Player;
+import com.jadventure.game.menus.ChooseClassMenu;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,7 +15,7 @@ import java.util.Scanner;
  */
 public class MainMenu extends Menus {
 
-     MainMenu(){
+     public MainMenu(){
          this.menuItems.add(new MenuItem("Start", "Starts a new Game", "new"));
          this.menuItems.add(new MenuItem("Load", "Loads an existing Game"));
          this.menuItems.add(new MenuItem("Exit", null, "quit"));
@@ -24,7 +29,7 @@ public class MainMenu extends Menus {
         Scanner input = new Scanner(System.in);
         String key = m.getKey();
         if(key.equals("start")) {
-            new Game(null);
+            new ChooseClassMenu();
         }
         else if(key.equals("exit")) {
             System.out.println("Goodbye!");
@@ -43,7 +48,7 @@ public class MainMenu extends Menus {
                 }
             }
 
-            Game game = new Game(player);
+            Game game = new Game(player, "old");
         }
     }
 }

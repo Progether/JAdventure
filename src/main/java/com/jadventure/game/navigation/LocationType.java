@@ -1,4 +1,4 @@
-package com.jadventure.game;
+package com.jadventure.game.navigation;
 
 public enum LocationType {
 	FOREST,
