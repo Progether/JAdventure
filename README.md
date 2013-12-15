@@ -15,6 +15,11 @@ Contributors
  1. [Hawk554](https://github.com/hawk554)
  1. [projectdelphai](https://github.com/projectdelphai)
  1. [CageHN](https://github.com/CageHN)
+ 1. [kzisme](https://github.com/kzisme)
+ 1. [blackwolf12333](https://github.com/blackwolf12333)
+ 1. [MikesNorth](https://github.com/mikesnorth)
+ 1. [pthayer3](https://github.com/pthayer3)
+ 1. [Reinecker](https://github.com/reinecker)
 
 Usage
 -------------
