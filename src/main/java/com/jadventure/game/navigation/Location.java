@@ -81,23 +81,29 @@ public class Location implements ILocation {
         this.items = items;
     }
 
-    public ArrayList<String> getItems() {
-        ArrayList<String> items = new ArrayList<String>();
+    public ArrayList<Item> getItems() {
+        ArrayList<Item> items = new ArrayList<Item>();
         for (String itemId : this.items) {
-            String itemName = new Item(itemId).getName();
+            Item itemName = new Item(itemId);
             items.add(itemName);
         }
         return items;
     }
 
+    public void removePublicItem(String itemID) {
+        ArrayList<String> items = this.items;
+        items.remove(itemID);
+        setItems(items);
+    }
+
     public void print() {
         System.out.println(getTitle() + ":");
         System.out.println(getDescription());
-        ArrayList<String> publicItems = getItems();
+        ArrayList<Item> publicItems = getItems();
         if (!publicItems.isEmpty()) {
             System.out.println("Items:");
-            for (String item : publicItems) {
-                System.out.println("    "+item);
+            for (Item item : publicItems) {
+                System.out.println("    "+item.getName());
             }
         }
         System.out.println();

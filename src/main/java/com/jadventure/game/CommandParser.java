@@ -37,6 +37,10 @@ public class CommandParser {
                 System.out.println("The direction " + message + " does not exist.");
             }
         }
+        else if (command.startsWith("pickup")) {
+            String itemName = command.substring(6);
+            player.pickUpItem(itemName);
+        }
         else if (command.equals("debug")) {
             new DebugMenu(player);
         } else if (command.equals("exit")) {

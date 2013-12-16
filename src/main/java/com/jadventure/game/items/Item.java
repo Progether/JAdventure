@@ -14,14 +14,20 @@ import java.util.Map;
 
 public class Item {
     private String name;
+    private String itemID;
 
     public Item(String itemID) {
         HashMap<String,String> itemData = lookUpItem(itemID);
         this.name = itemData.get("name");
+        this.itemID = itemID;
     }
     
     public String getName() {
         return this.name;
+    }
+
+    public String getItemID() {
+        return this.itemID;
     }
 
     public HashMap<String,String> lookUpItem(String itemID) {

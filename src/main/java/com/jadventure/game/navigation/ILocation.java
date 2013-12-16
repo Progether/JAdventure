@@ -1,5 +1,7 @@
 package com.jadventure.game.navigation;
 
+import com.jadventure.game.items.Item;
+
 import java.util.Map;
 import java.util.ArrayList;
 
@@ -16,6 +18,7 @@ public interface ILocation {
     public String getDescription();
     public LocationType getLocationType();
     public Map<Direction, ILocation> getExits();
-    public ArrayList<String> getItems();
+    public ArrayList<Item> getItems();
+    public void removePublicItem(String itemID);
     public void print();
 }

@@ -10,6 +10,7 @@ import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.navigation.LocationType;
+import com.jadventure.game.navigation.Location;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -132,6 +133,21 @@ public class Player extends Entity {
         } catch (IOException ex) {
             System.out.println("Unable to save to file '" + fileName + "'.");
         }
+    }
+
+    public void pickUpItem(String itemNameToPickUp) {
+        ILocation location = getLocation();
+        ArrayList<Item> publicItems = location.getItems();
+        for (Item publicItem : publicItems) {
+            String publicItemName = publicItem.getName();
+            if (publicItemName.equals(itemNameToPickUp)) {
+                String publicItemID = publicItem.getItemID();
+                Item itemToPickUp = new Item(publicItemID);
+                addItemToBackpack(itemToPickUp);
+                location.removePublicItem(itemToPickUp.getItemID());
+            }
+        }
+
     }
 
     public ILocation getLocation() {

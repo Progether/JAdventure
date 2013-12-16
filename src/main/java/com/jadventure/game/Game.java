@@ -48,7 +48,7 @@ public class Game {
         boolean continuePrompt = true;
         while (continuePrompt) {
             System.out.println("Prompt:");
-            String command = input.next().toLowerCase();
+            String command = input.nextLine().toLowerCase();
             continuePrompt = parser.parse(player, command, continuePrompt);
         }
     }
