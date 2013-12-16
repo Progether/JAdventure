@@ -169,7 +169,18 @@ public abstract class Entity {
     public void setBackpack(ArrayList<Item> backpack) {
         this.backpack = backpack;
     }
-    public static void addItemToBackpack(Item i){
+    public void addItemToBackpack(Item i){
         backpack.add(i);
+    }
+
+    public void removeItemFromBackpack(Item i) {
+        ArrayList<Item> backpackItems = getBackpack();
+        ArrayList<Item> newBackpack = new ArrayList<Item>();
+        for (Item item : backpackItems) {
+            if (!(item.getName()).equals(i.getName())) {
+                newBackpack.add(item);
+            }
+        }
+        setBackpack(newBackpack);
     }
 }

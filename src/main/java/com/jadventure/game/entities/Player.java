@@ -3,6 +3,10 @@ package com.jadventure.game.entities;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.reflect.TypeToken;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.classes.Recruit;
 import com.jadventure.game.classes.SewerRat;
@@ -54,6 +58,15 @@ public class Player extends Entity {
             player.setArmour(json.get("armour").getAsInt());
             player.setDamage(json.get("damage").getAsInt());
             player.setLevel(json.get("level").getAsInt());
+            if (json.has("items")) {
+                ArrayList<String> items = new Gson().fromJson(json.get("items"), new TypeToken<ArrayList<String>>(){}.getType());
+                ArrayList<Item> itemList = new ArrayList<Item>();
+                for (String itemID : items) {
+                   Item item = new Item(itemID);
+                   itemList.add(item);
+                }
+                player.setBackpack(itemList);
+            }
             Coordinate coordinate = new Coordinate(json.get("location").getAsString());
             player.setLocation(LocationManager.INSTANCE.getLocation(coordinate));
 
@@ -118,6 +131,13 @@ public class Player extends Entity {
         jsonObject.addProperty("armour", getArmour());
         jsonObject.addProperty("damage", getDamage());
         jsonObject.addProperty("level", getLevel());
+        ArrayList<String> items = new ArrayList<String>();
+        JsonArray itemList = new JsonArray();
+        for (Item item : getBackpack()) {
+            JsonPrimitive itemJson = new JsonPrimitive(item.getItemID());
+            itemList.add(itemJson);
+        }
+        jsonObject.add("items", itemList);
         Coordinate coordinate = getLocation().getCoordinate();
         String coordinateLocation = coordinate.x+","+coordinate.y+","+coordinate.z;
         jsonObject.addProperty("location", coordinateLocation);
@@ -133,6 +153,7 @@ public class Player extends Entity {
         } catch (IOException ex) {
             System.out.println("Unable to save to file '" + fileName + "'.");
         }
+        LocationManager.INSTANCE.writeLocations();
     }
 
     public void pickUpItem(String itemNameToPickUp) {
@@ -147,7 +168,20 @@ public class Player extends Entity {
                 location.removePublicItem(itemToPickUp.getItemID());
             }
         }
+    }
 
+    public void dropItem(String itemNameToDrop) {
+        ILocation location = getLocation();
+        ArrayList<Item> publicItems = getBackpack();
+        for (Item publicItem : publicItems) {
+            String publicItemName = publicItem.getName();
+            if (publicItemName.equals(itemNameToDrop)) {
+                String publicItemID = publicItem.getItemID();
+                Item itemToDrop = new Item(publicItemID);
+                removeItemFromBackpack(itemToDrop);
+                location.addPublicItem(itemToDrop.getItemID());
+            }
+        }
     }
 
     public ILocation getLocation() {

@@ -41,6 +41,10 @@ public class CommandParser {
             String itemName = command.substring(6);
             player.pickUpItem(itemName);
         }
+        else if (command.startsWith("drop")){
+            String itemName = command.substring(4);
+            player.dropItem(itemName);
+        }
         else if (command.equals("debug")) {
             new DebugMenu(player);
         } else if (command.equals("exit")) {

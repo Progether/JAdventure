@@ -20,5 +20,6 @@ public interface ILocation {
     public Map<Direction, ILocation> getExits();
     public ArrayList<Item> getItems();
     public void removePublicItem(String itemID);
+    public void addPublicItem(String itemID);
     public void print();
 }

@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Writer;
+import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -66,6 +68,17 @@ public enum LocationManager {
             location.setItems(items);
         }
         return location;
+    }
+
+    public void writeLocations() {
+        try {
+            //Writer writer = new FileWriter("json/locations.json");
+            //gson.toJson(jsonObject, writer);
+            //writer.close();
+            System.out.println("Your game data was saved.");
+        } catch (IOException ex) {
+            System.out.println("Unable to save to file json/locations.json");
+        }
     }
 
     public ILocation getInitialLocation() {

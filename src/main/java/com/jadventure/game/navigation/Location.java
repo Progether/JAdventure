@@ -96,6 +96,12 @@ public class Location implements ILocation {
         setItems(items);
     }
 
+    public void addPublicItem(String itemID) {
+        ArrayList<String> items = this.items;
+        items.add(itemID);
+        setItems(items);
+    }
+
     public void print() {
         System.out.println(getTitle() + ":");
         System.out.println(getDescription());
