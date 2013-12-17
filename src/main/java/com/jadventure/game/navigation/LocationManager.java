@@ -22,12 +22,13 @@ import java.util.ArrayList;
  * Time: 10:51 PM
  * To change this template use File | Settings | File Templates.
  */
-public class LocationManager {
+public enum LocationManager {
+    INSTANCE;
     private static final String FILE_NAME = "json/locations.json";
 
-    private static Map<Coordinate, ILocation> locations = new HashMap<Coordinate, ILocation>();
+    private Map<Coordinate, ILocation> locations = new HashMap<Coordinate, ILocation>();
 
-    public LocationManager() {
+    private LocationManager() {
         JsonParser parser = new JsonParser();
 
         try {
@@ -67,12 +68,12 @@ public class LocationManager {
         return location;
     }
 
-    public static ILocation getInitialLocation() {
+    public ILocation getInitialLocation() {
         Coordinate coordinate = new Coordinate(0, 0, -1);
         return getLocation(coordinate);
     }
 
-    public static ILocation getLocation(Coordinate coordinate) {
+    public ILocation getLocation(Coordinate coordinate) {
         return locations.get(coordinate);
     }
 
