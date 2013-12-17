@@ -9,9 +9,17 @@ import java.util.Map;
 
 public class CommandParser {
 
+    private String helpText = "\nstats: Prints your statistics.\n" +
+                              "backpack: Prints out the contents of your backpack.\n" +
+                              "save: Save your progress.\n" +
+                              "goto: Go in a direction.\n" +
+                              "exit: Exit the game and return to the main menu.\n";
+
     public boolean parse(Player player, String command, boolean continuePrompt) {
         if (command.equals("stats")) {
             player.getStats();
+        } else if (command.equals("help")) {
+            System.out.print(helpText);
         }
         else if (command.equals("backpack")) {
             player.printBackPack();
