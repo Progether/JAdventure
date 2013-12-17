@@ -36,7 +36,6 @@ public class Menus {
     }
 
     protected MenuItem selectMenu(List<MenuItem> m) {
-        // Print Menu Items
         this.printMenuItems(m);
 
         Scanner input = new Scanner(System.in);
