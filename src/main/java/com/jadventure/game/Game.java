@@ -4,6 +4,7 @@ import com.jadventure.game.entities.Entity;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
+import com.jadventure.game.navigation.LocationManager;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -19,6 +20,7 @@ public class Game {
     Player player = null;
 
     public Game(Player player, String playerType) {
+        player.setLocation(LocationManager.INSTANCE.getInitialLocation());
         if (playerType.equals("new")) { // New Game
             this.player = player;
             newGameStart(player);
