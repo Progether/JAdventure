@@ -54,7 +54,7 @@ public class Player extends Entity {
             player.setDamage(json.get("damage").getAsInt());
             player.setLevel(json.get("level").getAsInt());
             Coordinate coordinate = new Coordinate(json.get("location").getAsString());
-            player.setLocation(LocationManager.getLocation(coordinate));
+            player.setLocation(LocationManager.INSTANCE.getLocation(coordinate));
 
             reader.close();
         } catch (FileNotFoundException ex) {
@@ -73,12 +73,12 @@ public class Player extends Entity {
         if(playerClass.equals("recruit")){
             // Instead of having a huge constructor, this is much more readable.
             player =  new Recruit();
-            player.setLocation(LocationManager.getInitialLocation());
+            player.setLocation(LocationManager.INSTANCE.getInitialLocation());
             return player;
             
         } else if(playerClass.equals("sewerrat")) {
             player = new SewerRat();
-            player.setLocation(LocationManager.getInitialLocation());
+            player.setLocation(LocationManager.INSTANCE.getInitialLocation());
             return player;
         }
         return player;
