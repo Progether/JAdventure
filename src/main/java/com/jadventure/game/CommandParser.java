@@ -7,6 +7,12 @@ import com.jadventure.game.navigation.ILocation;
 
 import java.util.Map;
 
+/**
+ * Our command parser, for now everything it does is check if a command string is equal to something.
+ * If it is equal to one of the predefined commands it will respond to that with the appropriate information.
+ *
+ * TODO: This will get way to big when we get more commands, find some better way to handle it.
+ */
 public class CommandParser {
 
     public boolean parse(Player player, String command, boolean continuePrompt) {
