@@ -69,7 +69,7 @@ public class Location implements ILocation {
         Map<Direction, ILocation> exits = new HashMap<Direction, ILocation>();
         ILocation borderingLocation;
         for(Direction direction: Direction.values()) {
-            borderingLocation = LocationManager.INSTANCE.getLocation(getCoordinate().getBorderingCoordinate(direction));
+            borderingLocation = LocationManager.getLocation(getCoordinate().getBorderingCoordinate(direction));
             if (borderingLocation != null) {
                 exits.put(direction, borderingLocation);
             }

@@ -42,17 +42,7 @@ public class Menus {
     }
 
     protected MenuItem selectMenu(List<MenuItem> m) {
-        // Print Menu Items
-        int i = 1;
-        for (MenuItem menuItem: m) {
-            System.out.print("[" + i + "] " + menuItem.getCommand());
-            if (menuItem.getDescription() != null) {
-                System.out.print(" - " + menuItem.getDescription());
-            }
-            System.out.println();
-
-            i ++;
-        }
+        this.printMenuItems(m);
 
         Scanner input = new Scanner(System.in);
         String command = input.next();
@@ -64,5 +54,17 @@ public class Menus {
         }
     }
 
+    private void printMenuItems(List<MenuItem> m) {
+        int i = 1;
+        for (MenuItem menuItem: m) {
+            System.out.print("[" + i + "] " + menuItem.getCommand());
+            if (menuItem.getDescription() != null) {
+                System.out.print(" - " + menuItem.getDescription());
+            }
+            System.out.println();
+
+            i++;
+        }
+    }
 }
 
