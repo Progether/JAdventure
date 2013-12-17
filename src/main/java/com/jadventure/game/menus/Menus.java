@@ -7,12 +7,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Cage
- * Date: 04/11/13
- * Time: 11:09 PM
- * To change this template use File | Settings | File Templates.
- *
  * Creating a new menu
  * ======
  * MenuID
