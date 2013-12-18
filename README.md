@@ -82,17 +82,33 @@ Get a list of commands with:
 
     help
 
-To get a list of monsters around you:
-
-    monsters
-
 To get your own current status/stats:
 
     stats
 
 To quit the game:
 
-    quit
+    exit
+
+To move:
+
+   gotoNorth
+   gotoEast
+   gotoWest
+   gotoSouth
+
+To pick up an item:
+
+   pickup<itemName>
+
+To drop an item:
+
+   drop<itemName>
+
+To equip/dequip item:
+
+   equip<itemName>
+   dequip<itemName>
 
 Todo
 ------------------

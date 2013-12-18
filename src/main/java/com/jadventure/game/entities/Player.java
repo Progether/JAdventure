@@ -58,6 +58,7 @@ public class Player extends Entity {
             player.setArmour(json.get("armour").getAsInt());
             player.setDamage(json.get("damage").getAsInt());
             player.setLevel(json.get("level").getAsInt());
+            player.setWeapon(json.get("weapon").getAsString());
             if (json.has("items")) {
                 ArrayList<String> items = new Gson().fromJson(json.get("items"), new TypeToken<ArrayList<String>>(){}.getType());
                 ArrayList<Item> itemList = new ArrayList<Item>();
@@ -131,6 +132,7 @@ public class Player extends Entity {
         jsonObject.addProperty("armour", getArmour());
         jsonObject.addProperty("damage", getDamage());
         jsonObject.addProperty("level", getLevel());
+        jsonObject.addProperty("weapon", getWeapon());
         ArrayList<String> items = new ArrayList<String>();
         JsonArray itemList = new JsonArray();
         for (Item item : getBackpack()) {
@@ -156,31 +158,50 @@ public class Player extends Entity {
         LocationManager.INSTANCE.writeLocations();
     }
 
-    public void pickUpItem(String itemNameToPickUp) {
-        ILocation location = getLocation();
-        ArrayList<Item> publicItems = location.getItems();
-        for (Item publicItem : publicItems) {
-            String publicItemName = publicItem.getName();
-            if (publicItemName.equals(itemNameToPickUp)) {
-                String publicItemID = publicItem.getItemID();
-                Item itemToPickUp = new Item(publicItemID);
-                addItemToBackpack(itemToPickUp);
-                location.removePublicItem(itemToPickUp.getItemID());
+    public ArrayList<Item> searchItem(String itemName, ArrayList<Item> itemList) {
+        ArrayList<Item> itemMap = new ArrayList();
+        for (Item item : itemList) {
+            String testItemName = item.getName();
+            if (testItemName.equals(itemName)) {
+                itemMap.add(item);
             }
+        }
+        return itemMap;
+    }
+
+    public void pickUpItem(String itemName) {
+        ArrayList<Item> itemMap = searchItem(itemName, getLocation().getItems());
+        if (!itemMap.isEmpty()) {
+            Item item = itemMap.get(0);
+            Item itemToPickUp = new Item(item.getItemID());
+            addItemToBackpack(itemToPickUp);
+            location.removePublicItem(itemToPickUp.getItemID());
         }
     }
 
-    public void dropItem(String itemNameToDrop) {
-        ILocation location = getLocation();
-        ArrayList<Item> publicItems = getBackpack();
-        for (Item publicItem : publicItems) {
-            String publicItemName = publicItem.getName();
-            if (publicItemName.equals(itemNameToDrop)) {
-                String publicItemID = publicItem.getItemID();
-                Item itemToDrop = new Item(publicItemID);
-                removeItemFromBackpack(itemToDrop);
-                location.addPublicItem(itemToDrop.getItemID());
-            }
+    public void dropItem(String itemName) {
+        ArrayList<Item> itemMap = searchItem(itemName, getBackpack());
+        if (!itemMap.isEmpty()) {
+            Item item = itemMap.get(0);
+            Item itemToDrop = new Item(item.getItemID());
+            removeItemFromBackpack(itemToDrop);
+            location.addPublicItem(itemToDrop.getItemID());
+        }
+    }
+
+    public void equipItem(String itemName) {
+        ArrayList<Item> itemMap = searchItem(itemName, getBackpack());
+        if (!itemMap.isEmpty()) {
+            Item item = itemMap.get(0);
+            setWeapon(item.getItemID());
+        }
+    }
+
+    public void dequipItem(String itemName) {
+        ArrayList<Item> itemMap = searchItem(itemName, getBackpack());
+        if (!itemMap.isEmpty()) {
+            Item item = itemMap.get(0);
+            setWeapon("hands");
         }
     }
 

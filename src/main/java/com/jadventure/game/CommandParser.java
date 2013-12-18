@@ -53,6 +53,14 @@ public class CommandParser {
             String itemName = command.substring(4);
             player.dropItem(itemName);
         }
+        else if (command.startsWith("equip")) {
+            String itemName = command.substring(5);
+            player.equipItem(itemName);
+        }
+        else if (command.startsWith("dequip")) {
+            String itemName = command.substring(6);
+            player.dequipItem(itemName);
+        }
         else if (command.equals("debug")) {
             new DebugMenu(player);
         } else if (command.equals("exit")) {
