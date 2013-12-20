@@ -5,8 +5,9 @@ import com.jadventure.game.items.Item;
 import java.util.ArrayList;
 import java.util.Random;
 
-// superclass for all entities (includes player, monsters...)
-
+/**
+ * superclass for all entities (includes player, monsters...)
+ */
 public abstract class Entity {
     
     // All entities can attack, have health, have names...?
@@ -35,8 +36,10 @@ public abstract class Entity {
         this.backpack = new ArrayList<Item>();
     }
 
-    // Since all entities can have a level, we need to make a multiplier
-    // to increase or decrease damage to monsters based on level and vice versa
+    /**
+     * Since all entities can have a level, we need to make a multiplier
+     * to increase or decrease damage to monsters based on level and vice versa
+     */
     public double levelMult(int attackL, int defenderL) {
         double m = 1;
         
@@ -51,8 +54,10 @@ public abstract class Entity {
         return m;
     }
 
-    // Basic attack method this can be used by both entities
-    // Modifies damage based on entity.level and defending entity.armor
+    /**
+     * Basic attack method this can be used by both entities
+     * Modifies damage based on entity.level and defending entity.armor
+     */
     public double basicAttack(Entity defender) {
         double damageDone = 0;
         // Calculate damage multiplier and reduce attack by armor
@@ -68,6 +73,9 @@ public abstract class Entity {
         return damageDone;
     }
     
+    /**
+     * Called when the entity dies, in some cases this should be overwritten.
+     */
     public ArrayList<Item> die() {
         System.out.println(this.name + " has died. Oh look, he dropped:" );
         if(this.backpack.isEmpty()) {
