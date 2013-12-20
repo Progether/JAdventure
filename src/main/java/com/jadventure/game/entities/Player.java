@@ -23,6 +23,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class Player extends Entity {
@@ -151,11 +155,14 @@ public class Player extends Entity {
             Writer writer = new FileWriter(fileName);
             gson.toJson(jsonObject, writer);
             writer.close();
+            LocationManager.INSTANCE.writeLocations();
+            Path origFile = Paths.get("json/locations.json");
+            Path destFile = Paths.get("json/profiles/" + getName() + "/locations.json");
+            Files.copy(origFile, destFile, StandardCopyOption.REPLACE_EXISTING);
             System.out.println("Your game data was saved.");
         } catch (IOException ex) {
             System.out.println("Unable to save to file '" + fileName + "'.");
         }
-        LocationManager.INSTANCE.writeLocations();
     }
 
     public ArrayList<Item> searchItem(String itemName, ArrayList<Item> itemList) {
