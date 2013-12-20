@@ -34,6 +34,14 @@ public abstract class Entity {
         
         this.backpack = new ArrayList<Item>();
     }
+    
+    public Entity(int healthMax, int health, String name, int gold, ArrayList<Item> backpack) {
+        this.healthMax = healthMax;
+        this.health = health;
+        this.name = name;
+        this.gold = gold;
+        this.backpack = backpack;
+    }
 
     // Since all entities can have a level, we need to make a multiplier
     // to increase or decrease damage to monsters based on level and vice versa
