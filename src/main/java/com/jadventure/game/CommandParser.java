@@ -4,8 +4,11 @@ import com.jadventure.game.entities.Player;
 import com.jadventure.game.menus.DebugMenu;
 import com.jadventure.game.navigation.Direction;
 import com.jadventure.game.navigation.ILocation;
+import com.jadventure.game.monsters.MonsterFactory;
+import com.jadventure.game.monsters.Monster;
 
 import java.util.Map;
+import java.util.ArrayList;
 
 public class CommandParser {
 
@@ -38,6 +41,9 @@ public class CommandParser {
                     ILocation newLocation = exits.get(Direction.valueOf(message.toUpperCase()));
                     player.setLocation(newLocation);
                     player.getLocation().print();
+                    MonsterFactory monsterFactory = new MonsterFactory();
+                    Monster monster = monsterFactory.generateMonster(player);
+                    player.getLocation().setMonsters(monster);
                 } else {
                     System.out.println("The is no exit that way.");
                 }
@@ -48,6 +54,19 @@ public class CommandParser {
         else if (command.startsWith("pickup")) {
             String itemName = command.substring(6);
             player.pickUpItem(itemName);
+        }
+        else if (command.startsWith("monsters")){
+            ArrayList<Monster> monsterList = player.getLocation().getMonsters();
+            if (monsterList.size() > 0) {
+                System.out.println("Monsters around you:");
+                System.out.println("----------------------------");
+                for (Monster monster : monsterList) {
+                    System.out.println(monster.monsterType);
+                }
+                System.out.println("----------------------------");
+            } else {
+                System.out.println("There are no monsters around you");
+            }
         }
         else if (command.startsWith("drop")){
             String itemName = command.substring(4);

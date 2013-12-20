@@ -1,6 +1,7 @@
 package com.jadventure.game.navigation;
 
 import com.jadventure.game.items.Item;
+import com.jadventure.game.monsters.Monster;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -28,6 +29,7 @@ public class Location implements ILocation {
     private String description;
     private LocationType locationType;
     private ArrayList<String> items;
+    private ArrayList<Monster> monsters = new ArrayList<Monster>();
 
     public Location() {
 
@@ -88,6 +90,16 @@ public class Location implements ILocation {
             items.add(itemName);
         }
         return items;
+    }
+
+    public void setMonsters(Monster monster) {
+        ArrayList<Monster> list = this.monsters;
+        list.add(monster);
+        this.monsters = list;
+    }
+
+    public ArrayList<Monster> getMonsters() {
+        return this.monsters;
     }
 
     public void removePublicItem(String itemID) {

@@ -80,7 +80,7 @@ Get a list of commands with:
 
     help
 
-To get a list of monsters around you(not implemented):
+To get a list of monsters around you:
 
     monsters
 
