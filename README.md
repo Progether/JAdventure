@@ -7,8 +7,6 @@ A text-based game written in Java. It was originally created as a project of the
 
 Current diagram of this project.
 
-![alt tag](http://i.imgur.com/Fhn2dEr.png)
-
 Contributors
 -------------
 
@@ -78,7 +76,7 @@ Get a list of commands with:
 
     help
 
-To get a list of monsters around you:
+To get a list of monsters around you(not implemented):
 
     monsters
 
@@ -88,12 +86,14 @@ To get your own current status/stats:
 
 To quit the game:
 
-    quit
+    exit
 
 Todo
 ------------------
  1. Cleanup code
- 1. Remove/fix methods that don't work or are not implemented
+ 2. Remove/fix methods that don't work or are not implemented
+ 3. Write the game
+ 4. Write the story line
 
 Coding Standard/Convention/Style
 -------------------
