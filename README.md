@@ -76,17 +76,21 @@ To start a new game:
 
     start
 
+To save a game:
+
+    s
+
 Get a list of commands with:
 
-    help
+    h
 
 To get a list of monsters around you:
 
-    monsters
+    m
 
 To get your own current status/stats:
 
-    stats
+    st
 
 To quit the game:
 
@@ -101,16 +105,16 @@ To move:
 
 To pick up an item:
 
-   pickup<itemName>
+   p<itemName>
 
 To drop an item:
 
-   drop<itemName>
+   d<itemName>
 
 To equip/dequip item:
 
-   equip<itemName>
-   dequip<itemName>
+   e<itemName>
+   de<itemName>
 
 Todo
 ------------------
@@ -133,26 +137,3 @@ To help make code more readable, understandable, and consistent, each contributo
  1. Closing curly braces appear on own line unless followed by an else etc. which will be a space after the curly brace.
  1. Comments should have one space after "//"
  1. Comments 4 or greater in length should be multi-line commented
-
-Changelog
-------------
-
-16NOV2013
-- changed the variables from public to private in Entity class
-- created setters and getters in Entity class
-- added the singleton pattern in the player class so that only one player can ever be instasiated except when loading
-- changed accessing public variables of Entity to accessing them through accessor "get" methods.
-    - Instead of player.backpack it's player.getBackpack()
--cleaned up code in all the menus (PlayerMenu, DebugMenu...)
-
-14NOV2013
-- cleaned up code
-- added basics for proper items
-
-30OCT2013 
-- projectdelphai cleaned code to new project standards. 
-- Added projectdelphai as a contributor.
-- Created milestone for completing menu system.
-- started work on json menus
-- made main menu
-- started work for profile saves
