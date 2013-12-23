@@ -98,10 +98,10 @@ To quit the game:
 
 To move:
 
-   gotoNorth
-   gotoEast
-   gotoWest
-   gotoSouth
+   gn - go north
+   gs - go south
+   ge - go east
+   gw - go west
 
 To pick up an item:
 

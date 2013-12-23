@@ -9,6 +9,7 @@ import com.jadventure.game.monsters.Monster;
 
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CommandParser {
 
@@ -29,11 +30,19 @@ public class CommandParser {
         }
         else if (command.equals("s")) {
             player.save();
-        } else if (command.startsWith("goto")) {
-            String message = command.substring(4);
+        } else if (command.startsWith("g")) {
+            String message = command.substring(1);
+            HashMap<String, String> directionLinks = new HashMap<String,String>()
+            {{
+                 put("n", "north");
+                 put("s", "south");
+                 put("e", "east");
+                 put("w", "west");
+            }};
             ILocation location = player.getLocation();
 
             try {
+                message = directionLinks.get(message);
                 Direction direction = Direction.valueOf(message.toUpperCase());
                 Map<Direction, ILocation> exits = location.getExits();
 
@@ -48,11 +57,13 @@ public class CommandParser {
                     System.out.println("The is no exit that way.");
                 }
             } catch (IllegalArgumentException ex) {
-                System.out.println("The direction " + message + " does not exist.");
+                System.out.println("That direction doesn't exist");
+            } catch (NullPointerException ex) {
+                System.out.println("That direction doesn't exist");
             }
         }
         else if (command.startsWith("p")) {
-            String itemName = command.substring(6);
+            String itemName = command.substring(1);
             player.pickUpItem(itemName);
         }
         else if (command.startsWith("m")){
@@ -69,15 +80,15 @@ public class CommandParser {
             }
         }
         else if (command.startsWith("d")){
-            String itemName = command.substring(4);
+            String itemName = command.substring(1);
             player.dropItem(itemName);
         }
         else if (command.startsWith("e")) {
-            String itemName = command.substring(5);
+            String itemName = command.substring(1);
             player.equipItem(itemName);
         }
         else if (command.startsWith("de")) {
-            String itemName = command.substring(6);
+            String itemName = command.substring(2);
             player.dequipItem(itemName);
         }
         else if (command.equals("debug")) {
