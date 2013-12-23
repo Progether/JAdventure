@@ -1,4 +1,5 @@
 JAdventureGameEditor.py
+json/locations.json
 
 *.class
 *.eml
