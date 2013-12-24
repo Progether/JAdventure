@@ -18,9 +18,21 @@ import java.nio.file.Paths;
  * Date: 11/12/13
  * Time: 12:08 PM
  */
+ 
+ /**
+  * The initial menu displayed on the screen
+  * @see JAdventure
+  * 
+  * The constructor call handles all in here
+  */
 public class MainMenu extends Menus {
 
+    /**
+     * Adds MenuItems and calls the classic forever while loop
+     * to get user choice and tests them
+     */
      public MainMenu(){
+         this.menuID = 19;
          this.menuItems.add(new MenuItem("Start", "Starts a new Game", "new"));
          this.menuItems.add(new MenuItem("Load", "Loads an existing Game"));
          this.menuItems.add(new MenuItem("Exit", null, "quit"));
@@ -30,6 +42,7 @@ public class MainMenu extends Menus {
              testOption(selectedItem);
          }
      }
+    
     private static void testOption(MenuItem m) {
         Scanner input = new Scanner(System.in);
         String key = m.getKey();
@@ -68,7 +81,7 @@ public class MainMenu extends Menus {
                     System.out.println("That user doesn't exist. Try again.");
                 }
             }
-
+            // here all the real action starts
             Game game = new Game(player, "old");
         }
     }
