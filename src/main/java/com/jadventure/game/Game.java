@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * The main game class. This class contains the main loop that takes the input and
+ * This class contains the main loop that takes the input and
  * does the according actions.
  */
 public class Game {
@@ -38,8 +38,8 @@ public class Game {
     
     /**
      * Starts a new game.
-     * It prints the intro first and asks for the name of the players character
-     * and welcomes him/her. After that it goes to the normal game prompt.
+     * It prints the intro first and asks for the name of the player's character
+     * and welcomes him/her. After that, it goes to the normal game prompt.
      */
     public void newGameStart(Player player) {
         System.out.println(player.getIntro());
@@ -65,23 +65,5 @@ public class Game {
             String command = input.next().toLowerCase();
             continuePrompt = parser.parse(player, command, continuePrompt);
         }
-    }
-
-    // COMMANDS
-    // Command is being used for debugging at this time
-    // is this still used?
-    private void attackStats(Entity player, Entity monster) {
-        System.out.println("----------------------------------");
-        System.out.println("p_damage: " + this.player.getDamage());
-        System.out.println("m_armour: " + monster.getArmour());
-        System.out.println("mh_before: " + monster.getArmour());
-        System.out.println("mh_after: " + monster.getHealth());
-        System.out.println("----------------------------------");
-        System.out.println("----------------------------------");
-        System.out.println("m_damage: " + monster.getDamage());
-        System.out.println("p_armour: " + this.player.getArmour());
-        System.out.println("ph_before: " + this.player.getHealth());
-        System.out.println("ph_after: " + this.player.getHealth());
-        System.out.println("----------------------------------");
     }
 }

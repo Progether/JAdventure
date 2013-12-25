@@ -73,9 +73,6 @@ public abstract class Entity {
         return damageDone;
     }
     
-    /**
-     * Called when the entity dies, in some cases this should be overwritten.
-     */
     public ArrayList<Item> die() {
         System.out.println(this.name + " has died. Oh look, he dropped:" );
         if(this.backpack.isEmpty()) {
@@ -87,7 +84,6 @@ public abstract class Entity {
         }
         return this.backpack;
     }
-    // Setters and Getters
     
     public int getHealth() {
         return this.health;

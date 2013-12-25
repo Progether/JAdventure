@@ -8,15 +8,8 @@ import java.util.Scanner;
 
 /**
  * Creating a new menu
- * ======
- * MenuID
- * ======
- * System-level should be 1 - 19
- * Player-level should be 20-50
- * Debug-level should be 90-100
  */
 public class Menus {
-    protected int menuID;
     protected List<MenuItem> menuItems = new ArrayList<MenuItem>();
     protected Map<String, MenuItem> commandMap = new HashMap<String, MenuItem>();
 
