@@ -37,6 +37,5 @@ public class DebugMenu extends Menus {
     private static void testOption(MenuItem m){
         Scanner input = new Scanner(System.in);
         String key = m.getKey();
-        //TODO: put the options in here, check PlayerMenu for equivelent code
     }
 }
