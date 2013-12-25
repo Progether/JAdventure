@@ -6,48 +6,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-
 /**
- * All menus in JAdventure extend this class
- * 
- * Add MenuItems to menuItems, call displayMenu method and you're happy
+ * Created with IntelliJ IDEA.
+ * User: Cage
+ * Date: 04/11/13
+ * Time: 11:09 PM
+ * To change this template use File | Settings | File Templates.
+ *
+ * Creating a new menu
+ * ======
+ * MenuID
+ * ======
+ * System-level should be 1 - 19
+ * Player-level should be 20-50
+ * Debug-level should be 90-100
  */
 public class Menus {
-    /**
-     * menuID has currently not much of a purpose
-     * only DebugMenu uses it for now
-     * 
-     * Use these values in future
-     * System-level should be 1 - 19
-     * Player-level should be 20-50
-     * Debug-level should be 90-100
-     */
     protected int menuID;
-    
-    /**
-     * The collection of menuItems to be presented on screen
-     * Add your MenuItems to this List
-     * 
-     * @see MenuItem
-     */ 
     protected List<MenuItem> menuItems = new ArrayList<MenuItem>();
-    
-    /**
-     * Map of the command strings to be accepted from user to the MenuItem
-     */
     protected Map<String, MenuItem> commandMap = new HashMap<String, MenuItem>();
 
-    /**
-     * Maps the MenuItems and calls other methods in this class
-     * to return a option selected by user
-     * 
-     * MenuItems are mapped both by their integer option
-     * number(starting from 1) and their command strings
-     * 
-     * @param m The List to be displayed
-     * 
-     * @return The MenuItem selected ny user
-     */
     public MenuItem displayMenu(List<MenuItem> m) {
         int i = 1;
         for (MenuItem menuItem: m) {
@@ -63,11 +41,6 @@ public class Menus {
         return selectedItem;
     }
 
-    /**
-     * @param m The List to be displayed
-     * 
-     * @return The user selected MenuItem
-     */
     protected MenuItem selectMenu(List<MenuItem> m) {
         this.printMenuItems(m);
 
@@ -81,14 +54,6 @@ public class Menus {
         }
     }
 
-<<<<<<< HEAD
-    /**
-     * You won't be calling this
-     * 
-     * @param m The List to be displayed
-     */
-=======
->>>>>>> origin/master
     private void printMenuItems(List<MenuItem> m) {
         int i = 1;
         for (MenuItem menuItem: m) {

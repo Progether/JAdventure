@@ -7,14 +7,8 @@ import com.jadventure.game.Game;
 
 import java.util.Scanner;
 
-/**
- * Menu to choose the class of the player
- * 
- * Just call the constructor ChooseClassMenu for the rest
- */
 public class ChooseClassMenu extends Menus {
 
-    
     public ChooseClassMenu() {
         this.menuItems.add(new MenuItem("Recruit", "A soldier newly enlisted to guard the city of Silliya"));
         this.menuItems.add(new MenuItem("SewerRat", "A member of the underground of Silliya"));
