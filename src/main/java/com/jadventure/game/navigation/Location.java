@@ -1,6 +1,7 @@
 package com.jadventure.game.navigation;
 
 import com.jadventure.game.items.Item;
+import com.jadventure.game.monsters.Monster;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -28,6 +29,7 @@ public class Location implements ILocation {
     private String description;
     private LocationType locationType;
     private ArrayList<String> items;
+    private ArrayList<Monster> monsters = new ArrayList<Monster>();
 
     public Location() {
 
@@ -69,7 +71,7 @@ public class Location implements ILocation {
         Map<Direction, ILocation> exits = new HashMap<Direction, ILocation>();
         ILocation borderingLocation;
         for(Direction direction: Direction.values()) {
-            borderingLocation = LocationManager.getLocation(getCoordinate().getBorderingCoordinate(direction));
+            borderingLocation = LocationManager.INSTANCE.getLocation(getCoordinate().getBorderingCoordinate(direction));
             if (borderingLocation != null) {
                 exits.put(direction, borderingLocation);
             }
@@ -81,23 +83,45 @@ public class Location implements ILocation {
         this.items = items;
     }
 
-    public ArrayList<String> getItems() {
-        ArrayList<String> items = new ArrayList<String>();
+    public ArrayList<Item> getItems() {
+        ArrayList<Item> items = new ArrayList<Item>();
         for (String itemId : this.items) {
-            String itemName = new Item(itemId).getName();
+            Item itemName = new Item(itemId);
             items.add(itemName);
         }
         return items;
     }
 
+    public void setMonsters(Monster monster) {
+        ArrayList<Monster> list = this.monsters;
+        list.add(monster);
+        this.monsters = list;
+    }
+
+    public ArrayList<Monster> getMonsters() {
+        return this.monsters;
+    }
+
+    public void removePublicItem(String itemID) {
+        ArrayList<String> items = this.items;
+        items.remove(itemID);
+        setItems(items);
+    }
+
+    public void addPublicItem(String itemID) {
+        ArrayList<String> items = this.items;
+        items.add(itemID);
+        setItems(items);
+    }
+
     public void print() {
         System.out.println(getTitle() + ":");
         System.out.println(getDescription());
-        ArrayList<String> publicItems = getItems();
+        ArrayList<Item> publicItems = getItems();
         if (!publicItems.isEmpty()) {
             System.out.println("Items:");
-            for (String item : publicItems) {
-                System.out.println("    "+item);
+            for (Item item : publicItems) {
+                System.out.println("    "+item.getName());
             }
         }
         System.out.println();

@@ -6,12 +6,24 @@ import java.util.Scanner;
 import com.jadventure.game.Game;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.menus.ChooseClassMenu;
+import java.io.IOException;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Hawk554
  * Date: 11/12/13
  * Time: 12:08 PM
+ */
+
+/**
+ * The first menu diplayed on user screen
+ * @see JAdventure
+ *
+ * The constructor call handles al in here
  */
 public class MainMenu extends Menus {
 
@@ -29,6 +41,14 @@ public class MainMenu extends Menus {
         Scanner input = new Scanner(System.in);
         String key = m.getKey();
         if(key.equals("start")) {
+            try {
+                Path origFile = Paths.get("json/original_data/locations.json");
+                Path destFile = Paths.get("json/locations.json");
+                Files.copy(origFile, destFile, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                System.out.println("Cannot copy original locations.json");
+                e.printStackTrace();
+            }
             new ChooseClassMenu();
         }
         else if(key.equals("exit")) {
@@ -42,6 +62,14 @@ public class MainMenu extends Menus {
             while (player == null) {
                 key = input.next();
                 if (Player.profileExists(key)) {
+                    try {
+                        Path origFile = Paths.get("json/profiles/" + key + "/locations.json");
+                        Path destFile = Paths.get("json/locations.json");
+                        Files.copy(origFile, destFile, StandardCopyOption.REPLACE_EXISTING);
+                    } catch (IOException e) {
+                        System.out.println("Cannot copy original locations.json");
+                        e.printStackTrace();
+                    }
                     player = Player.load(key);
                 } else {
                     System.out.println("That user doesn't exist. Try again.");
