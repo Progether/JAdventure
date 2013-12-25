@@ -18,6 +18,13 @@ import java.nio.file.Paths;
  * Date: 11/12/13
  * Time: 12:08 PM
  */
+
+/**
+ * The first menu diplayed on user screen
+ * @see JAdventure
+ *
+ * The constructor call handles al in here
+ */
 public class MainMenu extends Menus {
 
      public MainMenu(){

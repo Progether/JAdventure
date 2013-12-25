@@ -7,21 +7,24 @@ import java.util.Map;
 import java.util.Scanner;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Cage
- * Date: 04/11/13
- * Time: 11:09 PM
- * To change this template use File | Settings | File Templates.
- *
  * Creating a new menu
  * ======
  * MenuID
  * ======
- * System-level should be 1 - 19
- * Player-level should be 20-50
- * Debug-level should be 90-100
+  */
+
+/**
+ * All menus in JAdventure extend this class
+ * Add MenuItems to menuItems, call displayMenu and you're happy
  */
 public class Menus {
+    /**
+     * menuID is no longer user but still 
+     *
+     * System-level should be 1 - 19
+     * Player-level should be 20-50
+     * Debug-level should be 90-100
+     */
     protected int menuID;
     protected List<MenuItem> menuItems = new ArrayList<MenuItem>();
     protected Map<String, MenuItem> commandMap = new HashMap<String, MenuItem>();
@@ -41,6 +44,7 @@ public class Menus {
         return selectedItem;
     }
 
+    // calls for user input from command line
     protected MenuItem selectMenu(List<MenuItem> m) {
         this.printMenuItems(m);
 
