@@ -1,8 +1,5 @@
 package com.jadventure.game.navigation;
 
-import com.jadventure.game.items.Item;
-import com.jadventure.game.monsters.Monster;
-
 import java.util.Map;
 import java.util.ArrayList;
 
@@ -19,10 +16,6 @@ public interface ILocation {
     public String getDescription();
     public LocationType getLocationType();
     public Map<Direction, ILocation> getExits();
-    public ArrayList<Item> getItems();
-    public void removePublicItem(String itemID);
-    public void addPublicItem(String itemID);
-    public void setMonsters(Monster monster);
-    public ArrayList<Monster> getMonsters();
+    public ArrayList<String> getItems();
     public void print();
 }

@@ -7,8 +7,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 /**
- * All menus in JAdventure extend this class
- * Add MenuItems to menuItems, call displayMenu and you're happy
+ * Creating a new menu
  */
 public class Menus {
     protected List<MenuItem> menuItems = new ArrayList<MenuItem>();
@@ -29,7 +28,6 @@ public class Menus {
         return selectedItem;
     }
 
-    // calls for user input from command line
     protected MenuItem selectMenu(List<MenuItem> m) {
         this.printMenuItems(m);
 

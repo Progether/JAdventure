@@ -4,7 +4,6 @@ import com.jadventure.game.entities.Entity;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
-import com.jadventure.game.navigation.LocationManager;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -23,8 +22,7 @@ public class Game {
     Player player = null;
 
     public Game(Player player, String playerType) {
-        player.setLocation(LocationManager.INSTANCE.getInitialLocation());
-        if (playerType.equals("new")) { // New Game
+        if (playerType.equals("new")) {
             this.player = player;
             newGameStart(player);
         } else if (playerType.equals("old")) {
@@ -64,7 +62,7 @@ public class Game {
         boolean continuePrompt = true;
         while (continuePrompt) {
             System.out.println("Prompt:");
-            String command = input.nextLine().toLowerCase();
+            String command = input.next().toLowerCase();
             continuePrompt = parser.parse(player, command, continuePrompt);
         }
     }

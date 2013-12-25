@@ -7,17 +7,15 @@ A text-based game written in Java. It was originally created as a project of the
 
 Current diagram of this project.
 
+![alt tag](http://i.imgur.com/Fhn2dEr.png)
+
 Contributors
 -------------
 
  1. [Hawk554](https://github.com/hawk554)
  1. [projectdelphai](https://github.com/projectdelphai)
  1. [CageHN](https://github.com/CageHN)
- 1. [kzisme](https://github.com/kzisme)
- 1. [blackwolf12333](https://github.com/blackwolf12333)
- 1. [MikesNorth](https://github.com/mikesnorth)
- 1. [pthayer3](https://github.com/pthayer3)
- 1. [Reinecker](https://github.com/reinecker)
+ 2. [blackwolf12333](https://github.com/blackwolf12333)
 
 Usage
 -------------
@@ -76,52 +74,26 @@ To start a new game:
 
     start
 
-To save a game:
-
-    s
-
 Get a list of commands with:
 
-    h
+    help
 
 To get a list of monsters around you:
 
-    m
+    monsters
 
 To get your own current status/stats:
 
-    st
+    stats
 
 To quit the game:
 
-    exit
-
-To move:
-
-   gn - go north
-   gs - go south
-   ge - go east
-   gw - go west
-
-To pick up an item:
-
-   p<itemName>
-
-To drop an item:
-
-   d<itemName>
-
-To equip/dequip item:
-
-   e<itemName>
-   de<itemName>
+    quit
 
 Todo
 ------------------
  1. Cleanup code
- 2. Remove/fix methods that don't work or are not implemented
- 3. Write the game
- 4. Write the story line
+ 1. Remove/fix methods that don't work or are not implemented
 
 Coding Standard/Convention/Style
 -------------------
@@ -137,3 +109,26 @@ To help make code more readable, understandable, and consistent, each contributo
  1. Closing curly braces appear on own line unless followed by an else etc. which will be a space after the curly brace.
  1. Comments should have one space after "//"
  1. Comments 4 or greater in length should be multi-line commented
+
+Changelog
+------------
+
+16NOV2013
+- changed the variables from public to private in Entity class
+- created setters and getters in Entity class
+- added the singleton pattern in the player class so that only one player can ever be instasiated except when loading
+- changed accessing public variables of Entity to accessing them through accessor "get" methods.
+    - Instead of player.backpack it's player.getBackpack()
+-cleaned up code in all the menus (PlayerMenu, DebugMenu...)
+
+14NOV2013
+- cleaned up code
+- added basics for proper items
+
+30OCT2013 
+- projectdelphai cleaned code to new project standards. 
+- Added projectdelphai as a contributor.
+- Created milestone for completing menu system.
+- started work on json menus
+- made main menu
+- started work for profile saves

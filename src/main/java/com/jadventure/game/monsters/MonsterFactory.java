@@ -9,7 +9,8 @@ import java.util.Random;
  */
 public class MonsterFactory {
     Random random = new Random();
-    public Monster generateMonster(Player player) {
+    public Monster generateMonster() {
+        Player player = Player.getInstance("recruit");
         switch (player.getLocationType()) {
             case FOREST:
                 return getForestMonster(player.getLevel());

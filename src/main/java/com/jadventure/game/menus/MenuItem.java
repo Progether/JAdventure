@@ -10,12 +10,6 @@ import java.util.Set;
  * Time: 08:39 PM
  * To change this template use File | Settings | File Templates.
  */
-
-/**
- * Represents a single Menu Option in Menus
- * @see Menus
- * 
- */
 public class MenuItem {
     protected String command;
     protected String description;
@@ -58,7 +52,6 @@ public class MenuItem {
     }
 
     // Used for switch in menus
-    // Used in place of getCommand method for comparison against user input
     public String getKey() {
         return getCommand().toLowerCase();
     }
