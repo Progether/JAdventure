@@ -3,9 +3,7 @@ JAdventure
 
 Description
 -------------
-A text-based game written in Java. It was originally created as a project of the [progether subreddit](http://www.reddit.com/r/progether) and worked on by Applzor, add7, geniuus, Malfunction, bdong_, Qasaur, and rock-fish. It has been revived by Hawk554.
-
-Current diagram of this project.
+A text-based game written in Java. It was originally created as a project of the [progether subreddit](http://www.reddit.com/r/progether) and worked on by Applzor, add7, geniuus, Malfunction, bdong_, Qasaur, and rock-fish. It was revived by Hawk554.
 
 Contributors
 -------------
@@ -19,26 +17,23 @@ Contributors
  1. [pthayer3](https://github.com/pthayer3)
  1. [Reinecker](https://github.com/reinecker)
 
-Usage
--------------
-To move in a new direction:
-
-    gotoNORTH, gotoSOUTH, gotoEAST, gotoWEST
-
-
 Contributing
 -------------
 
  1. Create an issue (optional)
  1. Fork the codebase
+ 1. Clone your fork
  1. Create a branch
 
       git branch <branchName>
       git checkout <branchName>
 
  1. Make your changes
- 1. Write tests (optional)
- 1. Make a pull request between your branch and the Hawk554's master
+ 1. Push to your branch
+
+      git push origin <branchName>
+
+ 1. Make a pull request between your branch and the progether master
 
 Setting Up The Game For Development or Gameplay
 -----------------
@@ -46,17 +41,6 @@ Setting Up The Game For Development or Gameplay
 You can download the game with:
 
     git clone https://github.com/hawk554/JAdventure
-
-###The Manual Way###
-
-cd to src/JAdventure
-Compile the game files in with:
-
-    javac *
-
-Then start the game with:
-
-    java TextAdventure
 
 ###Run with Ant###
 
@@ -115,13 +99,6 @@ To equip/dequip item:
 
    e<itemName>
    de<itemName>
-
-Todo
-------------------
- 1. Cleanup code
- 2. Remove/fix methods that don't work or are not implemented
- 3. Write the game
- 4. Write the story line
 
 Coding Standard/Convention/Style
 -------------------
