@@ -5,10 +5,7 @@ import com.jadventure.game.entities.Player;
 import java.util.Scanner;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Hawk554
- * Date: 11/12/13
- * Time: 2:15 PM
+ * Debug menu, it's not implemented completely.
  */
 public class DebugMenu extends Menus {
     public static Player player;
@@ -27,12 +24,10 @@ public class DebugMenu extends Menus {
         this.menuItems.add(new MenuItem("Exit", "Exits Debug Menu"));
 
         boolean continueMenu = true;
-        // == true not neccessary below
         while (continueMenu) {
             MenuItem selectedItem = displayMenu(this.menuItems);
             testOption(selectedItem);
-            
-            //if the person didn't select exit, the game continues
+
             continueMenu = !didSelectExit(selectedItem);
         }
     }
@@ -42,7 +37,6 @@ public class DebugMenu extends Menus {
     private static void testOption(MenuItem m){
         Scanner input = new Scanner(System.in);
         String key = m.getKey();
-        //put the options in here, check PlayerMenu for equivelent code
-         
+        //TODO: put the options in here, check PlayerMenu for equivelent code
     }
 }

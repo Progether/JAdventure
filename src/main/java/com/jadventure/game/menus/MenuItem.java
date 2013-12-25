@@ -10,17 +10,43 @@ import java.util.Set;
  * Time: 08:39 PM
  * To change this template use File | Settings | File Templates.
  */
+ 
+/**
+ * Object representation of a menu option
+ * Used in @see Menus
+ */
 public class MenuItem {
+    /**
+     * The displayed option string in Menu
+     * Get it from @see #getKey() in its lowercase form for comparison
+     */
     protected String command;
+    
+    /**
+     * Biography of the command
+     */
     protected String description;
+    
+    /**
+     * The alternative commands that the user input can be matched to
+     */
     protected Set<String> altCommands;
 
+    /**
+     * @param command @see #command
+     * @param description @see #description
+     */
     public MenuItem(String command, String description) {
         this.command = command;
         this.description = description;
         this.altCommands = new HashSet<String>();
     }
-
+    
+    /**
+     * @param command @see #command
+     * @param description @see #command
+     * @param altCommands @see #altCommands
+     */
     public MenuItem(String command, String description, String... altCommands) {
         this(command, description);
         for (String altCommand: altCommands)
@@ -51,7 +77,9 @@ public class MenuItem {
         this.altCommands = altCommands;
     }
 
-    // Used for switch in menus
+    /**
+     * @return command in lowercase
+     */
     public String getKey() {
         return getCommand().toLowerCase();
     }
