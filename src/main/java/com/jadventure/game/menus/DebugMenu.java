@@ -68,6 +68,7 @@ public class DebugMenu extends Menus {
 			player.setGold(Integer.parseInt(newValStr));
 		}
 		else if(key.startsWith("pbackpack")){
+            new BackpackDebugMenu(player);
 		}
 		else if(key.equals("stats"))
 			player.getStats();
