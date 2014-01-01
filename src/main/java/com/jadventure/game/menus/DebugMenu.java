@@ -22,7 +22,7 @@ public class DebugMenu extends Menus {
         this.menuItems.add(new MenuItem("pArmour", "Modify Player Armour"));
         this.menuItems.add(new MenuItem("pLevel", "Modify Player Level"));
         this.menuItems.add(new MenuItem("pGold", "Modify Player Gold"));
-        this.menuItems.add(new MenuItem("pGold", "Modify Player Backpack"));
+        this.menuItems.add(new MenuItem("pBackpack", "Modify Player Backpack"));
         this.menuItems.add(new MenuItem("Stats", "Display current player stats"));
         this.menuItems.add(new MenuItem("Exit", "Exits Debug Menu"));
 
@@ -42,35 +42,55 @@ public class DebugMenu extends Menus {
     private static void testOption(MenuItem m){
         Scanner input = new Scanner(System.in);
         String key = m.getKey();
-		
-		if(key.startsWith("pattack")){
-			String newValStr = key.substring(7).trim();
-			player.setDamage(Integer.parseInt(newValStr));
-		}
-		else if(key.startsWith("pmaxhealth")){
-			String newValStr = key.substring(10).trim();
-			player.setHealthMax(Integer.parseInt(newValStr));
-		}
-		else if(key.startsWith("phealth")){
-			String newValStr = key.substring(7).trim();
-			player.setHealth(Integer.parseInt(newValStr));
-		}
-		else if(key.startsWith("parmour")){
-			String newValStr = key.substring(7).trim();
-			player.setArmour(Integer.parseInt(newValStr));
-		}
-		else if(key.startsWith("plevel")){
-			String newValStr = key.substring(6).trim();
-			player.setLevel(Integer.parseInt(newValStr));
-		}
-		else if(key.startsWith("pgold")){
-			String newValStr = key.substring(5).trim();
-			player.setGold(Integer.parseInt(newValStr));
-		}
-		else if(key.startsWith("pbackpack")){
-            new BackpackDebugMenu(player);
-		}
-		else if(key.equals("stats"))
-			player.getStats();
+
+        try{
+            if(key.equals("pattack")){
+                System.out.println("Current attack : " + player.getDamage());
+                System.out.print("Enter new attack : ");
+                int newVal = input.nextInt();
+                player.setDamage(newVal);
+            }
+            else if(key.equals("pmaxhealth")){
+                System.out.println("Current maximum health : " + player.getHealthMax());
+                System.out.print("Enter new maximum health : ");
+                int newVal = input.nextInt();
+                player.setHealthMax(newVal);
+                player.setHealth(newVal < player.getHealth() ? newVal : player.getHealth());
+            }
+            else if(key.equals("phealth")){
+                System.out.println("Current health : " + player.getHealth());
+                System.out.print("Enter new health : ");
+                int newVal = input.nextInt();
+                // we don't want collision values, do we?
+                if(newVal > player.getHealthMax())
+                    player.setHealthMax(newVal);
+                player.setHealth(newVal);
+            }
+            else if(key.equals("parmour")){
+                System.out.println("Current armour : " + player.getArmour());
+                System.out.print("New armour value : ");
+                int newVal = input.nextInt();
+                player.setArmour(newVal);
+            }
+            else if(key.equals("plevel")){
+                System.out.println("Current level : " + player.getArmour());
+                System.out.print("New level : ");
+                int newVal = input.nextInt();
+                player.setLevel(newVal);
+            }
+            else if(key.equals("pgold")){
+                System.out.println("Current gold : " + player.getArmour());
+                System.out.print("New gold amount : ");
+                int newVal = input.nextInt();
+                player.setGold(newVal);
+            }
+		    else if(key.equals("pbackpack")){
+                new BackpackDebugMenu(player);
+		    }
+		    else if(key.equals("stats"))
+			    player.getStats();
+        } catch(NumberFormatException e){
+            System.out.println("Value not acceptable");
+        }
     }
 }

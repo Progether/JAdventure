@@ -5,6 +5,8 @@ import com.jadventure.game.menus.Menus;
 import com.jadventure.game.menus.MenuItem;
 import com.jadventure.game.entities.Player;
 
+import java.util.Scanner;
+
 /**
  * BackpackDebugMenu is for editing the backpack contents
  * during debugging
@@ -27,20 +29,23 @@ class BackpackDebugMenu extends Menus{
 	}
 	public static boolean testOption(MenuItem item){
 		String key = item.getKey();
+        Scanner input = new Scanner(System.in);
 		boolean continueMenu = true;
 		
-		if(key.startsWith("add")){
-			Item appendItem = new Item(key.substring(3).trim());
+		if(key.equals("add")){
+            System.out.println("Enter item name :");
+			Item appendItem = new Item(input.next());
             player.addItemToBackpack(appendItem);
 			// TODO : check that the item is real, I mean is a valid game item
 		}
-		else if(key.startsWith("remove")){
-			String removeItem = key.substring(6).trim();
+		else if(key.equals("remove")){
+            System.out.println("Enter item name :");
+			String removeItem = input.next();
 			player.dropItem(removeItem);
 		}
-		else if(key.trim().equals("list"))
+		else if(key.equals("list"))
 			player.printBackPack();
-		else if(key.trim().equals("exit"))
+		else if(key.equals("exit"))
 			continueMenu = false;
 		
 		return continueMenu;

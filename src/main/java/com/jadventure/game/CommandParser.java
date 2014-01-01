@@ -79,6 +79,13 @@ public class CommandParser {
                 System.out.println("There are no monsters around you");
             }
         }
+        else if (command.equals("debug")) {
+            new DebugMenu(player);
+        }
+        else if (command.startsWith("de")) {
+            String itemName = command.substring(2);
+            player.dequipItem(itemName);
+        }
         else if (command.startsWith("d")){
             String itemName = command.substring(1);
             player.dropItem(itemName);
@@ -87,13 +94,7 @@ public class CommandParser {
             String itemName = command.substring(1);
             player.equipItem(itemName);
         }
-        else if (command.startsWith("de")) {
-            String itemName = command.substring(2);
-            player.dequipItem(itemName);
-        }
-        else if (command.equals("debug")) {
-            new DebugMenu(player);
-        } else if (command.equals("exit")) {
+        else if (command.equals("exit")) {
             continuePrompt = false;
         }
         return continuePrompt;
