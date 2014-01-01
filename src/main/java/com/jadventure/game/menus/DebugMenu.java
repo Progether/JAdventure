@@ -42,7 +42,34 @@ public class DebugMenu extends Menus {
     private static void testOption(MenuItem m){
         Scanner input = new Scanner(System.in);
         String key = m.getKey();
-        //put the options in here, check PlayerMenu for equivelent code
-         
+		
+		if(key.startsWith("pattack")){
+			String newValStr = key.substring(7).trim();
+			player.setDamage(Integer.parseInt(newValStr));
+		}
+		else if(key.startsWith("pmaxhealth")){
+			String newValStr = key.substring(10).trim();
+			player.setHealthMax(Integer.parseInt(newValStr));
+		}
+		else if(key.startsWith("phealth")){
+			String newValStr = key.substring(7).trim();
+			player.setHealth(Integer.parseInt(newValStr));
+		}
+		else if(key.startsWith("parmour")){
+			String newValStr = key.substring(7).trim();
+			player.setArmour(Integer.parseInt(newValStr));
+		}
+		else if(key.startsWith("plevel")){
+			String newValStr = key.substring(6).trim();
+			player.setLevel(Integer.parseInt(newValStr));
+		}
+		else if(key.startsWith("pgold")){
+			String newValStr = key.substring(5).trim();
+			player.setGold(Integer.parseInt(newValStr));
+		}
+		else if(key.startsWith("pbackpack")){
+		}
+		else if(key.equals("stats"))
+			player.getStats();
     }
 }
