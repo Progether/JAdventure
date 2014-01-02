@@ -10,6 +10,8 @@ import java.util.Scanner;
 /**
  * BackpackDebugMenu is for editing the backpack contents
  * during debugging
+ *
+ * Items are added by their names and removed by their display name
  */
 class BackpackDebugMenu extends Menus{
 	public static Player player;
@@ -34,13 +36,13 @@ class BackpackDebugMenu extends Menus{
 		
 		if(key.equals("add")){
             System.out.println("Enter item name :");
-			Item appendItem = new Item(input.next());
-            player.addItemToBackpack(appendItem);
-			// TODO : check that the item is real, I mean is a valid game item
+			Item appendItem = new Item(input.nextLine());
+            if(appendItem.getName() != null)
+                player.addItemToBackpack(appendItem);
 		}
 		else if(key.equals("remove")){
             System.out.println("Enter item name :");
-			String removeItem = input.next();
+			String removeItem = input.nextLine();
 			player.dropItem(removeItem);
 		}
 		else if(key.equals("list"))
