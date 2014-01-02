@@ -9,7 +9,8 @@ import java.util.Random;
  */
 public class MonsterFactory {
     Random random = new Random();
-    public Monster generateMonster(Player player) {
+    public Monster generateMonster() {
+        Player player = Player.getInstance("recruit");
         switch (player.getLocationType()) {
             case FOREST:
                 return getForestMonster(player.getLevel());
@@ -24,7 +25,8 @@ public class MonsterFactory {
             default: // any non-hostile location
                 return null;
         }
-    } // end generateMonster
+    }
+
     private Monster getForestMonster(int playerLevel) {
         int randomInt = random.nextInt(4);
         if (randomInt == 0)
@@ -33,11 +35,13 @@ public class MonsterFactory {
         	return new Troll(playerLevel);
         else
         	return new Goblin(playerLevel);
-    } // end getForestMonster
+    }
+    
     private Monster getSwampMonster(int playerLevel) {
     	int randomInt = random.nextInt(2);
         return (randomInt == 1) ? new Goblin(playerLevel) : new Troll(playerLevel);
-    } // end getSwampMonster
+    }
+    
     private Monster getMountainMonster(int playerLevel) {
     	int randomInt = random.nextInt(4);
         if (randomInt == 0)
@@ -48,7 +52,8 @@ public class MonsterFactory {
             return new Wolf(playerLevel);
         else
             return new Skeleton(playerLevel);
-    } // end getMountainMonster
+    }
+
     private Monster getCaveMonster(int playerLevel) {
     	int randomInt = random.nextInt(3);
         if (randomInt == 0)
@@ -57,9 +62,10 @@ public class MonsterFactory {
             return new Skeleton(playerLevel);
         else
             return new Goblin(playerLevel);
-    } // end getCaveMonster
+    }
+
     private Monster getPlainsMonster(int playerLevel) {
     	int randomInt = random.nextInt(2);
     	return (randomInt == 1) ? new Bugbear(playerLevel) : new Goblin(playerLevel);
-    } // end getPlainsMonster
-} // end MonsterFactory
+    }
+}
