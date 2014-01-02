@@ -12,6 +12,9 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+ * This class deals with parsing and interacting with an item.
+ */
 public class Item {
     private String name;
 
@@ -24,6 +27,7 @@ public class Item {
         return this.name;
     }
 
+    // gets data about an item based on an ID
     public HashMap<String,String> lookUpItem(String itemID) {
         HashMap<String,HashMap> items = loadItems();
         for (Map.Entry<String,HashMap> entry : items.entrySet()) {

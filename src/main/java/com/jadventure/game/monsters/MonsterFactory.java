@@ -3,6 +3,7 @@ package com.jadventure.game.monsters;
 import com.jadventure.game.entities.Player;
 
 import java.util.Random;
+
 /**
  * the MonsterFactory generates random monsters appropriately according
  * to the players level and location
