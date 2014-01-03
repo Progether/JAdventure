@@ -16,11 +16,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Cage
- * Date: 23/11/13
- * Time: 10:51 PM
- * To change this template use File | Settings | File Templates.
+ * This class loads the locations from the locations.json file on start.
+ * It also provides methods for getting the initial location and the current location.
  */
 public class LocationManager {
     private static final String FILE_NAME = "json/locations.json";
@@ -35,6 +32,8 @@ public class LocationManager {
 
             JsonObject json = parser.parse(reader).getAsJsonObject();
 
+            // For every location in the locations.file, it parses the location uses loadLocation() and adds it
+            // to the locations Map.
             for(Map.Entry<String, JsonElement> entry: json.entrySet()) {
                 locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));
             }
