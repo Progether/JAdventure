@@ -3,11 +3,7 @@ JAdventure
 
 Description
 -------------
-A text-based game written in Java. It was originally created as a project of the [progether subreddit](http://www.reddit.com/r/progether) and worked on by Applzor, add7, geniuus, Malfunction, bdong_, Qasaur, and rock-fish. It has been revived by Hawk554.
-
-Current diagram of this project.
-
-![alt tag](http://i.imgur.com/Fhn2dEr.png)
+A text-based game written in Java. It was originally created as a project of the [progether subreddit](http://www.reddit.com/r/progether) and worked on by Applzor, add7, geniuus, Malfunction, bdong_, Qasaur, and rock-fish. It was revived by Hawk554.
 
 Contributors
 -------------
@@ -15,27 +11,29 @@ Contributors
  1. [Hawk554](https://github.com/hawk554)
  1. [projectdelphai](https://github.com/projectdelphai)
  1. [CageHN](https://github.com/CageHN)
-
-Usage
--------------
-To move in a new direction:
-
-    gotoNORTH, gotoSOUTH, gotoEAST, gotoWEST
-
+ 1. [kzisme](https://github.com/kzisme)
+ 1. [blackwolf12333](https://github.com/blackwolf12333)
+ 1. [MikesNorth](https://github.com/mikesnorth)
+ 1. [pthayer3](https://github.com/pthayer3)
+ 1. [Reinecker](https://github.com/reinecker)
 
 Contributing
 -------------
 
  1. Create an issue (optional)
  1. Fork the codebase
+ 1. Clone your fork
  1. Create a branch
 
       git branch <branchName>
       git checkout <branchName>
 
  1. Make your changes
- 1. Write tests (optional)
- 1. Make a pull request between your branch and the Hawk554's master
+ 1. Push to your branch
+
+      git push origin <branchName>
+
+ 1. Make a pull request between your branch and the progether master
 
 Setting Up The Game For Development or Gameplay
 -----------------
@@ -43,17 +41,6 @@ Setting Up The Game For Development or Gameplay
 You can download the game with:
 
     git clone https://github.com/hawk554/JAdventure
-
-###The Manual Way###
-
-cd to src/JAdventure
-Compile the game files in with:
-
-    javac *
-
-Then start the game with:
-
-    java TextAdventure
 
 ###Run with Ant###
 
@@ -73,26 +60,45 @@ To start a new game:
 
     start
 
+To save a game:
+
+    s
+
 Get a list of commands with:
 
-    help
+    h
 
 To get a list of monsters around you:
 
-    monsters
+    m
 
 To get your own current status/stats:
 
-    stats
+    st
 
 To quit the game:
 
-    quit
+    exit
 
-Todo
-------------------
- 1. Cleanup code
- 1. Remove/fix methods that don't work or are not implemented
+To move:
+
+   gn - go north
+   gs - go south
+   ge - go east
+   gw - go west
+
+To pick up an item:
+
+   p<itemName>
+
+To drop an item:
+
+   d<itemName>
+
+To equip/dequip item:
+
+   e<itemName>
+   de<itemName>
 
 Coding Standard/Convention/Style
 -------------------
@@ -108,26 +114,3 @@ To help make code more readable, understandable, and consistent, each contributo
  1. Closing curly braces appear on own line unless followed by an else etc. which will be a space after the curly brace.
  1. Comments should have one space after "//"
  1. Comments 4 or greater in length should be multi-line commented
-
-Changelog
-------------
-
-16NOV2013
-- changed the variables from public to private in Entity class
-- created setters and getters in Entity class
-- added the singleton pattern in the player class so that only one player can ever be instasiated except when loading
-- changed accessing public variables of Entity to accessing them through accessor "get" methods.
-    - Instead of player.backpack it's player.getBackpack()
--cleaned up code in all the menus (PlayerMenu, DebugMenu...)
-
-14NOV2013
-- cleaned up code
-- added basics for proper items
-
-30OCT2013 
-- projectdelphai cleaned code to new project standards. 
-- Added projectdelphai as a contributor.
-- Created milestone for completing menu system.
-- started work on json menus
-- made main menu
-- started work for profile saves

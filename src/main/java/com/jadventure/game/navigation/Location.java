@@ -1,7 +1,20 @@
 package com.jadventure.game.navigation;
 
+import com.jadventure.game.items.Item;
+import com.jadventure.game.monsters.Monster;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,6 +28,8 @@ public class Location implements ILocation {
     private String title;
     private String description;
     private LocationType locationType;
+    private ArrayList<String> items;
+    private ArrayList<Monster> monsters = new ArrayList<Monster>();
 
     public Location() {
 
@@ -64,9 +79,51 @@ public class Location implements ILocation {
         return exits;
     }
 
+    public void setItems(ArrayList items) {
+        this.items = items;
+    }
+
+    public ArrayList<Item> getItems() {
+        ArrayList<Item> items = new ArrayList<Item>();
+        for (String itemId : this.items) {
+            Item itemName = new Item(itemId);
+            items.add(itemName);
+        }
+        return items;
+    }
+
+    public void setMonsters(Monster monster) {
+        ArrayList<Monster> list = this.monsters;
+        list.add(monster);
+        this.monsters = list;
+    }
+
+    public ArrayList<Monster> getMonsters() {
+        return this.monsters;
+    }
+
+    public void removePublicItem(String itemID) {
+        ArrayList<String> items = this.items;
+        items.remove(itemID);
+        setItems(items);
+    }
+
+    public void addPublicItem(String itemID) {
+        ArrayList<String> items = this.items;
+        items.add(itemID);
+        setItems(items);
+    }
+
     public void print() {
         System.out.println(getTitle() + ":");
         System.out.println(getDescription());
+        ArrayList<Item> publicItems = getItems();
+        if (!publicItems.isEmpty()) {
+            System.out.println("Items:");
+            for (Item item : publicItems) {
+                System.out.println("    "+item.getName());
+            }
+        }
         System.out.println();
         for (Map.Entry<Direction,ILocation> direction : getExits().entrySet()) {
             System.out.print(direction.getKey().getDescription() + ", ");

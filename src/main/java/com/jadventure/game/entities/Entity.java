@@ -22,6 +22,7 @@ public abstract class Entity {
     private int critChance = 0;
     // Every point in armour reduces an attackers attack by .33
     private int armour;
+    private String weapon = "hands";
     private static ArrayList<Item> backpack;
     Random globalRand = new Random();
     
@@ -33,6 +34,14 @@ public abstract class Entity {
         this.gold = 0;
         
         this.backpack = new ArrayList<Item>();
+    }
+    
+    public Entity(int healthMax, int health, String name, int gold, ArrayList<Item> backpack) {
+        this.healthMax = healthMax;
+        this.health = health;
+        this.name = name;
+        this.gold = gold;
+        this.backpack = backpack;
     }
 
     // Since all entities can have a level, we need to make a multiplier
@@ -162,6 +171,28 @@ public abstract class Entity {
         this.level = level;
     }
 
+    public String getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(String weaponID) {
+        if (!weaponID.equals(this.weapon)) {
+            if (weaponID.equals("hands")) {
+                if (!this.weapon.equals("hands")) {
+                    Item weapon = new Item(this.weapon);
+                    int damage = weapon.properties.get("damage");
+                    this.damage = this.damage - damage;
+                }
+                this.weapon = "hands";
+            } else {
+                Item weapon = new Item(weaponID);
+                int damage = weapon.properties.get("damage");
+                this.damage = this.damage + damage;
+                this.weapon = weapon.getItemID();
+            }
+        }
+    }
+
     public ArrayList<Item> getBackpack() {
         return backpack;
     }
@@ -169,7 +200,18 @@ public abstract class Entity {
     public void setBackpack(ArrayList<Item> backpack) {
         this.backpack = backpack;
     }
-    public static void addItemToBackpack(Item i){
+    public void addItemToBackpack(Item i){
         backpack.add(i);
+    }
+
+    public void removeItemFromBackpack(Item i) {
+        ArrayList<Item> backpackItems = getBackpack();
+        ArrayList<Item> newBackpack = new ArrayList<Item>();
+        for (Item item : backpackItems) {
+            if (!(item.getName()).equals(i.getName())) {
+                newBackpack.add(item);
+            }
+        }
+        setBackpack(newBackpack);
     }
 }
