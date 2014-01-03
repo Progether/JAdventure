@@ -3,10 +3,6 @@ package com.jadventure.game.entities;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.reflect.TypeToken;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.classes.Recruit;
 import com.jadventure.game.classes.SewerRat;
@@ -14,7 +10,6 @@ import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.navigation.LocationType;
-import com.jadventure.game.navigation.Location;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,10 +18,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class Player extends Entity {
@@ -62,18 +53,8 @@ public class Player extends Entity {
             player.setArmour(json.get("armour").getAsInt());
             player.setDamage(json.get("damage").getAsInt());
             player.setLevel(json.get("level").getAsInt());
-            player.setWeapon(json.get("weapon").getAsString());
-            if (json.has("items")) {
-                ArrayList<String> items = new Gson().fromJson(json.get("items"), new TypeToken<ArrayList<String>>(){}.getType());
-                ArrayList<Item> itemList = new ArrayList<Item>();
-                for (String itemID : items) {
-                   Item item = new Item(itemID);
-                   itemList.add(item);
-                }
-                player.setBackpack(itemList);
-            }
             Coordinate coordinate = new Coordinate(json.get("location").getAsString());
-            player.setLocation(LocationManager.INSTANCE.getLocation(coordinate));
+            player.setLocation(LocationManager.getLocation(coordinate));
 
             reader.close();
         } catch (FileNotFoundException ex) {
@@ -92,12 +73,12 @@ public class Player extends Entity {
         if(playerClass.equals("recruit")){
             // Instead of having a huge constructor, this is much more readable.
             player =  new Recruit();
-            player.setLocation(LocationManager.INSTANCE.getInitialLocation());
+            player.setLocation(LocationManager.getInitialLocation());
             return player;
             
         } else if(playerClass.equals("sewerrat")) {
             player = new SewerRat();
-            player.setLocation(LocationManager.INSTANCE.getInitialLocation());
+            player.setLocation(LocationManager.getInitialLocation());
             return player;
         }
         return player;
@@ -136,14 +117,6 @@ public class Player extends Entity {
         jsonObject.addProperty("armour", getArmour());
         jsonObject.addProperty("damage", getDamage());
         jsonObject.addProperty("level", getLevel());
-        jsonObject.addProperty("weapon", getWeapon());
-        ArrayList<String> items = new ArrayList<String>();
-        JsonArray itemList = new JsonArray();
-        for (Item item : getBackpack()) {
-            JsonPrimitive itemJson = new JsonPrimitive(item.getItemID());
-            itemList.add(itemJson);
-        }
-        jsonObject.add("items", itemList);
         Coordinate coordinate = getLocation().getCoordinate();
         String coordinateLocation = coordinate.x+","+coordinate.y+","+coordinate.z;
         jsonObject.addProperty("location", coordinateLocation);
@@ -155,60 +128,9 @@ public class Player extends Entity {
             Writer writer = new FileWriter(fileName);
             gson.toJson(jsonObject, writer);
             writer.close();
-            LocationManager.INSTANCE.writeLocations();
-            Path origFile = Paths.get("json/locations.json");
-            Path destFile = Paths.get("json/profiles/" + getName() + "/locations.json");
-            Files.copy(origFile, destFile, StandardCopyOption.REPLACE_EXISTING);
             System.out.println("Your game data was saved.");
         } catch (IOException ex) {
             System.out.println("Unable to save to file '" + fileName + "'.");
-        }
-    }
-
-    public ArrayList<Item> searchItem(String itemName, ArrayList<Item> itemList) {
-        ArrayList<Item> itemMap = new ArrayList();
-        for (Item item : itemList) {
-            String testItemName = item.getName();
-            if (testItemName.equals(itemName)) {
-                itemMap.add(item);
-            }
-        }
-        return itemMap;
-    }
-
-    public void pickUpItem(String itemName) {
-        ArrayList<Item> itemMap = searchItem(itemName, getLocation().getItems());
-        if (!itemMap.isEmpty()) {
-            Item item = itemMap.get(0);
-            Item itemToPickUp = new Item(item.getItemID());
-            addItemToBackpack(itemToPickUp);
-            location.removePublicItem(itemToPickUp.getItemID());
-        }
-    }
-
-    public void dropItem(String itemName) {
-        ArrayList<Item> itemMap = searchItem(itemName, getBackpack());
-        if (!itemMap.isEmpty()) {
-            Item item = itemMap.get(0);
-            Item itemToDrop = new Item(item.getItemID());
-            removeItemFromBackpack(itemToDrop);
-            location.addPublicItem(itemToDrop.getItemID());
-        }
-    }
-
-    public void equipItem(String itemName) {
-        ArrayList<Item> itemMap = searchItem(itemName, getBackpack());
-        if (!itemMap.isEmpty()) {
-            Item item = itemMap.get(0);
-            setWeapon(item.getItemID());
-        }
-    }
-
-    public void dequipItem(String itemName) {
-        ArrayList<Item> itemMap = searchItem(itemName, getBackpack());
-        if (!itemMap.isEmpty()) {
-            Item item = itemMap.get(0);
-            setWeapon("hands");
         }
     }
 
