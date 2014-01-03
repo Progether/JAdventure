@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * The location class mostly delas with getting and setting variables.
+ * The location class mostly deals with getting and setting variables.
  * It also contains the method to print a location's details.
  */
 public class Location implements ILocation {
