@@ -1,7 +1,7 @@
 package com.jadventure.game.prompts;
 
 import com.jadventure.game.entities.Player;
-import com.jadventure.game.menus.BackpackDebugMenu;
+import com.jadventure.game.prompts.BackpackDebugPrompt;
 
 import java.util.Scanner;
 
@@ -63,7 +63,7 @@ public class DebugPrompt{
                 player.setGold(newVal);
             }
 		    else if(command.equals("backpack")){
-                new BackpackDebugMenu(player);
+                new BackpackDebugPrompt(player);
 		    }
 		    else if(command.equals("stats"))
 			    player.getStats();
