@@ -11,7 +11,7 @@ import java.util.Scanner;
  * This is opened with the 'debug' option in the main game prompt.
  */
 public class DebugPrompt{
-    private String helpText = "\nattack: Modify player's attack damage\n"+
+    private static String helpText = "\nattack: Modify player's attack damage\n"+
                               "maxhealth: Modify player's maximum health\n"+
                               "armour: Modify player's armour\n"+
                               "level: modify player's level\n"+
@@ -51,7 +51,7 @@ public class DebugPrompt{
                 player.setHealth(newVal);
             }
             else if(command.startsWith("armour")){
-                int newVal = Integer.parseInt(command.substring(5));
+                int newVal = Integer.parseInt(command.substring(6));
                 player.setArmour(newVal);
             }
             else if(command.startsWith("level")){
@@ -67,6 +67,8 @@ public class DebugPrompt{
 		    }
 		    else if(command.equals("stats"))
 			    player.getStats();
+            else if(command.equals("help"))
+                System.out.println(helpText);
 			else if(command.equals("exit"))
 			    continuePrompt = false;
         } catch(NumberFormatException e){

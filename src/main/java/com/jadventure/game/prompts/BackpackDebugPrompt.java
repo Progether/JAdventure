@@ -12,6 +12,11 @@ import java.util.Scanner;
  * Items are added by their names and removed by their display name
  */
 public class BackpackDebugPrompt{
+    private static String helpText = "\nlist: Lists the current item the player has\n"+
+                                     "add: Add a new item\n"+
+                                     "remove: Remove an item\n"+
+                                     "help: Prints this info\n"+
+                                     "exit: Exits the BackpackDebugMenu\n";
     public BackpackDebugPrompt(Player player){
         boolean continuePrompt = true;
         Scanner input = new Scanner(System.in);
@@ -31,12 +36,14 @@ public class BackpackDebugPrompt{
                     player.addItemToBackpack(appendItem);
             }
             else if(command.startsWith("remove")){
-                String removeItemName = command.substring(3).trim();
+                String removeItemName = command.substring(6).trim();
                 player.dropItem(removeItemName);
             }
             else if(command.equals("list")){
                 player.printBackPack();
             }
+            else if(command.equals("help"))
+                System.out.println(helpText);
             else if(command.equals("exit"))
                 continuePrompt = false;
         } catch(NumberFormatException e){
