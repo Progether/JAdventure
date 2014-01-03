@@ -83,6 +83,9 @@ public class CommandParser {
             String itemName = command.substring(1);
             player.dropItem(itemName);
         }
+        else if (command.equals("exit")) {
+            continuePrompt = false;
+        }
         else if (command.startsWith("e")) {
             String itemName = command.substring(1);
             player.equipItem(itemName);
@@ -93,8 +96,6 @@ public class CommandParser {
         }
         else if (command.equals("debug")) {
             new DebugMenu(player);
-        } else if (command.equals("exit")) {
-            continuePrompt = false;
         }
         return continuePrompt;
     }
