@@ -1,11 +1,11 @@
 package com.jadventure.game;
 
 import com.jadventure.game.entities.Player;
-import com.jadventure.game.menus.DebugMenu;
 import com.jadventure.game.navigation.Direction;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.monsters.Monster;
+import com.jadventure.game.prompts.DebugPrompt;
 
 import java.util.Map;
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ public class CommandParser {
             }
         }
         else if (command.equals("debug")) {
-            new DebugMenu(player);
+            new DebugPrompt(player);
         }
         else if (command.startsWith("e")) { // equip
             String itemName = command.substring(1);
