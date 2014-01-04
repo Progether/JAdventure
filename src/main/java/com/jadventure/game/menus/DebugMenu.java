@@ -14,7 +14,6 @@ public class DebugMenu extends Menus {
     public static Player player;
 
     public DebugMenu(Player p) {
-        this.menuID = 90;
         player = p;
         this.menuItems.add(new MenuItem("pAttack", "Modify Player Attack"));
         this.menuItems.add(new MenuItem("pHealth", "Modify Player Health"));
