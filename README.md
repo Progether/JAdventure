@@ -3,7 +3,7 @@ JAdventure
 
 Description
 -------------
-A text-based game written in Java. It was originally created as a project of the [progether subreddit](http://www.reddit.com/r/progether) and worked on by Applzor, add7, geniuus, Malfunction, bdong_, Qasaur, and rock-fish. It was revived by Hawk554.
+A text-based game written in Java. It was originally created as a project of the [progether subreddit](http://www.reddit.com/r/progether) and worked on by Applzor, add7, geniuus, Malfunction, bdong_, Qasaur, and tamul. It was revived by Hawk554.
 
 Contributors
 -------------
