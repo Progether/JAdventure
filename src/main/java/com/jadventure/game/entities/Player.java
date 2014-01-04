@@ -109,6 +109,7 @@ public class Player extends Entity {
 
     public void getStats(){
         System.out.println("Player name: " + getName() +
+                            "\nCurrent weapon: " + player.getWeapon() +
                             "\nGold: " + player.getGold() +
                             "\nHealth/Max: " + getHealth() + "/" + getHealthMax() +
                             "\nDamage/Armour: " + getDamage() + "/" + getArmour() +
