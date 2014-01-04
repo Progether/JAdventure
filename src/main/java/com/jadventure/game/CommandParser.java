@@ -1,11 +1,11 @@
 package com.jadventure.game;
 
 import com.jadventure.game.entities.Player;
-import com.jadventure.game.menus.DebugMenu;
 import com.jadventure.game.navigation.Direction;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.monsters.Monster;
+import com.jadventure.game.prompts.DebugPrompt;
 
 import java.util.Map;
 import java.util.ArrayList;
@@ -20,17 +20,17 @@ public class CommandParser {
                               "exit: Exit the game and return to the main menu.\n";
 
     public boolean parse(Player player, String command, boolean continuePrompt) {
-        if (command.equals("st")) {
+        if (command.equals("st")) { // status
             player.getStats();
-        } else if (command.equals("help")) {
+        } else if (command.equals("help")) { // help
             System.out.print(helpText);
         }
-        else if (command.equals("b")) {
+        else if (command.equals("b")) { // backpack
             player.printBackPack();
         }
-        else if (command.equals("s")) {
+        else if (command.equals("s")) { // save
             player.save();
-        } else if (command.startsWith("g")) {
+        } else if (command.startsWith("g")) { // goto
             String message = command.substring(1);
             HashMap<String, String> directionLinks = new HashMap<String,String>()
             {{
@@ -62,11 +62,7 @@ public class CommandParser {
                 System.out.println("That direction doesn't exist");
             }
         }
-        else if (command.startsWith("p")) {
-            String itemName = command.substring(1);
-            player.pickUpItem(itemName);
-        }
-        else if (command.startsWith("m")){
+        else if (command.startsWith("m")){ // monsters
             ArrayList<Monster> monsterList = player.getLocation().getMonsters();
             if (monsterList.size() > 0) {
                 System.out.println("Monsters around you:");
@@ -79,9 +75,8 @@ public class CommandParser {
                 System.out.println("There are no monsters around you");
             }
         }
-        else if (command.startsWith("d")){
-            String itemName = command.substring(1);
-            player.dropItem(itemName);
+        else if (command.equals("debug")) {
+            new DebugPrompt(player);
         }
         else if (command.equals("exit")) {
             continuePrompt = false;
@@ -90,12 +85,17 @@ public class CommandParser {
             String itemName = command.substring(1);
             player.equipItem(itemName);
         }
-        else if (command.startsWith("de")) {
+        else if (command.startsWith("de")) { // dequip
             String itemName = command.substring(2);
             player.dequipItem(itemName);
         }
-        else if (command.equals("debug")) {
-            new DebugMenu(player);
+        else if (command.startsWith("p")) { // pick
+            String itemName = command.substring(1);
+            player.pickUpItem(itemName);
+        }
+        else if (command.startsWith("d")){ // drop
+            String itemName = command.substring(1);
+            player.dropItem(itemName);
         }
         return continuePrompt;
     }
