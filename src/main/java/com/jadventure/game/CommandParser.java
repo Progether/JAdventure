@@ -18,6 +18,13 @@ public class CommandParser {
                               "save: Save your progress.\n" +
                               "goto: Go in a direction.\n" +
                               "exit: Exit the game and return to the main menu.\n";
+    private HashMap<String, String> directionLinks = new HashMap<String,String>()
+            {{
+                 put("n", "north");
+                 put("s", "south");
+                 put("e", "east");
+                 put("w", "west");
+            }};
 
     public boolean parse(Player player, String command, boolean continuePrompt) {
         if (command.equals("st")) { // status
@@ -32,13 +39,6 @@ public class CommandParser {
             player.save();
         } else if (command.startsWith("g")) { // goto
             String message = command.substring(1);
-            HashMap<String, String> directionLinks = new HashMap<String,String>()
-            {{
-                 put("n", "north");
-                 put("s", "south");
-                 put("e", "east");
-                 put("w", "west");
-            }};
             ILocation location = player.getLocation();
 
             try {
