@@ -22,6 +22,7 @@ public class Item {
     private String name;
     private String itemID;
     private String description;
+    private double weight;
     public HashMap<String, Integer> properties;
 
     public Item(String itemID) {
@@ -34,6 +35,18 @@ public class Item {
 
     public String getItemID() {
         return this.itemID;
+    }
+
+    public double getWeight() {
+        return this.weight;
+    }
+
+    public boolean equals(Object obj) {
+        if(obj instanceof Item) {
+            Item i = (Item) obj;
+            return this.itemID == i.itemID;
+        }
+        return false;
     }
 
     public void lookUpItem(String itemID) {
