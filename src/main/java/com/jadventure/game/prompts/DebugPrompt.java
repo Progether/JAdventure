@@ -12,6 +12,7 @@ import java.util.Scanner;
  */
 public class DebugPrompt{
     private static String helpText = "\nattack: Modify player's attack damage\n"+
+                              "health: Modify player's health\n"+
                               "maxhealth: Modify player's maximum health\n"+
                               "armour: Modify player's armour\n"+
                               "level: modify player's level\n"+
@@ -25,7 +26,7 @@ public class DebugPrompt{
         boolean continuePrompt = true;
         Scanner input = new Scanner(System.in);
         while(continuePrompt){
-            System.out.println("DebugPrompt:");
+            System.out.println("\nDebugPrompt:");
             String command = input.nextLine();
             continuePrompt = parse(player, command.toLowerCase());
         }
@@ -40,11 +41,15 @@ public class DebugPrompt{
             }
             else if(command.startsWith("maxhealth")){
                 int newVal = Integer.parseInt(command.substring(9));
+                if(newVal <= 0)
+                    throw new IllegalArgumentException();
                 player.setHealthMax(newVal);
                 player.setHealth(newVal < player.getHealth() ? newVal : player.getHealth());
             }
             else if(command.startsWith("health")){
                 int newVal = Integer.parseInt(command.substring(6));
+                if(newVal <= 0)
+                    throw new IllegalArgumentException();
                 // we don't want collision values, do we?
                 if(newVal > player.getHealthMax())
                     player.setHealthMax(newVal);
@@ -56,10 +61,14 @@ public class DebugPrompt{
             }
             else if(command.startsWith("level")){
                 int newVal = Integer.parseInt(command.substring(5));
+                if(newVal <= 0)
+                    throw new IllegalArgumentException();
                 player.setLevel(newVal);
             }
             else if(command.startsWith("gold")){
                 int newVal = Integer.parseInt(command.substring(4));
+                if(newVal < 0)
+                    throw new IllegalArgumentException();
                 player.setGold(newVal);
             }
 		    else if(command.equals("backpack")){
@@ -71,10 +80,16 @@ public class DebugPrompt{
                 System.out.println(helpText);
 			else if(command.equals("exit"))
 			    continuePrompt = false;
-        } catch(NumberFormatException e){
+            else
+                System.out.println("Unknown command. Type help for a list of commands");
+        }
+        catch(NumberFormatException e){
             System.out.println("Value not acceptable");
         }
-        
+        catch(IllegalArgumentException e){
+            System.out.println("Invalid value");
+        }
+
         return continuePrompt;
     }
 }
