@@ -16,8 +16,9 @@ import java.util.Map;
  *
  * The declared command methods are accessed by reflection and not directly accessed
  */
-public class Command {
-    private static Command instance;
+public enum Command {
+    INSTANCE;
+
     public Player player;
 
     private String helpText = "\nstats: Prints your statistics.\n" +
@@ -26,14 +27,12 @@ public class Command {
             "goto: Go in a direction.\n" +
             "exit: Exit the game and return to the main menu.\n";
 
-    // Singleton pattern
-    private Command(Player player){
-        this.player = player;
+    public static Command getInstance() {
+        return INSTANCE;
     }
-    public static Command getInstance(Player player) {
-        if(instance == null)
-            instance = new Command(player);
-        return instance;
+
+    public void initPlayer(Player player){
+        this.player = player;
     }
 
     // command methods here

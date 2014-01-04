@@ -56,7 +56,8 @@ public class CommandParser {
     }
 
     public boolean parse(Player player, String command, boolean continuePrompt) {
-        Command com = Command.getInstance(player);
+        Command com = Command.getInstance();
+        com.initPlayer(player);
 
         if(command.equals("exit"))
             return false;
