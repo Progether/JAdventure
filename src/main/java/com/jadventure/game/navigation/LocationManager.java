@@ -1,7 +1,11 @@
 package com.jadventure.game.navigation;
 
+import com.jadventure.game.items.Item;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -10,6 +14,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Writer;
+import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -66,6 +72,37 @@ public enum LocationManager {
             location.setItems(items);
         }
         return location;
+    }
+
+    public void writeLocations() {
+        try {
+            JsonObject jsonObject = new JsonObject();
+            for (Map.Entry<Coordinate,ILocation> entry : locations.entrySet()) {
+                ILocation location = entry.getValue();
+                JsonObject locationJsonElement = new JsonObject();
+                locationJsonElement.addProperty("title", location.getTitle());
+                locationJsonElement.addProperty("coordinate", location.getCoordinate().toString());
+                locationJsonElement.addProperty("description", location.getDescription());
+                locationJsonElement.addProperty("locationType", location.getLocationType().toString());
+                JsonArray itemList = new JsonArray();
+                ArrayList<Item> items = location.getItems();
+                if (items.size() > 0) {
+                    for (Item item : location.getItems()) {
+                        JsonPrimitive itemJson = new JsonPrimitive(item.getItemID());
+                        itemList.add(itemJson);
+                    }
+                    locationJsonElement.add("items", itemList);
+                }
+                jsonObject.add(location.getCoordinate().toString(), locationJsonElement);
+            }
+            Writer writer = new FileWriter("json/locations.json");
+            Gson gson = new Gson();
+            gson.toJson(jsonObject, writer);
+            writer.close();
+            System.out.println("Your game data was saved.");
+        } catch (IOException ex) {
+            System.out.println("Unable to save to file json/locations.json");
+        }
     }
 
     public ILocation getInitialLocation() {

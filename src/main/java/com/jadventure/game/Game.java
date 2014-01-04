@@ -49,9 +49,8 @@ public class Game {
     public void gamePrompt(Player player) {
         boolean continuePrompt = true;
         while (continuePrompt) {
-            System.out.println("Type \'help\' to see a list of commands.");
             System.out.println("Prompt:");
-            String command = input.next().toLowerCase();
+            String command = input.nextLine().toLowerCase();
             continuePrompt = parser.parse(player, command, continuePrompt);
         }
     }
