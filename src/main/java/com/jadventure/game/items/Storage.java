@@ -19,7 +19,7 @@ public abstract class Storage {
 	public abstract void addItem(ItemStack item);
 	public abstract void removeItem(ItemStack item);
 	public abstract void removeItem(ItemStack item, int amount);
-	public abstract String display();
+	public abstract void display();
 	public abstract boolean isEmpty();
 	public abstract ArrayList<ItemStack> getItems();
 }
