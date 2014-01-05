@@ -5,6 +5,7 @@ import com.jadventure.game.entities.Player;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.navigation.LocationManager;
+import com.jadventure.game.prompts.CommandParser;
 
 import java.util.ArrayList;
 import java.util.Scanner;

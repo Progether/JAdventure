@@ -1,4 +1,4 @@
-package com.jadventure.game;
+package com.jadventure.game.prompts;
 
 import com.jadventure.game.entities.Player;
 
@@ -38,7 +38,7 @@ public class CommandParser {
     // getCommand is just an inline method
     private Method getCommandMethod(String name){
         try {
-            return Command.class.getDeclaredMethod(name);
+            return CommandCollection.class.getDeclaredMethod(name);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
             return null;
@@ -48,7 +48,7 @@ public class CommandParser {
     // getCommand too is an inline method
     private Method getCommandMethodWithParams(String name) {
         try {
-            return Command.class.getDeclaredMethod(name, String.class);
+            return CommandCollection.class.getDeclaredMethod(name, String.class);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
             return null;
@@ -56,7 +56,7 @@ public class CommandParser {
     }
 
     public boolean parse(Player player, String command, boolean continuePrompt) {
-        Command com = Command.getInstance();
+        CommandCollection com = CommandCollection.getInstance();
         com.initPlayer(player);
 
         if(command.equals("exit"))

@@ -1,22 +1,21 @@
-package com.jadventure.game;
+package com.jadventure.game.prompts;
 
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.navigation.Direction;
 import com.jadventure.game.navigation.ILocation;
-import com.jadventure.game.prompts.DebugPrompt;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Command contains the declaration of the methods mapped to game commands
+ * CommandCollection contains the declaration of the methods mapped to game commands
  *
  * The declared command methods are accessed by reflection and not directly accessed
  */
-public enum Command {
+public enum CommandCollection {
     INSTANCE;
 
     public Player player;
@@ -27,7 +26,7 @@ public enum Command {
             "goto: Go in a direction.\n" +
             "exit: Exit the game and return to the main menu.\n";
 
-    public static Command getInstance() {
+    public static CommandCollection getInstance() {
         return INSTANCE;
     }
 
@@ -72,6 +71,7 @@ public enum Command {
     }
 
     @SuppressWarnings("UnusedDeclaration")
+    @Command(command="debug", aliases="d", description="Start debugging")
     public void command_debug(){
         new DebugPrompt(player);
     }
