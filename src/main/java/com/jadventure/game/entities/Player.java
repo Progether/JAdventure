@@ -31,6 +31,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Player extends Entity {
     private ILocation location;
@@ -68,14 +70,15 @@ public class Player extends Entity {
             player.setLevel(json.get("level").getAsInt());
             player.setWeapon(json.get("weapon").getAsString());
             if (json.has("items")) {
-                ArrayList<String> items = new Gson().fromJson(json.get("items"), new TypeToken<ArrayList<String>>(){}.getType());
-                ArrayList<Item> itemList = new ArrayList<Item>();
-                for (String itemID : items) {
-                   Item item = new Item(itemID);
-                   itemList.add(item);
+                HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
+                ArrayList<ItemStack> itemList = new ArrayList<ItemStack>();
+                for (Map.Entry<String, Integer> entry : items.entrySet()) {
+                    String itemID = entry.getKey();
+                    int amount = entry.getValue();
+                    Item item = new Item(itemID);
+                    ItemStack itemStack = new ItemStack(amount, item);
+                    itemList.add(itemStack);
                 }
-                //TODO: compile error
-                // I need someone to do the json magic to serialize ItemStack's
                 player.setStorage(new Backpack(MAX_BACKPACK_WEIGHT, itemList));
             }
             Coordinate coordinate = new Coordinate(json.get("location").getAsString());
@@ -134,18 +137,19 @@ public class Player extends Entity {
         jsonObject.addProperty("damage", getDamage());
         jsonObject.addProperty("level", getLevel());
         jsonObject.addProperty("weapon", getWeapon());
-        ArrayList<String> items = new ArrayList<String>();
+        HashMap<String, Integer> items = new HashMap<String, Integer>();
         JsonArray itemList = new JsonArray();
         for (ItemStack item : getStorage().getItems()) {
+            items.put(item.getItem().getItemID(), item.getAmount());
             JsonPrimitive itemJson = new JsonPrimitive(item.getItem().getItemID());
             itemList.add(itemJson);
         }
-        jsonObject.add("items", itemList);
+        JsonElement itemsJsonObj = gson.toJsonTree(items);
+        jsonObject.add("items", itemsJsonObj);
         Coordinate coordinate = getLocation().getCoordinate();
         String coordinateLocation = coordinate.x+","+coordinate.y+","+coordinate.z;
         jsonObject.addProperty("location", coordinateLocation);
 
-        Gson gson = new Gson();
         String fileName = getProfileFileName(getName());
         new File(fileName).getParentFile().mkdirs();
         try {
