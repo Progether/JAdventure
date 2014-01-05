@@ -112,10 +112,6 @@ public class Player extends Entity {
         return player;
     }
 
-    public void addItem(Item i){
-        
-    }
-
     public void getStats(){
         System.out.println("Player name: " + getName() +
                             "\nGold: " + player.getGold() +
