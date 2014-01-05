@@ -6,7 +6,7 @@ import java.util.Random;
 
 /**
  * the MonsterFactory generates random monsters appropriately according
- * to the players level and location
+ * to the player's level and location
  */
 public class MonsterFactory {
     Random random = new Random();

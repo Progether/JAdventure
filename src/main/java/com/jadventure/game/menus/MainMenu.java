@@ -8,17 +8,10 @@ import com.jadventure.game.entities.Player;
 import com.jadventure.game.menus.ChooseClassMenu;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Hawk554
- * Date: 11/12/13
- * Time: 12:08 PM
- */
-
-/**
  * The first menu diplayed on user screen
  * @see JAdventure
- *
- * The constructor call handles al in here
+ * This menu lets the player choose whether to load an exiting game,
+ * start a new one, or exit to the terminal.
  */
 public class MainMenu extends Menus {
 
