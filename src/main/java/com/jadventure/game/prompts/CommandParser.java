@@ -36,11 +36,11 @@ public class CommandParser {
             Command annotation = method.getAnnotation(Command.class);
             this.commandMap.put(annotation.command(), method);
             for(String alias : annotation.aliases().split(",")){
+                if(alias.length() == 0)
+                    break;
                 this.commandMap.put(alias, method);
             }
         }
-
-        System.out.println(commandMap);
     }
 
     public boolean parse(Player player, String command, boolean continuePrompt) {
@@ -74,6 +74,7 @@ public class CommandParser {
                         e.printStackTrace();
                     }
                 }
+                return continuePrompt;
             }
         }
 
