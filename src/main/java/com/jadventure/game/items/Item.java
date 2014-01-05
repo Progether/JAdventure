@@ -22,7 +22,6 @@ public class Item {
     private String name;
     private String itemID;
     private String description;
-    private double weight;
     public HashMap<String, Integer> properties;
 
     public Item(String itemID) {
@@ -38,7 +37,7 @@ public class Item {
     }
 
     public double getWeight() {
-        return this.weight;
+        return this.properties.get("weight");
     }
 
     public boolean equals(Object obj) {
