@@ -1,6 +1,7 @@
 package com.jadventure.game.monsters;
 
 import com.jadventure.game.items.Item;
+import com.jadventure.game.items.ItemStack;
 
 public class Bugbear extends Monster {
 	public Bugbear(int playerLevel){
@@ -11,6 +12,6 @@ public class Bugbear extends Monster {
 		this.setDamage(10 + playerLevel * 2);
 		this.setCritChance(2);
 		this.setGold(playerLevel * 3);
-	    this.getBackpack().add(new Item("fmil1"));
+	    this.getStorage().addItem(new ItemStack(1, new Item("fmil1")));
 	}
 }
