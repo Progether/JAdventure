@@ -16,9 +16,14 @@ Contributors
  1. [MikesNorth](https://github.com/mikesnorth)
  1. [pthayer3](https://github.com/pthayer3)
  1. [Reinecker](https://github.com/reinecker)
+ 1. [tamul](https://github.com/tamul)
+ 1. [shkesar](https://github.com/shkesar)
 
 Contributing
 -------------
+**Don't make a pull request to the main repo's master if you don't want your commit merged yet. Don't make pull requests if you're not willing to merge that code.**
+
+Rather than opening a pull request, consider opening an issue to discuss the problem you're fixing. Keep the work-in-progress updates to your fork, maybe merging the updates to a separate branch in the main repo if there's enough there to warrant it.
 
  1. Create an issue (optional)
  1. Fork the codebase

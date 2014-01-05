@@ -1,10 +1,7 @@
 JAdventureGameEditor.py
 json/locations.json
 
-*.class
 *.eml
-*.iml
-.idea
 
 # Package Files #
 *.jar
@@ -13,11 +10,14 @@ json/locations.json
 build/jar/*.jar
 
 # Directories #
-bin
-.*
+bin/
+.*/
 
 # IDE Files #
 *.iml
+.project
+.classpath
+.idea
 
 !lib/*.jar
 /nbproject/private/
@@ -35,8 +35,3 @@ nb-configuration.xml
 
 # Class Files #
 *.class
-
-# Package Files #
-*.jar
-*.war
-*.ear

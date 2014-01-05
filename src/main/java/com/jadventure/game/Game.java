@@ -14,12 +14,13 @@ public class Game {
     
     public ArrayList<Monster> monsterList = new ArrayList<Monster>();
     public MonsterFactory monsterFactory = new MonsterFactory(); 
-    public CommandParser parser = new CommandParser();
+    public CommandParser parser;
     public Scanner input = new Scanner(System.in);
     public Monster monster;
     Player player = null;
 
     public Game(Player player, String playerType) {
+        parser = new CommandParser(player);
         player.setLocation(LocationManager.INSTANCE.getInitialLocation());
         if (playerType.equals("new")) { // New Game
             this.player = player;
