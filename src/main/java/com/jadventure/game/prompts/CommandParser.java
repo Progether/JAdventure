@@ -10,10 +10,8 @@ import java.util.TreeMap;
 /**
  * CommandParser parses the game commands
  *
- * To add a new command, add the <String , Method> pair in constructor to the commandMap
- * and declare the method inside class @see Command
- * If you include parameters other than a single String, make sure you send the parameters too
- * in your new inline methods like those declared below.
+ * It parses all the commands automatically.
+ * To add a new command, you just need to make addition in the CommandCollection.
  */
 public class CommandParser {
     Player player;
@@ -26,6 +24,7 @@ public class CommandParser {
         initCommandMap();
     }
 
+    // adds the command to the commandMap
     private void initCommandMap() {
         Method[] methods = CommandCollection.class.getMethods();
 

@@ -13,7 +13,9 @@ import java.util.Map;
 /**
  * CommandCollection contains the declaration of the methods mapped to game commands
  *
- * The declared command methods are accessed by reflection and not directly accessed
+ * The declared command methods are accessed only by reflection.
+ * To declare a new command, add an appropriate method to this class and Annotate it with
+ * Command(command, aliases, description)
  */
 public enum CommandCollection {
     INSTANCE;
