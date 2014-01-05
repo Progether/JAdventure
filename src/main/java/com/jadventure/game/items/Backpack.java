@@ -34,6 +34,7 @@ public class Backpack extends Storage {
 				return i;
 			}
 		}
+		return null;
 	}
 
 	/**
