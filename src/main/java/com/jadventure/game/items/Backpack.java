@@ -77,11 +77,11 @@ public class Backpack extends Storage {
 		}
 	}
 
-	public String display() {
+	public void display() {
 		System.out.println("\n--------------------------------------------------------------------");
         System.out.println("Backpack: ");
         System.out.println(this.toString());
-        System.out.println("\n--------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------");
 	}
 
 	public boolean isEmpty() {
@@ -98,7 +98,7 @@ public class Backpack extends Storage {
         } else {
         	String content = "";
             for (ItemStack item : this.items) {
-                content += "- " + item.getItem().getName() + " : " + item.getAmount();
+                content += "- " + item.getItem().getName() + " : " + item.getAmount() + "\n";
             }
             return content;
         }
