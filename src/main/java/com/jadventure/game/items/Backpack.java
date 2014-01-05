@@ -58,8 +58,7 @@ public class Backpack extends Storage {
 	 * in this.items with the new one.
 	 */
 	public void removeItem(ItemStack item) {
-		this.items.remove(item);
-		this.items.add(new ItemStack(item.getAmount()-1, item.getItem()));
+		this.removeItem(item, 1);
 	}
 
 	/**
@@ -67,8 +66,15 @@ public class Backpack extends Storage {
 	 * in this.items with the new one.
 	 */
 	public void removeItem(ItemStack item, int amount) {
-		this.items.remove(item);
-		this.items.add(new ItemStack(item.getAmount()-amount, item.getItem()));
+		if(this.contains(item)) {
+			ItemStack sameType = this.getSameType(item);
+			if(sameType.getAmount()-amount <= 0) {
+				this.items.remove(sameType);
+			} else {
+				this.items.remove(sameType);
+				this.items.add(new ItemStack(sameType.getAmount()-amount, sameType.getItem()));
+			}
+		}
 	}
 
 	public String display() {
