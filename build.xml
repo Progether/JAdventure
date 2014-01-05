@@ -53,6 +53,10 @@
       </classpath>
     </java>
   </target>
+
+  <target name="clean">
+    <delete dir="build" />
+  </target>
   
   <target name="main" depends="run" />
 
