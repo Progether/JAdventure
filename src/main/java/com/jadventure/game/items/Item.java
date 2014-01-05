@@ -43,7 +43,7 @@ public class Item {
     public boolean equals(Object obj) {
         if(obj instanceof Item) {
             Item i = (Item) obj;
-            return this.itemID == i.itemID;
+            return this.name.equals(i.name);
         }
         return false;
     }
