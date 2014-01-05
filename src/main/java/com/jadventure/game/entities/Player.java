@@ -125,6 +125,7 @@ public class Player extends Entity {
     }
 
     public void save() {
+        Gson gson = new Gson();
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("name", getName());
         jsonObject.addProperty("healthMax", getHealthMax());
