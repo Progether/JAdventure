@@ -35,26 +35,32 @@ public enum CommandCollection {
     }
 
     // command methods here
+
+    @Command(command="status", aliases="st", description="Returns player's status")
     @SuppressWarnings("UnusedDeclaration")
     public void command_st(){
         player.getStats();
     }
 
+    @Command(command="help", aliases="", description="Prints help")
     @SuppressWarnings("UnusedDeclaration")
     public void command_help(){
         System.out.println(helpText);
     }
 
+    @Command(command="backpack", aliases="b", description="Backpack contents")
     @SuppressWarnings("UnusedDeclaration")
     public void command_b(){
         player.printBackPack();
     }
 
+    @Command(command="save", aliases="", description="Save the game")
     @SuppressWarnings("UnusedDeclaration")
     public void command_save(){
         player.save();
     }
 
+    @Command(command="monster", aliases="m", description="Monsters around you")
     @SuppressWarnings("UnusedDeclaration")
     public void command_m(){
         ArrayList<Monster> monsterList = player.getLocation().getMonsters();
@@ -70,12 +76,13 @@ public enum CommandCollection {
         }
     }
 
+    @Command(command="debug", aliases="", description="Start debugging")
     @SuppressWarnings("UnusedDeclaration")
-    @Command(command="debug", aliases="d", description="Start debugging")
     public void command_debug(){
         new DebugPrompt(player);
     }
 
+    @Command(command="goto", aliases="g", description="Goto a direction")
     @SuppressWarnings("UnusedDeclaration")
     public void command_g(String arg){
         HashMap<String, String> directionLinks = new HashMap<String,String>()
@@ -109,21 +116,25 @@ public enum CommandCollection {
         }
     }
 
+    @Command(command="equip", aliases="e", description="Equip an item")
     @SuppressWarnings("UnusedDeclaration")
     public void command_e(String arg){
         player.equipItem(arg.trim());
     }
 
+    @Command(command="dequip", aliases="de", description="Dequip an item")
     @SuppressWarnings("UnusedDeclaration")
     public void command_de(String arg){
         player.dequipItem(arg.trim());
     }
 
+    @Command(command="pick", aliases="pick", description="Pick up an item")
     @SuppressWarnings("UnusedDeclaration")
     public void command_p(String arg){
         player.pickUpItem(arg.trim());
     }
 
+    @Command(command="drop", aliases="d", description="Drop an item")
     @SuppressWarnings("UnusedDeclaration")
     public void command_d(String arg){
         player.dropItem(arg.trim());
