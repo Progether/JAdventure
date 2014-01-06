@@ -1,11 +1,9 @@
 package com.jadventure.game.navigation;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Cage
- * Date: 23/11/13
- * Time: 10:18 PM
- * To change this template use File | Settings | File Templates.
+ * An enum with four properties: A description for in-game text and three integers.
+ * The integers are added to a coordinate to get the new direction (i.e. to get a north coordinate
+ * you add 1 to the y property of a coordinate).
  */
 public enum Direction {
     NORTH("To the North", 0, 1, 0),

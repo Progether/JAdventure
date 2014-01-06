@@ -18,6 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 
+/*
+ * This class deals with parsing and interacting with an item.
+ */
 public class Item {
     private String name;
     private String itemID;
@@ -36,6 +39,19 @@ public class Item {
         return this.itemID;
     }
 
+    public double getWeight() {
+        return this.properties.get("weight");
+    }
+
+    public boolean equals(Object obj) {
+        if(obj instanceof Item) {
+            Item i = (Item) obj;
+            return this.name.equals(i.name);
+        }
+        return false;
+    }
+
+    // gets data about an item based on its itemID
     public void lookUpItem(String itemID) {
         String fileName = "json/items.json";
         JsonObject items = new JsonObject();

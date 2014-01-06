@@ -5,6 +5,10 @@ public class Coordinate {
     public final int y;
     public final int z;
 
+    /*
+     * This class takes two possible constructions: either a string or three integers.
+     * Either way, it is parsed into a Coordinate.
+     */
     public Coordinate(String rawCoordinate) {
         String[] parts = rawCoordinate.split(",");
         this.x = Integer.parseInt(parts[0]);

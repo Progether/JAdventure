@@ -22,17 +22,16 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Cage
- * Date: 23/11/13
- * Time: 10:51 PM
- * To change this template use File | Settings | File Templates.
+ * This class loads the locations from the locations.json file on start.
+ * It also provides methods for getting the initial location and the current location.
  */
 public enum LocationManager {
     INSTANCE;
     private static final String FILE_NAME = "json/locations.json";
 
-    private Map<Coordinate, ILocation> locations = new HashMap<Coordinate, ILocation>();
+    private static class Locations {
+        private static Map<Coordinate, ILocation> locations = new HashMap<Coordinate, ILocation>();
+    }
 
     private LocationManager() {
         JsonParser parser = new JsonParser();
@@ -42,8 +41,10 @@ public enum LocationManager {
 
             JsonObject json = parser.parse(reader).getAsJsonObject();
 
+            // For every location in the locations.file, it parses the location uses loadLocation() and adds it
+            // to the locations Map.
             for(Map.Entry<String, JsonElement> entry: json.entrySet()) {
-                locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));
+                Locations.locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));
             }
 
             reader.close();
@@ -74,10 +75,10 @@ public enum LocationManager {
         return location;
     }
 
-    public void writeLocations() {
+    public static void writeLocations() {
         try {
             JsonObject jsonObject = new JsonObject();
-            for (Map.Entry<Coordinate,ILocation> entry : locations.entrySet()) {
+            for (Map.Entry<Coordinate,ILocation> entry : Locations.locations.entrySet()) {
                 ILocation location = entry.getValue();
                 JsonObject locationJsonElement = new JsonObject();
                 locationJsonElement.addProperty("title", location.getTitle());
@@ -99,19 +100,19 @@ public enum LocationManager {
             Gson gson = new Gson();
             gson.toJson(jsonObject, writer);
             writer.close();
-            System.out.println("Your game data was saved.");
+            System.out.println("The game locations were saved.");
         } catch (IOException ex) {
             System.out.println("Unable to save to file json/locations.json");
         }
     }
 
-    public ILocation getInitialLocation() {
+    public static ILocation getInitialLocation() {
         Coordinate coordinate = new Coordinate(0, 0, -1);
         return getLocation(coordinate);
     }
 
-    public ILocation getLocation(Coordinate coordinate) {
-        return locations.get(coordinate);
+    public static ILocation getLocation(Coordinate coordinate) {
+        return Locations.locations.get(coordinate);
     }
 
 }

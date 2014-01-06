@@ -8,13 +8,15 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 import com.jadventure.game.items.Item;
+import com.jadventure.game.items.ItemStack;
+import com.jadventure.game.items.Backpack;
+import com.jadventure.game.items.Storage;
 import com.jadventure.game.classes.Recruit;
 import com.jadventure.game.classes.SewerRat;
 import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.navigation.LocationType;
-import com.jadventure.game.navigation.Location;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,19 +25,28 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.nio.file.StandardCopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+/*
+ * This class deals with the player and all of its properties.
+ * Any method that changes a character or interacts with it should
+ * be placed within this class. If a method deals with entities in general or
+ * with variables not unique to the player, place it in the entity class.
+ */
 public class Player extends Entity {
     private ILocation location;
+    public static final double MAX_BACKPACK_WEIGHT = 60.0;
     
     public Player(){
-        setBackpack(new ArrayList<Item>());
+        setStorage(new Backpack(MAX_BACKPACK_WEIGHT));
         Item milk = new Item("fmil1");
-        addItemToBackpack(milk);
+        addItemToStorage(milk);
     }
 
     protected static String getProfileFileName(String name) {
@@ -64,17 +75,22 @@ public class Player extends Entity {
             player.setLevel(json.get("level").getAsInt());
             player.setWeapon(json.get("weapon").getAsString());
             if (json.has("items")) {
-                ArrayList<String> items = new Gson().fromJson(json.get("items"), new TypeToken<ArrayList<String>>(){}.getType());
-                ArrayList<Item> itemList = new ArrayList<Item>();
-                for (String itemID : items) {
-                   Item item = new Item(itemID);
-                   itemList.add(item);
+                HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
+                ArrayList<ItemStack> itemList = new ArrayList<ItemStack>();
+                for (Map.Entry<String, Integer> entry : items.entrySet()) {
+                    String itemID = entry.getKey();
+                    int amount = entry.getValue();
+                    Item item = new Item(itemID);
+                    ItemStack itemStack = new ItemStack(amount, item);
+                    itemList.add(itemStack);
                 }
-                player.setBackpack(itemList);
+                player.setStorage(new Backpack(MAX_BACKPACK_WEIGHT, itemList));
             }
+            Path orig = Paths.get("json/profiles/"+name+"/locations.json");
+            Path dest = Paths.get("json/locations.json");
+            Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
             Coordinate coordinate = new Coordinate(json.get("location").getAsString());
-            player.setLocation(LocationManager.INSTANCE.getLocation(coordinate));
-
+            player.setLocation(LocationManager.getLocation(coordinate));
             reader.close();
         } catch (FileNotFoundException ex) {
             System.out.println( "Unable to open file '" + fileName + "'.");
@@ -92,19 +108,15 @@ public class Player extends Entity {
         if(playerClass.equals("recruit")){
             // Instead of having a huge constructor, this is much more readable.
             player =  new Recruit();
-            player.setLocation(LocationManager.INSTANCE.getInitialLocation());
+            player.setLocation(LocationManager.getInitialLocation());
             return player;
             
         } else if(playerClass.equals("sewerrat")) {
             player = new SewerRat();
-            player.setLocation(LocationManager.INSTANCE.getInitialLocation());
+            player.setLocation(LocationManager.getInitialLocation());
             return player;
         }
         return player;
-    }
-
-    public void addItem(Item i){
-        
     }
 
     public void getStats(){
@@ -117,20 +129,11 @@ public class Player extends Entity {
     }
 
     public void printBackPack() {
-        System.out.println("\n--------------------------------------------------------------------");
-        System.out.println("Backpack: ");
-
-        if (getBackpack().isEmpty()) {
-            System.out.println("--Empty--");
-        }
-        else {
-            for (Item item : getBackpack()) {
-                System.out.println("- " + item.getName());
-            }
-        }    System.out.println("\n--------------------------------------------------------------------");
+        this.storage.display();
     }
 
     public void save() {
+        Gson gson = new Gson();
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("name", getName());
         jsonObject.addProperty("healthMax", getHealthMax());
@@ -139,28 +142,29 @@ public class Player extends Entity {
         jsonObject.addProperty("damage", getDamage());
         jsonObject.addProperty("level", getLevel());
         jsonObject.addProperty("weapon", getWeapon());
-        ArrayList<String> items = new ArrayList<String>();
+        HashMap<String, Integer> items = new HashMap<String, Integer>();
         JsonArray itemList = new JsonArray();
-        for (Item item : getBackpack()) {
-            JsonPrimitive itemJson = new JsonPrimitive(item.getItemID());
+        for (ItemStack item : getStorage().getItems()) {
+            items.put(item.getItem().getItemID(), item.getAmount());
+            JsonPrimitive itemJson = new JsonPrimitive(item.getItem().getItemID());
             itemList.add(itemJson);
         }
-        jsonObject.add("items", itemList);
+        JsonElement itemsJsonObj = gson.toJsonTree(items);
+        jsonObject.add("items", itemsJsonObj);
         Coordinate coordinate = getLocation().getCoordinate();
         String coordinateLocation = coordinate.x+","+coordinate.y+","+coordinate.z;
         jsonObject.addProperty("location", coordinateLocation);
 
-        Gson gson = new Gson();
         String fileName = getProfileFileName(getName());
         new File(fileName).getParentFile().mkdirs();
         try {
             Writer writer = new FileWriter(fileName);
             gson.toJson(jsonObject, writer);
             writer.close();
-            LocationManager.INSTANCE.writeLocations();
-            Path origFile = Paths.get("json/locations.json");
-            Path destFile = Paths.get("json/profiles/" + getName() + "/locations.json");
-            Files.copy(origFile, destFile, StandardCopyOption.REPLACE_EXISTING);
+            LocationManager.writeLocations();
+            Path orig = Paths.get("json/locations.json");
+            Path dest = Paths.get("json/profiles/"+getName()+"/locations.json");
+            Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
             System.out.println("Your game data was saved.");
         } catch (IOException ex) {
             System.out.println("Unable to save to file '" + fileName + "'.");
@@ -178,28 +182,39 @@ public class Player extends Entity {
         return itemMap;
     }
 
+    public ArrayList<Item> searchItem(String itemName, Storage storage) {
+        ArrayList<Item> itemMap = new ArrayList();
+        for (ItemStack item : storage.getItems()) {
+            String testItemName = item.getItem().getName();
+            if (testItemName.equals(itemName)) {
+                itemMap.add(item.getItem());
+            }
+        }
+        return itemMap;
+    }
+
     public void pickUpItem(String itemName) {
         ArrayList<Item> itemMap = searchItem(itemName, getLocation().getItems());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             Item itemToPickUp = new Item(item.getItemID());
-            addItemToBackpack(itemToPickUp);
+            addItemToStorage(itemToPickUp);
             location.removePublicItem(itemToPickUp.getItemID());
         }
     }
 
     public void dropItem(String itemName) {
-        ArrayList<Item> itemMap = searchItem(itemName, getBackpack());
+        ArrayList<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             Item itemToDrop = new Item(item.getItemID());
-            removeItemFromBackpack(itemToDrop);
+            removeItemFromStorage(itemToDrop);
             location.addPublicItem(itemToDrop.getItemID());
         }
     }
 
     public void equipItem(String itemName) {
-        ArrayList<Item> itemMap = searchItem(itemName, getBackpack());
+        ArrayList<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             setWeapon(item.getItemID());
@@ -207,7 +222,7 @@ public class Player extends Entity {
     }
 
     public void dequipItem(String itemName) {
-        ArrayList<Item> itemMap = searchItem(itemName, getBackpack());
+        ArrayList<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             setWeapon("hands");

@@ -7,6 +7,9 @@ import com.jadventure.game.Game;
 
 import java.util.Scanner;
 
+/**
+ * Called when creating a new Player
+ */
 public class ChooseClassMenu extends Menus {
 
     public ChooseClassMenu() {

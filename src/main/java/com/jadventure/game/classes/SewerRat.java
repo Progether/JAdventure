@@ -2,6 +2,11 @@ package com.jadventure.game.classes;
 
 import com.jadventure.game.entities.Player;
 
+/*
+ * A Sewer Rat has low combat skills, but
+ * high technical skills. He has access to the
+ * underground and can sneak around the recruit camp.
+ */
 public class SewerRat extends Player {
 
     public SewerRat() {

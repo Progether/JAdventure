@@ -4,11 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Cage
- * Date: 05/11/13
- * Time: 08:39 PM
- * To change this template use File | Settings | File Templates.
+ * Represents a single Menu Option in Menus
+ * @see Menus
  */
 public class MenuItem {
     protected String command;
@@ -52,6 +49,7 @@ public class MenuItem {
     }
 
     // Used for switch in menus
+    // Used in place of getCommand method for comparison against user input
     public String getKey() {
         return getCommand().toLowerCase();
     }

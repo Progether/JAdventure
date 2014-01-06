@@ -1,5 +1,8 @@
 package com.jadventure.game.monsters;
 
+/*
+ * A monster that is pretty easy to deal with.
+ */
 public class Skeleton extends Monster {
 	public Skeleton(int playerLevel){
 		this.monsterType = "Skeleton";
