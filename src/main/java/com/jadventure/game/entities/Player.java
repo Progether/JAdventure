@@ -207,7 +207,7 @@ public class Player extends Entity {
             Item itemToPickUp = new Item(item.getItemID());
             addItemToStorage(itemToPickUp);
             location.removePublicItem(itemToPickUp.getItemID());
-            System.out.println("/n" + item.getName()+ " picked up");
+            System.out.println("\n" + item.getName()+ " picked up");
         }
     }
 
