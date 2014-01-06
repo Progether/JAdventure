@@ -115,7 +115,7 @@ public class Player extends Entity {
                             "\nCurrent weapon: " + tempweapon.getName() +
                             "\nGold: " + player.getGold() +
                             "\nHealth/Max: " + getHealth() + "/" + getHealthMax() +
-                            "\nDamage/Armour: " + getDamage() + "/" + tempweapon.getArmour() +
+                            "\nDamage/Armour: " + getDamage() + "/" + tempweapon.getName() +
                             "\n" + getName() + "'s level: " + getLevel());
     }
 
