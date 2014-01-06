@@ -28,6 +28,14 @@ public enum CommandCollection {
             "goto: Go in a direction.\n" +
             "exit: Exit the game and return to the main menu.\n";
 
+    private HashMap<String, String> directionLinks = new HashMap<String,String>()
+    {{
+         put("n", "north");
+         put("s", "south");
+         put("e", "east");
+         put("w", "west");
+     }};
+
     public static CommandCollection getInstance() {
         return INSTANCE;
     }
@@ -87,13 +95,6 @@ public enum CommandCollection {
     @Command(command="goto", aliases="g", description="Goto a direction")
     @SuppressWarnings("UnusedDeclaration")
     public void command_g(String arg){
-        HashMap<String, String> directionLinks = new HashMap<String,String>()
-        {{
-                put("n", "north");
-                put("s", "south");
-                put("e", "east");
-                put("w", "west");
-            }};
         ILocation location = player.getLocation();
 
         try {

@@ -23,6 +23,10 @@
     <javac debug="true" includeantruntime="false" srcdir="${src.test.dir}" destdir="${classes.dir}" classpathref="classpath"/>
   </target>
 
+  <target name="rebuild" depends="clean">
+    <antcall target="compile" />
+  </target>
+
   <target name="jar" depends="compile">
     <mkdir dir="${jar.dir}"/>
     <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
@@ -52,6 +56,10 @@
         <path refid="application"/>
       </classpath>
     </java>
+  </target>
+
+  <target name="clean">
+    <delete dir="build" />
   </target>
   
   <target name="main" depends="run" />

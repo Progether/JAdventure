@@ -1,6 +1,9 @@
 package com.jadventure.game.entities;
 
 import com.jadventure.game.items.Item;
+import com.jadventure.game.items.ItemStack;
+import com.jadventure.game.items.Backpack;
+import com.jadventure.game.items.Storage;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -24,7 +27,7 @@ public abstract class Entity {
     // Every point in armour reduces an attackers attack by .33
     private int armour;
     private String weapon = "hands";
-    private static ArrayList<Item> backpack;
+    protected Storage storage;
     Random globalRand = new Random();
     
     // maybe not all entities start at full health, etc.
@@ -34,7 +37,15 @@ public abstract class Entity {
         this.name = "default";
         this.gold = 0;
         
-        this.backpack = new ArrayList<Item>();
+        this.storage = new Backpack(60.0); // what is a good amount?
+    }
+    
+    public Entity(int healthMax, int health, String name, int gold, Storage storage) {
+        this.healthMax = healthMax;
+        this.health = health;
+        this.name = name;
+        this.gold = gold;
+        this.storage = storage;
     }
 
     /**
@@ -74,16 +85,14 @@ public abstract class Entity {
         return damageDone;
     }
     
-    public ArrayList<Item> die() {
+    public Storage die() {
         System.out.println(this.name + " has died. Oh look, he dropped:" );
-        if(this.backpack.isEmpty()) {
+        if(this.storage.isEmpty()) {
             System.out.println("Nothing.");
         } else {
-            for (Item item : this.backpack) {
-                System.out.println(item.getName());
-            }
+            System.out.println(this.storage.toString());
         }
-        return this.backpack;
+        return this.storage;
     }
     
     public int getHealth() {
@@ -189,25 +198,19 @@ public abstract class Entity {
         }
     }
 
-    public ArrayList<Item> getBackpack() {
-        return backpack;
+    public Storage getStorage() {
+        return storage;
     }
 
-    public void setBackpack(ArrayList<Item> backpack) {
-        this.backpack = backpack;
+    public void setStorage(Storage storage) {
+        this.storage = storage;
     }
-    public static void addItemToBackpack(Item i){
-        backpack.add(i);
+    
+    public void addItemToStorage(Item i){
+        storage.addItem(new ItemStack(1, i));
     }
 
-    public void removeItemFromBackpack(Item i) {
-        ArrayList<Item> backpackItems = getBackpack();
-        ArrayList<Item> newBackpack = new ArrayList<Item>();
-        for (Item item : backpackItems) {
-            if (!(item.getName()).equals(i.getName())) {
-                newBackpack.add(item);
-            }
-        }
-        setBackpack(newBackpack);
+    public void removeItemFromStorage(Item i) {
+        storage.removeItem(new ItemStack(1, i)); //TODO: fix this
     }
 }
