@@ -23,6 +23,7 @@ public abstract class Entity {
     private int critChance = 0;
     // Every point in armour reduces an attackers attack by .33
     private int armour;
+    private String weapon = "hands";
     private static ArrayList<Item> backpack;
     Random globalRand = new Random();
     
@@ -165,6 +166,28 @@ public abstract class Entity {
     public void setLevel(int level) {
         this.level = level;
     }
+ 
+    public String getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(String weaponID) {
+        if (!weaponID.equals(this.weapon)) {
+            if (weaponID.equals("hands")) {
+                if (!this.weapon.equals("hands")) {
+                    Item weapon = new Item(this.weapon);
+                    int damage = weapon.properties.get("damage");
+                    this.damage = this.damage - damage;
+                }
+                this.weapon = "hands";
+            } else {
+                Item weapon = new Item(weaponID);
+                int damage = weapon.properties.get("damage");
+                this.damage = this.damage + damage;
+                this.weapon = weapon.getItemID();
+            }
+        }
+    }
 
     public ArrayList<Item> getBackpack() {
         return backpack;
@@ -175,5 +198,16 @@ public abstract class Entity {
     }
     public static void addItemToBackpack(Item i){
         backpack.add(i);
+    }
+
+    public void removeItemFromBackpack(Item i) {
+        ArrayList<Item> backpackItems = getBackpack();
+        ArrayList<Item> newBackpack = new ArrayList<Item>();
+        for (Item item : backpackItems) {
+            if (!(item.getName()).equals(i.getName())) {
+                newBackpack.add(item);
+            }
+        }
+        setBackpack(newBackpack);
     }
 }

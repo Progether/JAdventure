@@ -125,6 +125,7 @@ public class Player extends Entity {
         jsonObject.addProperty("armour", getArmour());
         jsonObject.addProperty("damage", getDamage());
         jsonObject.addProperty("level", getLevel());
+        jsonObject.addProperty("level", getWeapon());
         Coordinate coordinate = getLocation().getCoordinate();
         String coordinateLocation = coordinate.x+","+coordinate.y+","+coordinate.z;
         jsonObject.addProperty("location", coordinateLocation);
@@ -139,6 +140,53 @@ public class Player extends Entity {
             System.out.println("Your game data was saved.");
         } catch (IOException ex) {
             System.out.println("Unable to save to file '" + fileName + "'.");
+        }
+    }
+
+        public ArrayList<Item> searchItem(String itemName, ArrayList<Item> itemList) {
+        ArrayList<Item> itemMap = new ArrayList();
+        for (Item item : itemList) {
+            String testItemName = item.getName();
+            if (testItemName.equals(itemName)) {
+                itemMap.add(item);
+            }
+        }
+        return itemMap;
+    }
+
+    public void pickUpItem(String itemName) {
+        ArrayList<Item> itemMap = searchItem(itemName, getLocation().getItems());
+        if (!itemMap.isEmpty()) {
+            Item item = itemMap.get(0);
+            Item itemToPickUp = new Item(item.getItemID());
+            addItemToBackpack(itemToPickUp);
+            location.removePublicItem(itemToPickUp.getItemID());
+        }
+    }
+
+    public void dropItem(String itemName) {
+        ArrayList<Item> itemMap = searchItem(itemName, getBackpack());
+        if (!itemMap.isEmpty()) {
+            Item item = itemMap.get(0);
+            Item itemToDrop = new Item(item.getItemID());
+            removeItemFromBackpack(itemToDrop);
+            location.addPublicItem(itemToDrop.getItemID());
+        }
+    }
+
+    public void equipItem(String itemName) {
+        ArrayList<Item> itemMap = searchItem(itemName, getBackpack());
+        if (!itemMap.isEmpty()) {
+            Item item = itemMap.get(0);
+            setWeapon(item.getItemID());
+        }
+    }
+
+    public void dequipItem(String itemName) {
+        ArrayList<Item> itemMap = searchItem(itemName, getBackpack());
+        if (!itemMap.isEmpty()) {
+            Item item = itemMap.get(0);
+            setWeapon("hands");
         }
     }
 
