@@ -131,7 +131,7 @@ public enum CommandCollection {
         player.dequipItem(arg.trim());
     }
 
-    @Command(command="pick", aliases="pick", description="Pick up an item")
+    @Command(command="pick", aliases="p", description="Pick up an item")
     @SuppressWarnings("UnusedDeclaration")
     public void command_p(String arg){
         player.pickUpItem(arg.trim());
