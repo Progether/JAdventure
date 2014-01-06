@@ -75,7 +75,7 @@ public enum LocationManager {
         return location;
     }
 
-    public void writeLocations() {
+    public static void writeLocations() {
         try {
             JsonObject jsonObject = new JsonObject();
             for (Map.Entry<Coordinate,ILocation> entry : Locations.locations.entrySet()) {
@@ -100,7 +100,7 @@ public enum LocationManager {
             Gson gson = new Gson();
             gson.toJson(jsonObject, writer);
             writer.close();
-            System.out.println("Your game data was saved.");
+            System.out.println("The game locations were saved.");
         } catch (IOException ex) {
             System.out.println("Unable to save to file json/locations.json");
         }

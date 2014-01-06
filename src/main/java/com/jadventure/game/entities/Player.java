@@ -155,6 +155,7 @@ public class Player extends Entity {
             Writer writer = new FileWriter(fileName);
             gson.toJson(jsonObject, writer);
             writer.close();
+            LocationManager.writeLocations();
             System.out.println("Your game data was saved.");
         } catch (IOException ex) {
             System.out.println("Unable to save to file '" + fileName + "'.");
