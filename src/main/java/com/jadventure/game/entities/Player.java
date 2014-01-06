@@ -162,7 +162,7 @@ public class Player extends Entity {
         }
     }
 
-        public ArrayList<Item> searchItem(String itemName, ArrayList<Item> itemList) {
+    public ArrayList<Item> searchItem(String itemName, ArrayList<Item> itemList) {
         ArrayList<Item> itemMap = new ArrayList();
         for (Item item : itemList) {
             String testItemName = item.getName();
