@@ -1,4 +1,3 @@
-
 package com.jadventure.game.prompts;
 
 import com.jadventure.game.entities.Player;

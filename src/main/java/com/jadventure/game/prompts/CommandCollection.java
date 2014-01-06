@@ -27,6 +27,7 @@ public enum CommandCollection {
             "save: Save your progress.\n" +
             "goto: Go in a direction.\n" +
             "exit: Exit the game and return to the main menu.\n";
+
     private HashMap<String, String> directionLinks = new HashMap<String,String>()
     {{
          put("n", "north");
