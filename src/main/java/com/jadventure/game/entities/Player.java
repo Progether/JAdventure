@@ -127,7 +127,7 @@ public class Player extends Entity {
 	}
 
   
-        System.out.println("Player name: " + getName() +
+        System.out.println("\nPlayer name: " + getName() +
                             "\nCurrent weapon: " + tempname +
                             "\nGold: " + player.getGold() +
                             "\nHealth/Max: " + getHealth() + "/" + getHealthMax() +
@@ -172,9 +172,9 @@ public class Player extends Entity {
             Path orig = Paths.get("json/locations.json");
             Path dest = Paths.get("json/profiles/"+getName()+"/locations.json");
             Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("Your game data was saved.");
+            System.out.println("\nYour game data was saved.");
         } catch (IOException ex) {
-            System.out.println("Unable to save to file '" + fileName + "'.");
+            System.out.println("\nUnable to save to file '" + fileName + "'.");
         }
     }
 
@@ -207,6 +207,7 @@ public class Player extends Entity {
             Item itemToPickUp = new Item(item.getItemID());
             addItemToStorage(itemToPickUp);
             location.removePublicItem(itemToPickUp.getItemID());
+            System.out.println("/n" + item.getName()+ " picked up");
         }
     }
 
@@ -223,6 +224,7 @@ public class Player extends Entity {
             }
             removeItemFromStorage(itemToDrop);
             location.addPublicItem(itemToDrop.getItemID());
+            System.out.println("\n" + item.getName()+ " dropped");
         }
     }
 
@@ -231,6 +233,7 @@ public class Player extends Entity {
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             setWeapon(item.getItemID());
+            System.out.println("\n" + item.getName()+ " equipped");
         }
     }
 
@@ -239,6 +242,7 @@ public class Player extends Entity {
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             setWeapon("hands");
+            System.out.println("\n" + item.getName()+" dequipped");
         }
     }
 
