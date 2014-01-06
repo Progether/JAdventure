@@ -197,6 +197,9 @@ public class Player extends Entity {
             Item item = itemMap.get(0);
             Item itemToDrop = new Item(item.getItemID());
             removeItemFromBackpack(itemToDrop);
+            if (itemToDrop == player.getWeapon() || itemToDrop == player.getArmour()) {
+                dequipItem(itemToDrop);
+            }
             location.addPublicItem(itemToDrop.getItemID());
         }
     }
