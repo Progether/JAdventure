@@ -7,11 +7,8 @@ import java.util.Map;
 import java.util.ArrayList;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Cage
- * Date: 23/11/13
- * Time: 10:56 PM
- * To change this template use File | Settings | File Templates.
+ * This interface maps all the properties and methods that 
+ * pertain to a specific location.
  */
 public interface ILocation {
     public Coordinate getCoordinate();
@@ -26,3 +23,4 @@ public interface ILocation {
     public ArrayList<Monster> getMonsters();
     public void print();
 }
+

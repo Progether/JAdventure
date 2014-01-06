@@ -17,11 +17,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Cage
- * Date: 23/11/13
- * Time: 10:17 PM
- * To change this template use File | Settings | File Templates.
+ * The location class mostly deals with getting and setting variables.
+ * It also contains the method to print a location's details.
  */
 public class Location implements ILocation {
     private Coordinate coordinate;
@@ -67,11 +64,12 @@ public class Location implements ILocation {
         this.locationType = locationType;
     }
 
+    // It checks each direction for an exit and adds it to the exits hashmap if it exists.
     public Map<Direction, ILocation> getExits() {
         Map<Direction, ILocation> exits = new HashMap<Direction, ILocation>();
         ILocation borderingLocation;
         for(Direction direction: Direction.values()) {
-            borderingLocation = LocationManager.INSTANCE.getLocation(getCoordinate().getBorderingCoordinate(direction));
+            borderingLocation = LocationManager.getLocation(getCoordinate().getBorderingCoordinate(direction));
             if (borderingLocation != null) {
                 exits.put(direction, borderingLocation);
             }
@@ -91,7 +89,7 @@ public class Location implements ILocation {
         }
         return items;
     }
-
+    
     public void setMonsters(Monster monster) {
         ArrayList<Monster> list = this.monsters;
         list.add(monster);
