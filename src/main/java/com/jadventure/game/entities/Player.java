@@ -25,6 +25,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -82,9 +86,11 @@ public class Player extends Entity {
                 }
                 player.setStorage(new Backpack(MAX_BACKPACK_WEIGHT, itemList));
             }
+            Path orig = Paths.get("json/profiles/"+name+"/locations.json");
+            Path dest = Paths.get("json/locations.json");
+            Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
             Coordinate coordinate = new Coordinate(json.get("location").getAsString());
             player.setLocation(LocationManager.getLocation(coordinate));
-
             reader.close();
         } catch (FileNotFoundException ex) {
             System.out.println( "Unable to open file '" + fileName + "'.");
@@ -135,7 +141,6 @@ public class Player extends Entity {
         jsonObject.addProperty("armour", getArmour());
         jsonObject.addProperty("damage", getDamage());
         jsonObject.addProperty("level", getLevel());
-        jsonObject.addProperty("level", getWeapon());
         jsonObject.addProperty("weapon", getWeapon());
         HashMap<String, Integer> items = new HashMap<String, Integer>();
         JsonArray itemList = new JsonArray();
@@ -156,13 +161,17 @@ public class Player extends Entity {
             Writer writer = new FileWriter(fileName);
             gson.toJson(jsonObject, writer);
             writer.close();
+            LocationManager.writeLocations();
+            Path orig = Paths.get("json/locations.json");
+            Path dest = Paths.get("json/profiles/"+getName()+"/locations.json");
+            Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
             System.out.println("Your game data was saved.");
         } catch (IOException ex) {
             System.out.println("Unable to save to file '" + fileName + "'.");
         }
     }
 
-        public ArrayList<Item> searchItem(String itemName, ArrayList<Item> itemList) {
+    public ArrayList<Item> searchItem(String itemName, ArrayList<Item> itemList) {
         ArrayList<Item> itemMap = new ArrayList();
         for (Item item : itemList) {
             String testItemName = item.getName();
