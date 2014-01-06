@@ -33,7 +33,7 @@ public class BackpackDebugPrompt{
             if(command.startsWith("add")){
                 Item appendItem = new Item(command.substring(3).trim());
                 if(appendItem.getName() != null)
-                    player.addItemToBackpack(appendItem);
+                    player.addItemToStorage(appendItem);
             }
             else if(command.startsWith("remove")){
                 String removeItemName = command.substring(6).trim();

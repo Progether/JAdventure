@@ -1,10 +1,19 @@
 {
   "items": {
+    "empty": {
+      "name": "empty",
+      "description": "an empty item",
+      "properties": {
+        "health": "+5",
+        "value": "10"
+      }
+    },
     "fmil1": {
       "name": "milk",
       "description": "some delicious milk",
       "properties": {
         "health": "+5",
+        "weight": "1",
         "value": "10"
       }
     },
@@ -13,6 +22,7 @@
       "description": "this milk must have come from a super cow because it is extra delicious milk",
       "properties": {
         "health": "+15",
+        "weight": "1",
         "value": "25"
       }
     },
@@ -21,6 +31,7 @@
       "description": "some delicious raw meat",
       "properties": {
         "health": "+2",
+        "weight": "2",
         "value": "5"
       }
     },
@@ -29,6 +40,7 @@
       "description": "some delicious cooked meat",
       "properties": {
         "health": "+10",
+        "weight": "2",
         "value": "15"
       }
     },
@@ -37,6 +49,7 @@
       "description": "some crispy burnt meat",
       "properties": {
         "health": "+4",
+        "weight": "2",
         "value": "2"
       }
     },
@@ -45,6 +58,7 @@
       "description": "a small dagger",
       "properties": {
         "damage": "+3",
+        "weight": "2",
         "value": "30"
       }
     },
@@ -53,6 +67,7 @@
       "description": "a basic dagger",
       "properties": {
         "damage": "+5",
+        "weight": "1",
         "value": "50"
       }
     },
@@ -61,6 +76,7 @@
       "description": "a basic shortsword",
       "properties": {
         "damage": "+7",
+        "weight": "5",
         "value": "70"
       }
     },
@@ -69,6 +85,7 @@
       "description": "a basic spear",
       "properties": {
         "damage": "+5",
+        "weight": "4",
         "value": "50"
       }
     },
@@ -77,6 +94,7 @@
       "description": "a wooden shield, watch out for splinters!",
       "properties": {
         "armour": "+3",
+        "weight": "4",
         "value": "30"
       }
     },
@@ -85,6 +103,7 @@
       "description": "a rusted helmet, it will do for now",
       "properties": {
         "armour": "+4",
+        "weight": "3",
         "value": "40"
       }
     },
@@ -93,6 +112,7 @@
       "description": "a leather breastplate, it will do for now",
       "properties": {
         "armour": "+5",
+        "weight": "10",
         "value": "50"
       }
     },
@@ -100,7 +120,8 @@
       "name": "lock and pick",
       "description": "tools to pick locks",
       "properties": {
-        "value": "20"
+        "value": "20",
+        "weight": "1"
       }
     },
    "phli1": {
@@ -108,6 +129,7 @@
       "description": "Magic potion that increases vitality",
       "properties": {
         "healthMax": "+5",
+        "weight": "1",
         "value": "100"
       }
     }
