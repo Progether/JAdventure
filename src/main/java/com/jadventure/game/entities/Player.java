@@ -52,7 +52,6 @@ public class Player extends Entity {
     protected static String getProfileFileName(String name) {
         return "json/profiles/" + name + "/" + name + "_profile.json";
     }
-
     public static boolean profileExists(String name) {
         File file = new File(getProfileFileName(name));
         return file.exists();
@@ -120,8 +119,16 @@ public class Player extends Entity {
     }
 
     public void getStats(){
+        Item weapon = new Item(getWeapon());
+        String tempname = weapon.getName();
+
+	if (tempname == null){
+	    tempname = "hands";
+	}
+
+  
         System.out.println("Player name: " + getName() +
-                            "\nCurrent weapon: " + player.getWeapon() +
+                            "\nCurrent weapon: " + tempname +
                             "\nGold: " + player.getGold() +
                             "\nHealth/Max: " + getHealth() + "/" + getHealthMax() +
                             "\nDamage/Armour: " + getDamage() + "/" + getArmour() +
@@ -208,6 +215,12 @@ public class Player extends Entity {
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             Item itemToDrop = new Item(item.getItemID());
+            Item weapon = new Item(getWeapon());
+            String wName = weapon.getName();
+
+            if (itemName.equals(wName)) {
+                dequipItem(wName);
+            }
             removeItemFromStorage(itemToDrop);
             location.addPublicItem(itemToDrop.getItemID());
         }
