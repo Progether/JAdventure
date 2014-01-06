@@ -108,10 +108,14 @@ public class Player extends Entity {
     }
 
     public void getStats(){
+        String tempweapon = player.getWeapon();
+        String temparmour = player.getArmour();
+
         System.out.println("Player name: " + getName() +
+                            "\nCurrent weapon: " + tempweapon.getName() +
                             "\nGold: " + player.getGold() +
                             "\nHealth/Max: " + getHealth() + "/" + getHealthMax() +
-                            "\nDamage/Armour: " + getDamage() + "/" + getArmour() +
+                            "\nDamage/Armour: " + getDamage() + "/" + temparmour.getName() +
                             "\n" + getName() + "'s level: " + getLevel());
     }
 
@@ -193,6 +197,9 @@ public class Player extends Entity {
             Item item = itemMap.get(0);
             Item itemToDrop = new Item(item.getItemID());
             removeItemFromBackpack(itemToDrop);
+            if (itemToDrop == player.getWeapon() || itemToDrop == player.getArmour()) {
+                dequipItem(itemToDrop);
+            }
             location.addPublicItem(itemToDrop.getItemID());
         }
     }
