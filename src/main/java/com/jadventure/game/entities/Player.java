@@ -135,7 +135,6 @@ public class Player extends Entity {
         jsonObject.addProperty("armour", getArmour());
         jsonObject.addProperty("damage", getDamage());
         jsonObject.addProperty("level", getLevel());
-        jsonObject.addProperty("level", getWeapon());
         jsonObject.addProperty("weapon", getWeapon());
         HashMap<String, Integer> items = new HashMap<String, Integer>();
         JsonArray itemList = new JsonArray();

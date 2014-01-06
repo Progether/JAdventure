@@ -1,4 +1,6 @@
 JAdventureGameEditor.py
+json/profiles/*
+!json/profiles/test
 
 *.eml
 
