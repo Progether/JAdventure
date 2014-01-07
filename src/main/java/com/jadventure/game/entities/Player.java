@@ -71,6 +71,10 @@ public class Player extends Entity {
             player.setDamage(json.get("damage").getAsInt());
             player.setLevel(json.get("level").getAsInt());
             player.setStrength(json.get("strength").getAsInt());
+            player.setStrength(json.get("intelligence").getAsInt());
+            player.setStrength(json.get("dexterity").getAsInt());
+            player.setStrength(json.get("luck").getAsInt());
+            player.setStrength(json.get("stealth").getAsInt());
             player.setWeapon(json.get("weapon").getAsString());
             if (json.has("items")) {
                 HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
@@ -140,6 +144,10 @@ public class Player extends Entity {
                             "\nHealth/Max: " + getHealth() + "/" + getHealthMax() +
                             "\nDamage/Armour: " + getDamage() + "/" + getArmour() +
                             "\nStrength: " + getStrength() +
+                            "\nIntelligence: " + getIntelligence() +
+                            "\nDexterity: " + getDexterity() +
+                            "\nLuck: " + getLuck() +
+                            "\nStealth: " + getStealth() +
                             "\n" + getName() + "'s level: " + getLevel());
     }
 
@@ -157,6 +165,10 @@ public class Player extends Entity {
         jsonObject.addProperty("damage", getDamage());
         jsonObject.addProperty("level", getLevel());
         jsonObject.addProperty("strength", getStrength());
+        jsonObject.addProperty("intelligence", getIntelligence());
+        jsonObject.addProperty("dexterity", getDexterity());
+        jsonObject.addProperty("luck", getLuck());
+        jsonObject.addProperty("stealth", getStealth());
         jsonObject.addProperty("weapon", getWeapon());
         HashMap<String, Integer> items = new HashMap<String, Integer>();
         JsonArray itemList = new JsonArray();
