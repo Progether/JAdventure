@@ -229,6 +229,19 @@ public class Player extends Entity {
         }
     }
 
+    public void inspectItem(String itemName) {
+        ArrayList<Item> itemMap = searchItem(itemName, getStorage());
+        if (itemMap.isEmpty()) {
+            itemMap = searchItem(itemName, getLocation().getItems());
+        }
+        if (!itemMap.isEmpty()) {
+            Item item = itemMap.get(0);
+            item.display();
+        } else {
+            System.out.println("Item doesn't exist within your view.");
+        }
+    }
+
     public ILocation getLocation() {
         return location;
     }

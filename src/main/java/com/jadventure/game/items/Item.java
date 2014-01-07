@@ -51,6 +51,14 @@ public class Item {
         return false;
     }
 
+    public void display() {
+        System.out.println("Name: " + this.name +
+                "\nDescription: " + this.description);
+        for (Map.Entry entry : this.properties.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+    }
+
     // gets data about an item based on its itemID
     public void lookUpItem(String itemID) {
         String fileName = "json/items.json";
