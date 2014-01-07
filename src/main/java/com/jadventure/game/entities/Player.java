@@ -32,6 +32,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.Math;
 
 /*
  * This class deals with the player and all of its properties.
@@ -41,12 +42,9 @@ import java.util.Map;
  */
 public class Player extends Entity {
     private ILocation location;
-    public static final double MAX_BACKPACK_WEIGHT = 60.0;
     
     public Player(){
-        setStorage(new Backpack(MAX_BACKPACK_WEIGHT));
-        Item milk = new Item("fmil1");
-        addItemToStorage(milk);
+        
     }
 
     protected static String getProfileFileName(String name) {
@@ -72,6 +70,7 @@ public class Player extends Entity {
             player.setArmour(json.get("armour").getAsInt());
             player.setDamage(json.get("damage").getAsInt());
             player.setLevel(json.get("level").getAsInt());
+            player.setStrength(json.get("strength").getAsInt());
             player.setWeapon(json.get("weapon").getAsString());
             if (json.has("items")) {
                 HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
@@ -83,7 +82,8 @@ public class Player extends Entity {
                     ItemStack itemStack = new ItemStack(amount, item);
                     itemList.add(itemStack);
                 }
-                player.setStorage(new Backpack(MAX_BACKPACK_WEIGHT, itemList));
+                float maxWeight = (float)Math.sqrt(player.getStrength()*300);
+                player.setStorage(new Backpack(maxWeight, itemList));
             }
             Path orig = Paths.get("json/profiles/"+name+"/locations.json");
             Path dest = Paths.get("json/locations.json");
@@ -106,16 +106,23 @@ public class Player extends Entity {
     public static Player getInstance(String playerClass){
         if(playerClass.equals("recruit")){
             // Instead of having a huge constructor, this is much more readable.
-            player =  new Recruit();
-            player.setLocation(LocationManager.getInitialLocation());
+            player = new Recruit();
+            setUpVariables(player);
             return player;
             
         } else if(playerClass.equals("sewerrat")) {
             player = new SewerRat();
-            player.setLocation(LocationManager.getInitialLocation());
+            setUpVariables(player);
             return player;
         }
         return player;
+    }
+
+    public static void setUpVariables(Player player) {
+        player.setLocation(LocationManager.getInitialLocation());
+        float maxWeight = (float)Math.sqrt(player.getStrength()*300);
+        player.setStorage(new Backpack(maxWeight));
+        player.addItemToStorage(new Item("fmil1"));
     }
 
     public void getStats(){
@@ -132,6 +139,7 @@ public class Player extends Entity {
                             "\nGold: " + player.getGold() +
                             "\nHealth/Max: " + getHealth() + "/" + getHealthMax() +
                             "\nDamage/Armour: " + getDamage() + "/" + getArmour() +
+                            "\nStrength: " + getStrength() +
                             "\n" + getName() + "'s level: " + getLevel());
     }
 
@@ -148,6 +156,7 @@ public class Player extends Entity {
         jsonObject.addProperty("armour", getArmour());
         jsonObject.addProperty("damage", getDamage());
         jsonObject.addProperty("level", getLevel());
+        jsonObject.addProperty("strength", getStrength());
         jsonObject.addProperty("weapon", getWeapon());
         HashMap<String, Integer> items = new HashMap<String, Integer>();
         JsonArray itemList = new JsonArray();

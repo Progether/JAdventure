@@ -20,7 +20,13 @@ public abstract class Entity {
     private String className;
     private String intro;
     // levelMult is used to add a multiplier to the attack damage
-    private  int level;
+    private int level;
+    // stats
+    private int strength;
+    private int intelligence;
+    private int dexterity;
+    private int luck;
+    private int stealth;
     private  int gold;
     private double damage = 30;
     private int critChance = 0;
@@ -174,6 +180,14 @@ public abstract class Entity {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+    
+    public void setStrength(int strength) {
+        this.strength = strength;
     }
  
     public String getWeapon() {
