@@ -1,6 +1,7 @@
 package com.jadventure.game.navigation;
 
 import com.jadventure.game.items.Item;
+import com.jadventure.game.entities.NPC;
 import com.jadventure.game.monsters.Monster;
 
 import com.google.gson.JsonElement;
@@ -26,6 +27,7 @@ public class Location implements ILocation {
     private String description;
     private LocationType locationType;
     private ArrayList<String> items;
+    private ArrayList<String> npcs;
     private ArrayList<Monster> monsters = new ArrayList<Monster>();
 
     public Location() {
@@ -89,6 +91,19 @@ public class Location implements ILocation {
         }
         return items;
     }
+
+    public void setNPCs(ArrayList npcs) {
+        this.npcs = npcs;
+    }
+
+    public ArrayList<NPC> getNPCs() {
+        ArrayList<NPC> npcs = new ArrayList<NPC>();
+        for (String npcID : this.npcs) {
+            NPC npc = new NPC(npcID);
+            npcs.add(npc);
+        }
+        return npcs;
+    }
     
     public void setMonsters(Monster monster) {
         ArrayList<Monster> list = this.monsters;
@@ -120,6 +135,13 @@ public class Location implements ILocation {
             System.out.println("Items:");
             for (Item item : publicItems) {
                 System.out.println("    "+item.getName());
+            }
+        }
+        ArrayList<NPC> npcs = getNPCs();
+        if (!npcs.isEmpty()) {
+            System.out.println("NPCs:");
+            for (NPC npc : npcs) {
+                System.out.println("   "+npc.getName());
             }
         }
         System.out.println();

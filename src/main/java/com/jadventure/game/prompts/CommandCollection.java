@@ -119,6 +119,12 @@ public enum CommandCollection {
         }
     }
 
+    @Command(command="inspect", aliases="i", description="Inspect an item")
+    @SuppressWarnings("UnusedDeclaration")
+    public void command_i(String arg){
+        player.inspectItem(arg.trim());
+    }
+
     @Command(command="equip", aliases="e", description="Equip an item")
     @SuppressWarnings("UnusedDeclaration")
     public void command_e(String arg){

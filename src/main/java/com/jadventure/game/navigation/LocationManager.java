@@ -1,6 +1,7 @@
 package com.jadventure.game.navigation;
 
 import com.jadventure.game.items.Item;
+import com.jadventure.game.entities.NPC;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -71,6 +72,13 @@ public enum LocationManager {
         } else {
             ArrayList<String> items = new ArrayList<String>();
             location.setItems(items);
+        }
+        if (json.has("npcs")) {
+            ArrayList<String> npcs = new Gson().fromJson(json.get("npcs"), new TypeToken<List<String>>(){}.getType());
+            location.setNPCs(npcs);
+        } else {
+            ArrayList<String> npcs = new ArrayList<String>();
+            location.setNPCs(npcs);
         }
         return location;
     }
