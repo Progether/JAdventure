@@ -74,9 +74,7 @@ public enum LocationManager {
             location.setItems(items);
         }
         if (json.has("npcs")) {
-            System.out.println(json.get("npcs"));
             ArrayList<String> npcs = new Gson().fromJson(json.get("npcs"), new TypeToken<List<String>>(){}.getType());
-            System.out.println(npcs);
             location.setNPCs(npcs);
         } else {
             ArrayList<String> npcs = new ArrayList<String>();

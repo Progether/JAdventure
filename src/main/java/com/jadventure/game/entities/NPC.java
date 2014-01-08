@@ -10,7 +10,7 @@ public class NPC extends Entity {
     private String name;
     
     public NPC(String entityID){
-        this.name = entityID;
+        setName(entityID);
     }
 
 }
