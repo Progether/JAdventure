@@ -1,5 +1,5 @@
 {
-  "entities": {
+  "npcs": {
     "guide": {
       "name": "Guide",
       "relationships": [

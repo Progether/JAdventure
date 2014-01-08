@@ -7,6 +7,12 @@ import com.jadventure.game.Game;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.menus.ChooseClassMenu;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+
 /**
  * The first menu diplayed on user screen
  * @see JAdventure
@@ -29,6 +35,14 @@ public class MainMenu extends Menus {
         Scanner input = new Scanner(System.in);
         String key = m.getKey();
         if(key.equals("start")) {
+            try {
+                Path orig = Paths.get("json/original_data/locations.json");
+                Path dest = Paths.get("json/locations.json");
+                Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException ex) {
+                System.out.println("Unable to load new locations file.");
+                ex.printStackTrace();
+            }
             new ChooseClassMenu();
         }
         else if(key.equals("exit")) {
