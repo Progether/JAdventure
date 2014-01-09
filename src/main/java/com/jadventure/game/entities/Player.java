@@ -307,28 +307,29 @@ public class Player extends Entity {
         ArrayList<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
-            String tempbodypart = item.getBodypart();
-            switch (tempbodypart) {
+            String bodypart = item.getBodypart();
+            switch (bodypart) {
 
             case "onehand": setWeapon(item.getItemID());
+                  break;
 
             case "twohand": setWeapon(item.getItemID());
                     Item tempshield = new Item(getShield());
                     String sname = tempshield.getName();
                     dequipItem(sname);
-
+                  break;
             case "head": setHead(item.getItemID());
-
+                  break;
             case "chest": setChest(item.getItemID());
-
+                  break;
             case "legs": setLegs(item.getItemID());
-
+                  break;
             case "arms": setArms(item.getItemID());
-
+                  break;
             case "feet": setFeet(item.getItemID());
-
+                  break;
             case "shield": setShield(item.getItemID());
-
+                  break;
             default: break;
 
         }
