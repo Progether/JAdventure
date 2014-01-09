@@ -27,6 +27,13 @@ public abstract class Entity {
     // Every point in armour reduces an attackers attack by .33
     private int armour;
     private String weapon = "hands";
+    private String head = "none";
+    private String chest = "shirt";
+    private String legs = "pants";
+    private String arms = "none";
+    private String feet = "none";
+    private String shield = "none";
+
     protected Storage storage;
     Random globalRand = new Random();
     
@@ -135,6 +142,144 @@ public abstract class Entity {
     public void setArmour(int armour) {
         this.armour = armour;
     }
+
+    public String getHead() {
+        return head;
+    }
+
+    public void setHead(String headID) {
+        if (!headID.equals(this.head)) {
+            if (headID.equals("none")) {
+                if (!this.head.equals("none")) {
+                    Item head = new Item(this.head);
+                    int armour = head.properties.get("armour");
+                    this.armour = this.armour - armour;
+                }
+                this.head = "none";
+            } else {
+                Item head = new Item(headID);
+                int armour = head.properties.get("armour");
+                this.armour = this.armour + armour;
+                this.head = head.getItemID();
+            }
+        }
+    }
+
+
+    public String getChest() {
+        return chest;
+    }
+
+    public void setChest(String chestID) {
+        if (!chestID.equals(this.chest)) {
+            if (chestID.equals("shirt")) {
+                if (!this.chest.equals("shirt")) {
+                    Item chest = new Item(this.chest);
+                    int armour = chest.properties.get("armour");
+                    this.armour = this.armour - armour;
+                }
+                this.chest = "shirt";
+            } else {
+                Item chest = new Item(chestID);
+                int armour = chest.properties.get("armour");
+                this.armour = this.armour + armour;
+                this.chest = chest.getItemID();
+            }
+        }
+    }
+
+
+    public String getLegs() {
+        return legs;
+    }
+
+    public void setLegs(String legsID) {
+        if (!legsID.equals(this.legs)) {
+            if (legsID.equals("pants")) {
+                if (!this.legs.equals("pants")) {
+                    Item legs = new Item(this.legs);
+                    int armour = legs.properties.get("armour");
+                    this.armour = this.armour - armour;
+                }
+                this.legs = "pants";
+            } else {
+                Item legs = new Item(legsID);
+                int armour = legs.properties.get("armour");
+                this.armour = this.armour + armour;
+                this.legs = legs.getItemID();
+            }
+        }
+    }
+
+
+    public String getArms() {
+        return arms;
+    }
+
+    public void setArms(String armsID) {
+        if (!armsID.equals(this.arms)) {
+            if (armsID.equals("none")) {
+                if (!this.arms.equals("none")) {
+                    Item arms = new Item(this.arms);
+                    int armour = arms.properties.get("armour");
+                    this.armour = this.armour - armour;
+                }
+                this.arms = "none";
+            } else {
+                Item arms = new Item(armsID);
+                int armour = arms.properties.get("armour");
+                this.armour = this.armour + armour;
+                this.arms = arms.getItemID();
+            }
+        }
+    }
+
+
+    public String getFeet() {
+        return feet;
+    }
+
+    public void setFeet(String feetID) {
+        if (!feetID.equals(this.feet)) {
+            if (feetID.equals("none")) {
+                if (!this.feet.equals("none")) {
+                    Item feet = new Item(this.feet);
+                    int armour = feet.properties.get("armour");
+                    this.armour = this.armour - armour;
+                }
+                this.feet = "none";
+            } else {
+                Item feet = new Item(feetID);
+                int armour = feet.properties.get("armour");
+                this.armour = this.armour + armour;
+                this.feet = feet.getItemID();
+            }
+        }
+    }
+
+
+    public String getShield() {
+        return shield;
+    }
+
+    public void setShield(String shieldID) {
+        if (!shieldID.equals(this.shield)) {
+            if (shieldID.equals("none")) {
+                if (!this.shield.equals("none")) {
+                    Item shield = new Item(this.shield);
+                    int armour = shield.properties.get("armour");
+                    this.armour = this.armour - armour;
+                }
+                this.shield = "none";
+            } else {
+                Item shield = new Item(shieldID);
+                int armour = shield.properties.get("armour");
+                this.armour = this.armour + armour;
+                this.shield = shield.getItemID();
+            }
+        }
+    }
+
 
     public int getHealthMax() {
         return healthMax;
