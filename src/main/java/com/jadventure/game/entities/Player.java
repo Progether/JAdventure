@@ -113,7 +113,7 @@ public class Player extends Entity {
     // This is known as the singleton pattern. It allows for only 1 instance of a player.
     private static Player player;
     
-    public static Player getInstance(String playerClass){
+    public static Player getInstance(String playerClass){ 
         if(playerClass.equals("recruit")){
             // Instead of having a huge constructor, this is much more readable.
             player = new Recruit();
@@ -254,7 +254,7 @@ public class Player extends Entity {
     }
 
     public ArrayList<Item> searchItem(String itemName, ArrayList<Item> itemList) {
-        ArrayList<Item> itemMap = new ArrayList();
+        ArrayList<Item> itemMap = new ArrayList<Item>();
         for (Item item : itemList) {
             String testItemName = item.getName();
             if (testItemName.equals(itemName)) {
@@ -265,7 +265,7 @@ public class Player extends Entity {
     }
 
     public ArrayList<Item> searchItem(String itemName, Storage storage) {
-        ArrayList<Item> itemMap = new ArrayList();
+        ArrayList<Item> itemMap = new ArrayList<Item>();
         for (ItemStack item : storage.getItems()) {
             String testItemName = item.getItem().getName();
             if (testItemName.equals(itemName)) {
@@ -308,7 +308,7 @@ public class Player extends Entity {
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             String tempbodypart = item.getBodypart();
-            switch(tempbodypart) {
+            switch (tempbodypart) {
 
             case "onehand": setWeapon(item.getItemID());
 
@@ -328,6 +328,8 @@ public class Player extends Entity {
             case "feet": setFeet(item.getItemID());
 
             case "shield": setShield(item.getItemID());
+
+            default: break;
 
         }
 
@@ -359,6 +361,7 @@ public class Player extends Entity {
 
             case "shield": setShield("none");
 
+            default: break;
             }
             System.out.println("\n" + item.getName()+" dequipped");
         }

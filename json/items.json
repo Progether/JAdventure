@@ -56,7 +56,7 @@
     "wshi1": {
       "name": "shiv",
       "description": "a small dagger",
-      "bodypart":onehand",
+      "bodypart": "onehand",
       "properties": {
         "damage": "+3",
         "weight": "2",
