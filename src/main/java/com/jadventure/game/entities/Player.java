@@ -360,8 +360,6 @@ public class Player extends Entity {
             case "shield": setShield("none");
 
             }
-
-
             System.out.println("\n" + item.getName()+" dequipped");
         }
     }
