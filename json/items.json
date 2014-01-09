@@ -56,6 +56,7 @@
     "wshi1": {
       "name": "shiv",
       "description": "a small dagger",
+      "bodypart":onehand",
       "properties": {
         "damage": "+3",
         "weight": "2",
@@ -65,6 +66,7 @@
     "wdag1": {
       "name": "dagger",
       "description": "a basic dagger",
+      "bodypart": "onehand",
       "properties": {
         "damage": "+5",
         "weight": "1",
@@ -74,6 +76,7 @@
     "wshs1": {
       "name": "shortsword",
       "description": "a basic shortsword",
+      "bodypart": "onehand",
       "properties": {
         "damage": "+7",
         "weight": "5",
@@ -83,6 +86,7 @@
     "wspe1": {
       "name": "spear",
       "description": "a basic spear",
+      "bodypart": "onehand",
       "properties": {
         "damage": "+5",
         "weight": "4",
@@ -92,6 +96,7 @@
     "ashi1": {
       "name": "wooden shield",
       "description": "a wooden shield, watch out for splinters!",
+      "bodypart": "shield",
       "properties": {
         "armour": "+3",
         "weight": "4",
@@ -101,6 +106,7 @@
     "arhl1": {
       "name": "rusted helmet",
       "description": "a rusted helmet, it will do for now",
+      "bodypart": "head",
       "properties": {
         "armour": "+4",
         "weight": "3",
@@ -110,12 +116,44 @@
     "albr1": {
       "name": "leather breastplate",
       "description": "a leather breastplate, it will do for now",
+      "bodypart": "chest",
       "properties": {
         "armour": "+5",
         "weight": "10",
         "value": "50"
       }
     },
+    "alle1": {
+      "name": "leather leg armor",
+      "description": "a leather leg armor, it will do for now",
+      "bodypart": "legs",
+      "properties": {
+        "armour": "+3",
+        "weight": "10",
+        "value": "50"
+      }
+    },
+    "albt1": {
+      "name": "leather boots",
+      "description": "a pair of leather boots, it will do for now",
+      "bodypart": "feet",
+      "properties": {
+        "armour": "+2",
+        "weight": "10",
+        "value": "50"
+      }
+    },
+   "algt1": {
+      "name": "leather gauntlet",
+      "description": "a leather gaunlet, it will do for now",
+      "bodypart": "arms",
+      "properties": {
+        "armour": "+3",
+        "weight": "10",
+        "value": "50"
+      }
+    },
+
     "tlap1": {
       "name": "lock and pick",
       "description": "tools to pick locks",
