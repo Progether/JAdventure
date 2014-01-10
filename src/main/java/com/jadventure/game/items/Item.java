@@ -17,6 +17,7 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.concurrent.BlockingQueue;
 
 /*
  * This class deals with parsing and interacting with an item.
@@ -51,11 +52,11 @@ public class Item {
         return false;
     }
 
-    public void display() {
-        System.out.println("Name: " + this.name +
+    public void display(BlockingQueue queue) {
+        queue.offer("Name: " + this.name +
                 "\nDescription: " + this.description);
         for (Map.Entry entry : this.properties.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
+            queue.offer(entry.getKey() + ": " + entry.getValue());
         }
     }
 
@@ -70,7 +71,7 @@ public class Item {
             items = json.get("items").getAsJsonObject();
             reader.close();
         } catch (FileNotFoundException ex) {
-            System.out.println( "Unable to open file '" + fileName + "'.");
+            ex.printStackTrace();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

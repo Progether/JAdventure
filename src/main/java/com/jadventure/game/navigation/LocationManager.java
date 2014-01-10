@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * This class loads the locations from the locations.json file on start.
@@ -50,7 +51,6 @@ public enum LocationManager {
 
             reader.close();
         } catch (FileNotFoundException ex) {
-            System.out.println("Unable to load game locations.");
             ex.printStackTrace();
             System.exit(-1);
         } catch (IOException e) {
@@ -83,7 +83,7 @@ public enum LocationManager {
         return location;
     }
 
-    public static void writeLocations() {
+    public static void writeLocations(BlockingQueue queue) {
         try {
             JsonObject jsonObject = new JsonObject();
             for (Map.Entry<Coordinate,ILocation> entry : Locations.locations.entrySet()) {
@@ -108,9 +108,9 @@ public enum LocationManager {
             Gson gson = new Gson();
             gson.toJson(jsonObject, writer);
             writer.close();
-            System.out.println("The game locations were saved.");
+            queue.offer("The game locations were saved.");
         } catch (IOException ex) {
-            System.out.println("Unable to save to file json/locations.json");
+            queue.offer("Unable to save to file json/locations.json");
         }
     }
 
