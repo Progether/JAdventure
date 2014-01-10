@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * All menus in JAdventure extend this class
@@ -13,6 +14,7 @@ import java.util.Scanner;
 public class Menus {
     protected List<MenuItem> menuItems = new ArrayList<MenuItem>();
     protected Map<String, MenuItem> commandMap = new HashMap<String, MenuItem>();
+    public static BlockingQueue queue;
 
     public MenuItem displayMenu(List<MenuItem> m) {
         int i = 1;
@@ -38,7 +40,7 @@ public class Menus {
         if (commandMap.containsKey(command.toLowerCase())) {
             return commandMap.get(command.toLowerCase());
         } else {
-            System.out.println("I don't know what '" + command + "' means.");
+            queue.offer("I don't know what '" + command + "' means.");
             return this.displayMenu(m);
         }
     }
@@ -46,12 +48,11 @@ public class Menus {
     private void printMenuItems(List<MenuItem> m) {
         int i = 1;
         for (MenuItem menuItem: m) {
-            System.out.print("[" + i + "] " + menuItem.getCommand());
             if (menuItem.getDescription() != null) {
-                System.out.print(" - " + menuItem.getDescription());
+                queue.offer("[" + i + "] " + menuItem.getCommand() + " - " + menuItem.getDescription());
+            } else {
+                queue.offer("[" + i + "] " + menuItem.getCommand());
             }
-            System.out.println();
-
             i++;
         }
     }
