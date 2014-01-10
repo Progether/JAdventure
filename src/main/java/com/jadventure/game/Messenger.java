@@ -15,7 +15,7 @@ class Messenger extends Thread {
         while(true) {
             String message;
             while ((message = queue.poll()) != null) {
-                System.out.println(":" + message);
+                System.out.println(message);
             }
         }
     }

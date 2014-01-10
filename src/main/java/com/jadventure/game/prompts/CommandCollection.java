@@ -92,7 +92,7 @@ public enum CommandCollection {
     @Command(command="debug", aliases="", description="Start debugging")
     @SuppressWarnings("UnusedDeclaration")
     public void command_debug(){
-        new DebugPrompt(player);
+        new DebugPrompt(queue, player);
     }
 
     @Command(command="goto", aliases="g", description="Goto a direction")
@@ -108,7 +108,7 @@ public enum CommandCollection {
             if (exits.containsKey(direction)) {
                 ILocation newLocation = exits.get(Direction.valueOf(arg.toUpperCase()));
                 player.setLocation(newLocation);
-                player.getLocation().print();
+                player.getLocation().print(queue);
                 MonsterFactory monsterFactory = new MonsterFactory();
                 Monster monster = monsterFactory.generateMonster(player);
                 player.getLocation().setMonsters(monster);

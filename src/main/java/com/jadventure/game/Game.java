@@ -35,7 +35,7 @@ public class Game {
             this.player = player;
             queue.offer("Welcome back " + player.getName() + "!");
             queue.offer("");
-            player.getLocation().print();
+            player.getLocation().print(queue);
             gamePrompt(player);
         } else {
             queue.offer("Invalid player type");
@@ -53,7 +53,7 @@ public class Game {
         player.setName(userInput);
         queue.offer("Welcome to Silliya " + this.player.getName() + ".");
         queue.offer("");
-        player.getLocation().print();
+        player.getLocation().print(queue);
         
         gamePrompt(player);
     }

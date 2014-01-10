@@ -278,7 +278,7 @@ public class Player extends Entity {
         }
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
-            item.display();
+            item.display(queue);
         } else {
             queue.offer("Item doesn't exist within your view.");
         }
