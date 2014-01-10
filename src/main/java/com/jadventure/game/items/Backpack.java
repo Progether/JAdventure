@@ -29,7 +29,7 @@ public class Backpack extends Storage {
 	}
 
 	/**
-	 * Finds the first item of the same type as the input,
+	 * Finds the only item of the same type as the input,
 	 * and returns that ItemStack.
 	 * This prevents duplicate items in your backpack.
 	 */
