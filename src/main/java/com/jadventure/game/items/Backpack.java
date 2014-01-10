@@ -28,6 +28,11 @@ public class Backpack extends Storage {
 		return false;
 	}
 
+	/**
+	 * Finds the first item of the same type as the input,
+	 * and returns that ItemStack.
+	 * This prevents duplicate items in your backpack.
+	 */
 	private ItemStack getSameType(ItemStack item) {
 		for(ItemStack i : this.items) {
 			if(i.getItem().equals(item.getItem())) {
@@ -77,6 +82,9 @@ public class Backpack extends Storage {
 		}
 	}
 
+	/**
+	 * Prints out the content of the backpack to the console.
+	 */
 	public void display() {
 		System.out.println("\n--------------------------------------------------------------------");
         System.out.println("Backpack: ");
