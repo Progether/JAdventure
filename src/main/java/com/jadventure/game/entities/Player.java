@@ -32,6 +32,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 import java.lang.Math;
 
 /*
@@ -42,6 +43,7 @@ import java.lang.Math;
  */
 public class Player extends Entity {
     private ILocation location;
+    public static BlockingQueue queue;
     
     public Player(){
         
@@ -55,7 +57,8 @@ public class Player extends Entity {
         return file.exists();
     }
 
-    public static Player load(String name) {
+    public static Player load(BlockingQueue q, String name) {
+        queue = q;
         Player player = new Player();
 
         JsonParser parser = new JsonParser();
@@ -96,7 +99,7 @@ public class Player extends Entity {
             player.setLocation(LocationManager.getLocation(coordinate));
             reader.close();
         } catch (FileNotFoundException ex) {
-            System.out.println( "Unable to open file '" + fileName + "'.");
+            queue.offer( "Unable to open file '" + fileName + "'.");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -107,7 +110,8 @@ public class Player extends Entity {
     // This is known as the singleton pattern. It allows for only 1 instance of a player.
     private static Player player;
     
-    public static Player getInstance(String playerClass){
+    public static Player getInstance(BlockingQueue q, String playerClass){
+        queue = q;
         if(playerClass.equals("recruit")){
             // Instead of having a huge constructor, this is much more readable.
             player = new Recruit();
@@ -125,7 +129,7 @@ public class Player extends Entity {
     public static void setUpVariables(Player player) {
         player.setLocation(LocationManager.getInitialLocation());
         float maxWeight = (float)Math.sqrt(player.getStrength()*300);
-        player.setStorage(new Backpack(maxWeight));
+        player.setStorage(new Backpack(queue, maxWeight));
         player.addItemToStorage(new Item("fmil1"));
     }
 
@@ -138,7 +142,7 @@ public class Player extends Entity {
 	}
 
   
-        System.out.println("\nPlayer name: " + getName() +
+        queue.offer("\nPlayer name: " + getName() +
                             "\nCurrent weapon: " + tempname +
                             "\nGold: " + player.getGold() +
                             "\nHealth/Max: " + getHealth() + "/" + getHealthMax() +
@@ -193,9 +197,9 @@ public class Player extends Entity {
             Path orig = Paths.get("json/locations.json");
             Path dest = Paths.get("json/profiles/"+getName()+"/locations.json");
             Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("\nYour game data was saved.");
+            queue.offer("\nYour game data was saved.");
         } catch (IOException ex) {
-            System.out.println("\nUnable to save to file '" + fileName + "'.");
+            queue.offer("\nUnable to save to file '" + fileName + "'.");
         }
     }
 
@@ -228,7 +232,7 @@ public class Player extends Entity {
             Item itemToPickUp = new Item(item.getItemID());
             addItemToStorage(itemToPickUp);
             location.removePublicItem(itemToPickUp.getItemID());
-            System.out.println("\n" + item.getName()+ " picked up");
+            queue.offer("\n" + item.getName()+ " picked up");
         }
     }
 
@@ -245,7 +249,7 @@ public class Player extends Entity {
             }
             removeItemFromStorage(itemToDrop);
             location.addPublicItem(itemToDrop.getItemID());
-            System.out.println("\n" + item.getName()+ " dropped");
+            queue.offer("\n" + item.getName()+ " dropped");
         }
     }
 
@@ -254,7 +258,7 @@ public class Player extends Entity {
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             setWeapon(item.getItemID());
-            System.out.println("\n" + item.getName()+ " equipped");
+            queue.offer("\n" + item.getName()+ " equipped");
         }
     }
 
@@ -263,7 +267,7 @@ public class Player extends Entity {
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             setWeapon("hands");
-            System.out.println("\n" + item.getName()+" dequipped");
+            queue.offer("\n" + item.getName()+" dequipped");
         }
     }
 
@@ -276,7 +280,7 @@ public class Player extends Entity {
             Item item = itemMap.get(0);
             item.display();
         } else {
-            System.out.println("Item doesn't exist within your view.");
+            queue.offer("Item doesn't exist within your view.");
         }
     }
 

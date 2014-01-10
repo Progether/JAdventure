@@ -9,6 +9,7 @@ import com.jadventure.game.navigation.ILocation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * CommandCollection contains the declaration of the methods mapped to game commands
@@ -21,6 +22,7 @@ public enum CommandCollection {
     INSTANCE;
 
     public Player player;
+    public static BlockingQueue queue;
 
     private String helpText = "\nstats: Prints your statistics.\n" +
             "backpack: Prints out the contents of your backpack.\n" +
@@ -40,7 +42,8 @@ public enum CommandCollection {
         return INSTANCE;
     }
 
-    public void initPlayer(Player player){
+    public void initPlayer(Player player, BlockingQueue q){
+        this.queue = q;
         this.player = player;
     }
 
@@ -55,7 +58,7 @@ public enum CommandCollection {
     @Command(command="help", aliases="", description="Prints help")
     @SuppressWarnings("UnusedDeclaration")
     public void command_help(){
-        System.out.println(helpText);
+        queue.offer(helpText);
     }
 
     @Command(command="backpack", aliases="b", description="Backpack contents")
@@ -75,14 +78,14 @@ public enum CommandCollection {
     public void command_m(){
         ArrayList<Monster> monsterList = player.getLocation().getMonsters();
         if (monsterList.size() > 0) {
-            System.out.println("Monsters around you:");
-            System.out.println("----------------------------");
+            queue.offer("Monsters around you:");
+            queue.offer("----------------------------");
             for (Monster monster : monsterList) {
-                System.out.println(monster.monsterType);
+                queue.offer(monster.monsterType);
             }
-            System.out.println("----------------------------");
+            queue.offer("----------------------------");
         } else {
-            System.out.println("There are no monsters around you");
+            queue.offer("There are no monsters around you");
         }
     }
 
@@ -110,12 +113,12 @@ public enum CommandCollection {
                 Monster monster = monsterFactory.generateMonster(player);
                 player.getLocation().setMonsters(monster);
             } else {
-                System.out.println("The is no exit that way.");
+                queue.offer("The is no exit that way.");
             }
         } catch (IllegalArgumentException ex) {
-            System.out.println("That direction doesn't exist");
+            queue.offer("That direction doesn't exist");
         } catch (NullPointerException ex) {
-            System.out.println("That direction doesn't exist");
+            queue.offer("That direction doesn't exist");
         }
     }
 

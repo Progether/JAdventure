@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * The location class mostly deals with getting and setting variables.
@@ -127,28 +128,28 @@ public class Location implements ILocation {
         setItems(items);
     }
 
-    public void print() {
-        System.out.println(getTitle() + ":");
-        System.out.println(getDescription());
+    public void print(BlockingQueue queue) {
+        queue.offer(getTitle() + ":");
+        queue.offer(getDescription());
         ArrayList<Item> publicItems = getItems();
         if (!publicItems.isEmpty()) {
-            System.out.println("Items:");
+            queue.offer("Items:");
             for (Item item : publicItems) {
-                System.out.println("    "+item.getName());
+                queue.offer("    "+item.getName());
             }
         }
         ArrayList<NPC> npcs = getNPCs();
         if (!npcs.isEmpty()) {
-            System.out.println("NPCs:");
+            queue.offer("NPCs:");
             for (NPC npc : npcs) {
-                System.out.println("   "+npc.getName());
+                queue.offer("   "+npc.getName());
             }
         }
-        System.out.println();
+        queue.offer("");
         for (Map.Entry<Direction,ILocation> direction : getExits().entrySet()) {
             System.out.print(direction.getKey().getDescription() + ", ");
-            System.out.println(direction.getValue().getDescription());
+            queue.offer(direction.getValue().getDescription());
         }
-        System.out.println();
+        queue.offer("");
     }
 }

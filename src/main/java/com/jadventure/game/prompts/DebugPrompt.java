@@ -4,6 +4,7 @@ import com.jadventure.game.entities.Player;
 import com.jadventure.game.prompts.BackpackDebugPrompt;
 
 import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Defines the debugging prompt.
@@ -11,6 +12,8 @@ import java.util.Scanner;
  * This is opened with the 'debug' option in the main game prompt.
  */
 public class DebugPrompt{
+    public static BlockingQueue queue;
+
     private static String helpText = "\nattack: Modify player's attack damage\n"+
                               "health: Modify player's health\n"+
                               "maxhealth: Modify player's maximum health\n"+
@@ -22,11 +25,12 @@ public class DebugPrompt{
                               "help: Prints this info\n"+
                               "exit: Exits the debug prompt\n";
     
-    public DebugPrompt(Player player){
+    public DebugPrompt(BlockingQueue q, Player player){
+        queue = q;
         boolean continuePrompt = true;
         Scanner input = new Scanner(System.in);
         while(continuePrompt){
-            System.out.println("\nDebugPrompt:");
+            queue.offer("\nDebugPrompt:");
             String command = input.nextLine();
             continuePrompt = parse(player, command.toLowerCase());
         }
@@ -72,22 +76,22 @@ public class DebugPrompt{
                 player.setGold(newVal);
             }
 		    else if(command.equals("backpack")){
-                new BackpackDebugPrompt(player);
+                new BackpackDebugPrompt(queue, player);
 		    }
 		    else if(command.equals("stats"))
 			    player.getStats();
             else if(command.equals("help"))
-                System.out.println(helpText);
+                queue.offer(helpText);
 			else if(command.equals("exit"))
 			    continuePrompt = false;
             else
-                System.out.println("Unknown command. Type help for a list of commands");
+                queue.offer("Unknown command. Type help for a list of commands");
         }
         catch(NumberFormatException e){
-            System.out.println("Value not acceptable");
+            queue.offer("Value not acceptable");
         }
         catch(IllegalArgumentException e){
-            System.out.println("Invalid value");
+            queue.offer("Invalid value");
         }
 
         return continuePrompt;

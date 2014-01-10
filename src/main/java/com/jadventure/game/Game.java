@@ -9,13 +9,14 @@ import com.jadventure.game.prompts.CommandParser;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * This class contains the main loop that takes the input and
  * does the according actions.
  */
 public class Game {
-    
+    public static BlockingQueue queue; 
     public ArrayList<Monster> monsterList = new ArrayList<Monster>();
     public MonsterFactory monsterFactory = new MonsterFactory(); 
     public CommandParser parser;
@@ -23,20 +24,21 @@ public class Game {
     public Monster monster;
     Player player = null;
 
-    public Game(Player player, String playerType) {
-        parser = new CommandParser(player);
+    public Game(BlockingQueue q, Player player, String playerType) {
+        queue = q;
+        parser = new CommandParser(player, queue);
         player.setLocation(LocationManager.INSTANCE.getInitialLocation());
         if (playerType.equals("new")) { // New Game
             this.player = player;
             newGameStart(player);
         } else if (playerType.equals("old")) {
             this.player = player;
-            System.out.println("Welcome back " + player.getName() + "!");
-            System.out.println();
+            queue.offer("Welcome back " + player.getName() + "!");
+            queue.offer("");
             player.getLocation().print();
             gamePrompt(player);
         } else {
-            System.out.println("Invalid player type");
+            queue.offer("Invalid player type");
         }
     }
     
@@ -46,11 +48,11 @@ public class Game {
      * and welcomes him/her. After that, it goes to the normal game prompt.
      */
     public void newGameStart(Player player) {
-        System.out.println(player.getIntro());
+        queue.offer(player.getIntro());
         String userInput = input.next();
         player.setName(userInput);
-        System.out.println("Welcome to Silliya " + this.player.getName() + ".");
-        System.out.println();
+        queue.offer("Welcome to Silliya " + this.player.getName() + ".");
+        queue.offer("");
         player.getLocation().print();
         
         gamePrompt(player);
@@ -65,7 +67,7 @@ public class Game {
     public void gamePrompt(Player player) {
         boolean continuePrompt = true;
         while (continuePrompt) {
-            System.out.println("Prompt:");
+            queue.offer("Prompt:");
             String command = input.nextLine().toLowerCase();
             continuePrompt = parser.parse(player, command, continuePrompt);
         }

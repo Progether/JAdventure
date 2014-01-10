@@ -6,6 +6,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.TreeMap;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * CommandParser parses the game commands
@@ -16,8 +17,10 @@ import java.util.TreeMap;
 public class CommandParser {
     Player player;
     private TreeMap<String, Method> commandMap;
+    public static BlockingQueue queue;
 
-    public CommandParser(Player player){
+    public CommandParser(Player player, BlockingQueue q){
+        queue = q;
         this.player = player;
         commandMap = new TreeMap<String, Method>();
 
@@ -44,7 +47,7 @@ public class CommandParser {
 
     public boolean parse(Player player, String command, boolean continuePrompt) {
         CommandCollection com = CommandCollection.getInstance();
-        com.initPlayer(player);
+        com.initPlayer(player, queue);
 
         if(command.equals("exit"))
             return false;

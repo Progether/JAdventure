@@ -47,7 +47,7 @@ public class MainMenu extends Menus {
                 queue.offer("Unable to load new locations file.");
                 ex.printStackTrace();
             }
-            new ChooseClassMenu();
+            new ChooseClassMenu(queue);
         }
         else if(key.equals("exit")) {
             queue.offer("Goodbye!");
@@ -60,13 +60,13 @@ public class MainMenu extends Menus {
             while (player == null) {
                 key = input.next();
                 if (Player.profileExists(key)) {
-                    player = Player.load(key);
+                    player = Player.load(queue, key);
                 } else {
                     queue.offer("That user doesn't exist. Try again.");
                 }
             }
 
-            Game game = new Game(player, "old");
+            Game game = new Game(queue, player, "old");
         }
     }
 }

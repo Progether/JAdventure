@@ -1,13 +1,17 @@
 package com.jadventure.game.items;
 
 import java.util.ArrayList;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Represents a players backpack.
  */
 public class Backpack extends Storage {
-	public Backpack(double maxWeight) {
-		this.maxWeight = maxWeight;
+    public static BlockingQueue queue;
+
+	public Backpack(BlockingQueue q, double maxWeight) {
+            queue = q;
+            this.maxWeight = maxWeight;
 	}
 
 	public Backpack(double maxWeight, ArrayList<ItemStack> initialItems) {
@@ -78,10 +82,10 @@ public class Backpack extends Storage {
 	}
 
 	public void display() {
-		System.out.println("\n--------------------------------------------------------------------");
-        System.out.println("Backpack: ");
-        System.out.println(this.toString());
-        System.out.println("--------------------------------------------------------------------");
+            queue.offer("\n--------------------------------------------------------------------");
+            queue.offer("Backpack: ");
+            queue.offer(this.toString());
+            queue.offer("--------------------------------------------------------------------");
 	}
 
 	public boolean isEmpty() {
