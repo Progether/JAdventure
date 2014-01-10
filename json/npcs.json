@@ -1,0 +1,37 @@
+{
+  "npcs": {
+    "guide": {
+      "name": "Guide",
+      "relationships": [
+        {
+          "recruit": "ally"
+        },
+        {
+          "sewer rat": "ally"
+        }
+      ]
+    },
+    "sewerrat": {
+      "name": "sewer rat",
+      "relationships": [
+        {
+          "recruit": "enemy"
+        },
+        {
+          "sewer rat": "ally"
+        }
+      ]
+    },
+    "recruit": {
+      "name": "recruit",
+      "relationships": [
+        {
+          "recruit": "ally"
+        },
+        {
+          "sewer rat": "enemy"
+        }
+      ]
+    }
+  }
+}

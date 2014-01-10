@@ -7,11 +7,6 @@ import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.prompts.CommandParser;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -32,13 +27,6 @@ public class Game {
         parser = new CommandParser(player);
         player.setLocation(LocationManager.INSTANCE.getInitialLocation());
         if (playerType.equals("new")) { // New Game
-            try {
-                Path orig = Paths.get("json/original_data/locations.json");
-                Path dest = Paths.get("json/locations.json");
-                Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException ex) {
-                System.out.println("Unable to load new locations file.");
-            }
             this.player = player;
             newGameStart(player);
         } else if (playerType.equals("old")) {

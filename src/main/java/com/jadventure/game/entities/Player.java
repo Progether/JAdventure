@@ -32,6 +32,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.Math;
 
 /*
  * This class deals with the player and all of its properties.
@@ -41,18 +42,14 @@ import java.util.Map;
  */
 public class Player extends Entity {
     private ILocation location;
-    public static final double MAX_BACKPACK_WEIGHT = 60.0;
     
     public Player(){
-        setStorage(new Backpack(MAX_BACKPACK_WEIGHT));
-        Item milk = new Item("fmil1");
-        addItemToStorage(milk);
+        
     }
 
     protected static String getProfileFileName(String name) {
         return "json/profiles/" + name + "/" + name + "_profile.json";
     }
-
     public static boolean profileExists(String name) {
         File file = new File(getProfileFileName(name));
         return file.exists();
@@ -73,6 +70,11 @@ public class Player extends Entity {
             player.setArmour(json.get("armour").getAsInt());
             player.setDamage(json.get("damage").getAsInt());
             player.setLevel(json.get("level").getAsInt());
+            player.setStrength(json.get("strength").getAsInt());
+            player.setStrength(json.get("intelligence").getAsInt());
+            player.setStrength(json.get("dexterity").getAsInt());
+            player.setStrength(json.get("luck").getAsInt());
+            player.setStrength(json.get("stealth").getAsInt());
             player.setWeapon(json.get("weapon").getAsString());
             if (json.has("items")) {
                 HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
@@ -84,7 +86,8 @@ public class Player extends Entity {
                     ItemStack itemStack = new ItemStack(amount, item);
                     itemList.add(itemStack);
                 }
-                player.setStorage(new Backpack(MAX_BACKPACK_WEIGHT, itemList));
+                float maxWeight = (float)Math.sqrt(player.getStrength()*300);
+                player.setStorage(new Backpack(maxWeight, itemList));
             }
             Path orig = Paths.get("json/profiles/"+name+"/locations.json");
             Path dest = Paths.get("json/locations.json");
@@ -107,24 +110,44 @@ public class Player extends Entity {
     public static Player getInstance(String playerClass){
         if(playerClass.equals("recruit")){
             // Instead of having a huge constructor, this is much more readable.
-            player =  new Recruit();
-            player.setLocation(LocationManager.getInitialLocation());
+            player = new Recruit();
+            setUpVariables(player);
             return player;
             
         } else if(playerClass.equals("sewerrat")) {
             player = new SewerRat();
-            player.setLocation(LocationManager.getInitialLocation());
+            setUpVariables(player);
             return player;
         }
         return player;
     }
 
+    public static void setUpVariables(Player player) {
+        player.setLocation(LocationManager.getInitialLocation());
+        float maxWeight = (float)Math.sqrt(player.getStrength()*300);
+        player.setStorage(new Backpack(maxWeight));
+        player.addItemToStorage(new Item("fmil1"));
+    }
+
     public void getStats(){
-        System.out.println("Player name: " + getName() +
-                            "\nCurrent weapon: " + player.getWeapon() +
+        Item weapon = new Item(getWeapon());
+        String tempname = weapon.getName();
+
+	if (tempname == null){
+	    tempname = "hands";
+	}
+
+  
+        System.out.println("\nPlayer name: " + getName() +
+                            "\nCurrent weapon: " + tempname +
                             "\nGold: " + player.getGold() +
                             "\nHealth/Max: " + getHealth() + "/" + getHealthMax() +
                             "\nDamage/Armour: " + getDamage() + "/" + getArmour() +
+                            "\nStrength: " + getStrength() +
+                            "\nIntelligence: " + getIntelligence() +
+                            "\nDexterity: " + getDexterity() +
+                            "\nLuck: " + getLuck() +
+                            "\nStealth: " + getStealth() +
                             "\n" + getName() + "'s level: " + getLevel());
     }
 
@@ -141,6 +164,11 @@ public class Player extends Entity {
         jsonObject.addProperty("armour", getArmour());
         jsonObject.addProperty("damage", getDamage());
         jsonObject.addProperty("level", getLevel());
+        jsonObject.addProperty("strength", getStrength());
+        jsonObject.addProperty("intelligence", getIntelligence());
+        jsonObject.addProperty("dexterity", getDexterity());
+        jsonObject.addProperty("luck", getLuck());
+        jsonObject.addProperty("stealth", getStealth());
         jsonObject.addProperty("weapon", getWeapon());
         HashMap<String, Integer> items = new HashMap<String, Integer>();
         JsonArray itemList = new JsonArray();
@@ -165,9 +193,9 @@ public class Player extends Entity {
             Path orig = Paths.get("json/locations.json");
             Path dest = Paths.get("json/profiles/"+getName()+"/locations.json");
             Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("Your game data was saved.");
+            System.out.println("\nYour game data was saved.");
         } catch (IOException ex) {
-            System.out.println("Unable to save to file '" + fileName + "'.");
+            System.out.println("\nUnable to save to file '" + fileName + "'.");
         }
     }
 
@@ -200,6 +228,7 @@ public class Player extends Entity {
             Item itemToPickUp = new Item(item.getItemID());
             addItemToStorage(itemToPickUp);
             location.removePublicItem(itemToPickUp.getItemID());
+            System.out.println("\n" + item.getName()+ " picked up");
         }
     }
 
@@ -208,8 +237,15 @@ public class Player extends Entity {
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             Item itemToDrop = new Item(item.getItemID());
+            Item weapon = new Item(getWeapon());
+            String wName = weapon.getName();
+
+            if (itemName.equals(wName)) {
+                dequipItem(wName);
+            }
             removeItemFromStorage(itemToDrop);
             location.addPublicItem(itemToDrop.getItemID());
+            System.out.println("\n" + item.getName()+ " dropped");
         }
     }
 
@@ -218,6 +254,7 @@ public class Player extends Entity {
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             setWeapon(item.getItemID());
+            System.out.println("\n" + item.getName()+ " equipped");
         }
     }
 
@@ -226,6 +263,20 @@ public class Player extends Entity {
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             setWeapon("hands");
+            System.out.println("\n" + item.getName()+" dequipped");
+        }
+    }
+
+    public void inspectItem(String itemName) {
+        ArrayList<Item> itemMap = searchItem(itemName, getStorage());
+        if (itemMap.isEmpty()) {
+            itemMap = searchItem(itemName, getLocation().getItems());
+        }
+        if (!itemMap.isEmpty()) {
+            Item item = itemMap.get(0);
+            item.display();
+        } else {
+            System.out.println("Item doesn't exist within your view.");
         }
     }
 
