@@ -27,7 +27,7 @@ public abstract class Entity {
     private int dexterity;
     private int luck;
     private int stealth;
-    private  int gold;
+    private int gold;
     private double damage = 30;
     private int critChance = 0;
     // Every point in armour reduces an attackers attack by .33

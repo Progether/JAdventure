@@ -71,10 +71,10 @@ public class Player extends Entity {
             player.setDamage(json.get("damage").getAsInt());
             player.setLevel(json.get("level").getAsInt());
             player.setStrength(json.get("strength").getAsInt());
-            player.setStrength(json.get("intelligence").getAsInt());
-            player.setStrength(json.get("dexterity").getAsInt());
-            player.setStrength(json.get("luck").getAsInt());
-            player.setStrength(json.get("stealth").getAsInt());
+            player.setIntelligence(json.get("intelligence").getAsInt());
+            player.setDexterity(json.get("dexterity").getAsInt());
+            player.setLuck(json.get("luck").getAsInt());
+            player.setStealth(json.get("stealth").getAsInt());
             player.setWeapon(json.get("weapon").getAsString());
             player.setHead(json.get("head").getAsString());
             player.setChest(json.get("chest").getAsString());
@@ -140,7 +140,7 @@ public class Player extends Entity {
         String weapname = weapon.getName();
 
         if (weapname == null){
-        weapname = "hands";
+            weapname = "hands";
         }
         
         Item head = new Item(getHead());
@@ -149,7 +149,6 @@ public class Player extends Entity {
         if (headname == null){
             headname = "none";
         }
-
         Item chest = new Item(getChest());
         String chestname = chest.getName();
 
@@ -187,8 +186,8 @@ public class Player extends Entity {
   
         System.out.println("\nPlayer name: " + getName() +
                             "\nCurrent weapon: " + weapname +
-                            "\nCurrent armour: Head- " + headname + " Chest- " + chestname + " Arms- " + armname + " Legs- " + legname                            + " Feet- " + feetname + " Shield- " +shieldname + 
-                            "\nGold: " + player.getGold() +
+                             "\nCurrent armour: Head- " + headname + " Chest- " + chestname + " Arms- " + armname + " Legs- " + legname + " Feet- " + feetname + " Shield- " + shieldname + 
+                            "\nGold: " + getGold() +
                             "\nHealth/Max: " + getHealth() + "/" + getHealthMax() +
                             "\nDamage/Armour: " + getDamage() + "/" + getArmour() +
                             "\nStrength: " + getStrength() +
@@ -293,48 +292,237 @@ public class Player extends Entity {
             Item itemToDrop = new Item(item.getItemID());
             Item weapon = new Item(getWeapon());
             String wName = weapon.getName();
+            Item head = new Item(getHead());
+            String hName = head.getName();
+            Item chest = new Item(getChest());
+            String cName = chest.getName();
+            Item legs = new Item(getLegs());
+            String lName = legs.getName();
+            Item arms = new Item(getArms());
+            String aName = arms.getName();
+            Item feet = new Item(getFeet());
+            String fName = feet.getName();
+            Item shield = new Item(getShield());
+            String sName = shield.getName();
+
 
             if (itemName.equals(wName)) {
                 dequipItem(wName);
+            }
+            if (itemName.equals(hName)) {
+                dequipItem(hName);
+            }
+            if (itemName.equals(cName)) {
+                dequipItem(cName);
+            }
+            if (itemName.equals(lName)) {
+                dequipItem(lName);
+            }
+            if (itemName.equals(aName)) {
+                dequipItem(aName);
+            }
+            if (itemName.equals(fName)) {
+                dequipItem(fName);
+            }
+            if (itemName.equals(sName)) {
+                dequipItem(sName);
             }
             removeItemFromStorage(itemToDrop);
             location.addPublicItem(itemToDrop.getItemID());
             System.out.println("\n" + item.getName()+ " dropped");
         }
     }
+    
+    public enum Part {
+	onehand, twohand, head, chest, legs, arms, feet, shield;
+    }
 
     public void equipItem(String itemName) {
         ArrayList<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
+            String name;
             Item item = itemMap.get(0);
             String bodypart = item.getBodypart();
-            switch (bodypart) {
+            Part bpart = Part.valueOf(bodypart.toLowerCase());
+            switch (bpart) {
 
-            case "onehand": setWeapon(item.getItemID());
+            case onehand: 
+                Item pweapon = new Item(getWeapon());
+                name = pweapon.getName();
+
+                   if (name == null){
+                     name = "hands";
+                   }  
+                   
+                   if (name.equals("hands")){
+                   setWeapon(item.getItemID());
+                   System.out.println("\n" + item.getName()+ " equipped");
+                   }
+                   
+                   else {
+                   dequipItem(name);
+                   setWeapon(item.getItemID());
+                   System.out.println("\n" + item.getName()+ " equipped");
+                   }
                   break;
 
-            case "twohand": setWeapon(item.getItemID());
-                    Item tempshield = new Item(getShield());
-                    String sname = tempshield.getName();
-                    dequipItem(sname);
+            case twohand: 
+                pweapon = new Item(getWeapon());
+                name = pweapon.getName();
+
+                if (name == null){
+                    name = "hands";
+                   }
+                   
+                   if (name.equals("hands")){
+                   setWeapon(item.getItemID());
+                   System.out.println("\n" + item.getName()+ " equipped");
+                   Item tempshield = new Item(getShield());
+                   String sname = tempshield.getName();
+                   dequipItem(sname);
+                   }
+                   
+                   else {
+                   dequipItem(name);
+                   setWeapon(item.getItemID());
+                   System.out.println("\n" + item.getName()+ " equipped");
+                   Item tempshield = new Item(getShield());
+                   String sname = tempshield.getName();
+                   dequipItem(sname);
+                   System.out.println("\n" + item.getName()+" dequipped");
+                   }
+
                   break;
-            case "head": setHead(item.getItemID());
+            case head: 
+                Item phead = new Item(getHead());
+                name = phead.getName();
+
+                   if (name == null){
+                     name = "none";
+                   }  
+				   
+                   if (name.equals("none")){
+                   setHead(item.getItemID());
+                   System.out.println("\n" + item.getName()+ " equipped");
+                   }
+				   
+                   else {
+                   dequipItem(name);
+                   setHead(item.getItemID());
+                   System.out.println("\n" + item.getName()+ " equipped");
+                   }
                   break;
-            case "chest": setChest(item.getItemID());
+
+            case chest: 
+                Item pchest = new Item(getChest());
+                name = pchest.getName();
+
+                   if (name == null){
+                     name = "shirt";
+                   }  
+				   
+                   if (name.equals("shirt")){
+                   setChest(item.getItemID());
+                   System.out.println("\n" + item.getName()+ " equipped");
+                   }
+				   
+                   else {
+                   dequipItem(name);
+                   setChest(item.getItemID());
+                   System.out.println("\n" + item.getName()+ " equipped");
+                   }
+
                   break;
-            case "legs": setLegs(item.getItemID());
+            case legs: 
+                Item plegs = new Item(getLegs());
+                name = plegs.getName();
+
+                   if (name == null){
+                     name = "pants";
+                   }  
+				   
+                   if (name.equals("pants")){
+                   setLegs(item.getItemID());
+                   System.out.println("\n" + item.getName()+ " equipped");
+                   }
+				   
+                   else {
+                   dequipItem(name);
+                   setLegs(item.getItemID());
+                   System.out.println("\n" + item.getName()+ " equipped");
+                   }
+
                   break;
-            case "arms": setArms(item.getItemID());
+            case arms: 
+                Item parms = new Item(getArms());
+                name = parms.getName();
+
+                   if (name == null){
+                     name = "none";
+                   }  
+				   
+                   if (name.equals("none")){
+                   setArms(item.getItemID());
+                   System.out.println("\n" + item.getName()+ " equipped");
+                   }
+				   
+                   else {
+                   dequipItem(name);
+                   setArms(item.getItemID());
+                   System.out.println("\n" + item.getName()+ " equipped");
+                   }
+
                   break;
-            case "feet": setFeet(item.getItemID());
+            case feet: 
+                Item pfeet = new Item(getFeet());
+                name = pfeet.getName();
+
+                   if (name == null){
+                     name = "none";
+                   }  
+				   
+                   if (name.equals("none")){
+                   setFeet(item.getItemID());
+                   System.out.println("\n" + item.getName()+ " equipped");
+                   }
+				   
+                   else {
+                   dequipItem(name);
+                   setFeet(item.getItemID());
+                   System.out.println("\n" + item.getName()+ " equipped");
+                   }
+
                   break;
-            case "shield": setShield(item.getItemID());
+            case shield: 
+                Item pshield = new Item(getShield());
+                name = pshield.getName();
+                Item cweapon = new Item(getWeapon());
+                String cweapbodypart = cweapon.getBodypart();
+                if (name == null){
+                    name = "none";
+                   }
+                   
+                   if ((name.equals("none")) & !(cweapbodypart.equals("twohand"))){
+                   setShield(item.getItemID());
+                   System.out.println("\n" + item.getName()+ " equipped");
+                   Item tempshield = new Item(getShield());
+                   String sname = tempshield.getName();
+                   }
+                   
+                   else if (cweapbodypart.equals("twohand")){
+                   System.out.println("dequip " + cweapon.getName() + " first, cannot use shield with two handed weapon");
+                   }
+                   
+                   else if (cweapbodypart.equals("onehand")){
+                   dequipItem(name);
+                   setShield(item.getItemID());
+                   System.out.println("\n" + item.getName()+ " equipped");
+                }
                   break;
+                  
             default: break;
 
-        }
-
-            System.out.println("\n" + item.getName()+ " equipped");
+            }
         }
     }
 
@@ -342,25 +530,25 @@ public class Player extends Entity {
         ArrayList<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
-            String tempbodypart = item.getBodypart();
+            String bodypart = item.getBodypart();
+            Part bpart = Part.valueOf(bodypart.toLowerCase());
+            switch (bpart) {
 
-            switch(tempbodypart) {
+            case onehand: setWeapon("hands");
 
-            case "onehand": setWeapon("hands");
+            case twohand: setWeapon("hands");
 
-            case "twohand": setWeapon("hands");
+            case head: setHead("none");
 
-            case "head": setHead("none");
+            case chest: setChest("shirt");
 
-            case "chest": setChest("shirt");
+            case legs: setLegs("pants");
 
-            case "legs": setLegs("pants");
+            case arms: setArms("none");
 
-            case "arms": setArms("none");
+            case feet: setFeet("none");
 
-            case "feet": setFeet("none");
-
-            case "shield": setShield("none");
+            case shield: setShield("none");
 
             default: break;
             }
