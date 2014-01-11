@@ -26,6 +26,12 @@ public class SewerRat extends Player {
         this.setLuck(luck);
         this.setStealth(2);
         this.setWeapon("hands");
+        this.setHead("none");
+        this.setChest("shirt");
+        this.setLegs("pants");
+        this.setArms("none");
+        this.setFeet("none");
+        this.setShield("none");
         this.setIntro("Hey, rat. . . you dead??\n*You let out a groan...*\nWhat are you doing?!? Don't you know it's crazy to sleep so close to the recruits' camp? A guard will come down those stairs soon enough and catch you! You'll end up being drafted! You better come back in.\nBy the way, what's your name?");
     }
 
