@@ -5,11 +5,11 @@ import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.navigation.Direction;
 import com.jadventure.game.navigation.ILocation;
+import com.jadventure.game.QueueProducer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * CommandCollection contains the declaration of the methods mapped to game commands
@@ -22,7 +22,6 @@ public enum CommandCollection {
     INSTANCE;
 
     public Player player;
-    public static BlockingQueue queue;
 
     private String helpText = "\nstats: Prints your statistics.\n" +
             "backpack: Prints out the contents of your backpack.\n" +
@@ -42,8 +41,7 @@ public enum CommandCollection {
         return INSTANCE;
     }
 
-    public void initPlayer(Player player, BlockingQueue q){
-        this.queue = q;
+    public void initPlayer(Player player){
         this.player = player;
     }
 
@@ -58,7 +56,7 @@ public enum CommandCollection {
     @Command(command="help", aliases="", description="Prints help")
     @SuppressWarnings("UnusedDeclaration")
     public void command_help(){
-        queue.offer(helpText);
+        QueueProducer.offer(helpText);
     }
 
     @Command(command="backpack", aliases="b", description="Backpack contents")
@@ -78,21 +76,21 @@ public enum CommandCollection {
     public void command_m(){
         ArrayList<Monster> monsterList = player.getLocation().getMonsters();
         if (monsterList.size() > 0) {
-            queue.offer("Monsters around you:");
-            queue.offer("----------------------------");
+            QueueProducer.offer("Monsters around you:");
+            QueueProducer.offer("----------------------------");
             for (Monster monster : monsterList) {
-                queue.offer(monster.monsterType);
+                QueueProducer.offer(monster.monsterType);
             }
-            queue.offer("----------------------------");
+            QueueProducer.offer("----------------------------");
         } else {
-            queue.offer("There are no monsters around you");
+            QueueProducer.offer("There are no monsters around you");
         }
     }
 
     @Command(command="debug", aliases="", description="Start debugging")
     @SuppressWarnings("UnusedDeclaration")
     public void command_debug(){
-        new DebugPrompt(queue, player);
+        new DebugPrompt(player);
     }
 
     @Command(command="goto", aliases="g", description="Goto a direction")
@@ -108,17 +106,17 @@ public enum CommandCollection {
             if (exits.containsKey(direction)) {
                 ILocation newLocation = exits.get(Direction.valueOf(arg.toUpperCase()));
                 player.setLocation(newLocation);
-                player.getLocation().print(queue);
+                player.getLocation().print();
                 MonsterFactory monsterFactory = new MonsterFactory();
                 Monster monster = monsterFactory.generateMonster(player);
                 player.getLocation().setMonsters(monster);
             } else {
-                queue.offer("The is no exit that way.");
+                QueueProducer.offer("The is no exit that way.");
             }
         } catch (IllegalArgumentException ex) {
-            queue.offer("That direction doesn't exist");
+            QueueProducer.offer("That direction doesn't exist");
         } catch (NullPointerException ex) {
-            queue.offer("That direction doesn't exist");
+            QueueProducer.offer("That direction doesn't exist");
         }
     }
 

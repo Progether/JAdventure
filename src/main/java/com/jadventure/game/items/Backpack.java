@@ -1,16 +1,15 @@
 package com.jadventure.game.items;
 
+import com.jadventure.game.QueueProducer;
+
 import java.util.ArrayList;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * Represents a players backpack.
  */
 public class Backpack extends Storage {
-    public static BlockingQueue queue;
 
-	public Backpack(BlockingQueue q, double maxWeight) {
-            queue = q;
+	public Backpack(double maxWeight) {
             this.maxWeight = maxWeight;
 	}
 
@@ -82,10 +81,10 @@ public class Backpack extends Storage {
 	}
 
 	public void display() {
-            queue.offer("\n--------------------------------------------------------------------");
-            queue.offer("Backpack: ");
-            queue.offer(this.toString());
-            queue.offer("--------------------------------------------------------------------");
+            QueueProducer.offer("\n--------------------------------------------------------------------");
+            QueueProducer.offer("Backpack: ");
+            QueueProducer.offer(this.toString());
+            QueueProducer.offer("--------------------------------------------------------------------");
 	}
 
 	public boolean isEmpty() {

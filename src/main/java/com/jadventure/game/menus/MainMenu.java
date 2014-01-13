@@ -6,8 +6,8 @@ import java.util.Scanner;
 import com.jadventure.game.Game;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.menus.ChooseClassMenu;
+import com.jadventure.game.QueueProducer;
 
-import java.util.concurrent.BlockingQueue;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -21,11 +21,8 @@ import java.nio.file.StandardCopyOption;
  * start a new one, or exit to the terminal.
  */
 public class MainMenu extends Menus {
-    public static BlockingQueue queue;
-
-     public MainMenu(BlockingQueue q){
-         queue = q;
-         super.queue = q;
+     
+    public MainMenu(){
          this.menuItems.add(new MenuItem("Start", "Starts a new Game", "new"));
          this.menuItems.add(new MenuItem("Load", "Loads an existing Game"));
          this.menuItems.add(new MenuItem("Exit", null, "quit"));
@@ -44,29 +41,29 @@ public class MainMenu extends Menus {
                 Path dest = Paths.get("json/locations.json");
                 Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException ex) {
-                queue.offer("Unable to load new locations file.");
+                QueueProducer.offer("Unable to load new locations file.");
                 ex.printStackTrace();
             }
-            new ChooseClassMenu(queue);
+            new ChooseClassMenu();
         }
         else if(key.equals("exit")) {
-            queue.offer("Goodbye!");
+            QueueProducer.offer("Goodbye!");
             System.exit(0);
         }
         else if(key.equals("load")) {
-            queue.offer("What is the name of the avatar you want to load?");
+            QueueProducer.offer("What is the name of the avatar you want to load?");
             Player player = null;
 
             while (player == null) {
                 key = input.next();
                 if (Player.profileExists(key)) {
-                    player = Player.load(queue, key);
+                    player = Player.load(key);
                 } else {
-                    queue.offer("That user doesn't exist. Try again.");
+                    QueueProducer.offer("That user doesn't exist. Try again.");
                 }
             }
 
-            Game game = new Game(queue, player, "old");
+            Game game = new Game(player, "old");
         }
     }
 }

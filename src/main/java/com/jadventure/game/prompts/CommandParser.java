@@ -1,12 +1,12 @@
 package com.jadventure.game.prompts;
 
 import com.jadventure.game.entities.Player;
+import com.jadventure.game.QueueProducer;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.TreeMap;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * CommandParser parses the game commands
@@ -17,10 +17,8 @@ import java.util.concurrent.BlockingQueue;
 public class CommandParser {
     Player player;
     private TreeMap<String, Method> commandMap;
-    public static BlockingQueue queue;
 
-    public CommandParser(Player player, BlockingQueue q){
-        queue = q;
+    public CommandParser(Player player){
         this.player = player;
         commandMap = new TreeMap<String, Method>();
 
@@ -47,7 +45,7 @@ public class CommandParser {
 
     public boolean parse(Player player, String command, boolean continuePrompt) {
         CommandCollection com = CommandCollection.getInstance();
-        com.initPlayer(player, queue);
+        com.initPlayer(player);
 
         if(command.equals("exit"))
             return false;

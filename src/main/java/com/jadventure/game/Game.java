@@ -6,17 +6,16 @@ import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.prompts.CommandParser;
+import com.jadventure.game.QueueProducer;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * This class contains the main loop that takes the input and
  * does the according actions.
  */
 public class Game {
-    public static BlockingQueue queue; 
     public ArrayList<Monster> monsterList = new ArrayList<Monster>();
     public MonsterFactory monsterFactory = new MonsterFactory(); 
     public CommandParser parser;
@@ -24,21 +23,20 @@ public class Game {
     public Monster monster;
     Player player = null;
 
-    public Game(BlockingQueue q, Player player, String playerType) {
-        queue = q;
-        parser = new CommandParser(player, queue);
+    public Game(Player player, String playerType) {
+        parser = new CommandParser(player);
         player.setLocation(LocationManager.INSTANCE.getInitialLocation());
         if (playerType.equals("new")) { // New Game
             this.player = player;
             newGameStart(player);
         } else if (playerType.equals("old")) {
             this.player = player;
-            queue.offer("Welcome back " + player.getName() + "!");
-            queue.offer("");
-            player.getLocation().print(queue);
+            QueueProducer.offer("Welcome back " + player.getName() + "!");
+            QueueProducer.offer("");
+            player.getLocation().print();
             gamePrompt(player);
         } else {
-            queue.offer("Invalid player type");
+            QueueProducer.offer("Invalid player type");
         }
     }
     
@@ -48,12 +46,12 @@ public class Game {
      * and welcomes him/her. After that, it goes to the normal game prompt.
      */
     public void newGameStart(Player player) {
-        queue.offer(player.getIntro());
+        QueueProducer.offer(player.getIntro());
         String userInput = input.next();
         player.setName(userInput);
-        queue.offer("Welcome to Silliya " + this.player.getName() + ".");
-        queue.offer("");
-        player.getLocation().print(queue);
+        QueueProducer.offer("Welcome to Silliya " + this.player.getName() + ".");
+        QueueProducer.offer("");
+        player.getLocation().print();
         
         gamePrompt(player);
     }
@@ -67,7 +65,7 @@ public class Game {
     public void gamePrompt(Player player) {
         boolean continuePrompt = true;
         while (continuePrompt) {
-            queue.offer("Prompt:");
+            QueueProducer.offer("Prompt:");
             String command = input.nextLine().toLowerCase();
             continuePrompt = parser.parse(player, command, continuePrompt);
         }

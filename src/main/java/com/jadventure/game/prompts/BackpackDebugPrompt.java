@@ -2,9 +2,9 @@ package com.jadventure.game.prompts;
 
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.items.Item;
+import com.jadventure.game.QueueProducer;
 
 import java.util.Scanner;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * BackpackDebugPrompt is for editing the backpack contents
@@ -13,7 +13,6 @@ import java.util.concurrent.BlockingQueue;
  * Items are added by their names and removed by their display name
  */
 public class BackpackDebugPrompt{
-    public static BlockingQueue queue;
 
     private static String helpText = "\nlist: Lists the current item the player has\n"+
                                      "add: Add a new item\n"+
@@ -21,12 +20,11 @@ public class BackpackDebugPrompt{
                                      "help: Prints this info\n"+
                                      "exit: Exits the BackpackDebugMenu\n";
 
-    public BackpackDebugPrompt(BlockingQueue q, Player player){
-        queue = q;
+    public BackpackDebugPrompt(Player player){
         boolean continuePrompt = true;
         Scanner input = new Scanner(System.in);
         while(continuePrompt){
-            queue.offer("Edit backpack:");
+            QueueProducer.offer("Edit backpack:");
             String command = input.nextLine();
             continuePrompt = parse(player, command.toLowerCase());
         }
@@ -48,11 +46,11 @@ public class BackpackDebugPrompt{
                 player.printBackPack();
             }
             else if(command.equals("help"))
-                queue.offer(helpText);
+                QueueProducer.offer(helpText);
             else if(command.equals("exit"))
                 continuePrompt = false;
         } catch(NumberFormatException e){
-            queue.offer("Invalid item name");
+            QueueProducer.offer("Invalid item name");
         }
         
         return continuePrompt;

@@ -2,6 +2,7 @@ package com.jadventure.game.navigation;
 
 import com.jadventure.game.items.Item;
 import com.jadventure.game.entities.NPC;
+import com.jadventure.game.QueueProducer;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -21,7 +22,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * This class loads the locations from the locations.json file on start.
@@ -83,7 +83,7 @@ public enum LocationManager {
         return location;
     }
 
-    public static void writeLocations(BlockingQueue queue) {
+    public static void writeLocations() {
         try {
             JsonObject jsonObject = new JsonObject();
             for (Map.Entry<Coordinate,ILocation> entry : Locations.locations.entrySet()) {
@@ -108,9 +108,9 @@ public enum LocationManager {
             Gson gson = new Gson();
             gson.toJson(jsonObject, writer);
             writer.close();
-            queue.offer("The game locations were saved.");
+            QueueProducer.offer("The game locations were saved.");
         } catch (IOException ex) {
-            queue.offer("Unable to save to file json/locations.json");
+            QueueProducer.offer("Unable to save to file json/locations.json");
         }
     }
 

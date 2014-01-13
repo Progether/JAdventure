@@ -6,7 +6,6 @@ import com.jadventure.game.monsters.Monster;
 
 import java.util.Map;
 import java.util.ArrayList;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * This interface maps all the properties and methods that 
@@ -24,6 +23,6 @@ public interface ILocation {
     public void addPublicItem(String itemID);
     public void setMonsters(Monster monster);
     public ArrayList<Monster> getMonsters();
-    public void print(BlockingQueue queue);
+    public void print();
 }
 

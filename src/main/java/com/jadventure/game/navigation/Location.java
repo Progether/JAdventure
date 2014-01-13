@@ -3,6 +3,7 @@ package com.jadventure.game.navigation;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.entities.NPC;
 import com.jadventure.game.monsters.Monster;
+import com.jadventure.game.QueueProducer;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -16,7 +17,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * The location class mostly deals with getting and setting variables.
@@ -128,28 +128,28 @@ public class Location implements ILocation {
         setItems(items);
     }
 
-    public void print(BlockingQueue queue) {
-        queue.offer(getTitle() + ":");
-        queue.offer(getDescription());
+    public void print() {
+        QueueProducer.offer(getTitle() + ":");
+        QueueProducer.offer(getDescription());
         ArrayList<Item> publicItems = getItems();
         if (!publicItems.isEmpty()) {
-            queue.offer("Items:");
+            QueueProducer.offer("Items:");
             for (Item item : publicItems) {
-                queue.offer("    "+item.getName());
+                QueueProducer.offer("    "+item.getName());
             }
         }
         ArrayList<NPC> npcs = getNPCs();
         if (!npcs.isEmpty()) {
-            queue.offer("NPCs:");
+            QueueProducer.offer("NPCs:");
             for (NPC npc : npcs) {
-                queue.offer("   "+npc.getName());
+                QueueProducer.offer("   "+npc.getName());
             }
         }
-        queue.offer("");
+        QueueProducer.offer("");
         for (Map.Entry<Direction,ILocation> direction : getExits().entrySet()) {
             System.out.print(direction.getKey().getDescription() + ", ");
-            queue.offer(direction.getValue().getDescription());
+            QueueProducer.offer(direction.getValue().getDescription());
         }
-        queue.offer("");
+        QueueProducer.offer("");
     }
 }

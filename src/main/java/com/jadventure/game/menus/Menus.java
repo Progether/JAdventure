@@ -1,11 +1,12 @@
 package com.jadventure.game.menus;
 
+import com.jadventure.game.QueueProducer;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * All menus in JAdventure extend this class
@@ -14,7 +15,6 @@ import java.util.concurrent.BlockingQueue;
 public class Menus {
     protected List<MenuItem> menuItems = new ArrayList<MenuItem>();
     protected Map<String, MenuItem> commandMap = new HashMap<String, MenuItem>();
-    public static BlockingQueue queue;
 
     public MenuItem displayMenu(List<MenuItem> m) {
         int i = 1;
@@ -40,7 +40,7 @@ public class Menus {
         if (commandMap.containsKey(command.toLowerCase())) {
             return commandMap.get(command.toLowerCase());
         } else {
-            queue.offer("I don't know what '" + command + "' means.");
+            QueueProducer.offer("I don't know what '" + command + "' means.");
             return this.displayMenu(m);
         }
     }
@@ -49,9 +49,9 @@ public class Menus {
         int i = 1;
         for (MenuItem menuItem: m) {
             if (menuItem.getDescription() != null) {
-                queue.offer("[" + i + "] " + menuItem.getCommand() + " - " + menuItem.getDescription());
+                QueueProducer.offer("[" + i + "] " + menuItem.getCommand() + " - " + menuItem.getDescription());
             } else {
-                queue.offer("[" + i + "] " + menuItem.getCommand());
+                QueueProducer.offer("[" + i + "] " + menuItem.getCommand());
             }
             i++;
         }

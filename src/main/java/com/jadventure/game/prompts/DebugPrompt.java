@@ -2,9 +2,9 @@ package com.jadventure.game.prompts;
 
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.prompts.BackpackDebugPrompt;
+import com.jadventure.game.QueueProducer;
 
 import java.util.Scanner;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * Defines the debugging prompt.
@@ -12,7 +12,6 @@ import java.util.concurrent.BlockingQueue;
  * This is opened with the 'debug' option in the main game prompt.
  */
 public class DebugPrompt{
-    public static BlockingQueue queue;
 
     private static String helpText = "\nattack: Modify player's attack damage\n"+
                               "health: Modify player's health\n"+
@@ -25,12 +24,11 @@ public class DebugPrompt{
                               "help: Prints this info\n"+
                               "exit: Exits the debug prompt\n";
     
-    public DebugPrompt(BlockingQueue q, Player player){
-        queue = q;
+    public DebugPrompt(Player player){
         boolean continuePrompt = true;
         Scanner input = new Scanner(System.in);
         while(continuePrompt){
-            queue.offer("\nDebugPrompt:");
+            QueueProducer.offer("\nDebugPrompt:");
             String command = input.nextLine();
             continuePrompt = parse(player, command.toLowerCase());
         }
@@ -76,22 +74,22 @@ public class DebugPrompt{
                 player.setGold(newVal);
             }
 		    else if(command.equals("backpack")){
-                new BackpackDebugPrompt(queue, player);
+                new BackpackDebugPrompt(player);
 		    }
 		    else if(command.equals("stats"))
 			    player.getStats();
             else if(command.equals("help"))
-                queue.offer(helpText);
+                QueueProducer.offer(helpText);
 			else if(command.equals("exit"))
 			    continuePrompt = false;
             else
-                queue.offer("Unknown command. Type help for a list of commands");
+                QueueProducer.offer("Unknown command. Type help for a list of commands");
         }
         catch(NumberFormatException e){
-            queue.offer("Value not acceptable");
+            QueueProducer.offer("Value not acceptable");
         }
         catch(IllegalArgumentException e){
-            queue.offer("Invalid value");
+            QueueProducer.offer("Invalid value");
         }
 
         return continuePrompt;
