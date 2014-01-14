@@ -1,6 +1,7 @@
 package com.jadventure.game.prompts;
 
 import com.jadventure.game.entities.Player;
+import com.jadventure.game.QueueProvider;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;

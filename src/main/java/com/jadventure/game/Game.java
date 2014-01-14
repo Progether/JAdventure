@@ -6,6 +6,7 @@ import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.prompts.CommandParser;
+import com.jadventure.game.QueueProvider;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -15,7 +16,6 @@ import java.util.Scanner;
  * does the according actions.
  */
 public class Game {
-    
     public ArrayList<Monster> monsterList = new ArrayList<Monster>();
     public MonsterFactory monsterFactory = new MonsterFactory(); 
     public CommandParser parser;
@@ -31,12 +31,12 @@ public class Game {
             newGameStart(player);
         } else if (playerType.equals("old")) {
             this.player = player;
-            System.out.println("Welcome back " + player.getName() + "!");
-            System.out.println();
+            QueueProvider.offer("Welcome back " + player.getName() + "!");
+            QueueProvider.offer("");
             player.getLocation().print();
             gamePrompt(player);
         } else {
-            System.out.println("Invalid player type");
+            QueueProvider.offer("Invalid player type");
         }
     }
     
@@ -46,11 +46,11 @@ public class Game {
      * and welcomes him/her. After that, it goes to the normal game prompt.
      */
     public void newGameStart(Player player) {
-        System.out.println(player.getIntro());
+        QueueProvider.offer(player.getIntro());
         String userInput = input.next();
         player.setName(userInput);
-        System.out.println("Welcome to Silliya " + this.player.getName() + ".");
-        System.out.println();
+        QueueProvider.offer("Welcome to Silliya " + this.player.getName() + ".");
+        QueueProvider.offer("");
         player.getLocation().print();
         
         gamePrompt(player);
@@ -65,7 +65,7 @@ public class Game {
     public void gamePrompt(Player player) {
         boolean continuePrompt = true;
         while (continuePrompt) {
-            System.out.println("Prompt:");
+            QueueProvider.offer("Prompt:");
             String command = input.nextLine().toLowerCase();
             continuePrompt = parser.parse(player, command, continuePrompt);
         }

@@ -42,8 +42,6 @@ public abstract class Entity {
         this.health = this.healthMax;
         this.name = "default";
         this.gold = 0;
-        
-        this.storage = new Backpack(60.0); // what is a good amount?
     }
     
     public Entity(int healthMax, int health, String name, int gold, Storage storage) {

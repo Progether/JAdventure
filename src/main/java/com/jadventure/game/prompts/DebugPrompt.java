@@ -2,6 +2,7 @@ package com.jadventure.game.prompts;
 
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.prompts.BackpackDebugPrompt;
+import com.jadventure.game.QueueProvider;
 
 import java.util.Scanner;
 
@@ -11,6 +12,7 @@ import java.util.Scanner;
  * This is opened with the 'debug' option in the main game prompt.
  */
 public class DebugPrompt{
+
     private static String helpText = "\nattack: Modify player's attack damage\n"+
                               "health: Modify player's health\n"+
                               "maxhealth: Modify player's maximum health\n"+
@@ -26,7 +28,7 @@ public class DebugPrompt{
         boolean continuePrompt = true;
         Scanner input = new Scanner(System.in);
         while(continuePrompt){
-            System.out.println("\nDebugPrompt:");
+            QueueProvider.offer("\nDebugPrompt:");
             String command = input.nextLine();
             continuePrompt = parse(player, command.toLowerCase());
         }
@@ -77,17 +79,17 @@ public class DebugPrompt{
 		    else if(command.equals("stats"))
 			    player.getStats();
             else if(command.equals("help"))
-                System.out.println(helpText);
+                QueueProvider.offer(helpText);
 			else if(command.equals("exit"))
 			    continuePrompt = false;
             else
-                System.out.println("Unknown command. Type help for a list of commands");
+                QueueProvider.offer("Unknown command. Type help for a list of commands");
         }
         catch(NumberFormatException e){
-            System.out.println("Value not acceptable");
+            QueueProvider.offer("Value not acceptable");
         }
         catch(IllegalArgumentException e){
-            System.out.println("Invalid value");
+            QueueProvider.offer("Invalid value");
         }
 
         return continuePrompt;

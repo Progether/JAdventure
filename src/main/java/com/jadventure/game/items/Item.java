@@ -1,5 +1,7 @@
 package com.jadventure.game.items;
 
+import com.jadventure.game.QueueProvider;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -52,10 +54,10 @@ public class Item {
     }
 
     public void display() {
-        System.out.println("Name: " + this.name +
+        QueueProvider.offer("Name: " + this.name +
                 "\nDescription: " + this.description);
         for (Map.Entry entry : this.properties.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
+            QueueProvider.offer(entry.getKey() + ": " + entry.getValue());
         }
     }
 
@@ -70,7 +72,7 @@ public class Item {
             items = json.get("items").getAsJsonObject();
             reader.close();
         } catch (FileNotFoundException ex) {
-            System.out.println( "Unable to open file '" + fileName + "'.");
+            ex.printStackTrace();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

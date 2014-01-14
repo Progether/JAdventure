@@ -2,6 +2,7 @@ package com.jadventure.game.prompts;
 
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.items.Item;
+import com.jadventure.game.QueueProvider;
 
 import java.util.Scanner;
 
@@ -12,16 +13,18 @@ import java.util.Scanner;
  * Items are added by their names and removed by their display name
  */
 public class BackpackDebugPrompt{
+
     private static String helpText = "\nlist: Lists the current item the player has\n"+
                                      "add: Add a new item\n"+
                                      "remove: Remove an item\n"+
                                      "help: Prints this info\n"+
                                      "exit: Exits the BackpackDebugMenu\n";
+
     public BackpackDebugPrompt(Player player){
         boolean continuePrompt = true;
         Scanner input = new Scanner(System.in);
         while(continuePrompt){
-            System.out.println("Edit backpack:");
+            QueueProvider.offer("Edit backpack:");
             String command = input.nextLine();
             continuePrompt = parse(player, command.toLowerCase());
         }
@@ -43,11 +46,11 @@ public class BackpackDebugPrompt{
                 player.printBackPack();
             }
             else if(command.equals("help"))
-                System.out.println(helpText);
+                QueueProvider.offer(helpText);
             else if(command.equals("exit"))
                 continuePrompt = false;
         } catch(NumberFormatException e){
-            System.out.println("Invalid item name");
+            QueueProvider.offer("Invalid item name");
         }
         
         return continuePrompt;
