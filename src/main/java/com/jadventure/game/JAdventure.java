@@ -1,7 +1,7 @@
 package com.jadventure.game;
 
 import com.jadventure.game.menus.MainMenu;
-import com.jadventure.game.QueueProducer;
+import com.jadventure.game.QueueProvider;
 
 /**
  * This is the starting point of the game.
@@ -12,7 +12,7 @@ import com.jadventure.game.QueueProducer;
 public class JAdventure {
 
     public static void main(String[] args) {
-        new QueueProducer().startMessenger();
+        new QueueProvider().startMessenger();
         new MainMenu();
     }
 

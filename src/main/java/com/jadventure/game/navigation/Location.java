@@ -3,7 +3,7 @@ package com.jadventure.game.navigation;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.entities.NPC;
 import com.jadventure.game.monsters.Monster;
-import com.jadventure.game.QueueProducer;
+import com.jadventure.game.QueueProvider;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -129,27 +129,27 @@ public class Location implements ILocation {
     }
 
     public void print() {
-        QueueProducer.offer(getTitle() + ":");
-        QueueProducer.offer(getDescription());
+        QueueProvider.offer(getTitle() + ":");
+        QueueProvider.offer(getDescription());
         ArrayList<Item> publicItems = getItems();
         if (!publicItems.isEmpty()) {
-            QueueProducer.offer("Items:");
+            QueueProvider.offer("Items:");
             for (Item item : publicItems) {
-                QueueProducer.offer("    "+item.getName());
+                QueueProvider.offer("    "+item.getName());
             }
         }
         ArrayList<NPC> npcs = getNPCs();
         if (!npcs.isEmpty()) {
-            QueueProducer.offer("NPCs:");
+            QueueProvider.offer("NPCs:");
             for (NPC npc : npcs) {
-                QueueProducer.offer("   "+npc.getName());
+                QueueProvider.offer("   "+npc.getName());
             }
         }
-        QueueProducer.offer("");
+        QueueProvider.offer("");
         for (Map.Entry<Direction,ILocation> direction : getExits().entrySet()) {
             System.out.print(direction.getKey().getDescription() + ", ");
-            QueueProducer.offer(direction.getValue().getDescription());
+            QueueProvider.offer(direction.getValue().getDescription());
         }
-        QueueProducer.offer("");
+        QueueProvider.offer("");
     }
 }

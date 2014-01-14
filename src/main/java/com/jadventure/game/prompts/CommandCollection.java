@@ -5,7 +5,7 @@ import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.navigation.Direction;
 import com.jadventure.game.navigation.ILocation;
-import com.jadventure.game.QueueProducer;
+import com.jadventure.game.QueueProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,7 +56,7 @@ public enum CommandCollection {
     @Command(command="help", aliases="", description="Prints help")
     @SuppressWarnings("UnusedDeclaration")
     public void command_help(){
-        QueueProducer.offer(helpText);
+        QueueProvider.offer(helpText);
     }
 
     @Command(command="backpack", aliases="b", description="Backpack contents")
@@ -76,14 +76,14 @@ public enum CommandCollection {
     public void command_m(){
         ArrayList<Monster> monsterList = player.getLocation().getMonsters();
         if (monsterList.size() > 0) {
-            QueueProducer.offer("Monsters around you:");
-            QueueProducer.offer("----------------------------");
+            QueueProvider.offer("Monsters around you:");
+            QueueProvider.offer("----------------------------");
             for (Monster monster : monsterList) {
-                QueueProducer.offer(monster.monsterType);
+                QueueProvider.offer(monster.monsterType);
             }
-            QueueProducer.offer("----------------------------");
+            QueueProvider.offer("----------------------------");
         } else {
-            QueueProducer.offer("There are no monsters around you");
+            QueueProvider.offer("There are no monsters around you");
         }
     }
 
@@ -111,12 +111,12 @@ public enum CommandCollection {
                 Monster monster = monsterFactory.generateMonster(player);
                 player.getLocation().setMonsters(monster);
             } else {
-                QueueProducer.offer("The is no exit that way.");
+                QueueProvider.offer("The is no exit that way.");
             }
         } catch (IllegalArgumentException ex) {
-            QueueProducer.offer("That direction doesn't exist");
+            QueueProvider.offer("That direction doesn't exist");
         } catch (NullPointerException ex) {
-            QueueProducer.offer("That direction doesn't exist");
+            QueueProvider.offer("That direction doesn't exist");
         }
     }
 

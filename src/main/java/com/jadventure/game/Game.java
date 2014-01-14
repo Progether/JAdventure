@@ -6,7 +6,7 @@ import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.prompts.CommandParser;
-import com.jadventure.game.QueueProducer;
+import com.jadventure.game.QueueProvider;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -31,12 +31,12 @@ public class Game {
             newGameStart(player);
         } else if (playerType.equals("old")) {
             this.player = player;
-            QueueProducer.offer("Welcome back " + player.getName() + "!");
-            QueueProducer.offer("");
+            QueueProvider.offer("Welcome back " + player.getName() + "!");
+            QueueProvider.offer("");
             player.getLocation().print();
             gamePrompt(player);
         } else {
-            QueueProducer.offer("Invalid player type");
+            QueueProvider.offer("Invalid player type");
         }
     }
     
@@ -46,11 +46,11 @@ public class Game {
      * and welcomes him/her. After that, it goes to the normal game prompt.
      */
     public void newGameStart(Player player) {
-        QueueProducer.offer(player.getIntro());
+        QueueProvider.offer(player.getIntro());
         String userInput = input.next();
         player.setName(userInput);
-        QueueProducer.offer("Welcome to Silliya " + this.player.getName() + ".");
-        QueueProducer.offer("");
+        QueueProvider.offer("Welcome to Silliya " + this.player.getName() + ".");
+        QueueProvider.offer("");
         player.getLocation().print();
         
         gamePrompt(player);
@@ -65,7 +65,7 @@ public class Game {
     public void gamePrompt(Player player) {
         boolean continuePrompt = true;
         while (continuePrompt) {
-            QueueProducer.offer("Prompt:");
+            QueueProvider.offer("Prompt:");
             String command = input.nextLine().toLowerCase();
             continuePrompt = parser.parse(player, command, continuePrompt);
         }

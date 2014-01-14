@@ -6,7 +6,7 @@ import java.util.Scanner;
 import com.jadventure.game.Game;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.menus.ChooseClassMenu;
-import com.jadventure.game.QueueProducer;
+import com.jadventure.game.QueueProvider;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -41,17 +41,17 @@ public class MainMenu extends Menus {
                 Path dest = Paths.get("json/locations.json");
                 Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException ex) {
-                QueueProducer.offer("Unable to load new locations file.");
+                QueueProvider.offer("Unable to load new locations file.");
                 ex.printStackTrace();
             }
             new ChooseClassMenu();
         }
         else if(key.equals("exit")) {
-            QueueProducer.offer("Goodbye!");
+            QueueProvider.offer("Goodbye!");
             System.exit(0);
         }
         else if(key.equals("load")) {
-            QueueProducer.offer("What is the name of the avatar you want to load?");
+            QueueProvider.offer("What is the name of the avatar you want to load?");
             Player player = null;
 
             while (player == null) {
@@ -59,7 +59,7 @@ public class MainMenu extends Menus {
                 if (Player.profileExists(key)) {
                     player = Player.load(key);
                 } else {
-                    QueueProducer.offer("That user doesn't exist. Try again.");
+                    QueueProvider.offer("That user doesn't exist. Try again.");
                 }
             }
 

@@ -1,6 +1,6 @@
 package com.jadventure.game.menus;
 
-import com.jadventure.game.QueueProducer;
+import com.jadventure.game.QueueProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +40,7 @@ public class Menus {
         if (commandMap.containsKey(command.toLowerCase())) {
             return commandMap.get(command.toLowerCase());
         } else {
-            QueueProducer.offer("I don't know what '" + command + "' means.");
+            QueueProvider.offer("I don't know what '" + command + "' means.");
             return this.displayMenu(m);
         }
     }
@@ -49,9 +49,9 @@ public class Menus {
         int i = 1;
         for (MenuItem menuItem: m) {
             if (menuItem.getDescription() != null) {
-                QueueProducer.offer("[" + i + "] " + menuItem.getCommand() + " - " + menuItem.getDescription());
+                QueueProvider.offer("[" + i + "] " + menuItem.getCommand() + " - " + menuItem.getDescription());
             } else {
-                QueueProducer.offer("[" + i + "] " + menuItem.getCommand());
+                QueueProvider.offer("[" + i + "] " + menuItem.getCommand());
             }
             i++;
         }

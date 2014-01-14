@@ -1,6 +1,6 @@
 package com.jadventure.game.items;
 
-import com.jadventure.game.QueueProducer;
+import com.jadventure.game.QueueProvider;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -54,10 +54,10 @@ public class Item {
     }
 
     public void display() {
-        QueueProducer.offer("Name: " + this.name +
+        QueueProvider.offer("Name: " + this.name +
                 "\nDescription: " + this.description);
         for (Map.Entry entry : this.properties.entrySet()) {
-            QueueProducer.offer(entry.getKey() + ": " + entry.getValue());
+            QueueProvider.offer(entry.getKey() + ": " + entry.getValue());
         }
     }
 

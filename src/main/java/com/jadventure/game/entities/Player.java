@@ -17,7 +17,7 @@ import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.navigation.LocationType;
-import com.jadventure.game.QueueProducer;
+import com.jadventure.game.QueueProvider;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -97,7 +97,7 @@ public class Player extends Entity {
             player.setLocation(LocationManager.getLocation(coordinate));
             reader.close();
         } catch (FileNotFoundException ex) {
-            QueueProducer.offer( "Unable to open file '" + fileName + "'.");
+            QueueProvider.offer( "Unable to open file '" + fileName + "'.");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -139,7 +139,7 @@ public class Player extends Entity {
 	}
 
   
-        QueueProducer.offer("\nPlayer name: " + getName() +
+        QueueProvider.offer("\nPlayer name: " + getName() +
                             "\nCurrent weapon: " + tempname +
                             "\nGold: " + player.getGold() +
                             "\nHealth/Max: " + getHealth() + "/" + getHealthMax() +
@@ -194,9 +194,9 @@ public class Player extends Entity {
             Path orig = Paths.get("json/locations.json");
             Path dest = Paths.get("json/profiles/"+getName()+"/locations.json");
             Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
-            QueueProducer.offer("\nYour game data was saved.");
+            QueueProvider.offer("\nYour game data was saved.");
         } catch (IOException ex) {
-            QueueProducer.offer("\nUnable to save to file '" + fileName + "'.");
+            QueueProvider.offer("\nUnable to save to file '" + fileName + "'.");
         }
     }
 
@@ -229,7 +229,7 @@ public class Player extends Entity {
             Item itemToPickUp = new Item(item.getItemID());
             addItemToStorage(itemToPickUp);
             location.removePublicItem(itemToPickUp.getItemID());
-            QueueProducer.offer("\n" + item.getName()+ " picked up");
+            QueueProvider.offer("\n" + item.getName()+ " picked up");
         }
     }
 
@@ -246,7 +246,7 @@ public class Player extends Entity {
             }
             removeItemFromStorage(itemToDrop);
             location.addPublicItem(itemToDrop.getItemID());
-            QueueProducer.offer("\n" + item.getName()+ " dropped");
+            QueueProvider.offer("\n" + item.getName()+ " dropped");
         }
     }
 
@@ -255,7 +255,7 @@ public class Player extends Entity {
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             setWeapon(item.getItemID());
-            QueueProducer.offer("\n" + item.getName()+ " equipped");
+            QueueProvider.offer("\n" + item.getName()+ " equipped");
         }
     }
 
@@ -264,7 +264,7 @@ public class Player extends Entity {
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             setWeapon("hands");
-            QueueProducer.offer("\n" + item.getName()+" dequipped");
+            QueueProvider.offer("\n" + item.getName()+" dequipped");
         }
     }
 
@@ -277,7 +277,7 @@ public class Player extends Entity {
             Item item = itemMap.get(0);
             item.display();
         } else {
-            QueueProducer.offer("Item doesn't exist within your view.");
+            QueueProvider.offer("Item doesn't exist within your view.");
         }
     }
 

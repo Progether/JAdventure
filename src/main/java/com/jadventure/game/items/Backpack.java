@@ -1,6 +1,6 @@
 package com.jadventure.game.items;
 
-import com.jadventure.game.QueueProducer;
+import com.jadventure.game.QueueProvider;
 
 import java.util.ArrayList;
 
@@ -81,10 +81,10 @@ public class Backpack extends Storage {
 	}
 
 	public void display() {
-            QueueProducer.offer("\n--------------------------------------------------------------------");
-            QueueProducer.offer("Backpack: ");
-            QueueProducer.offer(this.toString());
-            QueueProducer.offer("--------------------------------------------------------------------");
+            QueueProvider.offer("\n--------------------------------------------------------------------");
+            QueueProvider.offer("Backpack: ");
+            QueueProvider.offer(this.toString());
+            QueueProvider.offer("--------------------------------------------------------------------");
 	}
 
 	public boolean isEmpty() {

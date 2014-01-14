@@ -2,7 +2,7 @@ package com.jadventure.game.prompts;
 
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.items.Item;
-import com.jadventure.game.QueueProducer;
+import com.jadventure.game.QueueProvider;
 
 import java.util.Scanner;
 
@@ -24,7 +24,7 @@ public class BackpackDebugPrompt{
         boolean continuePrompt = true;
         Scanner input = new Scanner(System.in);
         while(continuePrompt){
-            QueueProducer.offer("Edit backpack:");
+            QueueProvider.offer("Edit backpack:");
             String command = input.nextLine();
             continuePrompt = parse(player, command.toLowerCase());
         }
@@ -46,11 +46,11 @@ public class BackpackDebugPrompt{
                 player.printBackPack();
             }
             else if(command.equals("help"))
-                QueueProducer.offer(helpText);
+                QueueProvider.offer(helpText);
             else if(command.equals("exit"))
                 continuePrompt = false;
         } catch(NumberFormatException e){
-            QueueProducer.offer("Invalid item name");
+            QueueProvider.offer("Invalid item name");
         }
         
         return continuePrompt;

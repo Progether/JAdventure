@@ -2,7 +2,7 @@ package com.jadventure.game.navigation;
 
 import com.jadventure.game.items.Item;
 import com.jadventure.game.entities.NPC;
-import com.jadventure.game.QueueProducer;
+import com.jadventure.game.QueueProvider;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -108,9 +108,9 @@ public enum LocationManager {
             Gson gson = new Gson();
             gson.toJson(jsonObject, writer);
             writer.close();
-            QueueProducer.offer("The game locations were saved.");
+            QueueProvider.offer("The game locations were saved.");
         } catch (IOException ex) {
-            QueueProducer.offer("Unable to save to file json/locations.json");
+            QueueProvider.offer("Unable to save to file json/locations.json");
         }
     }
 

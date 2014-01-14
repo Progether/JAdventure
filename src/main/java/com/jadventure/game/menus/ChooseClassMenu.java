@@ -4,7 +4,7 @@ import com.jadventure.game.menus.Menus;
 import com.jadventure.game.menus.MenuItem;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.Game;
-import com.jadventure.game.QueueProducer;
+import com.jadventure.game.QueueProvider;
 
 import java.util.Scanner;
 
@@ -18,7 +18,7 @@ public class ChooseClassMenu extends Menus {
         this.menuItems.add(new MenuItem("SewerRat", "A member of the underground of Silliya"));
 
         while(true) {
-            QueueProducer.offer("Choose a class to get started with:");
+            QueueProvider.offer("Choose a class to get started with:");
             MenuItem selectedItem = displayMenu(this.menuItems);
             if(testOption(selectedItem)) {
             	break;

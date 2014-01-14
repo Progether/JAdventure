@@ -3,7 +3,7 @@ package com.jadventure.game;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-public class QueueProducer { 
+public class QueueProvider { 
 
     public static BlockingQueue queue = new LinkedBlockingQueue();
 

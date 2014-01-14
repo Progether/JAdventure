@@ -2,7 +2,7 @@ package com.jadventure.game.prompts;
 
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.prompts.BackpackDebugPrompt;
-import com.jadventure.game.QueueProducer;
+import com.jadventure.game.QueueProvider;
 
 import java.util.Scanner;
 
@@ -28,7 +28,7 @@ public class DebugPrompt{
         boolean continuePrompt = true;
         Scanner input = new Scanner(System.in);
         while(continuePrompt){
-            QueueProducer.offer("\nDebugPrompt:");
+            QueueProvider.offer("\nDebugPrompt:");
             String command = input.nextLine();
             continuePrompt = parse(player, command.toLowerCase());
         }
@@ -79,17 +79,17 @@ public class DebugPrompt{
 		    else if(command.equals("stats"))
 			    player.getStats();
             else if(command.equals("help"))
-                QueueProducer.offer(helpText);
+                QueueProvider.offer(helpText);
 			else if(command.equals("exit"))
 			    continuePrompt = false;
             else
-                QueueProducer.offer("Unknown command. Type help for a list of commands");
+                QueueProvider.offer("Unknown command. Type help for a list of commands");
         }
         catch(NumberFormatException e){
-            QueueProducer.offer("Value not acceptable");
+            QueueProvider.offer("Value not acceptable");
         }
         catch(IllegalArgumentException e){
-            QueueProducer.offer("Invalid value");
+            QueueProvider.offer("Invalid value");
         }
 
         return continuePrompt;
