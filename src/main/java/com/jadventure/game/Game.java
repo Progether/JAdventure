@@ -31,7 +31,7 @@ public class Game {
             newGameStart(player);
         } else if (playerType.equals("old")) {
             this.player = player;
-            QueueProvider.offer("Welcome back " + player.getName() + "!");
+            QueueProvider.offer("Welcome back, " + player.getName() + "!");
             QueueProvider.offer("");
             player.getLocation().print();
             gamePrompt(player);
@@ -47,9 +47,9 @@ public class Game {
      */
     public void newGameStart(Player player) {
         QueueProvider.offer(player.getIntro());
-        String userInput = input.next();
+        String userInput = input.nextLine();
         player.setName(userInput);
-        QueueProvider.offer("Welcome to Silliya " + this.player.getName() + ".");
+        QueueProvider.offer("Welcome to Silliya, " + this.player.getName() + ".");
         QueueProvider.offer("");
         player.getLocation().print();
         

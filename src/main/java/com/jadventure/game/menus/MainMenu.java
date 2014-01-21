@@ -55,7 +55,7 @@ public class MainMenu extends Menus {
             Player player = null;
 
             while (player == null) {
-                key = input.next();
+                key = input.nextLine();
                 if (Player.profileExists(key)) {
                     player = Player.load(key);
                 } else {
