@@ -20,6 +20,7 @@ public abstract class Entity {
     private String className;
     private String intro;
     // levelMult is used to add a multiplier to the attack damage
+    // soemcdnguy4 asks: Where in code is levelMult?
     private int level;
     // stats
     private int strength;
@@ -27,7 +28,7 @@ public abstract class Entity {
     private int dexterity;
     private int luck;
     private int stealth;
-    private  int gold;
+    private int gold;
     private double damage = 30;
     private int critChance = 0;
     // Every point in armour reduces an attackers attack by .33

@@ -47,7 +47,7 @@ public class Game {
      */
     public void newGameStart(Player player) {
         QueueProvider.offer(player.getIntro());
-        String userInput = input.next();
+        String userInput = input.nextLine();
         player.setName(userInput);
         QueueProvider.offer("Welcome to Silliya, " + this.player.getName() + ".");
         QueueProvider.offer("");
