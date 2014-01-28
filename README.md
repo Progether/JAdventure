@@ -30,13 +30,16 @@ Rather than opening a pull request, consider opening an issue to discuss the pro
  1. Clone your fork
  1. Create a branch
 
-      git branch <branchName>
-      git checkout <branchName>
-
+    ```
+    git branch <branchName>
+    git checkout <branchName>
+    ```
  1. Make your changes
  1. Push to your branch
-
-      git push origin <branchName>
+    
+    ```
+    git push origin <branchName>
+    ```
 
  1. Make a pull request between your branch and the progether master
 
@@ -87,23 +90,23 @@ To quit the game:
 
 To move:
 
-   gn - go north
-   gs - go south
-   ge - go east
-   gw - go west
+    gn - go north
+    gs - go south
+    ge - go east
+    gw - go west
 
 To pick up an item:
 
-   p<itemName>
+    p<itemName>
 
 To drop an item:
 
-   d<itemName>
+    d<itemName>
 
 To equip/dequip item:
 
-   e<itemName>
-   de<itemName>
+    e<itemName>
+    de<itemName>
 
 Coding Standard/Convention/Style
 -------------------
