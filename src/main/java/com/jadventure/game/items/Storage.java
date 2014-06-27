@@ -3,10 +3,13 @@ package com.jadventure.game.items;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jadventure.game.IGameElement;
+import com.jadventure.game.IGameElementVisitor;
+
 /**
  * Defines an interface for any type of storage in this game.
  */
-public abstract class Storage {
+public abstract class Storage implements IGameElement {
 	protected List<ItemStack> items = new ArrayList<ItemStack>();
 	protected double maxWeight;
 
@@ -33,5 +36,10 @@ public abstract class Storage {
 	public abstract void display();
 	public abstract boolean isEmpty();
 	public abstract List<ItemStack> getItems();
+
+	@Override
+	public void accept(IGameElementVisitor visitor) {
+		visitor.visit(this);
+	}
 
 }

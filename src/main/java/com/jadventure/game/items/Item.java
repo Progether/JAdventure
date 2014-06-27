@@ -3,12 +3,14 @@ package com.jadventure.game.items;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.jadventure.game.IGameElement;
+import com.jadventure.game.IGameElementVisitor;
 import com.jadventure.game.QueueProvider;
 
 /**
  * This class deals with parsing and interacting with an item.
  */
-public class Item {
+public class Item implements IGameElement {
     private String id;
     private String name;
     private String description;
@@ -20,14 +22,18 @@ public class Item {
         this.properties = properties;
     }
     
+    public String getItemID() {
+    	return id;
+    }
+    
     public String getName() {
         return name;
     }
 
-    public String getItemID() {
-        return id;
+    public String getDescription() {
+        return description;
     }
-
+    
     public double getWeight() {
         return properties.get("weight");
     }
@@ -51,5 +57,10 @@ public class Item {
             QueueProvider.offer(entry.getKey() + ": " + entry.getValue());
         }
     }
+
+	@Override
+	public void accept(IGameElementVisitor visitor) {
+		visitor.visit(this);
+	}
 
 }

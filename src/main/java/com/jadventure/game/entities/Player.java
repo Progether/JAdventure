@@ -3,6 +3,8 @@ package com.jadventure.game.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jadventure.game.IGameElement;
+import com.jadventure.game.IGameElementVisitor;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
@@ -16,7 +18,7 @@ import com.jadventure.game.navigation.LocationType;
  * be placed within this class. If a method deals with entities in general or
  * with variables not unique to the player, place it in the entity class.
  */
-public class Player extends Entity {
+public class Player extends Entity implements IGameElement {
     private ILocation location;
 
     
@@ -81,7 +83,7 @@ public class Player extends Entity {
             Item itemToPickUp = itemRepo.getItem(item.getItemID());
             addItemToStorage(itemToPickUp);
             location.removePublicItem(itemToPickUp.getItemID());
-            QueueProvider.offer("\n" + item.getName()+ " picked up");
+            QueueProvider.offer("\n" + item.getName() + " picked up");
         }
     }
 
@@ -144,5 +146,11 @@ public class Player extends Entity {
     public LocationType getLocationType(){
     	return getLocation().getLocationType();
     }
+
+
+	@Override
+	public void accept(IGameElementVisitor visitor) {
+		visitor.visit(this);
+	}
 
 }

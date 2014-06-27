@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
+import com.jadventure.game.TextBuilderVisitor;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
@@ -29,6 +30,7 @@ public enum CommandCollection {
             + "monster (m): Shows the monsters around you."
             + "save: Save your progress.\n"
             + "goto (g): Go in a direction.\n"
+            + "look (l): Look at current location.\n"
             + "inspect (i): Inspect an item.\n"
             + "dequip (e): ...\n"
             + "dequip (de): ...\n"
@@ -59,10 +61,13 @@ public enum CommandCollection {
     @Command(command="stats", aliases="st", description="Returns players statistics")
     @SuppressWarnings("UnusedDeclaration")
     public void command_st(){
-        player.getStatistics();
+    	TextBuilderVisitor textBuilder = new TextBuilderVisitor();
+//        player.getStatistics();
+    	player.accept(textBuilder);
+    	System.out.println(textBuilder);
     }
 
-    @Command(command="help", aliases="", description="Prints help")
+    @Command(command="help", aliases="?", description="Prints help")
     @SuppressWarnings("UnusedDeclaration")
     public void command_help(){
         QueueProvider.offer(helpText);
@@ -107,7 +112,10 @@ public enum CommandCollection {
     @Command(command="look", aliases="l", description="Look around")
     @SuppressWarnings("UnusedDeclaration")
     public void command_look(){
-        player.getLocation().print();
+    	TextBuilderVisitor textBuilder = new TextBuilderVisitor();
+    	textBuilder.visit(player.getLocation());
+    	System.out.println(textBuilder);
+//        player.getLocation().print();
     }
     
     

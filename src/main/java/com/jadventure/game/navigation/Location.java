@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.jadventure.game.GameBeans;
+import com.jadventure.game.IGameElement;
+import com.jadventure.game.IGameElementVisitor;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.entities.NPC;
 import com.jadventure.game.items.Item;
@@ -17,7 +19,7 @@ import com.jadventure.game.repository.LocationRepository;
  * The location class mostly deals with getting and setting variables.
  * It also contains the method to print a location's details.
  */
-public class Location implements ILocation {
+public class Location implements ILocation, IGameElement {
     private LocationRepository locationRepo = GameBeans.getLocationRepository();
     
     private Coordinate coordinate;
@@ -151,4 +153,9 @@ public class Location implements ILocation {
         }
         QueueProvider.offer("");
     }
+
+	@Override
+	public void accept(IGameElementVisitor visitor) {
+		visitor.visit(this);
+	}
 }
