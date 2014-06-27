@@ -4,8 +4,8 @@ package com.jadventure.game.items;
  * This is just an Item with a certain amount of it.
  */
 public class ItemStack {
-	int amount;
-	Item item;
+	private int amount;
+	private Item item;
 
 	public ItemStack(int amount, Item item) {
 		this.amount = amount;
@@ -13,14 +13,14 @@ public class ItemStack {
 	}
 
 	public int getAmount() {
-		return this.amount;
+		return amount;
 	}
 
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
+//	public void setAmount(int amount) {
+//		this.amount = amount;
+//	}
 
 	public Item getItem() {
-		return this.item;
+		return item;
 	}
 }

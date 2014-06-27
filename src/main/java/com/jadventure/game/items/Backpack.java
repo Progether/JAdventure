@@ -1,8 +1,8 @@
 package com.jadventure.game.items;
 
-import com.jadventure.game.QueueProvider;
+import java.util.List;
 
-import java.util.ArrayList;
+import com.jadventure.game.QueueProvider;
 
 /**
  * Represents a players backpack.
@@ -10,12 +10,11 @@ import java.util.ArrayList;
 public class Backpack extends Storage {
 
 	public Backpack(double maxWeight) {
-            this.maxWeight = maxWeight;
+        this(maxWeight, null);
 	}
 
-	public Backpack(double maxWeight, ArrayList<ItemStack> initialItems) {
-		this.maxWeight = maxWeight;
-		this.items = initialItems;
+	public Backpack(double maxWeight, List<ItemStack> items) {
+		super(items, maxWeight);
 	}
 
 	/**
@@ -23,8 +22,8 @@ public class Backpack extends Storage {
 	 * same type of item as the argument.
 	 */
 	private boolean contains(ItemStack item) {
-		for(ItemStack i : this.items) {
-			if(i.getItem().equals(item.getItem())) {
+		for (ItemStack i : this.items) {
+			if (i.getItem().equals(item.getItem())) {
 				return true;
 			}
 		}
@@ -37,8 +36,8 @@ public class Backpack extends Storage {
 	 * This prevents duplicate items in your backpack.
 	 */
 	private ItemStack getSameType(ItemStack item) {
-		for(ItemStack i : this.items) {
-			if(i.getItem().equals(item.getItem())) {
+		for (ItemStack i : this.items) {
+			if (i.getItem().equals(item.getItem())) {
 				return i;
 			}
 		}
@@ -50,13 +49,14 @@ public class Backpack extends Storage {
 	 */
 	public void addItem(ItemStack item) {
 		double totalWeight = item.getItem().getWeight() * item.getAmount();
-		if(totalWeight < this.maxWeight) {
+		if (totalWeight < maxWeight) {
 			if(this.contains(item)) {
 				ItemStack sameType = this.getSameType(item);
-				this.items.remove(sameType);
-				this.items.add(new ItemStack(sameType.getAmount()+1, sameType.getItem()));
-			} else {
-				this.items.add(item);
+				items.remove(sameType);
+				items.add(new ItemStack(sameType.getAmount() + 1, sameType.getItem()));
+			}
+			else {
+				items.add(item);
 			}
 		}
 	}
@@ -74,13 +74,14 @@ public class Backpack extends Storage {
 	 * in this.items with the new one.
 	 */
 	public void removeItem(ItemStack item, int amount) {
-		if(this.contains(item)) {
+		if (this.contains(item)) {
 			ItemStack sameType = this.getSameType(item);
-			if(sameType.getAmount()-amount <= 0) {
-				this.items.remove(sameType);
-			} else {
-				this.items.remove(sameType);
-				this.items.add(new ItemStack(sameType.getAmount()-amount, sameType.getItem()));
+			if (sameType.getAmount() - amount <= 0) {
+				items.remove(sameType);
+			}
+			else {
+				items.remove(sameType);
+				items.add(new ItemStack(sameType.getAmount() - amount, sameType.getItem()));
 			}
 		}
 	}
@@ -99,14 +100,15 @@ public class Backpack extends Storage {
 		return this.items.isEmpty();
 	}
 
-	public ArrayList<ItemStack> getItems() {
-		return this.items;
+	public List<ItemStack> getItems() {
+		return items;
 	}
 
 	public String toString() {
 		if (this.items.isEmpty()) {
             return "--Empty--";
-        } else {
+        }
+		else {
         	String content = "";
             for (ItemStack item : this.items) {
                 content += "- " + item.getItem().getName() + " : " + item.getAmount() + "\n";
