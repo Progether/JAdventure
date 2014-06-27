@@ -12,17 +12,18 @@ import com.jadventure.game.monsters.Monster;
  * pertain to a specific location.
  */
 public interface ILocation {
-    public Coordinate getCoordinate();
-    public String getTitle();
-    public String getDescription();
-    public LocationType getLocationType();
-    public Map<Direction, ILocation> getExits();
-    public List<Item> getItems();
-    public List<NPC> getNPCs();
-    public void removePublicItem(String itemID);
-    public void addPublicItem(String itemID);
-    public void setMonsters(Monster monster);
-    public List<Monster> getMonsters();
-    public void print();
-}
 
+	Coordinate getCoordinate();
+    String getTitle();
+    String getDescription();
+    LocationType getLocationType();
+    Map<Direction, ILocation> getExits();
+    List<Item> getItems();
+    List<NPC> getNPCs();
+    void removePublicItem(String itemID);
+    void addPublicItem(String itemID);
+    void setMonsters(Monster monster);
+    List<Monster> getMonsters();
+    void print();
+
+}
