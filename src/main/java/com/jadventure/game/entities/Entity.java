@@ -1,17 +1,20 @@
 package com.jadventure.game.entities;
 
+import java.util.Random;
+
+import com.jadventure.game.GameBeans;
+import com.jadventure.game.items.Backpack;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
-import com.jadventure.game.items.Backpack;
 import com.jadventure.game.items.Storage;
-
-import java.util.ArrayList;
-import java.util.Random;
+import com.jadventure.game.repository.ItemRepository;
 
 /**
  * superclass for all entities (includes player, monsters...)
  */
 public abstract class Entity {
+    // FIXME Remove static
+    protected static ItemRepository itemRepo = GameBeans.getItemRepository();
     
     // All entities can attack, have health, have names...?
     private int healthMax;
@@ -34,7 +37,7 @@ public abstract class Entity {
     // Every point in armour reduces an attackers attack by .33
     private int armour;
     private String weapon = "hands";
-    protected Storage storage;
+    protected Storage storage = new Backpack(100);
     Random globalRand = new Random();
     
     // maybe not all entities start at full health, etc.
@@ -99,6 +102,9 @@ public abstract class Entity {
     }
 
     public void setHealthMax(int healthMax) {
+        if (getHealth() > healthMax) {
+            setHealth(healthMax);
+        }
         this.healthMax = healthMax;
     }
 
@@ -179,17 +185,17 @@ public abstract class Entity {
     }
 
     public void setWeapon(String weaponID) {
-        if (!weaponID.equals(this.weapon)) {
+        if (! weaponID.equals(this.weapon)) {
             if (weaponID.equals("hands")) {
-                if (!this.weapon.equals("hands")) {
-                    Item weapon = new Item(this.weapon);
-                    int damage = weapon.properties.get("damage");
+                if (! this.weapon.equals("hands")) {
+                    Item weapon = itemRepo.getItem(this.weapon);
+                    int damage = weapon.getProperties().get("damage");
                     this.damage = this.damage - damage;
                 }
                 this.weapon = "hands";
             } else {
-                Item weapon = new Item(weaponID);
-                int damage = weapon.properties.get("damage");
+                Item weapon = itemRepo.getItem(weaponID);
+                int damage = weapon.getProperties().get("damage");
                 this.damage = this.damage + damage;
                 this.weapon = weapon.getItemID();
             }

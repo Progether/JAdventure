@@ -1,12 +1,9 @@
 package com.jadventure.game.menus;
 
-import com.jadventure.game.menus.Menus;
-import com.jadventure.game.menus.MenuItem;
-import com.jadventure.game.entities.Player;
 import com.jadventure.game.Game;
+import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
-
-import java.util.Scanner;
+import com.jadventure.game.entities.Player;
 
 /**
  * Called when creating a new Player
@@ -29,11 +26,11 @@ public class ChooseClassMenu extends Menus {
     private static boolean testOption(MenuItem m) {
         String key = m.getKey();
         if(key.equals("recruit")) {
-            Player player = Player.getInstance("recruit");
+            Player player = GameBeans.getPlayerRepository().create("recruit");
             new Game(player, "new");
             return true;
         } else if(key.equals("sewerrat")) {
-            Player player = Player.getInstance("sewerrat");
+            Player player = GameBeans.getPlayerRepository().create("sewerrat");
             new Game(player, "new");
             return true;
         } else {

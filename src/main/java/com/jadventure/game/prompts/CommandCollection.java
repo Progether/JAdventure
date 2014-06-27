@@ -1,15 +1,16 @@
 package com.jadventure.game.prompts;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.jadventure.game.GameBeans;
+import com.jadventure.game.QueueProvider;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.navigation.Direction;
 import com.jadventure.game.navigation.ILocation;
-import com.jadventure.game.QueueProvider;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * CommandCollection contains the declaration of the methods mapped to game commands
@@ -23,19 +24,27 @@ public enum CommandCollection {
 
     public Player player;
 
-    private String helpText = "\nstats: Prints your statistics.\n" +
-            "backpack: Prints out the contents of your backpack.\n" +
-            "save: Save your progress.\n" +
-            "goto: Go in a direction.\n" +
-            "exit: Exit the game and return to the main menu.\n";
+    private String helpText = "\nstats (st): Prints your statistics.\n"
+            + "backpack (b): Prints out the contents of your backpack.\n"
+            + "monster (m): Shows the monsters around you."
+            + "save: Save your progress.\n"
+            + "goto (g): Go in a direction.\n"
+            + "inspect (i): Inspect an item.\n"
+            + "dequip (e): ...\n"
+            + "dequip (de): ...\n"
+            + "pick (p): Pick up an item.\n"
+            + "drop (d): Drop an item.\n"
+            + "exit: Exit the game and return to the main menu.\n"
+            + "debug: ...\n";
 
-    private HashMap<String, String> directionLinks = new HashMap<String,String>()
-    {{
-         put("n", "north");
-         put("s", "south");
-         put("e", "east");
-         put("w", "west");
-     }};
+    private Map<String, String> directionLinks = new HashMap<String, String>() {
+        {
+            put("n", "north");
+            put("s", "south");
+            put("e", "east");
+            put("w", "west");
+        }
+    };
 
     public static CommandCollection getInstance() {
         return INSTANCE;
@@ -47,10 +56,10 @@ public enum CommandCollection {
 
     // command methods here
 
-    @Command(command="status", aliases="st", description="Returns player's status")
+    @Command(command="stats", aliases="st", description="Returns players statistics")
     @SuppressWarnings("UnusedDeclaration")
     public void command_st(){
-        player.getStats();
+        player.getStatistics();
     }
 
     @Command(command="help", aliases="", description="Prints help")
@@ -68,13 +77,14 @@ public enum CommandCollection {
     @Command(command="save", aliases="", description="Save the game")
     @SuppressWarnings("UnusedDeclaration")
     public void command_save(){
-        player.save();
+//        player.save();
+        GameBeans.getPlayerRepository().save(player);
     }
 
     @Command(command="monster", aliases="m", description="Monsters around you")
     @SuppressWarnings("UnusedDeclaration")
     public void command_m(){
-        ArrayList<Monster> monsterList = player.getLocation().getMonsters();
+        List<Monster> monsterList = player.getLocation().getMonsters();
         if (monsterList.size() > 0) {
             QueueProvider.offer("Monsters around you:");
             QueueProvider.offer("----------------------------");
@@ -93,6 +103,14 @@ public enum CommandCollection {
         new DebugPrompt(player);
     }
 
+
+    @Command(command="look", aliases="l", description="Look around")
+    @SuppressWarnings("UnusedDeclaration")
+    public void command_look(){
+        player.getLocation().print();
+    }
+    
+    
     @Command(command="goto", aliases="g", description="Goto a direction")
     @SuppressWarnings("UnusedDeclaration")
     public void command_g(String arg){
@@ -119,7 +137,6 @@ public enum CommandCollection {
             QueueProvider.offer("That direction doesn't exist");
         }
     }
-
     @Command(command="inspect", aliases="i", description="Inspect an item")
     @SuppressWarnings("UnusedDeclaration")
     public void command_i(String arg){

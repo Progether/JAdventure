@@ -3,7 +3,9 @@ package com.jadventure.game.menus;
 import com.jadventure.game.menus.Menus;
 
 import java.util.Scanner;
+
 import com.jadventure.game.Game;
+import com.jadventure.game.GameBeans;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.menus.ChooseClassMenu;
 import com.jadventure.game.QueueProvider;
@@ -27,7 +29,7 @@ public class MainMenu extends Menus {
          this.menuItems.add(new MenuItem("Load", "Loads an existing Game"));
          this.menuItems.add(new MenuItem("Exit", null, "quit"));
 
-         while(true) {
+         while (true) {
              MenuItem selectedItem = displayMenu(this.menuItems);
              testOption(selectedItem);
          }
@@ -56,14 +58,14 @@ public class MainMenu extends Menus {
 
             while (player == null) {
                 key = input.nextLine();
-                if (Player.profileExists(key)) {
-                    player = Player.load(key);
+                if (GameBeans.getPlayerRepository().isExistingPlayerProfile(key)) {
+                    player = GameBeans.getPlayerRepository().getPlayer(key);
                 } else {
                     QueueProvider.offer("That user doesn't exist. Try again.");
                 }
             }
 
-            Game game = new Game(player, "old");
+            new Game(player, "old");
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.jadventure.game.monsters;
 
-/*
+/**
  * A monster without low damage, but high health and armour.
  */
 public class Troll extends Monster {

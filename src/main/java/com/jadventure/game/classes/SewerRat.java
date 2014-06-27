@@ -4,7 +4,7 @@ import com.jadventure.game.entities.Player;
 
 import java.util.Random;
 
-/*
+/**
  * A Sewer Rat has low combat skills, but
  * high technical skills. He has access to the
  * underground and can sneak around the recruit camp.
@@ -26,7 +26,10 @@ public class SewerRat extends Player {
         this.setLuck(luck);
         this.setStealth(2);
         this.setWeapon("hands");
-        this.setIntro("Hey, rat. . . you dead??\n*You let out a groan...*\nWhat are you doing?!? Don't you know it's crazy to sleep so close to the recruits' camp? A guard will come down those stairs soon enough and catch you! You'll end up being drafted! You better come back in.\nBy the way, what's your name?");
+        this.setIntro("Hey, rat. . . you dead??\n*You let out a groan...*\nWhat are you doing?!?"
+        		+ " Don't you know it's crazy to sleep so close to the recruits' camp?"
+        		+ " A guard will come down those stairs soon enough and catch you!"
+        		+ " You'll end up being drafted! You better come back in.\nBy the way, what's your name?");
     }
 
 }

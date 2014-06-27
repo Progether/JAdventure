@@ -1,35 +1,34 @@
 package com.jadventure.game.navigation;
 
-import com.jadventure.game.items.Item;
-import com.jadventure.game.entities.NPC;
-import com.jadventure.game.monsters.Monster;
-import com.jadventure.game.QueueProvider;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.jadventure.game.GameBeans;
+import com.jadventure.game.QueueProvider;
+import com.jadventure.game.entities.NPC;
+import com.jadventure.game.items.Item;
+import com.jadventure.game.monsters.Monster;
+import com.jadventure.game.repository.ItemRepository;
+import com.jadventure.game.repository.LocationRepository;
 
 /**
  * The location class mostly deals with getting and setting variables.
  * It also contains the method to print a location's details.
  */
 public class Location implements ILocation {
+    private LocationRepository locationRepo = GameBeans.getLocationRepository();
+    
     private Coordinate coordinate;
     private String title;
     private String description;
     private LocationType locationType;
-    private ArrayList<String> items;
-    private ArrayList<String> npcs;
-    private ArrayList<Monster> monsters = new ArrayList<Monster>();
+    private List<String> items;
+    private List<String> npcs;
+    private List<Monster> monsters = new ArrayList<Monster>();
+    
+    private ItemRepository itemRepo = GameBeans.getItemRepository();
 
     public Location() {
 
@@ -71,8 +70,8 @@ public class Location implements ILocation {
     public Map<Direction, ILocation> getExits() {
         Map<Direction, ILocation> exits = new HashMap<Direction, ILocation>();
         ILocation borderingLocation;
-        for(Direction direction: Direction.values()) {
-            borderingLocation = LocationManager.getLocation(getCoordinate().getBorderingCoordinate(direction));
+        for (Direction direction: Direction.values()) {
+            borderingLocation = locationRepo.getLocation(getCoordinate().getBorderingCoordinate(direction));
             if (borderingLocation != null) {
                 exits.put(direction, borderingLocation);
             }
@@ -80,20 +79,20 @@ public class Location implements ILocation {
         return exits;
     }
 
-    public void setItems(ArrayList items) {
+    public void setItems(List<String> items) {
         this.items = items;
     }
 
     public ArrayList<Item> getItems() {
         ArrayList<Item> items = new ArrayList<Item>();
         for (String itemId : this.items) {
-            Item itemName = new Item(itemId);
-            items.add(itemName);
+            Item item = itemRepo.getItem(itemId);
+            items.add(item);
         }
         return items;
     }
 
-    public void setNPCs(ArrayList npcs) {
+    public void setNPCs(List<String> npcs) {
         this.npcs = npcs;
     }
 
@@ -107,23 +106,23 @@ public class Location implements ILocation {
     }
     
     public void setMonsters(Monster monster) {
-        ArrayList<Monster> list = this.monsters;
+        List<Monster> list = this.monsters;
         list.add(monster);
         this.monsters = list;
     }
 
-    public ArrayList<Monster> getMonsters() {
+    public List<Monster> getMonsters() {
         return this.monsters;
     }
 
     public void removePublicItem(String itemID) {
-        ArrayList<String> items = this.items;
+        List<String> items = this.items;
         items.remove(itemID);
         setItems(items);
     }
 
     public void addPublicItem(String itemID) {
-        ArrayList<String> items = this.items;
+        List<String> items = this.items;
         items.add(itemID);
         setItems(items);
     }

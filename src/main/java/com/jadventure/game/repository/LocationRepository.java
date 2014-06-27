@@ -1,52 +1,57 @@
-package com.jadventure.game.navigation;
+package com.jadventure.game.repository;
 
-import com.jadventure.game.items.Item;
-import com.jadventure.game.entities.NPC;
-import com.jadventure.game.QueueProvider;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.Gson;
-
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.io.FileWriter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-/**
- * This class loads the locations from the locations.json file on start.
- * It also provides methods for getting the initial location and the current location.
- */
-public enum LocationManager {
-    INSTANCE;
-    private static final String FILE_NAME = "json/locations.json";
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.reflect.TypeToken;
+import com.jadventure.game.QueueProvider;
+import com.jadventure.game.items.Item;
+import com.jadventure.game.navigation.Coordinate;
+import com.jadventure.game.navigation.ILocation;
+import com.jadventure.game.navigation.Location;
+import com.jadventure.game.navigation.LocationType;
 
-    private static class Locations {
-        private static Map<Coordinate, ILocation> locations = new HashMap<Coordinate, ILocation>();
+public class LocationRepository extends AbstractRepository {
+    private Map<Coordinate, ILocation> locations = new HashMap<>();
+
+    
+    public LocationRepository(File repoPath) {
+        super(repoPath, "locations.json");
     }
 
-    private LocationManager() {
+
+    public ILocation getLocation(Coordinate coordinate) {
+        return locations.get(coordinate);
+    }
+
+    
+    protected void load(File repo) {
         JsonParser parser = new JsonParser();
 
         try {
-            Reader reader = new FileReader(FILE_NAME);
+            Reader reader = new FileReader(repo);
 
             JsonObject json = parser.parse(reader).getAsJsonObject();
 
             // For every location in the locations.file, it parses the location uses loadLocation() and adds it
             // to the locations Map.
             for(Map.Entry<String, JsonElement> entry: json.entrySet()) {
-                Locations.locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));
+                locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));
             }
 
             reader.close();
@@ -67,26 +72,29 @@ public enum LocationManager {
         location.setDescription(json.get("description").getAsString());
         location.setLocationType(LocationType.valueOf(json.get("locationType").getAsString()));
         if (json.has("items")) {
-            ArrayList<String> items = new Gson().fromJson(json.get("items"), new TypeToken<List<String>>(){}.getType());
+            List<String> items = new Gson().fromJson(json.get("items"), new TypeToken<List<String>>(){}.getType());
             location.setItems(items);
-        } else {
-            ArrayList<String> items = new ArrayList<String>();
+        } 
+        else {
+            List<String> items = new ArrayList<String>();
             location.setItems(items);
         }
         if (json.has("npcs")) {
-            ArrayList<String> npcs = new Gson().fromJson(json.get("npcs"), new TypeToken<List<String>>(){}.getType());
+            List<String> npcs = new Gson().fromJson(json.get("npcs"), new TypeToken<List<String>>(){}.getType());
             location.setNPCs(npcs);
-        } else {
-            ArrayList<String> npcs = new ArrayList<String>();
+        } 
+        else {
+            List<String> npcs = new ArrayList<String>();
             location.setNPCs(npcs);
         }
         return location;
     }
-
-    public static void writeLocations() {
+    
+    
+    public void save() {
         try {
             JsonObject jsonObject = new JsonObject();
-            for (Map.Entry<Coordinate,ILocation> entry : Locations.locations.entrySet()) {
+            for (Map.Entry<Coordinate,ILocation> entry : locations.entrySet()) {
                 ILocation location = entry.getValue();
                 JsonObject locationJsonElement = new JsonObject();
                 locationJsonElement.addProperty("title", location.getTitle());
@@ -104,23 +112,26 @@ public enum LocationManager {
                 }
                 jsonObject.add(location.getCoordinate().toString(), locationJsonElement);
             }
-            Writer writer = new FileWriter("json/locations.json");
+            Writer writer = new FileWriter("json/locations-save.json");
             Gson gson = new Gson();
             gson.toJson(jsonObject, writer);
             writer.close();
             QueueProvider.offer("The game locations were saved.");
         } catch (IOException ex) {
-            QueueProvider.offer("Unable to save to file json/locations.json");
+            QueueProvider.offer("Unable to save to file json/locations-save.json");
         }
     }
 
-    public static ILocation getInitialLocation() {
-        Coordinate coordinate = new Coordinate(0, 0, -1);
-        return getLocation(coordinate);
-    }
 
-    public static ILocation getLocation(Coordinate coordinate) {
-        return Locations.locations.get(coordinate);
+    // ----[ Can be removed once Dependency Injection is in place ]----
+    private static LocationRepository locationRepo;
+    public static LocationRepository createRepo() {
+        if (locationRepo == null) {
+            File file = new File(new File(System.getProperty("user.dir")), "json");
+            locationRepo = new LocationRepository(file);
+            locationRepo.load();
+        }
+        return locationRepo;
     }
 
 }

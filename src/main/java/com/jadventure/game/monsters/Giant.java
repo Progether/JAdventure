@@ -1,6 +1,6 @@
 package com.jadventure.game.monsters;
 
-/*
+/**
  * A monster with high health and damage, but low armour.
  */
 public class Giant extends Monster {

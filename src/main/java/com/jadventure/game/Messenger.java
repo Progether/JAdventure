@@ -1,18 +1,18 @@
 package com.jadventure.game;
 
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 class Messenger extends Thread {
+    private BlockingQueue<String> queue = null;
 
-    BlockingQueue<String> queue = new LinkedBlockingQueue<String>();
 
-    public Messenger(BlockingQueue q) {
-        queue = q;
+    public Messenger(BlockingQueue<String> queue) {
+        this.queue = queue;
     }
 
+
     public void run() {
-        while(true) {
+        while (true) {
             String message;
             while ((message = queue.poll()) != null) {
                 System.out.println(message);

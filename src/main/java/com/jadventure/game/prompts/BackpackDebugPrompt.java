@@ -2,6 +2,7 @@ package com.jadventure.game.prompts;
 
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.items.Item;
+import com.jadventure.game.repository.ItemRepository;
 import com.jadventure.game.QueueProvider;
 
 import java.util.Scanner;
@@ -13,6 +14,8 @@ import java.util.Scanner;
  * Items are added by their names and removed by their display name
  */
 public class BackpackDebugPrompt{
+    // FIXME remove static
+    private static ItemRepository itemRepo = null; 
 
     private static String helpText = "\nlist: Lists the current item the player has\n"+
                                      "add: Add a new item\n"+
@@ -34,7 +37,7 @@ public class BackpackDebugPrompt{
         
         try{
             if(command.startsWith("add")){
-                Item appendItem = new Item(command.substring(3).trim());
+                Item appendItem = itemRepo.getItem(command.substring(3).trim());
                 if(appendItem.getName() != null)
                     player.addItemToStorage(appendItem);
             }
@@ -55,4 +58,5 @@ public class BackpackDebugPrompt{
         
         return continuePrompt;
     }
+
 }

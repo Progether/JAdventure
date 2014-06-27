@@ -4,7 +4,7 @@ import com.jadventure.game.entities.Player;
 
 import java.util.Random;
 
-/*
+/**
  * A recruit has a pretty strong character in terms of combat
  * but low technical skill. He has access to the training camp
  * but none to the underground unless he deserts his position.

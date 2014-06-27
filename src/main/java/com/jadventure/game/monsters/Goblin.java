@@ -1,6 +1,6 @@
 package com.jadventure.game.monsters;
 
-/*
+/**
  * A monster that isn't too bad, but does come with slight armour.
  */
 public class Goblin extends Monster {

@@ -12,7 +12,7 @@ import com.jadventure.game.QueueProvider;
 public class JAdventure {
 
     public static void main(String[] args) {
-        new QueueProvider().startMessenger();
+        QueueProvider.startMessenger();
         new MainMenu();
     }
 

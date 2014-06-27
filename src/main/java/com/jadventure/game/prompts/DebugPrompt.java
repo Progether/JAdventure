@@ -13,12 +13,12 @@ import java.util.Scanner;
  */
 public class DebugPrompt{
 
-    private static String helpText = "\nattack: Modify player's attack damage\n"+
-                              "health: Modify player's health\n"+
-                              "maxhealth: Modify player's maximum health\n"+
-                              "armour: Modify player's armour\n"+
-                              "level: modify player's level\n"+
-                              "gold: modify player's gold\n"+
+    private static String helpText = "\nattack: Modify players attack damage\n"+
+                              "health: Modify players health\n"+
+                              "maxhealth: Modify players maximum health\n"+
+                              "armour: Modify players armour\n"+
+                              "level: modify players level\n"+
+                              "gold: modify players gold\n"+
                               "backpack: Modify the player backpack\n"+
                               "stats: Display the current stats\n"+
                               "help: Prints this info\n"+
@@ -77,7 +77,7 @@ public class DebugPrompt{
                 new BackpackDebugPrompt(player);
 		    }
 		    else if(command.equals("stats"))
-			    player.getStats();
+			    player.getStatistics();
             else if(command.equals("help"))
                 QueueProvider.offer(helpText);
 			else if(command.equals("exit"))

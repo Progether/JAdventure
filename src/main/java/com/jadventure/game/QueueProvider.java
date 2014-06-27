@@ -5,14 +5,14 @@ import java.util.concurrent.BlockingQueue;
 
 public class QueueProvider { 
 
-    public static BlockingQueue queue = new LinkedBlockingQueue();
+    public static BlockingQueue<String> queue = new LinkedBlockingQueue<String>();
 
     public static void startMessenger() {
         Messenger messenger = new Messenger(queue);
         new Thread(messenger).start();
     }
 
-    public static BlockingQueue getQueue() {
+    public static BlockingQueue<String> getQueue() {
         return queue;
     }
 

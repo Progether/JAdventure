@@ -1,54 +1,45 @@
 package com.jadventure.game.items;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 import com.jadventure.game.QueueProvider;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.internal.LinkedTreeMap;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ArrayList;
-
-/*
+/**
  * This class deals with parsing and interacting with an item.
  */
 public class Item {
+    private String id;
     private String name;
-    private String itemID;
     private String description;
-    public HashMap<String, Integer> properties;
+    private Map<String, Integer> properties;
 
-    public Item(String itemID) {
-        lookUpItem(itemID);
+    public Item(String id, String name, String description, Map<String, Integer> properties) {
+        this.id = id;
+        this.name = name;
+        this.properties = properties;
     }
     
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public String getItemID() {
-        return this.itemID;
+        return id;
     }
 
     public double getWeight() {
-        return this.properties.get("weight");
+        return properties.get("weight");
+    }
+
+    public Map<String, Integer> getProperties() {
+        return properties;
     }
 
     public boolean equals(Object obj) {
-        if(obj instanceof Item) {
-            Item i = (Item) obj;
-            return this.name.equals(i.name);
+        if (obj instanceof Item) {
+            Item item = (Item) obj;
+            return name.equals(item.name);
         }
         return false;
     }
@@ -56,54 +47,9 @@ public class Item {
     public void display() {
         QueueProvider.offer("Name: " + this.name +
                 "\nDescription: " + this.description);
-        for (Map.Entry entry : this.properties.entrySet()) {
+        for (Entry<String, Integer> entry : this.properties.entrySet()) {
             QueueProvider.offer(entry.getKey() + ": " + entry.getValue());
         }
-    }
-
-    // gets data about an item based on its itemID
-    public void lookUpItem(String itemID) {
-        String fileName = "json/items.json";
-        JsonObject items = new JsonObject();
-        try {
-            Reader reader = new FileReader(fileName);
-            JsonParser parser = new JsonParser();
-            JsonObject json = parser.parse(reader).getAsJsonObject();
-            items = json.get("items").getAsJsonObject();
-            reader.close();
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        HashMap<String,HashMap> itemList = new HashMap();
-        for (Map.Entry<String, JsonElement> entry : items.entrySet()) {
-            HashMap itemDetails = new HashMap();
-            String rawItemID = entry.getKey().toString();
-            JsonObject itemData = entry.getValue().getAsJsonObject();
-            String name = itemData.get("name").getAsString();
-            String description = itemData.get("description").getAsString();
-            //HashMap<String,Integer>
-            JsonObject sProps = itemData.get("properties").getAsJsonObject();
-            HashMap properties = new HashMap();
-            for (Map.Entry<String,JsonElement> entry2 : sProps.entrySet()) {
-                Integer propValue = entry2.getValue().getAsInt();
-                properties.put(entry2.getKey(), propValue);
-            }
-            itemDetails.put("name", name);
-            itemDetails.put("description", description);
-            itemDetails.put("properties", properties);
-            itemList.put(rawItemID,itemDetails);
-        }
-        for (Map.Entry<String, HashMap> item : itemList.entrySet()) {
-            if (item.getKey().equals(itemID)) {
-                this.itemID = item.getKey();
-                this.name = item.getValue().get("name").toString();
-                this.description = item.getValue().get("description").toString();
-                this.properties = (HashMap<String,Integer>)item.getValue().get("properties");
-            }
-        }
-
     }
 
 }
