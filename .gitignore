@@ -37,3 +37,4 @@ nb-configuration.xml
 
 # Class Files #
 *.class
+/target
