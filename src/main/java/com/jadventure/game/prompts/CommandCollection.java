@@ -59,7 +59,6 @@ public enum CommandCollection {
     // command methods here
 
     @Command(command="stats", aliases="st", description="Returns players statistics")
-    @SuppressWarnings("UnusedDeclaration")
     public void command_st(){
     	TextBuilderVisitor textBuilder = new TextBuilderVisitor();
 //        player.getStatistics();
@@ -68,26 +67,22 @@ public enum CommandCollection {
     }
 
     @Command(command="help", aliases="?", description="Prints help")
-    @SuppressWarnings("UnusedDeclaration")
     public void command_help(){
         QueueProvider.offer(helpText);
     }
 
     @Command(command="backpack", aliases="b", description="Backpack contents")
-    @SuppressWarnings("UnusedDeclaration")
     public void command_b(){
         player.printBackPack();
     }
 
     @Command(command="save", aliases="", description="Save the game")
-    @SuppressWarnings("UnusedDeclaration")
     public void command_save(){
 //        player.save();
         GameBeans.getPlayerRepository().save(player);
     }
 
     @Command(command="monster", aliases="m", description="Monsters around you")
-    @SuppressWarnings("UnusedDeclaration")
     public void command_m(){
         List<Monster> monsterList = player.getLocation().getMonsters();
         if (monsterList.size() > 0) {
@@ -103,14 +98,12 @@ public enum CommandCollection {
     }
 
     @Command(command="debug", aliases="", description="Start debugging")
-    @SuppressWarnings("UnusedDeclaration")
     public void command_debug(){
         new DebugPrompt(player);
     }
 
 
     @Command(command="look", aliases="l", description="Look around")
-    @SuppressWarnings("UnusedDeclaration")
     public void command_look(){
     	TextBuilderVisitor textBuilder = new TextBuilderVisitor();
     	textBuilder.visit(player.getLocation());
@@ -120,7 +113,6 @@ public enum CommandCollection {
     
     
     @Command(command="goto", aliases="g", description="Goto a direction")
-    @SuppressWarnings("UnusedDeclaration")
     public void command_g(String arg){
         ILocation location = player.getLocation();
 
@@ -146,31 +138,26 @@ public enum CommandCollection {
         }
     }
     @Command(command="inspect", aliases="i", description="Inspect an item")
-    @SuppressWarnings("UnusedDeclaration")
     public void command_i(String arg){
         player.inspectItem(arg.trim());
     }
 
     @Command(command="equip", aliases="e", description="Equip an item")
-    @SuppressWarnings("UnusedDeclaration")
     public void command_e(String arg){
         player.equipItem(arg.trim());
     }
 
     @Command(command="dequip", aliases="de", description="Dequip an item")
-    @SuppressWarnings("UnusedDeclaration")
     public void command_de(String arg){
         player.dequipItem(arg.trim());
     }
 
     @Command(command="pick", aliases="p", description="Pick up an item")
-    @SuppressWarnings("UnusedDeclaration")
     public void command_p(String arg){
         player.pickUpItem(arg.trim());
     }
 
     @Command(command="drop", aliases="d", description="Drop an item")
-    @SuppressWarnings("UnusedDeclaration")
     public void command_d(String arg){
         player.dropItem(arg.trim());
     }
