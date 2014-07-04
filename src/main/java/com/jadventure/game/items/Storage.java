@@ -42,4 +42,15 @@ public abstract class Storage implements IGameElement {
 		visitor.visit(this);
 	}
 
+
+    public boolean contains(String arg) {
+        List<ItemStack> items = getItems();
+        for (ItemStack itemStack : items) {
+            if (arg.equalsIgnoreCase(itemStack.getItem().getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

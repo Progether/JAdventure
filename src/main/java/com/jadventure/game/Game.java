@@ -24,7 +24,7 @@ public class Game {
     Player player = null;
 
     public Game(Player player, String playerType) {
-        cmdParser = new CommandParser(player);
+        cmdParser = new CommandParser();
         
         player.setLocation(locationRepo.getLocation(DEFAULT_INITIAL_COORDINATE));
         if (playerType.equals("new")) { // New Game

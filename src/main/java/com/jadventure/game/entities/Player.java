@@ -123,12 +123,12 @@ public class Player extends Entity implements IGameElement {
     }
 
     public void inspectItem(String itemName) {
-        List<Item> itemMap = searchItem(itemName, getStorage());
-        if (itemMap.isEmpty()) {
-            itemMap = searchItem(itemName, getLocation().getItems());
+        List<Item> itemList = searchItem(itemName, getStorage());
+        if (itemList.isEmpty()) {
+            itemList = searchItem(itemName, getLocation().getItems());
         }
-        if (!itemMap.isEmpty()) {
-            Item item = itemMap.get(0);
+        if (!itemList.isEmpty()) {
+            Item item = itemList.get(0);
             item.display();
         } else {
             QueueProvider.offer("Item doesn't exist within your view.");

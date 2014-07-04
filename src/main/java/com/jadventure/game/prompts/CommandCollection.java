@@ -59,7 +59,7 @@ public enum CommandCollection {
     // command methods here
 
     @Command(command="stats", aliases="st", description="Returns players statistics")
-    public void command_st(){
+    public void command_st() {
     	TextBuilderVisitor textBuilder = new TextBuilderVisitor();
 //        player.getStatistics();
     	player.accept(textBuilder);
@@ -67,23 +67,23 @@ public enum CommandCollection {
     }
 
     @Command(command="help", aliases="?", description="Prints help")
-    public void command_help(){
+    public void command_help() {
         QueueProvider.offer(helpText);
     }
 
     @Command(command="backpack", aliases="b", description="Backpack contents")
-    public void command_b(){
+    public void command_b() {
         player.printBackPack();
     }
 
     @Command(command="save", aliases="", description="Save the game")
-    public void command_save(){
+    public void command_save() {
 //        player.save();
         GameBeans.getPlayerRepository().save(player);
     }
 
     @Command(command="monster", aliases="m", description="Monsters around you")
-    public void command_m(){
+    public void command_m() {
         List<Monster> monsterList = player.getLocation().getMonsters();
         if (monsterList.size() > 0) {
             QueueProvider.offer("Monsters around you:");
@@ -98,13 +98,13 @@ public enum CommandCollection {
     }
 
     @Command(command="debug", aliases="", description="Start debugging")
-    public void command_debug(){
+    public void command_debug() {
         new DebugPrompt(player);
     }
 
 
     @Command(command="look", aliases="l", description="Look around")
-    public void command_look(){
+    public void command_look() {
     	TextBuilderVisitor textBuilder = new TextBuilderVisitor();
     	textBuilder.visit(player.getLocation());
     	System.out.println(textBuilder);
@@ -113,7 +113,7 @@ public enum CommandCollection {
     
     
     @Command(command="goto", aliases="g", description="Goto a direction")
-    public void command_g(String arg){
+    public void command_g(String arg) {
         ILocation location = player.getLocation();
 
         try {
@@ -128,37 +128,41 @@ public enum CommandCollection {
                 MonsterFactory monsterFactory = new MonsterFactory();
                 Monster monster = monsterFactory.generateMonster(player);
                 player.getLocation().setMonsters(monster);
-            } else {
+            }
+            else {
                 QueueProvider.offer("The is no exit that way.");
             }
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex) {
             QueueProvider.offer("That direction doesn't exist");
-        } catch (NullPointerException ex) {
+        }
+        catch (NullPointerException ex) {
             QueueProvider.offer("That direction doesn't exist");
         }
     }
     @Command(command="inspect", aliases="i", description="Inspect an item")
-    public void command_i(String arg){
+    public void command_i(String arg) {
+        // done
         player.inspectItem(arg.trim());
     }
 
     @Command(command="equip", aliases="e", description="Equip an item")
-    public void command_e(String arg){
+    public void command_e(String arg) {
         player.equipItem(arg.trim());
     }
 
     @Command(command="dequip", aliases="de", description="Dequip an item")
-    public void command_de(String arg){
+    public void command_de(String arg) {
         player.dequipItem(arg.trim());
     }
 
     @Command(command="pick", aliases="p", description="Pick up an item")
-    public void command_p(String arg){
+    public void command_p(String arg) {
         player.pickUpItem(arg.trim());
     }
 
     @Command(command="drop", aliases="d", description="Drop an item")
-    public void command_d(String arg){
+    public void command_d(String arg) {
         player.dropItem(arg.trim());
     }
 }
