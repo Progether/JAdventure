@@ -64,7 +64,6 @@ public class TextBuilderVisitor implements IGameElementVisitor {
 
 	@Override
 	public void visit(Storage storage) {
-		bldr.append(NL).append("Storage:");
 		for (ItemStack is : storage.getItems()) {
 			this.visit(is.getItem());
 		}
