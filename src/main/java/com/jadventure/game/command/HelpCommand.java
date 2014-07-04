@@ -11,7 +11,7 @@ public final class HelpCommand extends AbstractCommand {
 
 
     @Override
-    public void execute(Player player, IGameElementVisitor visitor) {
+    public void execute(Player player, IGameElementVisitor visitor, String[] args) {
         
     }
 

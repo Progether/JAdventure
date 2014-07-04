@@ -11,7 +11,7 @@ public class LookCommand extends AbstractCommand {
 
 
     @Override
-    public void execute(Player player, IGameElementVisitor visitor) {
+    public void execute(Player player, IGameElementVisitor visitor, String[] args) {
         visitor.visit(player.getLocation());
     }
     

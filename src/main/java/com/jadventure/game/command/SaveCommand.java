@@ -11,7 +11,7 @@ public final class SaveCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(Player player, IGameElementVisitor visitor) {
+    public void execute(Player player, IGameElementVisitor visitor, String[] args) {
         // TODO Auto-generated method stub
 
     }

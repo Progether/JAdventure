@@ -30,7 +30,7 @@ public abstract class AbstractCommand implements ICommand {
     }
 
 
-    public abstract void execute(Player player, IGameElementVisitor visitor);
+    public abstract void execute(Player player, IGameElementVisitor visitor, String[] args);
     
 
     @Override
