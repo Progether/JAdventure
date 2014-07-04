@@ -12,8 +12,8 @@ public final class BackpackCommand extends AbstractCommand {
 
     @Override
     public void execute(Player player, IGameElementVisitor visitor, String[] args) {
-        // TODO Auto-generated method stub
-
+        visitor.append("Backpack:");
+        visitor.visit(player.getStorage());
     }
 
 }
