@@ -46,7 +46,7 @@ public class Game {
     
     /**
      * Starts a new game.
-     * It prints the intro first and asks for the name of the players character
+     * It prints the introduction text first and asks for the name of the players character
      * and welcomes him/her. After that, it goes to the normal game prompt.
      */
     public void newGameStart(Player player) {
@@ -70,8 +70,29 @@ public class Game {
         boolean continuePrompt = true;
         while (continuePrompt) {
             QueueProvider.offer("Prompt:");
-            String command = input.next().toLowerCase();
-            continuePrompt = cmdParser.parse(player, command, continuePrompt);
+            String userInput = input.nextLine().toLowerCase();
+            System.out.println("User input '" + userInput + "'");
+            String[] userInputArray = userInput.split("\\s");
+            System.out.println("User input []: " + CommandParser.toString(userInputArray));
+            if (userInput.length() > 0) {
+                String command = userInputArray[0];
+                String[] argArray = removeFirst(userInputArray);
+                System.out.println("User input command '" + command + "' args " + CommandParser.toString(argArray));
+                continuePrompt = cmdParser.parse(player, command, argArray);
+            }
         }
+    }
+
+    private String[] removeFirst(String[] array) {
+        if (array == null || array.length == 0
+                || array.length == 1) {
+            return new String[0];
+        }
+
+        String[] newArray = new String[array.length - 1];
+        for (int index = 0; index < newArray.length; index++) {
+            newArray[index] = array[index + 1];
+        }
+        return newArray;
     }
 }

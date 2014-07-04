@@ -3,7 +3,6 @@ package com.jadventure.game.entities;
 import java.util.Random;
 
 import com.jadventure.game.GameBeans;
-import com.jadventure.game.items.Backpack;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Storage;
@@ -37,7 +36,7 @@ public abstract class Entity {
     // Every point in armour reduces an attackers attack by .33
     private int armour;
     private String weapon = "hands";
-    protected Storage storage = new Backpack(100);
+    protected Storage storage = new Storage(null, 100);
     Random globalRand = new Random();
     
     // maybe not all entities start at full health, etc.
