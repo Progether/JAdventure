@@ -102,11 +102,20 @@ public class Storage implements IGameElement {
 		visitor.visit(this);
 	}
 
-
-    public boolean contains(String arg) {
+    public Item getItem(String itemName) {
         List<ItemStack> items = getItems();
         for (ItemStack itemStack : items) {
-            if (arg.equalsIgnoreCase(itemStack.getItem().getName())) {
+            if (itemName.equalsIgnoreCase(itemStack.getItem().getName())) {
+                return itemStack.getItem();
+            }
+        }
+        return null;
+    }
+
+    public boolean contains(String itemName) {
+        List<ItemStack> items = getItems();
+        for (ItemStack itemStack : items) {
+            if (itemName.equalsIgnoreCase(itemStack.getItem().getName())) {
                 return true;
             }
         }
