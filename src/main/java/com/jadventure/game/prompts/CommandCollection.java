@@ -7,6 +7,7 @@ import java.util.Map;
 import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.TextBuilderVisitor;
+import com.jadventure.game.command.BackpackCommand;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
@@ -73,7 +74,11 @@ public enum CommandCollection {
 
     @Command(command="backpack", aliases="b", description="Backpack contents")
     public void command_b() {
-        player.printBackPack();
+        // Exists as ICommand
+//        player.printBackPack();
+        TextBuilderVisitor visitor = new TextBuilderVisitor();
+        new BackpackCommand().execute(player, visitor, null);
+        QueueProvider.offer(visitor.toString());
     }
 
     @Command(command="save", aliases="", description="Save the game")
@@ -142,7 +147,7 @@ public enum CommandCollection {
     }
     @Command(command="inspect", aliases="i", description="Inspect an item")
     public void command_i(String arg) {
-        // Exists as ICommand 
+        // Exists as ICommand
         System.out.println("Trying to inspecting '" + arg + "'");
         player.inspectItem(arg.trim());
     }
