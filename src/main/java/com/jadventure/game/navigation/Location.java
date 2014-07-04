@@ -11,6 +11,7 @@ import com.jadventure.game.IGameElementVisitor;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.entities.NPC;
 import com.jadventure.game.items.Item;
+import com.jadventure.game.items.Storage;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.repository.ItemRepository;
 import com.jadventure.game.repository.LocationRepository;
@@ -27,6 +28,7 @@ public class Location implements ILocation, IGameElement {
     private String description;
     private LocationType locationType;
     private List<String> items;
+    private Storage storage = new Storage();
     private List<String> npcs;
     private List<Monster> monsters = new ArrayList<Monster>();
     
@@ -158,4 +160,10 @@ public class Location implements ILocation, IGameElement {
 	public void accept(IGameElementVisitor visitor) {
 		visitor.visit(this);
 	}
+
+    @Override
+    public Storage getStorage() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

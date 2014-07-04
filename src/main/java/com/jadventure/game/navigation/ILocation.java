@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.jadventure.game.entities.NPC;
 import com.jadventure.game.items.Item;
+import com.jadventure.game.items.Storage;
 import com.jadventure.game.monsters.Monster;
 
 /**
@@ -25,5 +26,7 @@ public interface ILocation {
     void setMonsters(Monster monster);
     List<Monster> getMonsters();
     void print();
+
+    Storage getStorage();
 
 }
