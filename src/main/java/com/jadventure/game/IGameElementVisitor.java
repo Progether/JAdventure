@@ -14,5 +14,7 @@ public interface IGameElementVisitor {
 	void visit(Storage storage);
 
 	void visit(Player player);
-	
+
+    void append(String msg);
+
 }

@@ -91,4 +91,9 @@ public class TextBuilderVisitor implements IGameElementVisitor {
 		return bldr.toString();
 	}
 
+    @Override
+    public void append(String msg) {
+        bldr.append(NL).append(msg);
+    }
+
 }
