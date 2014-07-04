@@ -117,7 +117,7 @@ public enum CommandCollection {
         ILocation location = player.getLocation();
 
         try {
-            arg = directionLinks.get(arg);
+            arg = directionLinks.get(arg.substring(0, 1));
             Direction direction = Direction.valueOf(arg.toUpperCase());
             Map<Direction, ILocation> exits = location.getExits();
 
@@ -129,7 +129,7 @@ public enum CommandCollection {
                 Monster monster = monsterFactory.generateMonster(player);
                 player.getLocation().setMonsters(monster);
             } else {
-                QueueProvider.offer("The is no exit that way.");
+                QueueProvider.offer("You can't go that way.");
             }
         } catch (IllegalArgumentException ex) {
             QueueProvider.offer("That direction doesn't exist");
@@ -139,6 +139,7 @@ public enum CommandCollection {
     }
     @Command(command="inspect", aliases="i", description="Inspect an item")
     public void command_i(String arg){
+        System.out.println("Trying to inspecting '" + arg + "'");
         player.inspectItem(arg.trim());
     }
 

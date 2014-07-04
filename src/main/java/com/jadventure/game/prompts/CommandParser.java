@@ -43,11 +43,12 @@ public class CommandParser {
         }
     }
 
-    public boolean parse(Player player, String command, boolean continuePrompt) {
+    public boolean parse(Player player, String command, String[] args) {
         CommandCollection com = CommandCollection.getInstance();
         com.initPlayer(player);
+        System.out.println("Command '" + command + "' " + toString(args));
 
-        if(command.equals("exit"))
+        if(command.equalsIgnoreCase("exit"))
             return false;
 
         // descendingKeySet otherwise startsWith will return correspond to longer command
@@ -65,7 +66,8 @@ public class CommandParser {
                     }
                 }
                 else if(method.getParameterTypes()[0] == String.class) {
-                    String arg = command.substring(key.length());
+                    String arg = args[0];
+                    System.out.println("Argument '" + arg + "'");
                     try {
                         method.invoke(com, arg);
                     } catch (IllegalAccessException e) {
@@ -74,11 +76,31 @@ public class CommandParser {
                         e.printStackTrace();
                     }
                 }
-                return continuePrompt;
+                return true;
             }
         }
 
-        return continuePrompt;
+        return true;
+    }
+
+    public static String toString(String[] args) {
+        boolean isFirstItem = true;
+        StringBuilder bldr = new StringBuilder("[");
+        for (String arg : args) {
+            if (isFirstItem) {
+                bldr.append(" ");
+            }
+            else {
+                bldr.append(", ");
+            }
+            bldr.append(arg);
+            isFirstItem = false;
+        }
+        if (! isFirstItem) {
+            bldr.append(" ");
+        }
+        bldr.append("]");
+        return bldr.toString();
     }
 
 }

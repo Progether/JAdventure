@@ -16,6 +16,18 @@ public class ItemStack {
 		return amount;
 	}
 
+
+    public void increaseAmount() {
+        ++amount;
+    }
+
+    public void decreaseAmount() {
+        --amount;
+        if (amount < 0) {
+            amount = 0;
+        }
+    }
+
 //	public void setAmount(int amount) {
 //		this.amount = amount;
 //	}
