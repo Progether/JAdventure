@@ -1,16 +1,13 @@
 package com.jadventure.game.prompts;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.TextBuilderVisitor;
 import com.jadventure.game.command.BackpackCommand;
+import com.jadventure.game.command.DebugCommand;
 import com.jadventure.game.command.DequipCommand;
 import com.jadventure.game.command.DropCommand;
 import com.jadventure.game.command.EquipCommand;
+import com.jadventure.game.command.GotoCommand;
 import com.jadventure.game.command.HelpCommand;
 import com.jadventure.game.command.InspectCommand;
 import com.jadventure.game.command.MonsterCommand;
@@ -18,10 +15,6 @@ import com.jadventure.game.command.PickCommand;
 import com.jadventure.game.command.SaveCommand;
 import com.jadventure.game.command.StatisticsCommand;
 import com.jadventure.game.entities.Player;
-import com.jadventure.game.monsters.Monster;
-import com.jadventure.game.monsters.MonsterFactory;
-import com.jadventure.game.navigation.Direction;
-import com.jadventure.game.navigation.ILocation;
 
 /**
  * CommandCollection contains the declaration of the methods mapped to game commands
@@ -35,35 +28,29 @@ public enum CommandCollection {
 
     public Player player;
 
-    @Deprecated
-    private String helpText = "\nstats (st): Prints your statistics.\n"
-            + "backpack (b): Prints out the contents of your backpack.\n"
-            + "monster (m): Shows the monsters around you."
-            + "save: Save your progress.\n"
-            + "goto (g): Go in a direction.\n"
-            + "look (l): Look at current location.\n"
-            + "inspect (i): Inspect an item.\n"
-            + "dequip (e): ...\n"
-            + "dequip (de): ...\n"
-            + "pick (p): Pick up an item.\n"
-            + "drop (d): Drop an item.\n"
-            + "exit: Exit the game and return to the main menu.\n"
-            + "debug: ...\n";
+//    private String helpText = "\nstats (st): Prints your statistics.\n"
+//            + "backpack (b): Prints out the contents of your backpack.\n"
+//            + "monster (m): Shows the monsters around you."
+//            + "save: Save your progress.\n"
+//            + "goto (g): Go in a direction.\n"
+//            + "look (l): Look at current location.\n"
+//            + "inspect (i): Inspect an item.\n"
+//            + "dequip (e): ...\n"
+//            + "dequip (de): ...\n"
+//            + "pick (p): Pick up an item.\n"
+//            + "drop (d): Drop an item.\n"
+//            + "exit: Exit the game and return to the main menu.\n"
+//            + "debug: ...\n";
 
-    private Map<String, String> directionLinks = new HashMap<String, String>() {
-        {
-            put("n", "north");
-            put("s", "south");
-            put("e", "east");
-            put("w", "west");
-        }
-    };
+    
+    
+    
 
     public static CommandCollection getInstance() {
         return INSTANCE;
     }
 
-    public void initPlayer(Player player){
+    public void initPlayer(Player player) {
         this.player = player;
     }
 
@@ -112,7 +99,9 @@ public enum CommandCollection {
 
     @Command(command="debug", aliases="", description="Start debugging")
     public void command_debug() {
-        new DebugPrompt(player);
+//      Exists as ICommand
+//        new DebugPrompt(player);
+    	new DebugCommand().execute(player, null, null);
     }
 
 
@@ -122,38 +111,18 @@ public enum CommandCollection {
 //        player.getLocation().print();
     	TextBuilderVisitor textBuilder = new TextBuilderVisitor();
     	textBuilder.visit(player.getLocation());
-    	System.out.println(textBuilder);
+        QueueProvider.offer(textBuilder.toString());
     }
     
     
     @Command(command="goto", aliases="g", description="Goto a direction")
     public void command_g(String arg) {
-        ILocation location = player.getLocation();
-
-        try {
-            arg = directionLinks.get(arg.substring(0, 1));
-            Direction direction = Direction.valueOf(arg.toUpperCase());
-            Map<Direction, ILocation> exits = location.getExits();
-
-            if (exits.containsKey(direction)) {
-                ILocation newLocation = exits.get(Direction.valueOf(arg.toUpperCase()));
-                player.setLocation(newLocation);
-                player.getLocation().print();
-                MonsterFactory monsterFactory = new MonsterFactory();
-                Monster monster = monsterFactory.generateMonster(player);
-                player.getLocation().setMonsters(monster);
-            }
-            else {
-                QueueProvider.offer("You can't go that way.");
-            }
-        }
-        catch (IllegalArgumentException ex) {
-            QueueProvider.offer("That direction doesn't exist");
-        }
-        catch (NullPointerException ex) {
-            QueueProvider.offer("That direction doesn't exist");
-        }
+//      Exists as ICommand
+    	TextBuilderVisitor textBuilder = new TextBuilderVisitor();
+    	new GotoCommand().execute(player, textBuilder, new String[] {arg});
+        QueueProvider.offer(textBuilder.toString());
     }
+
     @Command(command="inspect", aliases="i", description="Inspect an item")
     public void command_i(String arg) {
         // Exists as ICommand
