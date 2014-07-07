@@ -8,6 +8,15 @@ import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.TextBuilderVisitor;
 import com.jadventure.game.command.BackpackCommand;
+import com.jadventure.game.command.DequipCommand;
+import com.jadventure.game.command.DropCommand;
+import com.jadventure.game.command.EquipCommand;
+import com.jadventure.game.command.HelpCommand;
+import com.jadventure.game.command.InspectCommand;
+import com.jadventure.game.command.MonsterCommand;
+import com.jadventure.game.command.PickCommand;
+import com.jadventure.game.command.SaveCommand;
+import com.jadventure.game.command.StatisticsCommand;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
@@ -26,6 +35,7 @@ public enum CommandCollection {
 
     public Player player;
 
+    @Deprecated
     private String helpText = "\nstats (st): Prints your statistics.\n"
             + "backpack (b): Prints out the contents of your backpack.\n"
             + "monster (m): Shows the monsters around you."
@@ -61,20 +71,24 @@ public enum CommandCollection {
 
     @Command(command="stats", aliases="st", description="Returns players statistics")
     public void command_st() {
-    	TextBuilderVisitor textBuilder = new TextBuilderVisitor();
+//        Exists as ICommand
 //        player.getStatistics();
-    	player.accept(textBuilder);
-    	System.out.println(textBuilder);
+    	TextBuilderVisitor textBuilder = new TextBuilderVisitor();
+    	new StatisticsCommand().execute(player, textBuilder, null);
+    	QueueProvider.offer(textBuilder.toString());
     }
 
     @Command(command="help", aliases="?", description="Prints help")
     public void command_help() {
-        QueueProvider.offer(helpText);
+//        Exists as ICommand
+    	TextBuilderVisitor textBuilder = new TextBuilderVisitor();
+    	new HelpCommand().execute(player, textBuilder, null);
+        QueueProvider.offer(textBuilder.toString());
     }
 
     @Command(command="backpack", aliases="b", description="Backpack contents")
     public void command_b() {
-        // Exists as ICommand
+//        Exists as ICommand
 //        player.printBackPack();
         TextBuilderVisitor visitor = new TextBuilderVisitor();
         new BackpackCommand().execute(player, visitor, null);
@@ -83,23 +97,17 @@ public enum CommandCollection {
 
     @Command(command="save", aliases="", description="Save the game")
     public void command_save() {
+//        Exists as ICommand
 //        player.save();
-        GameBeans.getPlayerRepository().save(player);
+    	new SaveCommand().execute(player, null, null);
     }
 
     @Command(command="monster", aliases="m", description="Monsters around you")
     public void command_m() {
-        List<Monster> monsterList = player.getLocation().getMonsters();
-        if (monsterList.size() > 0) {
-            QueueProvider.offer("Monsters around you:");
-            QueueProvider.offer("----------------------------");
-            for (Monster monster : monsterList) {
-                QueueProvider.offer(monster.monsterType);
-            }
-            QueueProvider.offer("----------------------------");
-        } else {
-            QueueProvider.offer("There are no monsters around you");
-        }
+//      Exists as ICommand
+        TextBuilderVisitor visitor = new TextBuilderVisitor();
+        new MonsterCommand().execute(player, visitor, null);
+        QueueProvider.offer(visitor.toString());
     }
 
     @Command(command="debug", aliases="", description="Start debugging")
@@ -110,10 +118,11 @@ public enum CommandCollection {
 
     @Command(command="look", aliases="l", description="Look around")
     public void command_look() {
+//      Exists as ICommand
+//        player.getLocation().print();
     	TextBuilderVisitor textBuilder = new TextBuilderVisitor();
     	textBuilder.visit(player.getLocation());
     	System.out.println(textBuilder);
-//        player.getLocation().print();
     }
     
     
@@ -148,27 +157,46 @@ public enum CommandCollection {
     @Command(command="inspect", aliases="i", description="Inspect an item")
     public void command_i(String arg) {
         // Exists as ICommand
-        System.out.println("Trying to inspecting '" + arg + "'");
-        player.inspectItem(arg.trim());
+//        System.out.println("Trying to inspecting '" + arg + "'");
+//        player.inspectItem(arg.trim());
+    	TextBuilderVisitor textBuilder = new TextBuilderVisitor();
+        new InspectCommand().execute(player, textBuilder, new String[] {arg});
+        QueueProvider.offer(textBuilder.toString());
     }
 
     @Command(command="equip", aliases="e", description="Equip an item")
     public void command_e(String arg) {
-        player.equipItem(arg.trim());
+        // Exists as ICommand
+//        player.equipItem(arg.trim());
+    	TextBuilderVisitor textBuilder = new TextBuilderVisitor();
+        new EquipCommand().execute(player, textBuilder, new String[] {arg});
+        QueueProvider.offer(textBuilder.toString());
     }
 
     @Command(command="dequip", aliases="de", description="Dequip an item")
     public void command_de(String arg) {
-        player.dequipItem(arg.trim());
+        // Exists as ICommand
+//        player.dequipItem(arg.trim());
+    	TextBuilderVisitor textBuilder = new TextBuilderVisitor();
+        new DequipCommand().execute(player, textBuilder, new String[] {arg});
+        QueueProvider.offer(textBuilder.toString());
     }
 
     @Command(command="pick", aliases="p", description="Pick up an item")
     public void command_p(String arg) {
-        player.pickUpItem(arg.trim());
+        // Exists as ICommand
+//        player.pickUpItem(arg.trim());
+    	TextBuilderVisitor textBuilder = new TextBuilderVisitor();
+        new PickCommand().execute(player, textBuilder, new String[] {arg});
+        QueueProvider.offer(textBuilder.toString());
     }
 
     @Command(command="drop", aliases="d", description="Drop an item")
     public void command_d(String arg) {
-        player.dropItem(arg.trim());
+        // Exists as ICommand
+//        player.dropItem(arg.trim());
+    	TextBuilderVisitor textBuilder = new TextBuilderVisitor();
+        new DropCommand().execute(player, textBuilder, new String[] {arg});
+        QueueProvider.offer(textBuilder.toString());
     }
 }
