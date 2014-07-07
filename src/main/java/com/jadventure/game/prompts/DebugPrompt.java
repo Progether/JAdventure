@@ -24,66 +24,75 @@ public class DebugPrompt{
                               "help: Prints this info\n"+
                               "exit: Exits the debug prompt\n";
     
-    public DebugPrompt(Player player){
+    public DebugPrompt(Player player) {
         boolean continuePrompt = true;
         Scanner input = new Scanner(System.in);
-        while(continuePrompt){
+        while (continuePrompt) {
             QueueProvider.offer("\nDebugPrompt:");
             String command = input.nextLine();
             continuePrompt = parse(player, command.toLowerCase());
         }
     }
-    public static boolean parse(Player player, String command){
+    public static boolean parse(Player player, String command) {
         boolean continuePrompt = true;
         
-        try{
-            if(command.startsWith("attack")){
+        try {
+            if (command.startsWith("attack")) {
                 int newVal = Integer.parseInt(command.substring(6));
                 player.setDamage(newVal);
             }
-            else if(command.startsWith("maxhealth")){
+            else if (command.startsWith("maxhealth")) {
                 int newVal = Integer.parseInt(command.substring(9));
-                if(newVal <= 0)
+                if (newVal <= 0) {
                     throw new IllegalArgumentException();
+                }
                 player.setHealthMax(newVal);
                 player.setHealth(newVal < player.getHealth() ? newVal : player.getHealth());
             }
-            else if(command.startsWith("health")){
+            else if (command.startsWith("health")) {
                 int newVal = Integer.parseInt(command.substring(6));
-                if(newVal <= 0)
+                if (newVal <= 0) {
                     throw new IllegalArgumentException();
+            	}
                 // we don't want collision values, do we?
-                if(newVal > player.getHealthMax())
+                if (newVal > player.getHealthMax()) {
                     player.setHealthMax(newVal);
+                }
                 player.setHealth(newVal);
             }
-            else if(command.startsWith("armour")){
+            else if (command.startsWith("armour")) {
                 int newVal = Integer.parseInt(command.substring(6));
                 player.setArmour(newVal);
             }
-            else if(command.startsWith("level")){
+            else if (command.startsWith("level")) {
                 int newVal = Integer.parseInt(command.substring(5));
-                if(newVal <= 0)
+                if (newVal <= 0) {
                     throw new IllegalArgumentException();
+                }
                 player.setLevel(newVal);
             }
-            else if(command.startsWith("gold")){
+            else if (command.startsWith("gold")) {
                 int newVal = Integer.parseInt(command.substring(4));
-                if(newVal < 0)
+                if (newVal < 0) {
                     throw new IllegalArgumentException();
+                }
                 player.setGold(newVal);
             }
-		    else if(command.equals("backpack")){
+		    else if (command.equals("backpack")) {
                 new BackpackDebugPrompt(player);
 		    }
-		    else if(command.equals("stats"))
+		    else if (command.equals("stats")) {
 			    player.getStatistics();
-            else if(command.equals("help"))
+		    }
+            else if (command.equals("help")) {
                 QueueProvider.offer(helpText);
-			else if(command.equals("exit"))
+            }
+			else if (command.equals("exit")) {
 			    continuePrompt = false;
-            else
+			}
+            else {
                 QueueProvider.offer("Unknown command. Type help for a list of commands");
+            }
         }
         catch(NumberFormatException e){
             QueueProvider.offer("Value not acceptable");
