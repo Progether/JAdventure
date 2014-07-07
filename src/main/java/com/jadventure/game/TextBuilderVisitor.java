@@ -9,6 +9,7 @@ import com.jadventure.game.entities.Player;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Storage;
+import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.navigation.Direction;
 import com.jadventure.game.navigation.ILocation;
 
@@ -83,6 +84,11 @@ public class TextBuilderVisitor implements IGameElementVisitor {
 		bldr.append(NL).append("  Players Level '").append(player.getLevel()).append("'");
 
 //                "\nCurrent weapon: " + weaponName +
+	}
+
+	@Override
+	public void visit(Monster monster) {
+		bldr.append(NL).append("  ").append(monster.monsterType);
 	}
 
 	@Override
