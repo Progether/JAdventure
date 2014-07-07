@@ -26,6 +26,7 @@ public class Player extends Entity implements IGameElement {
     }
 
 
+    @Deprecated
     public void getStatistics() {
         String weaponName = getWeapon();
         if (weaponName != null && (! "hands".equalsIgnoreCase(weaponName))) {
@@ -46,6 +47,7 @@ public class Player extends Entity implements IGameElement {
                             "\n" + getName() + "'s level: " + getLevel());
     }
 
+    @Deprecated
     public void printBackPack() {
         this.storage.display();
     }
@@ -143,7 +145,7 @@ public class Player extends Entity implements IGameElement {
         this.location = location;
     }
 
-    public LocationType getLocationType(){
+    public LocationType getLocationType() {
     	return getLocation().getLocationType();
     }
 
