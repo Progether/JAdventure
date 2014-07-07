@@ -20,7 +20,7 @@ import com.jadventure.game.repository.LocationRepository;
  * The location class mostly deals with getting and setting variables.
  * It also contains the method to print a location's details.
  */
-public class Location implements ILocation, IGameElement {
+public class Location implements ILocation {
     private LocationRepository locationRepo = GameBeans.getLocationRepository();
     
     private Coordinate coordinate;
@@ -131,6 +131,8 @@ public class Location implements ILocation, IGameElement {
         setItems(items);
     }
 
+    @Override
+    @Deprecated
     public void print() {
         QueueProvider.offer(getTitle() + ":");
         QueueProvider.offer(getDescription());
