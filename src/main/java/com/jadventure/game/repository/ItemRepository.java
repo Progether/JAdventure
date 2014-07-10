@@ -8,9 +8,13 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import com.jadventure.game.items.Item;
 
 public class ItemRepository extends AbstractRepository {
@@ -77,7 +81,7 @@ public class ItemRepository extends AbstractRepository {
     }
 
 
-    private void addItem(Item item) {
+    void addItem(Item item) {
         itemMap.put(item.getItemID(), item);
     }
 
@@ -90,6 +94,22 @@ public class ItemRepository extends AbstractRepository {
             itemRepository.load();
         }
         return itemRepository;
+    }
+
+
+    public void retrieve(JsonReader jsonReader) {
+        throw new RuntimeException("The method " + ItemRepository.class.getSimpleName() 
+                + ".retrieve(JsonReader jsonReader), has not yet been implemented.");
+//        Gson gson = new Gson();
+//        gson.fromJson(jsonReader, );
+    }
+
+    public void store(JsonWriter writer) {
+        GsonBuilder bldr = new GsonBuilder().setPrettyPrinting();
+        Gson gson = bldr.create();
+        Map<String, Map<String, Item>> root = new HashMap<>();
+        root.put("items", itemMap);
+        gson.toJson(root, Map.class, writer);
     }
 
 }
