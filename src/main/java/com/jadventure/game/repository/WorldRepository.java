@@ -26,17 +26,21 @@ import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.Location;
 import com.jadventure.game.navigation.LocationType;
 
-public class LocationRepository extends AbstractRepository {
+public class WorldRepository extends AbstractRepository {
     private Map<Coordinate, ILocation> locations = new HashMap<>();
 
     
-    public LocationRepository(File repoPath) {
+    public WorldRepository(File repoPath) {
         super(repoPath, "locations.json");
     }
 
 
     public ILocation getLocation(Coordinate coordinate) {
         return locations.get(coordinate);
+    }
+
+    public void addLocation(ILocation location) {
+        locations.put(location.getCoordinate(), location);
     }
 
     
@@ -124,11 +128,11 @@ public class LocationRepository extends AbstractRepository {
 
 
     // ----[ Can be removed once Dependency Injection is in place ]----
-    private static LocationRepository locationRepo;
-    public static LocationRepository createRepo() {
+    private static WorldRepository locationRepo;
+    public static WorldRepository createRepo() {
         if (locationRepo == null) {
             File file = new File(new File(System.getProperty("user.dir")), "json");
-            locationRepo = new LocationRepository(file);
+            locationRepo = new WorldRepository(file);
             locationRepo.load();
         }
         return locationRepo;

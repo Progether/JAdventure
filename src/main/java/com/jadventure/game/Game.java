@@ -5,7 +5,7 @@ import java.util.Scanner;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.prompts.CommandParser;
-import com.jadventure.game.repository.LocationRepository;
+import com.jadventure.game.repository.WorldRepository;
 
 /**
  * This class contains the main loop that takes the input and
@@ -14,7 +14,7 @@ import com.jadventure.game.repository.LocationRepository;
 public class Game {
     public static final Coordinate DEFAULT_INITIAL_COORDINATE = new Coordinate(0, 0, -1);
 
-    private LocationRepository locationRepo = GameBeans.getLocationRepository();
+    private WorldRepository locationRepo = GameBeans.getWorldRepository();
     
 //    public ArrayList<Monster> monsterList = new ArrayList<Monster>();
 //    public MonsterFactory monsterFactory = new MonsterFactory(); 

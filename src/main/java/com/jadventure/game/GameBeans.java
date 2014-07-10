@@ -1,7 +1,7 @@
 package com.jadventure.game;
 
 import com.jadventure.game.repository.ItemRepository;
-import com.jadventure.game.repository.LocationRepository;
+import com.jadventure.game.repository.WorldRepository;
 import com.jadventure.game.repository.PlayerRepository;
 
 public final class GameBeans {
@@ -10,8 +10,8 @@ public final class GameBeans {
         return ItemRepository.createRepo();
     }
     
-    public static LocationRepository getLocationRepository() {
-        return LocationRepository.createRepo();
+    public static WorldRepository getWorldRepository() {
+        return WorldRepository.createRepo();
     }
     
     public static PlayerRepository getPlayerRepository() {

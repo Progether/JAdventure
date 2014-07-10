@@ -34,7 +34,7 @@ import com.jadventure.game.items.Storage;
 import com.jadventure.game.navigation.Coordinate;
 
 public class PlayerRepository {
-    private static LocationRepository locationRepo = GameBeans.getLocationRepository();
+    private static WorldRepository locationRepo = GameBeans.getWorldRepository();
     private static ItemRepository itemRepo = GameBeans.getItemRepository();
     private Player player;
 

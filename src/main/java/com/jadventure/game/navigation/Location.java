@@ -14,14 +14,14 @@ import com.jadventure.game.items.Item;
 import com.jadventure.game.items.Storage;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.repository.ItemRepository;
-import com.jadventure.game.repository.LocationRepository;
+import com.jadventure.game.repository.WorldRepository;
 
 /**
  * The location class mostly deals with getting and setting variables.
  * It also contains the method to print a location's details.
  */
 public class Location implements ILocation {
-    private LocationRepository locationRepo = GameBeans.getLocationRepository();
+    private WorldRepository locationRepo = GameBeans.getWorldRepository();
     
     private Coordinate coordinate;
     private String title;
