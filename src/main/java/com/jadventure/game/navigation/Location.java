@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.jadventure.game.GameBeans;
-import com.jadventure.game.IGameElement;
 import com.jadventure.game.IGameElementVisitor;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.entities.NPC;
@@ -29,7 +28,13 @@ public class Location implements ILocation {
     private LocationType locationType;
     private List<String> items;
     private Storage storage = new Storage();
+    // NPC should have a own repo, and not be stored as part of an coordinate
+    // They should have them own location attribute (keep track of their own coordinate)
+    // As player already does
     private List<String> npcs;
+    // Monsters should have a own repo, and not be stored as part of an coordinate
+    // They should have them own location attribute (keep track of their own coordinate)
+    // As player already does
     private List<Monster> monsters = new ArrayList<Monster>();
     
     private ItemRepository itemRepo = GameBeans.getItemRepository();
