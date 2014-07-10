@@ -19,6 +19,7 @@ public class Item implements IGameElement {
     public Item(String id, String name, String description, Map<String, Integer> properties) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.properties = properties;
     }
     
