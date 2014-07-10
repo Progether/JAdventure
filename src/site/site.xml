@@ -1,0 +1,31 @@
+<project>
+
+  <bannerLeft>
+    <name>JAdventure</name>
+    <!--
+    <src>http://maven.apache.org/images/apache-maven-project-2.png</src>
+    -->
+    <href>http://github.com/Progether/JAdventure</href>
+  </bannerLeft>
+
+  <!--
+  <bannerRight>
+    <src>http://maven.apache.org/images/maven-logo-2.gif</src>
+  </bannerRight>
+  -->
+
+  <publishDate position="right"/>
+  <version position="right"/>
+
+  <body>
+    <menu name="JAdventure">
+      <item name="Introduction" href="introduction.html" />
+    </menu>
+    
+    <menu name="Use Cases">
+      <item name="Create new game" href="use-case/use-case-00-create-new-game.html" />
+      <item name="Load existing game" href="use-case/use-case-01-load-existing-game.html" />
+    </menu>
+  </body>
+
+</project>
