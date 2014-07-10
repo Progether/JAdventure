@@ -1,11 +1,9 @@
 package com.jadventure.game.items;
 
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.jadventure.game.IGameElement;
 import com.jadventure.game.IGameElementVisitor;
-import com.jadventure.game.QueueProvider;
 
 /**
  * This class deals with parsing and interacting with an item.
