@@ -68,13 +68,13 @@ public class WorldRepository extends AbstractRepository {
     }
 
     private Location loadLocation(JsonObject json) {
-        Location location = new Location();
+        
 
         Coordinate coordinate = new Coordinate(json.get("coordinate").getAsString());
-        location.setCoordinate(coordinate);
-        location.setTitle(json.get("title").getAsString());
-        location.setDescription(json.get("description").getAsString());
-        location.setLocationType(LocationType.valueOf(json.get("locationType").getAsString()));
+        String title = json.get("title").getAsString();
+        String description = json.get("description").getAsString();
+        LocationType locationType = LocationType.valueOf(json.get("locationType").getAsString());
+        Location location = new Location(coordinate, title, description, locationType);
         if (json.has("items")) {
             List<String> items = new Gson().fromJson(json.get("items"), new TypeToken<List<String>>(){}.getType());
             location.setItems(items);
@@ -109,7 +109,7 @@ public class WorldRepository extends AbstractRepository {
                 List<Item> items = location.getItems();
                 if (items.size() > 0) {
                     for (Item item : location.getItems()) {
-                        JsonPrimitive itemJson = new JsonPrimitive(item.getItemID());
+                        JsonPrimitive itemJson = new JsonPrimitive(item.getId());
                         itemList.add(itemJson);
                     }
                     locationJsonElement.add("items", itemList);

@@ -17,9 +17,9 @@ public interface ILocation extends IGameElement {
 
     String getTitle();
     String getDescription();
+    LocationType getLocationType();
 
 	Coordinate getCoordinate();
-    LocationType getLocationType();
     Map<Direction, ILocation> getExits();
 
     List<Item> getItems();

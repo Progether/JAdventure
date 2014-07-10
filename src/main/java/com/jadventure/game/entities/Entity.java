@@ -196,7 +196,7 @@ public abstract class Entity {
                 Item weapon = itemRepo.getItem(weaponID);
                 int damage = weapon.getProperties().get("damage");
                 this.damage = this.damage + damage;
-                this.weapon = weapon.getItemID();
+                this.weapon = weapon.getId();
             }
         }
     }

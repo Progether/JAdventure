@@ -82,7 +82,7 @@ public class ItemRepository extends AbstractRepository {
 
 
     void addItem(Item item) {
-        itemMap.put(item.getItemID(), item);
+        itemMap.put(item.getId(), item);
     }
 
 

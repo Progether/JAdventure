@@ -23,7 +23,7 @@ public class Item implements IGameElement {
         this.properties = properties;
     }
     
-    public String getItemID() {
+    public String getId() {
     	return id;
     }
     
@@ -35,7 +35,7 @@ public class Item implements IGameElement {
         return description;
     }
     
-    public double getWeight() {
+    public Integer getWeight() {
         return properties.get("weight");
     }
 

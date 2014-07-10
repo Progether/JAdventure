@@ -160,8 +160,8 @@ public class PlayerRepository {
         HashMap<String, Integer> items = new HashMap<String, Integer>();
         JsonArray itemList = new JsonArray();
         for (ItemStack item : player.getStorage().getItems()) {
-            items.put(item.getItem().getItemID(), item.getAmount());
-            JsonPrimitive itemJson = new JsonPrimitive(item.getItem().getItemID());
+            items.put(item.getItem().getId(), item.getAmount());
+            JsonPrimitive itemJson = new JsonPrimitive(item.getItem().getId());
             itemList.add(itemJson);
         }
         JsonElement itemsJsonObj = gson.toJsonTree(items);

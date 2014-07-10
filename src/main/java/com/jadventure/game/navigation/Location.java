@@ -21,6 +21,7 @@ import com.jadventure.game.repository.WorldRepository;
  */
 public class Location implements ILocation {
     private WorldRepository locationRepo = GameBeans.getWorldRepository();
+    private ItemRepository itemRepo = GameBeans.getItemRepository();
     
     private Coordinate coordinate;
     private String title;
@@ -28,6 +29,7 @@ public class Location implements ILocation {
     private LocationType locationType;
     private List<String> items;
     private Storage storage = new Storage();
+
     // NPC should have a own repo, and not be stored as part of an coordinate
     // They should have them own location attribute (keep track of their own coordinate)
     // As player already does
@@ -36,43 +38,29 @@ public class Location implements ILocation {
     // They should have them own location attribute (keep track of their own coordinate)
     // As player already does
     private List<Monster> monsters = new ArrayList<Monster>();
-    
-    private ItemRepository itemRepo = GameBeans.getItemRepository();
 
-    public Location() {
 
+    public Location(Coordinate coordinate, String title, String description, LocationType locationType) {
+    	this.coordinate = coordinate;
+    	this.title = title;
+        this.description = description;
+        this.locationType = locationType;
     }
 
     public Coordinate getCoordinate() {
         return coordinate;
     }
 
-    public void setCoordinate(Coordinate coordinate) {
-        this.coordinate = coordinate;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public LocationType getLocationType() {
         return locationType;
-    }
-
-    public void setLocationType(LocationType locationType) {
-        this.locationType = locationType;
     }
 
     // It checks each direction for an exit and adds it to the exits hashmap if it exists.
@@ -88,6 +76,14 @@ public class Location implements ILocation {
         return exits;
     }
 
+    public void dropItem(Item item) {
+    	storage.add(item);
+    }
+
+    public void pickItem(Item item) {
+    	storage.remove(item);
+    }
+    
     public void setItems(List<String> items) {
         this.items = items;
     }

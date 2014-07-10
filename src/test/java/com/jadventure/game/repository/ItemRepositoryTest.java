@@ -31,7 +31,7 @@ public class ItemRepositoryTest {
         Item item = itemRepo.getItem("milk-bottle");
 
         assertNotNull(item);
-        assertEquals("milk-bottle", item.getItemID());
+        assertEquals("milk-bottle", item.getId());
         assertEquals("milk", item.getName());
         assertEquals("Milk in a bottle", item.getDescription());
         

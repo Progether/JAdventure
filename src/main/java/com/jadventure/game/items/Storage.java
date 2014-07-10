@@ -162,5 +162,13 @@ public class Storage implements IGameElement {
         }
         return null;
     }
+	public void add(Item item) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void remove(Item item) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

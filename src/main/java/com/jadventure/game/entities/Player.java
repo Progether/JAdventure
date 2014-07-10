@@ -82,9 +82,9 @@ public class Player extends Entity implements IGameElement {
         List<Item> itemMap = searchItem(itemName, getLocation().getItems());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
-            Item itemToPickUp = itemRepo.getItem(item.getItemID());
+            Item itemToPickUp = itemRepo.getItem(item.getId());
             addItemToStorage(itemToPickUp);
-            location.removePublicItem(itemToPickUp.getItemID());
+            location.removePublicItem(itemToPickUp.getId());
             QueueProvider.offer("\n" + item.getName() + " picked up");
         }
     }
@@ -93,7 +93,7 @@ public class Player extends Entity implements IGameElement {
         List<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
-            Item itemToDrop = itemRepo.getItem(item.getItemID());
+            Item itemToDrop = itemRepo.getItem(item.getId());
             Item weapon = itemRepo.getItem(getWeapon());
             String wName = weapon.getName();
 
@@ -101,7 +101,7 @@ public class Player extends Entity implements IGameElement {
                 dequipItem(wName);
             }
             removeItemFromStorage(itemToDrop);
-            location.addPublicItem(itemToDrop.getItemID());
+            location.addPublicItem(itemToDrop.getId());
             QueueProvider.offer("\n" + item.getName()+ " dropped");
         }
     }
@@ -110,7 +110,7 @@ public class Player extends Entity implements IGameElement {
         List<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
-            setWeapon(item.getItemID());
+            setWeapon(item.getId());
             QueueProvider.offer("\n" + item.getName()+ " equipped");
         }
     }
