@@ -124,17 +124,19 @@ public class Player extends Entity implements IGameElement {
         }
     }
 
+    @Deprecated
     public void inspectItem(String itemName) {
-        List<Item> itemList = searchItem(itemName, getStorage());
-        if (itemList.isEmpty()) {
-            itemList = searchItem(itemName, getLocation().getItems());
-        }
-        if (!itemList.isEmpty()) {
-            Item item = itemList.get(0);
-            item.display();
-        } else {
-            QueueProvider.offer("Item doesn't exist within your view.");
-        }
+    	throw new RuntimeException("Should never be called, is replaced by IGameElementVisitor");
+//        List<Item> itemList = searchItem(itemName, getStorage());
+//        if (itemList.isEmpty()) {
+//            itemList = searchItem(itemName, getLocation().getItems());
+//        }
+//        if (!itemList.isEmpty()) {
+//            Item item = itemList.get(0);
+//            item.display();
+//        } else {
+//            QueueProvider.offer("Item doesn't exist within your view.");
+//        }
     }
 
     public ILocation getLocation() {
