@@ -57,7 +57,7 @@ public class PlayerRepository {
     private static void setUpVariables(Player player) {
         player.setLocation(locationRepo.getLocation(Game.DEFAULT_INITIAL_COORDINATE));
         float maxWeight = (float)Math.sqrt(player.getStrength() * 300);
-        player.setStorage(new Storage(null, maxWeight));
+        player.setStorage(new Storage(maxWeight));
         player.addItemToStorage(itemRepo.getItem("fmil1"));
     }
     
@@ -124,7 +124,8 @@ public class PlayerRepository {
                     itemList.add(itemStack);
                 }
                 float maxWeight = (float)Math.sqrt(player.getStrength()*300);
-                player.setStorage(new Storage(itemList, maxWeight));
+                player.setStorage(new Storage(maxWeight));
+                // FIXME add the itemList items to the player
             }
             Path orig = Paths.get("json/profiles/" + name + "/locations.json");
             Path dest = Paths.get("json/locations.json");

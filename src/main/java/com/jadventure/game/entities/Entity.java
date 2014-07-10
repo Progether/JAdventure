@@ -36,7 +36,7 @@ public abstract class Entity {
     // Every point in armour reduces an attackers attack by .33
     private int armour;
     private String weapon = "hands";
-    protected Storage storage = new Storage(null, 100);
+    protected Storage storage = new Storage(100);
     Random globalRand = new Random();
     
     // maybe not all entities start at full health, etc.

@@ -1,7 +1,10 @@
 package com.jadventure.game.items;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.jadventure.game.IGameElement;
 import com.jadventure.game.IGameElementVisitor;
@@ -11,20 +14,15 @@ import com.jadventure.game.QueueProvider;
  * Defines an interface for any type of storage in this game.
  */
 public class Storage implements IGameElement {
-	protected List<ItemStack> items = new ArrayList<ItemStack>();
-	protected double maxWeight;
+	protected List<ItemStack> itemsOld = new ArrayList<ItemStack>();
+	private Map<String, List<Item>> items = new HashMap<>();
+	private double maxWeight;
 
 	
 	public Storage() {
-	    this(null, 0);
+	    this(0);
 	}
-	public Storage(List<ItemStack> items) {
-	    this(items, 0);
-	}
-	public Storage(List<ItemStack> items, double maxWeight) {
-		if (items != null) {
-			this.items.addAll(items);
-		}
+	public Storage(double maxWeight) {
 		this.maxWeight = maxWeight;
 	}
 
@@ -45,11 +43,11 @@ public class Storage implements IGameElement {
         if (totalWeight < maxWeight) {
             if(this.contains(item)) {
                 ItemStack sameType = this.getSameType(item);
-                items.remove(sameType);
-                items.add(new ItemStack(sameType.getAmount() + 1, sameType.getItem()));
+                itemsOld.remove(sameType);
+                itemsOld.add(new ItemStack(sameType.getAmount() + 1, sameType.getItem()));
             }
             else {
-                items.add(item);
+                itemsOld.add(item);
             }
         }
     }
@@ -70,11 +68,11 @@ public class Storage implements IGameElement {
         if (this.contains(item)) {
             ItemStack sameType = this.getSameType(item);
             if (sameType.getAmount() - amount <= 0) {
-                items.remove(sameType);
+                itemsOld.remove(sameType);
             }
             else {
-                items.remove(sameType);
-                items.add(new ItemStack(sameType.getAmount() - amount, sameType.getItem()));
+                itemsOld.remove(sameType);
+                itemsOld.add(new ItemStack(sameType.getAmount() - amount, sameType.getItem()));
             }
         }
     }
@@ -90,11 +88,11 @@ public class Storage implements IGameElement {
     }
 
     public boolean isEmpty() {
-        return this.items.isEmpty();
+        return this.itemsOld.isEmpty();
     }
 
     public List<ItemStack> getItems() {
-        return items;
+        return itemsOld;
     }
 
 	@Override
@@ -113,22 +111,27 @@ public class Storage implements IGameElement {
     }
 
     public boolean contains(String itemName) {
-        List<ItemStack> items = getItems();
-        for (ItemStack itemStack : items) {
-            if (itemName.equalsIgnoreCase(itemStack.getItem().getName())) {
-                return true;
-            }
-        }
-        return false;
+    	if (! items.containsKey(itemName)) {
+    		return false;
+    	}
+    	
+    	return items.get(itemName).size() > 0;
+//        List<ItemStack> items = getItems();
+//        for (ItemStack itemStack : items) {
+//            if (itemName.equalsIgnoreCase(itemStack.getItem().getName())) {
+//                return true;
+//            }
+//        }
+//        return false;
     }
 
     public String toString() {
-        if (this.items.isEmpty()) {
+        if (this.itemsOld.isEmpty()) {
             return "--Empty--";
         }
         else {
             String content = "";
-            for (ItemStack item : this.items) {
+            for (ItemStack item : this.itemsOld) {
                 content += "- " + item.getItem().getName() + " : "
                         + item.getAmount() + "\n";
             }
@@ -141,7 +144,7 @@ public class Storage implements IGameElement {
      * same type of item as the argument.
      */
     private boolean contains(ItemStack item) {
-        for (ItemStack i : this.items) {
+        for (ItemStack i : this.itemsOld) {
             if (i.getItem().equals(item.getItem())) {
                 return true;
             }
@@ -155,7 +158,7 @@ public class Storage implements IGameElement {
      * This prevents duplicate items in your backpack.
      */
     private ItemStack getSameType(ItemStack item) {
-        for (ItemStack i : this.items) {
+        for (ItemStack i : this.itemsOld) {
             if (i.getItem().equals(item.getItem())) {
                 return i;
             }
@@ -163,12 +166,40 @@ public class Storage implements IGameElement {
         return null;
     }
 	public void add(Item item) {
-		// TODO Auto-generated method stub
+		if (! items.containsKey(item.getName())) {
+			items.put(item.getName(), new ArrayList<Item>());
+		}
+		items.get(item.getName()).add(item);
 		
 	}
-	public void remove(Item item) {
-		// TODO Auto-generated method stub
-		
+//	public Item remove(Item item) {
+//		if (! items.containsKey(item.getId())) {
+//			return null;
+//		}
+//		if (items.get(item).size() == 0) {
+//			return null;
+//		}
+//		items.get(item.getId()).remove(item);
+//		return item;
+//	}
+	public Item remove(String itemName) {
+		if (! items.containsKey(itemName)) {
+			return null;
+		}
+		if (items.get(itemName).isEmpty()) {
+			return null;
+		}
+		return items.get(itemName).remove(0);
+	}
+	
+	public Integer calculateWeight() {
+		int weight = 0;
+		for (List<Item> list : items.values()) {
+			for (Item item : list) {
+				weight += item.getWeight();
+			}
+		}
+		return Integer.valueOf(weight);
 	}
 
 }

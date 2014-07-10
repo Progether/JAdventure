@@ -80,8 +80,11 @@ public class Location implements ILocation {
     	storage.add(item);
     }
 
-    public void pickItem(Item item) {
-    	storage.remove(item);
+    public Item pickItem(String itemName) {
+    	if (storage.contains(itemName)) {
+    		return storage.remove(itemName);
+    	}
+    	return null;
     }
     
     public void setItems(List<String> items) {
