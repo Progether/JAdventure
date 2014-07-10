@@ -34,7 +34,7 @@ public class ItemRepository extends AbstractRepository {
     }
 
 
-    // gets data about an item based on its itemID
+    // Load all items, from the given file
     protected void load(File repo) {
         System.out.println("File " + repo);
         JsonObject items = new JsonObject();
