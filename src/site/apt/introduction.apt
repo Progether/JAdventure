@@ -17,7 +17,7 @@ Java Text Adventure Game
     [WARNING]
     
     The current version has only one concrete game implemented. But it should be easy
-    to create a new games. See also {{{./improvement-ideas.html}Improvement Ideas}}
+    to create a new games. See also {{{./development/improvement-ideas.html}Improvement Ideas}}
 
     []
 

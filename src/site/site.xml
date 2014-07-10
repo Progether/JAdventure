@@ -22,9 +22,13 @@
       <item name="Introduction" href="introduction.html" />
     </menu>
     
-    <menu name="Use Cases">
-      <item name="Create new game" href="use-case/use-case-00-create-new-game.html" />
-      <item name="Load existing game" href="use-case/use-case-01-load-existing-game.html" />
+    <menu name="Development">
+      <item name="Improvement Ideas" href="development/improvement-ideas.html" />
+    
+      <item name="Use Cases" href="development/use-case/index.html" collapse="true">
+        <item name="Create new game" href="development/use-case/use-case-00-create-new-game.html" />
+        <item name="Load existing game" href="development/use-case/use-case-01-load-existing-game.html" />
+      </item>
     </menu>
   </body>
 
