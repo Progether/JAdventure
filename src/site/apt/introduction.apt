@@ -11,13 +11,13 @@ Java Text Adventure Game
     to interact with objects at a basic level, for example by typing <<<get key>>> or 
     <<<open door>>>.
 
-    JAdventure is a very simple Java based implementation of an 
-    Text Adventure (engine).
+    JAdventure is a very simple Java based implementation of a
+    Text Adventure.
     
     [WARNING]
     
-    The current version has only one concrete game implemented. But it should be easy
-    to create a new games. See also {{{./development/improvement-ideas.html}Improvement Ideas}}
+    The current version has only one concrete Text Adventure game implemented. But it should be easy
+    to create additional games. See also {{{./development/improvement-ideas.html}Improvement Ideas}}
 
     []
 
