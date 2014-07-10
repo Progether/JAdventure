@@ -4,7 +4,10 @@
   <artifactId>jadventure</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>Java Text Adventure</name>
-  <description>A simple text based adventure game</description>
+  <description>
+      A simple text based adventure game, similar to the first computer games, like
+      Colossal_Cave_Adventure. 
+  </description>
 
   <dependencies>
     <!--  Gson: Java to Json conversion -->
