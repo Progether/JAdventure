@@ -51,14 +51,6 @@ public class Item implements IGameElement {
         return false;
     }
 
-    public void display() {
-        QueueProvider.offer("Name: " + this.name +
-                "\nDescription: " + this.description);
-        for (Entry<String, Integer> entry : this.properties.entrySet()) {
-            QueueProvider.offer(entry.getKey() + ": " + entry.getValue());
-        }
-    }
-
 	@Override
 	public void accept(IGameElementVisitor visitor) {
 		visitor.visit(this);
