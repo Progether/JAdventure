@@ -24,7 +24,10 @@
     
     <menu name="Development">
       <item name="Improvement Ideas" href="development/improvement-ideas.html" />
-    
+      <!--
+      <item name="Issues" href="github-report.html" />
+      -->
+      
       <item name="Use Cases" href="development/use-case/index.html" collapse="true">
         <item name="Create New Game" href="development/use-case/use-case-00-create-new-game.html" />
         <item name="Load Saved Game" href="development/use-case/use-case-01-load-saved-game.html" />
