@@ -37,12 +37,12 @@ public class ItemRepository extends AbstractRepository {
     // Load all items, from the given file
     protected void load(File repo) {
         System.out.println("File " + repo);
-        JsonObject items = new JsonObject();
+        JsonObject jsonItems = new JsonObject();
         try {
             Reader reader = new FileReader(repo);
             JsonParser parser = new JsonParser();
             JsonObject json = parser.parse(reader).getAsJsonObject();
-            items = json.get("items").getAsJsonObject();
+            jsonItems = json.get("items").getAsJsonObject();
             reader.close();
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
@@ -51,8 +51,7 @@ public class ItemRepository extends AbstractRepository {
         }
         
         Map<String, Map> itemMap = new HashMap<>();
-        for (Map.Entry<String, JsonElement> entry : items.entrySet()) {
-            Map itemDetails = new HashMap<>();
+        for (Map.Entry<String, JsonElement> entry : jsonItems.entrySet()) {
             String rawItemID = entry.getKey().toString();
             JsonObject itemData = entry.getValue().getAsJsonObject();
             String name = itemData.get("name").getAsString();
@@ -63,6 +62,7 @@ public class ItemRepository extends AbstractRepository {
                 Integer propValue = entry2.getValue().getAsInt();
                 properties.put(entry2.getKey(), propValue);
             }
+            Map itemDetails = new HashMap<>();
             itemDetails.put("name", name);
             itemDetails.put("description", description);
             itemDetails.put("properties", properties);
