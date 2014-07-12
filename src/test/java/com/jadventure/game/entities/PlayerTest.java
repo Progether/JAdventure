@@ -1,6 +1,7 @@
 package com.jadventure.game.entities;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -23,6 +24,43 @@ public class PlayerTest {
         assertEquals(-1, coordinate.z); 
     }
 
+    @Test
+    public void createSewerRat() {
+    	String id = "Sewer Rat";
+    	String name = "Super Sewer Rat";
+    	int healthMax = 1;
+    	int health = 2;
+    	double damage = 3;
+		int armour = 4;
+    	int level = 6;
+    	int strength = 7;
+    	int intelligence = 8;
+		int dexterity = 9;
+    	int stealth = 10;
+    	String weapon = "knife";
+    	String introduction = "Welcome Sewer Rat!";
+		int luck = 3;
+    	
+        Player sewerRat = new Player(id, name, healthMax, health, damage, armour, level, 
+        		strength, intelligence, dexterity, stealth, weapon, introduction, luck);
+
+        assertEquals(id, sewerRat.getId());
+        assertEquals(name, sewerRat.getClassName());
+        assertEquals("h Max", healthMax, sewerRat.getHealthMax());
+        assertEquals("h", health, sewerRat.getHealth());
+        assertEquals("d", Double.valueOf(damage), Double.valueOf(sewerRat.getDamage()));
+        assertEquals("a", armour, sewerRat.getArmour());
+        assertEquals("level", level, sewerRat.getLevel());
+        assertEquals("stength", strength, sewerRat.getStrength());
+        assertEquals("intelligence", intelligence, sewerRat.getIntelligence());
+        assertEquals("dexterity", dexterity, sewerRat.getDexterity());
+        assertEquals("stealth", stealth, sewerRat.getStealth());
+        assertEquals("weapon", weapon, sewerRat.getWeapon());
+        assertEquals(introduction, sewerRat.getIntro());
+        System.out.println((1 <= sewerRat.getLuck()) + "  " + ((luck + 1) >= sewerRat.getLuck()) + " " + sewerRat.getLuck());
+        assertTrue("luck", 1 <= sewerRat.getLuck() && (luck + 1 >= sewerRat.getLuck()));
+    }
+    
     @Test
     public void loadExistingPlayerProfile() {
         PlayerRepository playerRepo = new PlayerRepository();
