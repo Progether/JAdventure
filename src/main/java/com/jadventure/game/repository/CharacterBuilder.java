@@ -1,6 +1,7 @@
 package com.jadventure.game.repository;
 
 import com.jadventure.game.entities.Player;
+import com.jadventure.game.items.Item;
 
 
 public class CharacterBuilder {
@@ -16,7 +17,7 @@ public class CharacterBuilder {
     private int intelligence;
     private int dexterity;
     private int stealth;
-    private String weapon;
+    private Item weapon;
     private int luck;
 	private String introduction;
 
@@ -96,11 +97,13 @@ public class CharacterBuilder {
 	public void setStealth(int stealth) {
 		this.stealth = stealth;
 	}
-	public String getWeapon() {
+	public Item getWeapon() {
 		return weapon;
 	}
-	public void setWeapon(String weapon) {
-		this.weapon = weapon;
+	public void setWeapon(Item weapon) {
+		if (weapon.getType().equalsIgnoreCase("weapon")) {
+			this.weapon = weapon;
+		}
 	}
 	public int getLuck() {
 		return luck;

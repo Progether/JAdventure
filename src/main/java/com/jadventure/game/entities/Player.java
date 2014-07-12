@@ -44,7 +44,7 @@ public class Player extends Entity implements IGameElement {
     }
     public Player(String id, String name, int healthMax, int health, double damage,
 			int armour, int level, int strength, int intelligence,
-			int dexterity, int stealth, String weapon, String introduction,
+			int dexterity, int stealth, Item weapon, String introduction,
 			int luck) {
 		super(id, name, healthMax, health, damage, armour, level, strength,
 				intelligence, dexterity, stealth, weapon, introduction, luck);
@@ -52,14 +52,8 @@ public class Player extends Entity implements IGameElement {
 
 	@Deprecated
     public void getStatistics() {
-        String weaponName = getWeapon();
-        if (weaponName != null && (! "hands".equalsIgnoreCase(weaponName))) {
-            Item weapon = itemRepo.getItem(getWeapon());
-            weaponName = weapon.getName();
-        }
-  
         QueueProvider.offer("\nPlayer name: " + getName() +
-                            "\nCurrent weapon: " + weaponName +
+                            "\nCurrent weapon: " + weapon.getName() +
                             "\nGold: " + getGold() +
                             "\nHealth/Max: " + getHealth() + "/" + getHealthMax() +
                             "\nDamage/Armour: " + getDamage() + "/" + getArmour() +
@@ -118,7 +112,8 @@ public class Player extends Entity implements IGameElement {
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             Item itemToDrop = itemRepo.getItem(item.getId());
-            Item weapon = itemRepo.getItem(getWeapon());
+            // FIXME drop weapon
+//            Item weapon = itemRepo.getItem(getWeapon());
             String wName = weapon.getName();
 
             if (itemName.equals(wName)) {
@@ -134,18 +129,23 @@ public class Player extends Entity implements IGameElement {
         List<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
-            setWeapon(item.getId());
+            setWeapon(item);
             QueueProvider.offer("\n" + item.getName()+ " equipped");
         }
     }
 
     public void dequipItem(String itemName) {
-        List<Item> itemMap = searchItem(itemName, getStorage());
-        if (!itemMap.isEmpty()) {
-            Item item = itemMap.get(0);
-            setWeapon("hands");
-            QueueProvider.offer("\n" + item.getName()+" dequipped");
-        }
+    	if (weapon != null && weapon.getName().equalsIgnoreCase(itemName)) {
+    		storage.add(weapon);
+            QueueProvider.offer("\n" + weapon.getName() + " dequipped");
+    		setWeapon(null);
+    	}
+//        List<Item> itemMap = searchItem(itemName, getStorage());
+//        if (! itemMap.isEmpty()) {
+//            Item item = itemMap.get(0);
+//            setWeapon(item);
+//            QueueProvider.offer("\n" + item.getName()+" dequipped");
+//        }
     }
 
     @Deprecated

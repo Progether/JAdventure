@@ -26,7 +26,7 @@ public class LocationTest {
 	public void placeItem() {
 		Location cave = createLocation();
 		
-		Item bottle = new Item("bottle", "Wisky bottle",  "A pity it is empty", null);
+		Item bottle = new Item("bottle", "tool", "bottle",  "old bottle", null);
 		cave.dropItem(bottle);
 		
 		Item found = cave.pickItem(bottle.getName());

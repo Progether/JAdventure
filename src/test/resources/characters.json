@@ -12,7 +12,7 @@
       "intelligence": "2",
       "dexterity": "1",
       "stealth": "2",
-      "weapon": "hands",
+      "weapon": "wshi1",
       "luck": "3",
       "intro-text": [
           "Hey, rat. . . you dead??\n*You let out a groan...*\nWhat are you doing?!?",
@@ -33,7 +33,7 @@
       "intelligence": "1",
       "dexterity": "2",
       "stealth": "1",
-      "weapon": "hands",
+      "weapon": "wdag1",
       "luck": "3",
       "intro-text": [
           "Hey... you alive?\n*You let out a groan...*\nHey, mate, you need to wake up.",

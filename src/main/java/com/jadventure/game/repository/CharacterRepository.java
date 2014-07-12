@@ -14,6 +14,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.jadventure.game.GameBeans;
 import com.jadventure.game.entities.Player;
 
 public class CharacterRepository {
@@ -81,7 +82,7 @@ public class CharacterRepository {
             charBldr.setIntelligence(intelligence);
             charBldr.setDexterity(dexterity);
             charBldr.setStealth(stealth);
-            charBldr.setWeapon(weapon);
+            charBldr.setWeapon(GameBeans.getItemRepository().getItem(weapon));
             charBldr.setLuck(luck);
             charBldr.setIntroduction(introductionText);
             Player character = charBldr.create();

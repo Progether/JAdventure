@@ -61,6 +61,7 @@ public class EntityTest {
     @Test
     public void testStorage() {
         String id = "fram1";
+        String type = "food";
         String name = "raw meat";
         String description = "some delicious raw meat";
         Map<String, Integer> properties = new HashMap<>();
@@ -68,7 +69,7 @@ public class EntityTest {
         properties.put("weight", 2);
         properties.put("value", 5);
         
-        Item item = new Item(id, name, description, properties);
+        Item item = new Item(id, type, name, description, properties);
 
         List<ItemStack> testArrayList = new ArrayList<>();
         testArrayList.add(new ItemStack(1, item));

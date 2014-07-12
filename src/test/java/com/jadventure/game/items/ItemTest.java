@@ -26,7 +26,7 @@ public class ItemTest {
         properties.put("weight", Integer.valueOf(1));
         properties.put("value", Integer.valueOf(10));
         
-        Item item = new Item("milk-bottle", "milk", "Milk in a bottle", properties);
+        Item item = new Item("milk-bottle", "food-liquid", "milk", "Milk in a bottle", properties);
         return item;
     }
 
@@ -36,7 +36,7 @@ public class ItemTest {
         properties.put("weight", Integer.valueOf(1));
         properties.put("value", Integer.valueOf(3));
         
-        Item item = new Item("egg-1", "egg", "A nice egg", properties);
+        Item item = new Item("egg-1", "food", "egg", "A nice egg", properties);
         return item;
     }
 

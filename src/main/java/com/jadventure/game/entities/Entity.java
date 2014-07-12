@@ -36,7 +36,7 @@ public abstract class Entity {
     private int critChance = 0;
     // Every point in armour reduces an attackers attack by .33
     private int armour;
-    private String weapon = "hands";
+    protected Item weapon = null; //"hands";
     protected Storage storage = new Storage(100);
     Random globalRand = new Random();
     
@@ -57,7 +57,7 @@ public abstract class Entity {
     }
     public Entity(String id, String name, int healthMax, int health, double damage, int armour,
     		int level, int strength, int intelligence, int dexterity,
-    		int stealth, String weapon, String introduction, int luck) {
+    		int stealth, Item weapon, String introduction, int luck) {
     	this.id = id;
     	this.className = name;
         this.healthMax = healthMax;
@@ -209,26 +209,29 @@ public abstract class Entity {
         this.stealth = stealth;
     }
 
-    public String getWeapon() {
+    public Item getWeapon() {
         return weapon;
     }
 
-    public void setWeapon(String weaponID) {
-        if (! weaponID.equals(this.weapon)) {
-            if (weaponID.equals("hands")) {
-                if (! this.weapon.equals("hands")) {
-                    Item weapon = itemRepo.getItem(this.weapon);
-                    int damage = weapon.getProperties().get("damage");
-                    this.damage = this.damage - damage;
-                }
-                this.weapon = "hands";
-            } else {
-                Item weapon = itemRepo.getItem(weaponID);
-                int damage = weapon.getProperties().get("damage");
-                this.damage = this.damage + damage;
-                this.weapon = weapon.getId();
-            }
-        }
+    public void setWeapon(Item item) {
+    	if (item.getType().equalsIgnoreCase("weapon")) {
+    		weapon = item;
+    	}
+//        if (! weaponID.equals(this.weapon)) {
+//            if (weaponID.equals("hands")) {
+//                if (! this.weapon.equals("hands")) {
+//                    Item weapon = itemRepo.getItem(this.weapon);
+//                    int damage = weapon.getProperties().get("damage");
+//                    this.damage = this.damage - damage;
+//                }
+//                this.weapon = "hands";
+//            } else {
+//                Item weapon = itemRepo.getItem(weaponID);
+//                int damage = weapon.getProperties().get("damage");
+//                this.damage = this.damage + damage;
+//                this.weapon = weapon.getId();
+//            }
+//        }
     }
 
     public Storage getStorage() {

@@ -30,6 +30,6 @@ public class StorageTest {
         Map<String, Integer> properties = new HashMap<>();
         properties.put("health", Integer.valueOf(2));
         properties.put("weight", Integer.valueOf(5));
-		return new Item("wisky-bottle", "wisky", "Nice brand", properties);
+		return new Item("wisky-bottle", "food-liquid", "wisky", "Nice brand", properties);
 	}
 }

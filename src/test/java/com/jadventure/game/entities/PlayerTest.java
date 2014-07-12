@@ -3,8 +3,11 @@ package com.jadventure.game.entities;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Map;
+
 import org.junit.Test;
 
+import com.jadventure.game.items.Item;
 import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.repository.PlayerRepository;
@@ -37,7 +40,7 @@ public class PlayerTest {
     	int intelligence = 8;
 		int dexterity = 9;
     	int stealth = 10;
-    	String weapon = "knife";
+    	Item weapon = createKnife();
     	String introduction = "Welcome Sewer Rat!";
 		int luck = 3;
     	
@@ -61,7 +64,16 @@ public class PlayerTest {
         assertTrue("luck", 1 <= sewerRat.getLuck() && (luck + 1 >= sewerRat.getLuck()));
     }
     
-    @Test
+    private Item createKnife() {
+    	String id = "knife1";
+    	String type = "weapon";
+    	String name = "knife";
+    	String description = "nise sharp knife";
+    	Map<String, Integer> properties = null;
+		return new Item(id, type, name, description, properties);
+	}
+
+	@Test
     public void loadExistingPlayerProfile() {
         PlayerRepository playerRepo = new PlayerRepository();
         Player player = playerRepo.getPlayer("test");

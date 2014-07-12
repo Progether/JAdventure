@@ -110,7 +110,7 @@ public class PlayerRepository {
             player.setStrength(json.get("dexterity").getAsInt());
             player.setStrength(json.get("luck").getAsInt());
             player.setStrength(json.get("stealth").getAsInt());
-            player.setWeapon(json.get("weapon").getAsString());
+            player.setWeapon(GameBeans.getItemRepository().getItem(json.get("weapon").getAsString()));
             if (json.has("items")) {
                 HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
                 ArrayList<ItemStack> itemList = new ArrayList<ItemStack>();
@@ -155,7 +155,7 @@ public class PlayerRepository {
         jsonObject.addProperty("dexterity", player.getDexterity());
         jsonObject.addProperty("luck", player.getLuck());
         jsonObject.addProperty("stealth", player.getStealth());
-        jsonObject.addProperty("weapon", player.getWeapon());
+        jsonObject.addProperty("weapon", player.getWeapon().getId());
         HashMap<String, Integer> items = new HashMap<String, Integer>();
         JsonArray itemList = new JsonArray();
         for (ItemStack item : player.getStorage().getItems()) {
