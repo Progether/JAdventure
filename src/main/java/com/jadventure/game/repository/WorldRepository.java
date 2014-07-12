@@ -27,24 +27,26 @@ import com.jadventure.game.navigation.Location;
 import com.jadventure.game.navigation.LocationType;
 
 public class WorldRepository extends AbstractRepository {
-    private Map<Coordinate, ILocation> locations = new HashMap<>();
+    private Map<Coordinate, ILocation> world = new HashMap<>();
 
     
     public WorldRepository(File repoPath) {
-        super(repoPath, "locations.json");
+        super(repoPath, "world.json");
     }
 
 
     public ILocation getLocation(Coordinate coordinate) {
-        return locations.get(coordinate);
+        return world.get(coordinate);
     }
 
     public void addLocation(ILocation location) {
-        locations.put(location.getCoordinate(), location);
+        world.put(location.getCoordinate(), location);
     }
 
     
     protected void load(File repo) {
+    	System.out.println("Loading World '" + repo + "'");
+    	
         JsonParser parser = new JsonParser();
 
         try {
@@ -54,8 +56,11 @@ public class WorldRepository extends AbstractRepository {
 
             // For every location in the locations.file, it parses the location uses loadLocation() and adds it
             // to the locations Map.
-            for(Map.Entry<String, JsonElement> entry: json.entrySet()) {
-                locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));
+            for (Map.Entry<String, JsonElement> entry: json.entrySet()) {
+                Coordinate coordinate = new Coordinate(entry.getKey());
+				Location location = createLocation(entry.getValue().getAsJsonObject());
+				System.out.println("Loaded '" + coordinate + "'");
+				world.put(coordinate, location);
             }
 
             reader.close();
@@ -67,7 +72,7 @@ public class WorldRepository extends AbstractRepository {
         }
     }
 
-    private Location loadLocation(JsonObject json) {
+    private Location createLocation(JsonObject json) {
         
 
         Coordinate coordinate = new Coordinate(json.get("coordinate").getAsString());
@@ -98,7 +103,7 @@ public class WorldRepository extends AbstractRepository {
     public void save() {
         try {
             JsonObject jsonObject = new JsonObject();
-            for (Map.Entry<Coordinate,ILocation> entry : locations.entrySet()) {
+            for (Map.Entry<Coordinate,ILocation> entry : world.entrySet()) {
                 ILocation location = entry.getValue();
                 JsonObject locationJsonElement = new JsonObject();
                 locationJsonElement.addProperty("title", location.getTitle());
@@ -132,6 +137,12 @@ public class WorldRepository extends AbstractRepository {
     public static WorldRepository createRepo() {
         if (locationRepo == null) {
             File file = new File(new File(System.getProperty("user.dir")), "json");
+
+            File dataFile = new File(new File(file, "original_data"), "world.json");
+            if (! dataFile.exists()) {
+            	throw new RuntimeException("File '" + dataFile + "' does not exist.");
+            }
+
             locationRepo = new WorldRepository(file);
             locationRepo.load();
         }
