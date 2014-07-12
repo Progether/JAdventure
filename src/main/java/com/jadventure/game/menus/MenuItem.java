@@ -10,18 +10,18 @@ import java.util.Set;
 public class MenuItem {
     protected String command;
     protected String description;
-    protected Set<String> altCommands;
+    protected Set<String> altCommands = new HashSet<String>();
 
     public MenuItem(String command, String description) {
         this.command = command;
         this.description = description;
-        this.altCommands = new HashSet<String>();
     }
 
     public MenuItem(String command, String description, String... altCommands) {
         this(command, description);
-        for (String altCommand: altCommands)
+        for (String altCommand: altCommands) {
             this.altCommands.add(altCommand);
+        }
     }
 
     public String getCommand() {

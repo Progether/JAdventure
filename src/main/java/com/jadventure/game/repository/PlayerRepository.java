@@ -25,8 +25,6 @@ import com.google.gson.reflect.TypeToken;
 import com.jadventure.game.Game;
 import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
-import com.jadventure.game.classes.Recruit;
-import com.jadventure.game.classes.SewerRat;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
@@ -42,12 +40,12 @@ public class PlayerRepository {
     public Player create(String type) {
         if (type.equals("recruit")){
             // Instead of having a huge constructor, this is much more readable.
-            player = new Recruit();
+            player = GameBeans.getCharacterRepository().getCharacter("recruit");
             setUpVariables(player);
             return player;
         }
-        else if (type.equals("sewerrat")) {
-            player = new SewerRat();
+        else if (type.equals("sewer-rat")) {
+            player = GameBeans.getCharacterRepository().getCharacter("sewer-rat");
             setUpVariables(player);
             return player;
         }
