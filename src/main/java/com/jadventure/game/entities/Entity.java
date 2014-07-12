@@ -16,10 +16,11 @@ public abstract class Entity {
     protected static ItemRepository itemRepo = GameBeans.getItemRepository();
     
     // All entities can attack, have health, have names...?
-    private int healthMax;
-    private int health;
+    private String id;
     private String name;
     private String className;
+    private int healthMax;
+    private int health;
     private String intro;
     // levelMult is used to add a multiplier to the attack damage
     // soemcdnguy4 asks: Where in code is levelMult?
@@ -54,12 +55,41 @@ public abstract class Entity {
         this.gold = gold;
         this.storage = storage;
     }
+    public Entity(String id, String name, int healthMax, int health, double damage, int armour,
+    		int level, int strength, int intelligence, int dexterity,
+    		int stealth, String weapon, String introduction, int luck) {
+    	this.id = id;
+    	this.className = name;
+        this.healthMax = healthMax;
+        this.health = health;
+        this.damage = damage;
+        this.armour = armour;
+        this.level = level;
+        this.strength = strength;
+        this.intelligence = intelligence;
+        this.dexterity = dexterity;
+        this.stealth = stealth;
+        this.weapon = weapon;
+        this.intro = introduction;
 
-    public int getHealth() {
+        Random rand = new Random();
+        this.luck = rand.nextInt(luck) + 1;
+    }
+    
+    
+    
+    public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public int getHealth() {
         return this.health;
     }
         
-
     public void setHealth(int health) {
         this.health = health;
     }
@@ -128,7 +158,7 @@ public abstract class Entity {
     }
 
     public String getIntro() {
-        return this.intro;
+        return intro;
     }
     
     public int getLevel() {
