@@ -39,8 +39,8 @@ public class MainMenu extends Menus {
         String key = m.getKey();
         if(key.equals("start")) {
             try {
-                Path orig = Paths.get("json/original_data/locations.json");
-                Path dest = Paths.get("json/locations.json");
+                Path orig = Paths.get("json/original_data/world.json");
+                Path dest = Paths.get("json/world.json");
                 Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException ex) {
                 QueueProvider.offer("Unable to load new locations file.");

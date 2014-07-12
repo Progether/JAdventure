@@ -1,0 +1,46 @@
+{
+  "characters": {
+    "sewer-rat": {
+      "name": "Sewer Rat",
+      "description": "an empty item",
+      "health": "100",
+      "healthMax": "100",
+      "damage": "40",
+      "armour": "0",
+      "level": "1",
+      "strength": "1",
+      "intelligence": "2",
+      "dexterity": "1",
+      "stealth": "2",
+      "weapon": "hands",
+      "luck": "3",
+      "intro-text": [
+          "Hey, rat. . . you dead??\n*You let out a groan...*\nWhat are you doing?!?",
+          " Don't you know it's crazy to sleep so close to the recruits' camp?",
+          " A guard will come down those stairs soon enough and catch you!",
+          " You'll end up being drafted! You better come back in.\nBy the way, what's your name?"
+      ]
+    },
+    "recruit": {
+      "name": "Recruit",
+      "description": "nothing",
+      "health": "100",
+      "healthMax": "100",
+      "damage": "50",
+      "armour": "1",
+      "level": "1",
+      "strength": "2",
+      "intelligence": "1",
+      "dexterity": "2",
+      "stealth": "1",
+      "weapon": "hands",
+      "luck": "3",
+      "intro-text": [
+          "Hey... you alive?\n*You let out a groan...*\nHey, mate, you need to wake up.",
+          " The guards will be coming 'round soon, and they put a spear through the last guy they",
+          " found still asleep.\n*Slowly, you sit up.*\nThat's the way! I'm going to head back up.",
+          " Follow me as soon as you can.\nBy the way, I'm Thorall. What's your name?"
+      ]
+    }
+  }
+}

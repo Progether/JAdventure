@@ -30,11 +30,12 @@ public class ChooseClassMenu extends Menus {
             new Game(player, "new");
             return true;
         } else if(key.equals("sewerrat")) {
-            Player player = GameBeans.getPlayerRepository().create("sewerrat");
+            Player player = GameBeans.getPlayerRepository().create("sewer-rat");
             new Game(player, "new");
             return true;
         } else {
             return false;
         }
     }
+
 }

@@ -21,7 +21,7 @@ public abstract class AbstractRepository {
             repoFile = repoPath;
         }
         
-        System.out.println("  " + repoPath + "\n  " + repoFile);
+        System.out.println("AbstractRepository  repo path : file  " + repoPath + "\n  " + repoFile);
         if (! repoFile.isFile() || (! repoFile.canRead())) {
             if (! repoFile.isFile()) {
                 throw new RepositoryException("No file found at '" + repoFile + "'.");
