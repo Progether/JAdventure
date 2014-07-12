@@ -11,6 +11,7 @@ import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Storage;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationType;
+import com.jadventure.game.repository.CharacterBuilder;
 
 /**
  * This class deals with the player and all of its properties.
@@ -21,12 +22,35 @@ import com.jadventure.game.navigation.LocationType;
 public class Player extends Entity implements IGameElement {
     private ILocation location;
 
-    
+
     public Player() {
+    	
     }
+    public Player(CharacterBuilder charBldr) {
+    	this(charBldr.getId(),
+    			charBldr.getName(),
+    			charBldr.getHealthMax(),
+    			charBldr.getHealth(),
+    			charBldr.getDamage(),
+    			charBldr.getArmour(),
+    			charBldr.getLevel(),
+    			charBldr.getStrength(),
+    			charBldr.getIntelligence(),
+    			charBldr.getDexterity(),
+    			charBldr.getStealth(),
+    			charBldr.getWeapon(),
+    			charBldr.getIntroduction(),
+    			charBldr.getLuck());
+    }
+    public Player(String id, String name, int healthMax, int health, double damage,
+			int armour, int level, int strength, int intelligence,
+			int dexterity, int stealth, String weapon, String introduction,
+			int luck) {
+		super(id, name, healthMax, health, damage, armour, level, strength,
+				intelligence, dexterity, stealth, weapon, introduction, luck);
+	}
 
-
-    @Deprecated
+	@Deprecated
     public void getStatistics() {
         String weaponName = getWeapon();
         if (weaponName != null && (! "hands".equalsIgnoreCase(weaponName))) {
