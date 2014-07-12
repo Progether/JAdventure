@@ -1,14 +1,16 @@
 {
   "items": {
     "empty": {
-      "name": "empty",
-      "description": "an empty item",
+      "type": "food",
+      "name": "bread",
+      "description": "small piece of bread",
       "properties": {
         "health": "+5",
         "value": "10"
       }
     },
     "fmil1": {
+      "type": "food-liquid",
       "name": "milk",
       "description": "some delicious milk",
       "properties": {
@@ -18,6 +20,7 @@
       }
     },
     "fmil2": {
+      "type": "food-liquid",
       "name": "super milk",
       "description": "this milk must have come from a super cow because it is extra delicious milk",
       "properties": {
@@ -27,6 +30,7 @@
       }
     },
     "fram1": {
+      "type": "food",
       "name": "raw meat",
       "description": "some delicious raw meat",
       "properties": {
@@ -36,6 +40,7 @@
       }
     },
     "fcom1": {
+      "type": "food",
       "name": "cooked meat",
       "description": "some delicious cooked meat",
       "properties": {
@@ -45,6 +50,7 @@
       }
     },
     "fbum1": {
+      "type": "food",
       "name": "burnt meat",
       "description": "some crispy burnt meat",
       "properties": {
@@ -54,6 +60,7 @@
       }
     },
     "wshi1": {
+      "type": "weapon",
       "name": "shiv",
       "description": "a small dagger",
       "properties": {
@@ -63,6 +70,7 @@
       }
     },
     "wdag1": {
+      "type": "weapon",
       "name": "dagger",
       "description": "a basic dagger",
       "properties": {
@@ -72,6 +80,7 @@
       }
     },
     "wshs1": {
+      "type": "weapon",
       "name": "shortsword",
       "description": "a basic shortsword",
       "properties": {
@@ -81,6 +90,7 @@
       }
     },
     "wspe1": {
+      "type": "weapon",
       "name": "spear",
       "description": "a basic spear",
       "properties": {
@@ -90,6 +100,7 @@
       }
     },
     "ashi1": {
+      "type": "armour",
       "name": "wooden shield",
       "description": "a wooden shield, watch out for splinters!",
       "properties": {
@@ -99,6 +110,7 @@
       }
     },
     "arhl1": {
+      "type": "armour",
       "name": "rusted helmet",
       "description": "a rusted helmet, it will do for now",
       "properties": {
@@ -108,6 +120,7 @@
       }
     },
     "albr1": {
+      "type": "armour",
       "name": "leather breastplate",
       "description": "a leather breastplate, it will do for now",
       "properties": {
@@ -117,7 +130,8 @@
       }
     },
     "tlap1": {
-      "name": "lock and pick",
+      "type": "tool",
+      "name": "lock-and-pick",
       "description": "tools to pick locks",
       "properties": {
         "value": "20",
@@ -125,7 +139,8 @@
       }
     },
    "phli1": {
-      "name": "Potion of Health",
+      "type": "food",
+      "name": "Potion-of-Health",
       "description": "Magic potion that increases vitality",
       "properties": {
         "healthMax": "+5",

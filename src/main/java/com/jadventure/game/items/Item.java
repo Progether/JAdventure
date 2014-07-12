@@ -10,12 +10,14 @@ import com.jadventure.game.IGameElementVisitor;
  */
 public class Item implements IGameElement {
     private String id;
+    private final String type;
     private String name;
     private String description;
     private Map<String, Integer> properties;
 
-    public Item(String id, String name, String description, Map<String, Integer> properties) {
+    public Item(String id, String type, String name, String description, Map<String, Integer> properties) {
         this.id = id;
+        this.type = type;
         this.name = name;
         this.description = description;
         this.properties = properties;
@@ -25,7 +27,12 @@ public class Item implements IGameElement {
     	return id;
     }
     
-    public String getName() {
+    
+    public String getType() {
+		return type;
+	}
+
+	public String getName() {
         return name;
     }
 

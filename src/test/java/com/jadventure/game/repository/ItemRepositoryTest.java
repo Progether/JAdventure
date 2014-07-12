@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -24,7 +26,8 @@ public class ItemRepositoryTest {
     public void addItem() throws IOException {
         File itemFile = File.createTempFile("test-items", "json");
         
-        ItemRepository itemRepo = new ItemRepository(itemFile);
+        ItemRepository itemRepo = new ItemRepository();
+//        itemRepo.load(itemFile);
         
         itemRepo.addItem(createMilk());
         
@@ -45,7 +48,8 @@ public class ItemRepositoryTest {
     public void addItems() throws IOException {
         File itemFile = File.createTempFile("test-items", "json");
         
-        ItemRepository itemRepo = new ItemRepository(itemFile);
+        ItemRepository itemRepo = new ItemRepository();
+//        itemRepo.load(itemFile);
         
         itemRepo.addItem(createMilk());
         itemRepo.addItem(createEgg());
@@ -61,7 +65,8 @@ public class ItemRepositoryTest {
     public void storeItems() throws IOException {
         File itemFile = File.createTempFile("test-items", "json");
         
-        ItemRepository itemRepo = new ItemRepository(itemFile);
+        ItemRepository itemRepo = new ItemRepository();
+//        itemRepo.load(itemFile);
         
         itemRepo.addItem(createMilk());
         itemRepo.addItem(createEgg());
@@ -72,9 +77,9 @@ public class ItemRepositoryTest {
         jsonWriter.flush();
         
         String expected = "{\"items\":{"
-                + "\"egg-1\":{\"id\":\"egg-1\",\"name\":\"egg\",\"description\":\"A nice egg\","
+                + "\"egg-1\":{\"id\":\"egg-1\",\"type\":\"food\",\"name\":\"egg\",\"description\":\"A nice egg\","
                 + "\"properties\":{\"weight\":1,\"value\":3,\"health\":2}},"
-                + "\"milk-bottle\":{\"id\":\"milk-bottle\",\"name\":\"milk\",\"description\":\"Milk in a bottle\","
+                + "\"milk-bottle\":{\"id\":\"milk-bottle\",\"type\":\"food-liquid\",\"name\":\"milk\",\"description\":\"Milk in a bottle\","
                 + "\"properties\":{\"weight\":1,\"value\":10,\"health\":5}}"
                 + "}}";
         String gsonMsg = writer.toString();
@@ -95,7 +100,8 @@ public class ItemRepositoryTest {
 
         File itemFile = File.createTempFile("test-items", "json");
         
-        ItemRepository itemRepo = new ItemRepository(itemFile);
+        ItemRepository itemRepo = new ItemRepository();
+//        itemRepo.load(itemFile);
         
         itemRepo.retrieve(jsonReader);
 
@@ -106,13 +112,30 @@ public class ItemRepositoryTest {
         assertEquals("Milk in a bottle", milkItem.getDescription());
     }
 
+    @Test
+    public void load() {
+		InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream("items.json");
+		
+		ItemRepository itemRepo = new ItemRepository();
+		JsonReader reader = new JsonReader(new InputStreamReader(resourceAsStream));
+		itemRepo.load(reader);
+        
+    	Item item = itemRepo.getItem("fmil2");
+    	assertNotNull(item);
+    	assertEquals("food-liquid", item.getType());
+
+    	item = itemRepo.getItem("wdag1");
+    	assertNotNull(item);
+    	assertEquals("weapon", item.getType());
+    }
+    
     private Item createMilk() {
         Map<String, Integer> properties = new HashMap<>();
         properties.put("health", Integer.valueOf(5));
         properties.put("weight", Integer.valueOf(1));
         properties.put("value", Integer.valueOf(10));
         
-        Item item = new Item("milk-bottle", "milk", "Milk in a bottle", properties);
+        Item item = new Item("milk-bottle", "food-liquid", "milk", "Milk in a bottle", properties);
         return item;
     }
 
@@ -122,7 +145,7 @@ public class ItemRepositoryTest {
         properties.put("weight", Integer.valueOf(1));
         properties.put("value", Integer.valueOf(3));
         
-        Item item = new Item("egg-1", "egg", "A nice egg", properties);
+        Item item = new Item("egg-1", "food", "egg", "A nice egg", properties);
         return item;
     }
 

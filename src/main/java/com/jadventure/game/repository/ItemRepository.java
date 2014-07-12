@@ -17,13 +17,16 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.jadventure.game.items.Item;
 
-public class ItemRepository extends AbstractRepository {
+public class ItemRepository {// extends AbstractRepository {
     private Map<String, Item> itemMap = new HashMap<>();
 
 
-    public ItemRepository(File repoPath) {
-        super(repoPath, "items.json");
+    public ItemRepository() {
+    	
     }
+//    public ItemRepository(File repoPath) {
+//        super(repoPath, "items.json");
+//    }
 
     
     public Item getItem(String id) {
@@ -37,9 +40,18 @@ public class ItemRepository extends AbstractRepository {
     // Load all items, from the given file
     protected void load(File repo) {
         System.out.println("File " + repo);
+        try {
+			JsonReader reader = new JsonReader(new FileReader(repo));
+			load(reader);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    // Load all items, from the given file
+    protected void load(JsonReader reader) {
         JsonObject jsonItems = new JsonObject();
         try {
-            Reader reader = new FileReader(repo);
             JsonParser parser = new JsonParser();
             JsonObject json = parser.parse(reader).getAsJsonObject();
             jsonItems = json.get("items").getAsJsonObject();
@@ -52,8 +64,9 @@ public class ItemRepository extends AbstractRepository {
         
         Map<String, Map> itemMap = new HashMap<>();
         for (Map.Entry<String, JsonElement> entry : jsonItems.entrySet()) {
-            String rawItemID = entry.getKey().toString();
+            String rawItemID = entry.getKey();
             JsonObject itemData = entry.getValue().getAsJsonObject();
+            String type = itemData.get("type").getAsString();
             String name = itemData.get("name").getAsString();
             String description = itemData.get("description").getAsString();
             JsonObject sProps = itemData.get("properties").getAsJsonObject();
@@ -63,19 +76,21 @@ public class ItemRepository extends AbstractRepository {
                 properties.put(entry2.getKey(), propValue);
             }
             Map itemDetails = new HashMap<>();
+            itemDetails.put("type", type);
             itemDetails.put("name", name);
             itemDetails.put("description", description);
             itemDetails.put("properties", properties);
-            itemMap.put(rawItemID,itemDetails);
+            itemMap.put(rawItemID, itemDetails);
         }
         
         for (Map.Entry<String, Map> entry: itemMap.entrySet()) {
             String id = entry.getKey();
+            String type = entry.getValue().get("type").toString();
             String name = entry.getValue().get("name").toString();
             String description = entry.getValue().get("description").toString();
             Map<String, Integer> properties = (HashMap<String,Integer>)entry.getValue().get("properties");
             
-            addItem(new Item(id, name, description, properties));
+            addItem(new Item(id, type, name, description, properties));
         }
 
     }
@@ -90,8 +105,14 @@ public class ItemRepository extends AbstractRepository {
     public static ItemRepository createRepo() {
         if (itemRepository == null) {
             File file = new File(new File(System.getProperty("user.dir")), "json");
-            itemRepository = new ItemRepository(file);
-            itemRepository.load();
+
+            File dataFile = new File(new File(file, "original_data"), "items.json");
+            if (! dataFile.exists()) {
+            	throw new RuntimeException("File '" + dataFile + "' does not exist.");
+            }
+
+            itemRepository = new ItemRepository();
+            itemRepository.load(dataFile);
         }
         return itemRepository;
     }
