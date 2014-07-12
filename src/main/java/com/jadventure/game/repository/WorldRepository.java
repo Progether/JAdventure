@@ -133,9 +133,9 @@ public class WorldRepository extends AbstractRepository {
 
 
     // ----[ Can be removed once Dependency Injection is in place ]----
-    private static WorldRepository locationRepo;
+    private static WorldRepository worldRepo;
     public static WorldRepository createRepo() {
-        if (locationRepo == null) {
+        if (worldRepo == null) {
             File file = new File(new File(System.getProperty("user.dir")), "json");
 
             File dataFile = new File(new File(file, "original_data"), "world.json");
@@ -143,10 +143,10 @@ public class WorldRepository extends AbstractRepository {
             	throw new RuntimeException("File '" + dataFile + "' does not exist.");
             }
 
-            locationRepo = new WorldRepository(file);
-            locationRepo.load();
+            worldRepo = new WorldRepository(file);
+            worldRepo.load();
         }
-        return locationRepo;
+        return worldRepo;
     }
 
 }

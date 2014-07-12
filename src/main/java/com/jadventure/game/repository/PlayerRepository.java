@@ -32,7 +32,7 @@ import com.jadventure.game.items.Storage;
 import com.jadventure.game.navigation.Coordinate;
 
 public class PlayerRepository {
-    private static WorldRepository locationRepo = GameBeans.getWorldRepository();
+    private static WorldRepository worldRepo = GameBeans.getWorldRepository();
     private static ItemRepository itemRepo = GameBeans.getItemRepository();
     private Player player;
 
@@ -53,7 +53,7 @@ public class PlayerRepository {
     }
 
     private static void setUpVariables(Player player) {
-        player.setLocation(locationRepo.getLocation(Game.DEFAULT_INITIAL_COORDINATE));
+        player.setLocation(worldRepo.getLocation(Game.DEFAULT_INITIAL_COORDINATE));
         float maxWeight = (float)Math.sqrt(player.getStrength() * 300);
         player.setStorage(new Storage(maxWeight));
         player.addItemToStorage(itemRepo.getItem("fmil1"));
@@ -129,7 +129,7 @@ public class PlayerRepository {
             Path dest = Paths.get("json/locations.json");
             Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
             Coordinate coordinate = new Coordinate(json.get("location").getAsString());
-            player.setLocation(locationRepo.getLocation(coordinate));
+            player.setLocation(worldRepo.getLocation(coordinate));
             reader.close();
         } catch (FileNotFoundException ex) {
             QueueProvider.offer( "Unable to open file '" + fileName + "'.");
@@ -175,7 +175,7 @@ public class PlayerRepository {
             Writer writer = new FileWriter(fileName);
             gson.toJson(jsonObject, writer);
             writer.close();
-            locationRepo.save();
+            worldRepo.save();
             Path orig = Paths.get("json/locations.json");
             Path dest = Paths.get("json/profiles/" + player.getName() + "/locations.json");
             Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);

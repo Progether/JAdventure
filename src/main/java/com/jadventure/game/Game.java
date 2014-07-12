@@ -14,7 +14,7 @@ import com.jadventure.game.repository.WorldRepository;
 public class Game {
     public static final Coordinate DEFAULT_INITIAL_COORDINATE = new Coordinate(0, 0, -1);
 
-    private WorldRepository locationRepo = GameBeans.getWorldRepository();
+    private WorldRepository worldRepo = GameBeans.getWorldRepository();
     
 //    public ArrayList<Monster> monsterList = new ArrayList<Monster>();
 //    public MonsterFactory monsterFactory = new MonsterFactory(); 
@@ -26,7 +26,7 @@ public class Game {
     public Game(Player player, String playerType) {
         cmdParser = new CommandParser();
         
-        player.setLocation(locationRepo.getLocation(DEFAULT_INITIAL_COORDINATE));
+        player.setLocation(worldRepo.getLocation(DEFAULT_INITIAL_COORDINATE));
         if (playerType.equals("new")) { // New Game
             this.player = player;
             newGameStart(player);

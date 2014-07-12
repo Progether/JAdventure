@@ -20,7 +20,7 @@ import com.jadventure.game.repository.WorldRepository;
  * It also contains the method to print a location's details.
  */
 public class Location implements ILocation {
-    private WorldRepository locationRepo = GameBeans.getWorldRepository();
+    private WorldRepository worldRepo = GameBeans.getWorldRepository();
     private ItemRepository itemRepo = GameBeans.getItemRepository();
     
     private Coordinate coordinate;
@@ -68,7 +68,7 @@ public class Location implements ILocation {
         Map<Direction, ILocation> exits = new HashMap<Direction, ILocation>();
         ILocation borderingLocation;
         for (Direction direction: Direction.values()) {
-            borderingLocation = locationRepo.getLocation(getCoordinate().getBorderingCoordinate(direction));
+            borderingLocation = worldRepo.getLocation(getCoordinate().getBorderingCoordinate(direction));
             if (borderingLocation != null) {
                 exits.put(direction, borderingLocation);
             }
