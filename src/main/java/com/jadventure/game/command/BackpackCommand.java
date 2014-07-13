@@ -12,6 +12,11 @@ public final class BackpackCommand extends AbstractCommand {
 
     @Override
     public void execute(Player player, IGameElementVisitor visitor, String[] args) {
+    	if (player.getStorage().isEmpty()) {
+    		visitor.append("Your backpack is empty.");
+    		return;
+    	}
+
         visitor.append("Backpack:");
         visitor.visit(player.getStorage());
     }
