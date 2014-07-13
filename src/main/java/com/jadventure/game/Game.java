@@ -35,7 +35,10 @@ public class Game {
             this.player = player;
             QueueProvider.offer("Welcome back, " + player.getName() + "!");
             QueueProvider.offer("");
-            player.getLocation().print();
+            TextBuilderVisitor visitor = new TextBuilderVisitor();
+            player.getLocation().accept(visitor);
+            QueueProvider.offer(visitor.toString());
+//            player.getLocation().print();
         }
         else {
             QueueProvider.offer("Invalid player type");
@@ -55,7 +58,10 @@ public class Game {
         player.setName(userInput);
         QueueProvider.offer("Welcome to Silliya, " + player.getName() + ".");
         QueueProvider.offer("");
-        player.getLocation().print();
+//        player.getLocation().print();
+        TextBuilderVisitor visitor = new TextBuilderVisitor();
+        player.getLocation().accept(visitor);
+        QueueProvider.offer(visitor.toString());
         
         gamePrompt(player);
     }
