@@ -1,8 +1,10 @@
 package com.jadventure.game.prompts;
 
+import com.jadventure.game.command.StatisticsCommand;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.prompts.BackpackDebugPrompt;
 import com.jadventure.game.QueueProvider;
+import com.jadventure.game.TextBuilderVisitor;
 
 import java.util.Scanner;
 
@@ -82,7 +84,9 @@ public class DebugPrompt{
                 new BackpackDebugPrompt(player);
 		    }
 		    else if (command.equals("stats")) {
-			    player.getStatistics();
+		    	TextBuilderVisitor textBldr = new TextBuilderVisitor();
+		    	new StatisticsCommand().execute(player, textBldr, null);
+//			    player.getStatistics();
 		    }
             else if (command.equals("help")) {
                 QueueProvider.offer(helpText);

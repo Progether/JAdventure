@@ -5,9 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
@@ -17,7 +15,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import com.jadventure.game.items.Item;
-import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Storage;
 
 @RunWith(JUnit4.class)
@@ -70,9 +67,6 @@ public class EntityTest {
         properties.put("value", 5);
         
         Item item = new Item(id, type, name, description, properties);
-
-        List<ItemStack> testArrayList = new ArrayList<>();
-        testArrayList.add(new ItemStack(1, item));
 
         entity.addItemToStorage(item);
         assertEquals(entity.getStorage().getItem(item.getName()), item);

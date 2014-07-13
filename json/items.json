@@ -62,7 +62,7 @@
     "wshi1": {
       "type": "weapon",
       "name": "shiv",
-      "description": "a small dagger",
+      "description": "a nice small shiv",
       "properties": {
         "damage": "+3",
         "weight": "2",

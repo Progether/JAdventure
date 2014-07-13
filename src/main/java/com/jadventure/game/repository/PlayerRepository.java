@@ -29,7 +29,6 @@ import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.items.Item;
-import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Storage;
 import com.jadventure.game.navigation.Coordinate;
 
@@ -114,15 +113,16 @@ public class PlayerRepository {
             player.setStrength(json.get("stealth").getAsInt());
             player.setWeapon(GameBeans.getItemRepository().getItem(json.get("weapon").getAsString()));
             if (json.has("items")) {
-                HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
-                ArrayList<ItemStack> itemList = new ArrayList<ItemStack>();
-                for (Map.Entry<String, Integer> entry : items.entrySet()) {
-                    String itemID = entry.getKey();
-                    int amount = entry.getValue();
-                    Item item = itemRepo.getItem(itemID);
-                    ItemStack itemStack = new ItemStack(amount, item);
-                    itemList.add(itemStack);
-                }
+            	// FIXME Load items and amount
+//                HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
+//                ArrayList<ItemStack> itemList = new ArrayList<ItemStack>();
+//                for (Map.Entry<String, Integer> entry : items.entrySet()) {
+//                    String itemID = entry.getKey();
+//                    int amount = entry.getValue();
+//                    Item item = itemRepo.getItem(itemID);
+//                    ItemStack itemStack = new ItemStack(amount, item);
+//                    itemList.add(itemStack);
+//                }
                 float maxWeight = (float)Math.sqrt(player.getStrength()*300);
                 player.setStorage(new Storage(maxWeight));
                 // FIXME add the itemList items to the player

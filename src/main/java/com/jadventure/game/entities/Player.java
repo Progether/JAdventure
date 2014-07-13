@@ -1,7 +1,6 @@
 package com.jadventure.game.entities;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -9,7 +8,6 @@ import com.jadventure.game.IGameElement;
 import com.jadventure.game.IGameElementVisitor;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.items.Item;
-import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Storage;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationType;
@@ -67,14 +65,6 @@ public class Player extends Entity implements IGameElement {
                             "\n" + getName() + "'s level: " + getLevel());
     }
 
-    @Deprecated
-    public void printBackPack() {
-        this.storage.display();
-    }
-
-//    public void save(Player player) {
-//        System.err.println("==    Moved to PlayerRepo    ==");
-//    }
 
     public List<Item> searchItem(String itemName, List<Item> itemList) {
         List<Item> itemMap = new ArrayList<>();
@@ -102,15 +92,6 @@ public class Player extends Entity implements IGameElement {
     		return true;
     	}
     	return false;
-    	
-//        List<Item> itemMap = searchItem(itemName, getLocation().getItems());
-//        if (!itemMap.isEmpty()) {
-//            Item item = itemMap.get(0);
-//            Item itemToPickUp = itemRepo.getItem(item.getId());
-//            addItemToStorage(itemToPickUp);
-//            location.removePublicItem(itemToPickUp.getId());
-//            QueueProvider.offer("\n" + item.getName() + " picked up");
-//        }
     }
 
     public boolean dropItem(String itemName) {
@@ -119,22 +100,10 @@ public class Player extends Entity implements IGameElement {
     		getLocation().getStorage().add(item);
     		return true;
     	}
+    	else if (weapon.getName().equals(itemName)) {
+    		dequipItem(itemName);
+    	}
     	return false;
-//        List<Item> itemMap = searchItem(itemName, getStorage());
-//        if (!itemMap.isEmpty()) {
-//            Item item = itemMap.get(0);
-//            Item itemToDrop = itemRepo.getItem(item.getId());
-//            // FIXME drop weapon
-////            Item weapon = itemRepo.getItem(getWeapon());
-//            String wName = weapon.getName();
-//
-//            if (itemName.equals(wName)) {
-//                dequipItem(wName);
-//            }
-//            removeItemFromStorage(itemToDrop);
-//            location.addPublicItem(itemToDrop.getId());
-//            QueueProvider.offer("\n" + item.getName()+ " dropped");
-//        }
     }
 
     public void equipItem(String itemName) {
@@ -152,27 +121,6 @@ public class Player extends Entity implements IGameElement {
             QueueProvider.offer("\n" + weapon.getName() + " dequipped");
     		setWeapon(null);
     	}
-//        List<Item> itemMap = searchItem(itemName, getStorage());
-//        if (! itemMap.isEmpty()) {
-//            Item item = itemMap.get(0);
-//            setWeapon(item);
-//            QueueProvider.offer("\n" + item.getName()+" dequipped");
-//        }
-    }
-
-    @Deprecated
-    public void inspectItem(String itemName) {
-    	throw new RuntimeException("Should never be called, is replaced by IGameElementVisitor");
-//        List<Item> itemList = searchItem(itemName, getStorage());
-//        if (itemList.isEmpty()) {
-//            itemList = searchItem(itemName, getLocation().getItems());
-//        }
-//        if (!itemList.isEmpty()) {
-//            Item item = itemList.get(0);
-//            item.display();
-//        } else {
-//            QueueProvider.offer("Item doesn't exist within your view.");
-//        }
     }
 
     public ILocation getLocation() {

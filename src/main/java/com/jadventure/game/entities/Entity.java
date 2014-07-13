@@ -2,19 +2,13 @@ package com.jadventure.game.entities;
 
 import java.util.Random;
 
-import com.jadventure.game.GameBeans;
 import com.jadventure.game.items.Item;
-import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Storage;
-import com.jadventure.game.repository.ItemRepository;
 
 /**
  * superclass for all entities (includes player, monsters...)
  */
 public abstract class Entity {
-    // FIXME Remove static
-    protected static ItemRepository itemRepo = GameBeans.getItemRepository();
-    
     // All entities can attack, have health, have names...?
     private String id;
     private String name;
@@ -217,21 +211,6 @@ public abstract class Entity {
     	if (item.getType().equalsIgnoreCase("weapon")) {
     		weapon = item;
     	}
-//        if (! weaponID.equals(this.weapon)) {
-//            if (weaponID.equals("hands")) {
-//                if (! this.weapon.equals("hands")) {
-//                    Item weapon = itemRepo.getItem(this.weapon);
-//                    int damage = weapon.getProperties().get("damage");
-//                    this.damage = this.damage - damage;
-//                }
-//                this.weapon = "hands";
-//            } else {
-//                Item weapon = itemRepo.getItem(weaponID);
-//                int damage = weapon.getProperties().get("damage");
-//                this.damage = this.damage + damage;
-//                this.weapon = weapon.getId();
-//            }
-//        }
     }
 
     public Storage getStorage() {

@@ -14,7 +14,6 @@ import com.jadventure.game.QueueProvider;
  * Defines an interface for any type of storage in this game.
  */
 public class Storage implements IGameElement {
-	protected List<ItemStack> itemsOld = new ArrayList<ItemStack>();
 	private Map<String, List<Item>> items = new HashMap<>();
 	private double maxWeight;
 
@@ -131,19 +130,19 @@ public class Storage implements IGameElement {
 //        return false;
     }
 
-    public String toString() {
-        if (this.itemsOld.isEmpty()) {
-            return "--Empty--";
-        }
-        else {
-            String content = "";
-            for (ItemStack item : this.itemsOld) {
-                content += "- " + item.getItem().getName() + " : "
-                        + item.getAmount() + "\n";
-            }
-            return content;
-        }
-    }
+//    public String toString() {
+//        if (this.itemsOld.isEmpty()) {
+//            return "--Empty--";
+//        }
+//        else {
+//            String content = "";
+//            for (ItemStack item : this.itemsOld) {
+//                content += "- " + item.getItem().getName() + " : "
+//                        + item.getAmount() + "\n";
+//            }
+//            return content;
+//        }
+//    }
 
     /**
      * Checks if the current Storage contains an ItemStack with the

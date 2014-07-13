@@ -4,6 +4,7 @@ import com.jadventure.game.entities.Player;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.repository.ItemRepository;
 import com.jadventure.game.QueueProvider;
+import com.jadventure.game.TextBuilderVisitor;
 
 import java.util.Scanner;
 
@@ -46,7 +47,10 @@ public class BackpackDebugPrompt{
                 player.dropItem(removeItemName);
             }
             else if(command.equals("list")){
-                player.printBackPack();
+            	TextBuilderVisitor textBldr = new TextBuilderVisitor();
+            	player.getStorage().accept(textBldr);
+            	QueueProvider.offer(textBldr.toString());
+//                player.printBackPack();
             }
             else if(command.equals("help"))
                 QueueProvider.offer(helpText);
