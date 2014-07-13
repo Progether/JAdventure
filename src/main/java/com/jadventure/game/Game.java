@@ -33,12 +33,11 @@ public class Game {
         }
         else if (playerType.equals("old")) {
             this.player = player;
-            QueueProvider.offer("Welcome back, " + player.getName() + "!");
-            QueueProvider.offer("");
             TextBuilderVisitor visitor = new TextBuilderVisitor();
+            visitor.append("Welcome back, " + player.getName() + "!");
+            visitor.append("");
             player.getLocation().accept(visitor);
             QueueProvider.offer(visitor.toString());
-//            player.getLocation().print();
         }
         else {
             QueueProvider.offer("Invalid player type");
@@ -56,10 +55,9 @@ public class Game {
         QueueProvider.offer(player.getIntro());
         String userInput = input.nextLine();
         player.setName(userInput);
-        QueueProvider.offer("Welcome to Silliya, " + player.getName() + ".");
-        QueueProvider.offer("");
-//        player.getLocation().print();
         TextBuilderVisitor visitor = new TextBuilderVisitor();
+        visitor.append("Welcome to Silliya, " + player.getName() + ".");
+        visitor.append("");
         player.getLocation().accept(visitor);
         QueueProvider.offer(visitor.toString());
         
