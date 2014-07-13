@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.jadventure.game.IGameElementVisitor;
-import com.jadventure.game.entities.Player;
-
 public abstract class AbstractCommand implements ICommand {
     private String commandName;
     private List<String> commandAliases;
@@ -29,9 +26,6 @@ public abstract class AbstractCommand implements ICommand {
         this(commandName, convertCommandAliases(aliases), description);
     }
 
-
-    public abstract void execute(Player player, IGameElementVisitor visitor, String[] args);
-    
 
     @Override
     public String getCommandName() {
