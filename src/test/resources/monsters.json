@@ -1,0 +1,88 @@
+{
+  "monsters": {
+    "bugbear": {
+      "name": "Bugbear",
+      "description": "",
+      "health": "50",
+      "healthMax": "50",
+      "damage": "30",
+      "armour": "1",
+      "weapon": "",
+      "crit-chance": "2",
+      "gold": "4",
+      "items": {
+        "fmil1": "1"
+      }
+    },
+    "giant": {
+      "name": "Giant",
+      "description": "",
+      "health": "50",
+      "healthMax": "50",
+      "damage": "30",
+      "armour": "1",
+      "weapon": "",
+      "crit-chance": "2",
+      "gold": "4",
+      "items": {
+        "fmil1": "1"
+      }
+    },
+    "goblin": {
+      "name": "Goblin",
+      "description": "",
+      "health": "50",
+      "healthMax": "50",
+      "damage": "30",
+      "armour": "1",
+      "weapon": "",
+      "crit-chance": "2",
+      "gold": "4",
+      "items": {
+        "fmil1": "1"
+      }
+    },
+    "skeleton": {
+      "name": "Skeleton",
+      "description": "",
+      "health": "50",
+      "healthMax": "50",
+      "damage": "30",
+      "armour": "1",
+      "weapon": "",
+      "crit-chance": "2",
+      "gold": "4",
+      "items": {
+        "fmil1": "1"
+      }
+    },
+    "troll": {
+      "name": "Troll",
+      "description": "",
+      "health": "50",
+      "healthMax": "50",
+      "damage": "30",
+      "armour": "1",
+      "weapon": "",
+      "crit-chance": "2",
+      "gold": "4",
+      "items": {
+        "fmil1": "1"
+      }
+    },
+    "wolf": {
+      "name": "Wolf",
+      "description": "",
+      "health": "50",
+      "healthMax": "50",
+      "damage": "30",
+      "armour": "1",
+      "weapon": "",
+      "crit-chance": "2",
+      "gold": "4",
+      "items": {
+        "fmil1": "1"
+      }
+    }
+  }
+}

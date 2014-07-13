@@ -1,9 +1,11 @@
 package com.jadventure.game.entities;
 
+import java.util.List;
 import java.util.Random;
 
 import com.jadventure.game.items.Item;
 import com.jadventure.game.items.Storage;
+import com.jadventure.game.repository.EntityBuilder;
 
 /**
  * superclass for all entities (includes player, monsters...)
@@ -12,7 +14,7 @@ public abstract class Entity {
     // All entities can attack, have health, have names...?
     private String id;
     private String name;
-    private String className;
+    private String type;
     private int healthMax;
     private int health;
     private String intro;
@@ -49,11 +51,11 @@ public abstract class Entity {
         this.gold = gold;
         this.storage = storage;
     }
-    public Entity(String id, String name, int healthMax, int health, double damage, int armour,
+    public Entity(String id, String type, int healthMax, int health, double damage, int armour,
     		int level, int strength, int intelligence, int dexterity,
     		int stealth, Item weapon, String introduction, int luck) {
     	this.id = id;
-    	this.className = name;
+    	this.type = type;
         this.healthMax = healthMax;
         this.health = health;
         this.damage = damage;
@@ -69,7 +71,30 @@ public abstract class Entity {
         Random rand = new Random();
         this.luck = rand.nextInt(luck) + 1;
     }
-    
+    public Entity(EntityBuilder bldr) {
+    	this.id = bldr.getId();
+    	this.type = bldr.getType();
+    	this.name = bldr.getName();
+        this.healthMax = bldr.getHealthMax();
+        this.health = bldr.getHealth();
+        this.damage = bldr.getDamage();
+        this.armour = bldr.getArmour();
+//        this.level = bldr.getLevel();
+//        this.strength = bldr.getStrength();
+//        this.intelligence = bldr.getIntelligence();
+//        this.dexterity = bldr.getDexterity();
+//        this.stealth = bldr.getStealth();
+//        this.weapon = bldr.getWeapon();
+//        this.intro = bldr.getIntroduction;
+//
+//        Random rand = new Random();
+//        this.luck = rand.nextInt(bldr.getLuck()) + 1;
+        for (List<Item> items : bldr.getStorage().getItems().values()) {
+        	for (Item item : items) {
+        		storage.add(item);
+        	}
+        }
+    }
     
     
     public String getId() {
@@ -139,12 +164,12 @@ public abstract class Entity {
         this.name = name;
     }
     
-    public String getClassName() {
-        return this.className;
+    public String getType() {
+        return type;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setType(String type) {
+        this.type = type;
     }
      
     public void setIntro(String intro) {

@@ -25,7 +25,7 @@ public class CharacterRepositoryTest {
 		Player sewerRat = characterRepo.getCharacter("sewer-rat");
 		assertNotNull(sewerRat);
 		assertEquals("sewer-rat", sewerRat.getId());
-		assertEquals("Sewer Rat", sewerRat.getClassName());
+		assertEquals("Sewer Rat", sewerRat.getType());
 		assertEquals(0, sewerRat.getArmour());
 //		assertEquals(1.0, sewerRat.getDamage());
 		assertEquals(1, sewerRat.getDexterity());

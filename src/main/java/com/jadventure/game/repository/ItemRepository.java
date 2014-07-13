@@ -30,6 +30,9 @@ public class ItemRepository {// extends AbstractRepository {
 
     
     public Item getItem(String id) {
+    	if (id == null || id.trim().length() == 0) {
+    		return null;
+    	}
         if (! itemMap.containsKey(id)) {
             throw new RepositoryException("Argument 'id' with value '" + id + "' not found in repository.");
         }

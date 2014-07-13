@@ -87,7 +87,7 @@ public class CharacterRepository {
             charBldr.setIntroduction(introductionText);
             Player character = charBldr.create();
             System.out.println("character " + character.getName() + "  " + character.getId() 
-            		+ "  " + character.getClassName());
+            		+ "  " + character.getType());
 			add(character);
             
             

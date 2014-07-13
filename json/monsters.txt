@@ -1,0 +1,54 @@
+		this.monsterType = "Bugbear";
+		this.setHealthMax(50 + playerLevel * 5);
+		this.setHealth(50 + playerLevel * 5);
+		this.setArmour(playerLevel);
+		this.setDamage(10 + playerLevel * 2);
+		this.setCritChance(2);
+		this.setGold(playerLevel * 3);
+	    this.getStorage().add(itemRepo.getItem("fmil1"));
+
+
+		this.monsterType = "Giant";
+		this.setHealthMax(150 + playerLevel * 8);
+		this.setHealth(150 + playerLevel * 8);
+		this.setArmour(6 + playerLevel * 3);
+		this.setDamage(40 + playerLevel * 3);
+		this.setCritChance(3);
+		this.setGold(15 + playerLevel * 11);
+
+		
+		this.monsterType = "Goblin";
+		this.setHealthMax(55 + playerLevel * 6);
+		this.setHealth(55 + playerLevel * 6);
+		this.setArmour(playerLevel + 3);
+		this.setDamage(12 + playerLevel * 2.5);
+		this.setCritChance(2);
+		this.setGold(playerLevel * 5);
+
+
+		this.monsterType = "Skeleton";
+		this.setHealthMax(50 + playerLevel * 3);
+		this.setHealth(50 + playerLevel * 3);
+		this.setArmour(0);
+		this.setDamage(8 + playerLevel * 1.5);
+		this.setCritChance(2);
+		this.setGold(playerLevel * 3);
+
+
+		this.monsterType = "Troll";
+		this.setHealthMax(70 + playerLevel * 11);
+		this.setHealth(70 + playerLevel * 11);
+		this.setArmour(playerLevel + 12);
+		this.setDamage(20 + playerLevel * 3);
+		this.setCritChance(5);
+		this.setGold(25 + playerLevel * 10);
+
+
+		this.monsterType = "Wolf";
+		this.setHealthMax(35 + playerLevel * 3);
+		this.setHealth(35 + playerLevel * 3);
+		this.setArmour(0);
+		this.setDamage(15 + playerLevel * 2.5);
+		this.setCritChance(4);
+		this.setGold(playerLevel * 2);
+		

@@ -1,6 +1,8 @@
 package com.jadventure.game.monsters;
 
+import com.jadventure.game.GameBeans;
 import com.jadventure.game.entities.Player;
+import com.jadventure.game.repository.MonsterRepository;
 
 import java.util.Random;
 
@@ -9,6 +11,8 @@ import java.util.Random;
  * to the players level and location
  */
 public class MonsterFactory {
+	private MonsterRepository monsterRepo = GameBeans.getMonsterRepository();
+	
     Random random = new Random();
     public Monster generateMonster(Player player) {
         switch (player.getLocationType()) {
@@ -30,42 +34,68 @@ public class MonsterFactory {
     private Monster getForestMonster(int playerLevel) {
         int randomInt = random.nextInt(4);
         if (randomInt == 0)
-        	return new Bugbear(playerLevel);
+        	return createBugbear(playerLevel);
         else if (randomInt == 1)
-        	return new Troll(playerLevel);
+        	return createTroll(playerLevel);
         else
-        	return new Goblin(playerLevel);
+        	return createGoblin(playerLevel);
     }
     
-    private Monster getSwampMonster(int playerLevel) {
+
+	private Monster getSwampMonster(int playerLevel) {
     	int randomInt = random.nextInt(2);
-        return (randomInt == 1) ? new Goblin(playerLevel) : new Troll(playerLevel);
+        return (randomInt == 1) ? createGoblin(playerLevel) : createTroll(playerLevel);
     }
     
     private Monster getMountainMonster(int playerLevel) {
     	int randomInt = random.nextInt(4);
         if (randomInt == 0)
-            return new Giant(playerLevel);
+            return createGiant(playerLevel);
         else if (randomInt == 1)
-            return new Troll(playerLevel);
+            return createTroll(playerLevel);
         else if (randomInt == 2)
-            return new Wolf(playerLevel);
+            return createWolf(playerLevel);
         else
-            return new Skeleton(playerLevel);
+            return createSkeleton(playerLevel);
     }
 
-    private Monster getCaveMonster(int playerLevel) {
+	private Monster getCaveMonster(int playerLevel) {
     	int randomInt = random.nextInt(3);
         if (randomInt == 0)
-            return new Troll(playerLevel);
+            return createTroll(playerLevel);
         else if (randomInt == 1)
-            return new Skeleton(playerLevel);
+            return createSkeleton(playerLevel);
         else
-            return new Goblin(playerLevel);
+            return createGoblin(playerLevel);
     }
 
-    private Monster getPlainsMonster(int playerLevel) {
+	private Monster getPlainsMonster(int playerLevel) {
     	int randomInt = random.nextInt(2);
-    	return (randomInt == 1) ? new Bugbear(playerLevel) : new Goblin(playerLevel);
+    	return (randomInt == 1) ? createBugbear(playerLevel) : createGoblin(playerLevel);
     }
+
+
+    private Monster createGoblin(int playerLevel) {
+		return monsterRepo.getMonster("goblin");
+	}
+
+	private Monster createTroll(int playerLevel) {
+		return monsterRepo.getMonster("troll");
+	}
+
+    private Monster createSkeleton(int playerLevel) {
+		return monsterRepo.getMonster("skeleton");
+	}
+
+	private Monster createBugbear(int playerLevel) {
+		return monsterRepo.getMonster("bugbear");
+	}
+
+    private Monster createGiant(int playerLevel) {
+		return monsterRepo.getMonster("gaint");
+	}
+
+	private Monster createWolf(int playerLevel) {
+		return monsterRepo.getMonster("wolf");
+	}
 }

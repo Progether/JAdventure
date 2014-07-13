@@ -2,6 +2,7 @@ package com.jadventure.game;
 
 import com.jadventure.game.repository.CharacterRepository;
 import com.jadventure.game.repository.ItemRepository;
+import com.jadventure.game.repository.MonsterRepository;
 import com.jadventure.game.repository.WorldRepository;
 import com.jadventure.game.repository.PlayerRepository;
 
@@ -21,6 +22,10 @@ public final class GameBeans {
 
 	public static CharacterRepository getCharacterRepository() {
 		return CharacterRepository.createRepo();
+	}
+
+	public static MonsterRepository getMonsterRepository() {
+		return MonsterRepository.createRepo();
 	}
 
 }

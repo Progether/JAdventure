@@ -48,7 +48,7 @@ public class PlayerTest {
         		strength, intelligence, dexterity, stealth, weapon, introduction, luck);
 
         assertEquals(id, sewerRat.getId());
-        assertEquals(name, sewerRat.getClassName());
+        assertEquals(name, sewerRat.getType());
         assertEquals("h Max", healthMax, sewerRat.getHealthMax());
         assertEquals("h", health, sewerRat.getHealth());
         assertEquals("d", Double.valueOf(damage), Double.valueOf(sewerRat.getDamage()));
