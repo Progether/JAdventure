@@ -1,0 +1,15 @@
+UC-18 Command Drink
+
+* Summary
+
+  Drink an item, of type food-liquid, this should increase health and so.
+
+  [WARNING:]
+
+  The exact details of what food should do, is not yet known.
+
+  []
+  
+* Main Success Scenario
+
+  Para

@@ -1,0 +1,15 @@
+UC-17 Command Eat
+
+* Summary
+
+  Eat an item, of type food, this should increase health and so.
+
+  [WARNING:]
+
+  The exact details of what food should do, is not yet known.
+
+  []
+  
+* Main Success Scenario
+
+  Para
