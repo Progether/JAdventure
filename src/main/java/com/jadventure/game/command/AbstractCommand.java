@@ -50,6 +50,10 @@ public abstract class AbstractCommand implements ICommand {
 
 
     private static List<String> convertCommandAliases(String aliases) {
+    	if (aliases == null || aliases.trim().length() == 0) {
+    		return Collections.emptyList();
+    	}
+
         Set<String> aliasSet = new TreeSet<>();
         for (String alias : aliases.split(",")) {
             String cleanAlias = alias.trim();
