@@ -1,10 +1,10 @@
 package com.jadventure.game.items;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.jadventure.game.IGameElement;
 import com.jadventure.game.IGameElementVisitor;
@@ -38,44 +38,44 @@ public class Storage implements IGameElement {
     /**
      * Adds an ItemStack to the items list.
      */
-    public void addItem(ItemStack item) {
-        double totalWeight = item.getItem().getWeight() * item.getAmount();
-        if (totalWeight < maxWeight) {
-            if(this.contains(item)) {
-                ItemStack sameType = this.getSameType(item);
-                itemsOld.remove(sameType);
-                itemsOld.add(new ItemStack(sameType.getAmount() + 1, sameType.getItem()));
-            }
-            else {
-                itemsOld.add(item);
-            }
-        }
-    }
+//    public void addItem(ItemStack item) {
+//        double totalWeight = item.getItem().getWeight() * item.getAmount();
+//        if (totalWeight < maxWeight) {
+//            if(this.contains(item)) {
+//                ItemStack sameType = this.getSameType(item);
+//                itemsOld.remove(sameType);
+//                itemsOld.add(new ItemStack(sameType.getAmount() + 1, sameType.getItem()));
+//            }
+//            else {
+//                itemsOld.add(item);
+//            }
+//        }
+//    }
 
     /**
      * Removes one Item from the ItemStack and replaces the old ItemStack
      * in this.items with the new one.
      */
-    public void removeItem(ItemStack item) {
-        this.removeItem(item, 1);
-    }
+//    public void removeItem(ItemStack item) {
+//        this.removeItem(item, 1);
+//    }
 
     /**
      * Removes amount of Item's from the ItemStack and replaces the old ItemStack
      * in this.items with the new one.
      */
-    public void removeItem(ItemStack item, int amount) {
-        if (this.contains(item)) {
-            ItemStack sameType = this.getSameType(item);
-            if (sameType.getAmount() - amount <= 0) {
-                itemsOld.remove(sameType);
-            }
-            else {
-                itemsOld.remove(sameType);
-                itemsOld.add(new ItemStack(sameType.getAmount() - amount, sameType.getItem()));
-            }
-        }
-    }
+//    public void removeItem(ItemStack item, int amount) {
+//        if (this.contains(item)) {
+//            ItemStack sameType = this.getSameType(item);
+//            if (sameType.getAmount() - amount <= 0) {
+//                itemsOld.remove(sameType);
+//            }
+//            else {
+//                itemsOld.remove(sameType);
+//                itemsOld.add(new ItemStack(sameType.getAmount() - amount, sameType.getItem()));
+//            }
+//        }
+//    }
 
     /**
      * Prints out the content of the storage to the console.
@@ -87,12 +87,12 @@ public class Storage implements IGameElement {
             QueueProvider.offer("--------------------------------------------------------------------");
     }
 
-    public boolean isEmpty() {
-        return this.itemsOld.isEmpty();
-    }
+//    public boolean isEmpty() {
+//        return this.itemsOld.isEmpty();
+//    }
 
-    public List<ItemStack> getItems() {
-        return itemsOld;
+    public Map<String, List<Item>> getItems() {
+        return Collections.unmodifiableMap(items);
     }
 
 	@Override
@@ -100,14 +100,20 @@ public class Storage implements IGameElement {
 		visitor.visit(this);
 	}
 
+	/** Returns the Item, without removing it from the Storage. */
     public Item getItem(String itemName) {
-        List<ItemStack> items = getItems();
-        for (ItemStack itemStack : items) {
-            if (itemName.equalsIgnoreCase(itemStack.getItem().getName())) {
-                return itemStack.getItem();
-            }
-        }
-        return null;
+    	if (! contains(itemName)) {
+    		return null;
+    	}
+    	
+    	return items.get(itemName).get(0);
+//        List<ItemStack> items = getItems();
+//        for (ItemStack itemStack : items) {
+//            if (itemName.equalsIgnoreCase(itemStack.getItem().getName())) {
+//                return itemStack.getItem();
+//            }
+//        }
+//        return null;
     }
 
     public boolean contains(String itemName) {
@@ -143,29 +149,32 @@ public class Storage implements IGameElement {
      * Checks if the current Storage contains an ItemStack with the
      * same type of item as the argument.
      */
-    private boolean contains(ItemStack item) {
-        for (ItemStack i : this.itemsOld) {
-            if (i.getItem().equals(item.getItem())) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    private boolean contains(ItemStack item) {
+//        for (ItemStack i : this.itemsOld) {
+//            if (i.getItem().equals(item.getItem())) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     /**
      * Finds the only item of the same type as the input,
      * and returns that ItemStack.
      * This prevents duplicate items in your backpack.
      */
-    private ItemStack getSameType(ItemStack item) {
-        for (ItemStack i : this.itemsOld) {
-            if (i.getItem().equals(item.getItem())) {
-                return i;
-            }
-        }
-        return null;
-    }
+//    private ItemStack getSameType(ItemStack item) {
+//        for (ItemStack i : this.itemsOld) {
+//            if (i.getItem().equals(item.getItem())) {
+//                return i;
+//            }
+//        }
+//        return null;
+//    }
 	public void add(Item item) {
+		if (item == null) {
+			return;
+		}
 		if (! items.containsKey(item.getName())) {
 			items.put(item.getName(), new ArrayList<Item>());
 		}
@@ -200,6 +209,15 @@ public class Storage implements IGameElement {
 			}
 		}
 		return Integer.valueOf(weight);
+	}
+
+	public boolean isEmpty() {
+		for (List<Item> itemList : items.values()) {
+			if (itemList.size() > 0) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

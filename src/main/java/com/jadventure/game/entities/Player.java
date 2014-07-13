@@ -1,6 +1,8 @@
 package com.jadventure.game.entities;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.jadventure.game.IGameElement;
@@ -86,43 +88,53 @@ public class Player extends Entity implements IGameElement {
     }
 
     public List<Item> searchItem(String itemName, Storage storage) {
-        List<Item> itemMap = new ArrayList<>();
-        for (ItemStack item : storage.getItems()) {
-            String testItemName = item.getItem().getName();
-            if (testItemName.equals(itemName)) {
-                itemMap.add(item.getItem());
-            }
-        }
-        return itemMap;
+    	if (! storage.contains(itemName)) {
+    		return Collections.emptyList();
+    	}
+    	
+    	return storage.getItems().get(itemName);
     }
 
-    public void pickUpItem(String itemName) {
-        List<Item> itemMap = searchItem(itemName, getLocation().getItems());
-        if (!itemMap.isEmpty()) {
-            Item item = itemMap.get(0);
-            Item itemToPickUp = itemRepo.getItem(item.getId());
-            addItemToStorage(itemToPickUp);
-            location.removePublicItem(itemToPickUp.getId());
-            QueueProvider.offer("\n" + item.getName() + " picked up");
-        }
+    public boolean pickUpItem(String itemName) {
+    	if (getLocation().getStorage().contains(itemName)) {
+    		Item item = getLocation().getStorage().remove(itemName);
+    		getStorage().add(item);
+    		return true;
+    	}
+    	return false;
+    	
+//        List<Item> itemMap = searchItem(itemName, getLocation().getItems());
+//        if (!itemMap.isEmpty()) {
+//            Item item = itemMap.get(0);
+//            Item itemToPickUp = itemRepo.getItem(item.getId());
+//            addItemToStorage(itemToPickUp);
+//            location.removePublicItem(itemToPickUp.getId());
+//            QueueProvider.offer("\n" + item.getName() + " picked up");
+//        }
     }
 
-    public void dropItem(String itemName) {
-        List<Item> itemMap = searchItem(itemName, getStorage());
-        if (!itemMap.isEmpty()) {
-            Item item = itemMap.get(0);
-            Item itemToDrop = itemRepo.getItem(item.getId());
-            // FIXME drop weapon
-//            Item weapon = itemRepo.getItem(getWeapon());
-            String wName = weapon.getName();
-
-            if (itemName.equals(wName)) {
-                dequipItem(wName);
-            }
-            removeItemFromStorage(itemToDrop);
-            location.addPublicItem(itemToDrop.getId());
-            QueueProvider.offer("\n" + item.getName()+ " dropped");
-        }
+    public boolean dropItem(String itemName) {
+    	if (getStorage().contains(itemName)) {
+    		Item item = getStorage().remove(itemName);
+    		getLocation().getStorage().add(item);
+    		return true;
+    	}
+    	return false;
+//        List<Item> itemMap = searchItem(itemName, getStorage());
+//        if (!itemMap.isEmpty()) {
+//            Item item = itemMap.get(0);
+//            Item itemToDrop = itemRepo.getItem(item.getId());
+//            // FIXME drop weapon
+////            Item weapon = itemRepo.getItem(getWeapon());
+//            String wName = weapon.getName();
+//
+//            if (itemName.equals(wName)) {
+//                dequipItem(wName);
+//            }
+//            removeItemFromStorage(itemToDrop);
+//            location.addPublicItem(itemToDrop.getId());
+//            QueueProvider.offer("\n" + item.getName()+ " dropped");
+//        }
     }
 
     public void equipItem(String itemName) {

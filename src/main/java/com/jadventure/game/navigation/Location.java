@@ -7,7 +7,6 @@ import java.util.Map;
 
 import com.jadventure.game.GameBeans;
 import com.jadventure.game.IGameElementVisitor;
-import com.jadventure.game.QueueProvider;
 import com.jadventure.game.entities.NPC;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.items.Storage;
@@ -27,7 +26,7 @@ public class Location implements ILocation {
     private String title;
     private String description;
     private LocationType locationType;
-    private List<String> items;
+//    private List<String> items;
     private Storage storage = new Storage();
 
     // NPC should have a own repo, and not be stored as part of an coordinate
@@ -87,18 +86,18 @@ public class Location implements ILocation {
     	return null;
     }
     
-    public void setItems(List<String> items) {
-        this.items = items;
-    }
-
-    public ArrayList<Item> getItems() {
-        ArrayList<Item> items = new ArrayList<Item>();
-        for (String itemId : this.items) {
-            Item item = itemRepo.getItem(itemId);
-            items.add(item);
-        }
-        return items;
-    }
+//    public void setItems(List<String> items) {
+//        this.items = items;
+//    }
+//
+//    public ArrayList<Item> getItems() {
+//        ArrayList<Item> items = new ArrayList<Item>();
+//        for (String itemId : this.items) {
+//            Item item = itemRepo.getItem(itemId);
+//            items.add(item);
+//        }
+//        return items;
+//    }
 
     public void setNPCs(List<String> npcs) {
         this.npcs = npcs;
@@ -123,44 +122,45 @@ public class Location implements ILocation {
         return this.monsters;
     }
 
-    public void removePublicItem(String itemID) {
-        List<String> items = this.items;
-        items.remove(itemID);
-        setItems(items);
-    }
+//    public void removePublicItem(String itemID) {
+//        List<String> items = this.items;
+//        items.remove(itemID);
+//        setItems(items);
+//    }
+//
+//    public void addPublicItem(String itemID) {
+//        List<String> items = this.items;
+//        items.add(itemID);
+//        setItems(items);
+//    }
 
-    public void addPublicItem(String itemID) {
-        List<String> items = this.items;
-        items.add(itemID);
-        setItems(items);
-    }
-
-    @Override
-    @Deprecated
-    public void print() {
-        QueueProvider.offer(getTitle() + ":");
-        QueueProvider.offer(getDescription());
-        ArrayList<Item> publicItems = getItems();
-        if (!publicItems.isEmpty()) {
-            QueueProvider.offer("Items:");
-            for (Item item : publicItems) {
-                QueueProvider.offer("    "+item.getName());
-            }
-        }
-        ArrayList<NPC> npcs = getNPCs();
-        if (!npcs.isEmpty()) {
-            QueueProvider.offer("NPCs:");
-            for (NPC npc : npcs) {
-                QueueProvider.offer("   "+npc.getName());
-            }
-        }
-        QueueProvider.offer("");
-        for (Map.Entry<Direction,ILocation> direction : getExits().entrySet()) {
-            System.out.print(direction.getKey().getDescription() + ", ");
-            QueueProvider.offer(direction.getValue().getDescription());
-        }
-        QueueProvider.offer("");
-    }
+//    @Override
+//    @Deprecated
+//    public void print() {
+//    	throw new RuntimeException("Update caller of print()");
+//        QueueProvider.offer(getTitle() + ":");
+//        QueueProvider.offer(getDescription());
+//        ArrayList<Item> publicItems = getItems();
+//        if (!publicItems.isEmpty()) {
+//            QueueProvider.offer("Items:");
+//            for (Item item : publicItems) {
+//                QueueProvider.offer("    "+item.getName());
+//            }
+//        }
+//        ArrayList<NPC> npcs = getNPCs();
+//        if (!npcs.isEmpty()) {
+//            QueueProvider.offer("NPCs:");
+//            for (NPC npc : npcs) {
+//                QueueProvider.offer("   "+npc.getName());
+//            }
+//        }
+//        QueueProvider.offer("");
+//        for (Map.Entry<Direction,ILocation> direction : getExits().entrySet()) {
+//            System.out.print(direction.getKey().getDescription() + ", ");
+//            QueueProvider.offer(direction.getValue().getDescription());
+//        }
+//        QueueProvider.offer("");
+//    }
 
 	@Override
 	public void accept(IGameElementVisitor visitor) {
@@ -169,7 +169,7 @@ public class Location implements ILocation {
 
     @Override
     public Storage getStorage() {
-        // TODO Auto-generated method stub
-        return null;
+        return storage;
     }
+
 }

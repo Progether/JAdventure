@@ -242,11 +242,11 @@ public abstract class Entity {
         this.storage = storage;
     }
     
-    public void addItemToStorage(Item i){
-        storage.addItem(new ItemStack(1, i));
+    public void addItemToStorage(Item item){
+        storage.add(item);
     }
 
-    public void removeItemFromStorage(Item i) {
-        storage.removeItem(new ItemStack(1, i)); //TODO: fix this
+    public void removeItemFromStorage(Item item) {
+        storage.remove(item.getName());
     }
 }

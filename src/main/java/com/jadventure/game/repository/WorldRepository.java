@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -19,8 +20,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
+import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.items.Item;
+import com.jadventure.game.items.Storage;
 import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.Location;
@@ -56,7 +59,7 @@ public class WorldRepository extends AbstractRepository {
 
             // For every location in the locations.file, it parses the location uses loadLocation() and adds it
             // to the locations Map.
-            for (Map.Entry<String, JsonElement> entry: json.entrySet()) {
+            for (Entry<String, JsonElement> entry: json.entrySet()) {
                 Coordinate coordinate = new Coordinate(entry.getKey());
 				Location location = createLocation(entry.getValue().getAsJsonObject());
 				System.out.println("Loaded '" + coordinate + "'");
@@ -82,12 +85,12 @@ public class WorldRepository extends AbstractRepository {
         Location location = new Location(coordinate, title, description, locationType);
         if (json.has("items")) {
             List<String> items = new Gson().fromJson(json.get("items"), new TypeToken<List<String>>(){}.getType());
-            location.setItems(items);
+            ItemRepository itemRepo = GameBeans.getItemRepository();
+            for (String itemId : items) {
+            	Item item = itemRepo.getItem(itemId);
+            	location.getStorage().add(item);
+            }
         } 
-        else {
-            List<String> items = new ArrayList<String>();
-            location.setItems(items);
-        }
         if (json.has("npcs")) {
             List<String> npcs = new Gson().fromJson(json.get("npcs"), new TypeToken<List<String>>(){}.getType());
             location.setNPCs(npcs);
@@ -102,27 +105,36 @@ public class WorldRepository extends AbstractRepository {
     
     public void save() {
         try {
+        	Gson gson = new Gson();
             JsonObject jsonObject = new JsonObject();
             for (Map.Entry<Coordinate,ILocation> entry : world.entrySet()) {
                 ILocation location = entry.getValue();
-                JsonObject locationJsonElement = new JsonObject();
-                locationJsonElement.addProperty("title", location.getTitle());
-                locationJsonElement.addProperty("coordinate", location.getCoordinate().toString());
-                locationJsonElement.addProperty("description", location.getDescription());
-                locationJsonElement.addProperty("locationType", location.getLocationType().toString());
-                JsonArray itemList = new JsonArray();
-                List<Item> items = location.getItems();
-                if (items.size() > 0) {
-                    for (Item item : location.getItems()) {
-                        JsonPrimitive itemJson = new JsonPrimitive(item.getId());
-                        itemList.add(itemJson);
-                    }
-                    locationJsonElement.add("items", itemList);
+                JsonObject json = new JsonObject();
+                json.addProperty("title", location.getTitle());
+                json.addProperty("coordinate", location.getCoordinate().toString());
+                json.addProperty("description", location.getDescription());
+                json.addProperty("locationType", location.getLocationType().name());
+
+                HashMap<String, Integer> items = new HashMap<String, Integer>();
+                for (Entry<String, List<Item>> itemEntry : location.getStorage().getItems().entrySet()) {
+                	items.put(itemEntry.getKey(), itemEntry.getValue().size());
                 }
-                jsonObject.add(location.getCoordinate().toString(), locationJsonElement);
+                JsonElement itemsJsonObj = gson.toJsonTree(items);
+                jsonObject.add("items", itemsJsonObj);
+
+                
+//                JsonArray itemList = new JsonArray();
+//                Map<String, List<Item>> items = location.getStorage().getItems();
+//                if (items.size() > 0) {
+//                    for (Item item : items..getItems()) {
+//                        JsonPrimitive itemJson = new JsonPrimitive(item.getId());
+//                        itemList.add(itemJson);
+//                    }
+//                    locationJsonElement.add("items", itemList);
+//                }
+                jsonObject.add(location.getCoordinate().toString(), json);
             }
             Writer writer = new FileWriter("json/locations-save.json");
-            Gson gson = new Gson();
             gson.toJson(jsonObject, writer);
             writer.close();
             QueueProvider.offer("The game locations were saved.");

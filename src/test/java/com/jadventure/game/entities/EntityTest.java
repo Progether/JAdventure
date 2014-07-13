@@ -75,7 +75,7 @@ public class EntityTest {
         testArrayList.add(new ItemStack(1, item));
 
         entity.addItemToStorage(item);
-        assertEquals(entity.getStorage().getItems().get(0).getItem(), item);
+        assertEquals(entity.getStorage().getItem(item.getName()), item);
     }
 
 }

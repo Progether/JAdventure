@@ -13,7 +13,9 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -157,11 +159,8 @@ public class PlayerRepository {
         jsonObject.addProperty("stealth", player.getStealth());
         jsonObject.addProperty("weapon", player.getWeapon().getId());
         HashMap<String, Integer> items = new HashMap<String, Integer>();
-        JsonArray itemList = new JsonArray();
-        for (ItemStack item : player.getStorage().getItems()) {
-            items.put(item.getItem().getId(), item.getAmount());
-            JsonPrimitive itemJson = new JsonPrimitive(item.getItem().getId());
-            itemList.add(itemJson);
+        for (Entry<String, List<Item>> entry : player.getStorage().getItems().entrySet()) {
+        	items.put(entry.getKey(), entry.getValue().size());
         }
         JsonElement itemsJsonObj = gson.toJsonTree(items);
         jsonObject.add("items", itemsJsonObj);
