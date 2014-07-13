@@ -1,13 +1,11 @@
 package com.jadventure.game;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.jadventure.game.entities.NPC;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.items.Item;
-import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Storage;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.navigation.Direction;
@@ -33,8 +31,10 @@ public class TextBuilderVisitor implements IGameElementVisitor {
 	public void visit(ILocation location) {
 		bldr.append(NL).append("Location '").append(location.getTitle()).append("'");
 		bldr.append(NL).append("  Description '").append(location.getDescription()).append("'");
-		for (Item item : location.getItems()) {
-			visit(item);
+		for (List<Item> items : location.getStorage().getItems().values()) {
+			for (Item item : items) {
+				visit(item);
+			}
 		}
 		bldr.append(NL).append("Directions you can go from here:");
 		for (Map.Entry<Direction, ILocation> direction : location.getExits().entrySet()) {
@@ -65,8 +65,10 @@ public class TextBuilderVisitor implements IGameElementVisitor {
 
 	@Override
 	public void visit(Storage storage) {
-		for (ItemStack is : storage.getItems()) {
-			this.visit(is.getItem());
+		for (List<Item> items : storage.getItems().values()) {
+			for (Item item : items) {
+				this.visit(item);
+			}
 		}
 	}
 	
