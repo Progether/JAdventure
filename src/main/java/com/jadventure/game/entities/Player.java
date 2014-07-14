@@ -50,39 +50,25 @@ public class Player extends Entity implements IGameElement {
 				intelligence, dexterity, stealth, weapon, introduction, luck);
 	}
 
-	@Deprecated
-    public void getStatistics() {
-        QueueProvider.offer("\nPlayer name: " + getName() +
-                            "\nCurrent weapon: " + weapon.getName() +
-                            "\nGold: " + getGold() +
-                            "\nHealth/Max: " + getHealth() + "/" + getHealthMax() +
-                            "\nDamage/Armour: " + getDamage() + "/" + getArmour() +
-                            "\nStrength: " + getStrength() +
-                            "\nIntelligence: " + getIntelligence() +
-                            "\nDexterity: " + getDexterity() +
-                            "\nLuck: " + getLuck() +
-                            "\nStealth: " + getStealth() +
-                            "\n" + getName() + "'s level: " + getLevel());
-    }
-
-
-    public List<Item> searchItem(String itemName, List<Item> itemList) {
-        List<Item> itemMap = new ArrayList<>();
-        for (Item item : itemList) {
-            String testItemName = item.getName();
-            if (testItemName.equals(itemName)) {
-                itemMap.add(item);
-            }
-        }
-        return itemMap;
-    }
-
-    public List<Item> searchItem(String itemName, Storage storage) {
-    	if (! storage.contains(itemName)) {
+    /**
+     * Search for an Item, first at the current location, then the players inventory (backpack) 
+     * the checks his weapon, probably armour should be checked as well.
+     */
+    public List<Item> searchItem(String itemName) {
+    	if ((! getLocation().getStorage().contains(itemName)) && (! storage.contains(itemName))) {
     		return Collections.emptyList();
     	}
-    	
-    	return storage.getItems().get(itemName);
+    	List<Item> itemList = new ArrayList<>();
+    	if (getLocation().getStorage().contains(itemName)) {
+    		itemList.addAll(getLocation().getStorage().getItems().get(itemName));
+    	}
+    	if (getStorage().contains(itemName)) {
+    		itemList.addAll(getStorage().getItems().get(itemName));
+    	}
+    	if (weapon != null) {
+    		itemList.add(weapon);
+    	}
+    	return itemList;
     }
 
     public boolean pickUpItem(String itemName) {
@@ -107,7 +93,7 @@ public class Player extends Entity implements IGameElement {
     }
 
     public void equipItem(String itemName) {
-        List<Item> itemMap = searchItem(itemName, getStorage());
+        List<Item> itemMap = searchItem(itemName);
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             setWeapon(item);
