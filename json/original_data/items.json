@@ -8,7 +8,7 @@
         "damage": "1"
       }
     },
-    "empty": {
+    "bread": {
       "type": "food",
       "name": "bread",
       "description": "small piece of bread",
@@ -39,7 +39,7 @@
     },
     "fram1": {
       "type": "food",
-      "name": "raw meat",
+      "name": "meat",
       "description": "some delicious raw meat",
       "properties": {
         "health": "+2",
@@ -49,7 +49,7 @@
     },
     "fcom1": {
       "type": "food",
-      "name": "cooked meat",
+      "name": "meat",
       "description": "some delicious cooked meat",
       "properties": {
         "health": "+10",
@@ -59,7 +59,7 @@
     },
     "fbum1": {
       "type": "food",
-      "name": "burnt meat",
+      "name": "meat",
       "description": "some crispy burnt meat",
       "properties": {
         "health": "+4",
