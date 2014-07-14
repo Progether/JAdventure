@@ -1,5 +1,13 @@
 UC-01 Load Saved Game
 
+* Status
+
+  There is an issue with the current implementation.
+  
+  * {{{https://github.com/verhagen/JAdventure/issues/23}Locations are copied, but not updated when game is saved}}
+  
+  []
+
 * Summary
 
   When starting the game, the user can choose to load a previous saved game.
