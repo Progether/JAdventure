@@ -39,9 +39,13 @@
         <item name="Command Pick" href="development/use-case/use-case-13-command-pick.html" />
         <item name="Command Drop" href="development/use-case/use-case-14-command-drop.html" />
         <item name="Command Backpack" href="development/use-case/use-case-15-command-backpack.html" />
+        <item name="Command Use" href="development/use-case/use-case-16-command-use.html" />
+        <item name="Command Eat" href="development/use-case/use-case-17-command-eat.html" />
+        <item name="Command Drink" href="development/use-case/use-case-18-command-drink.html" />
 
         <item name="Command Equip" href="development/use-case/use-case-20-command-equip.html" />
         <item name="Command Dequip" href="development/use-case/use-case-21-command-dequip.html" />
+        <item name="Command Attack" href="development/use-case/use-case-22-command-attack.html" />
 
         <item name="Command Help" href="development/use-case/use-case-80-command-help.html" />
         <item name="Command Statistics" href="development/use-case/use-case-81-command-statistics.html" />
