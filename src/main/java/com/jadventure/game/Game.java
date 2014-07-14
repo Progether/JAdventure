@@ -19,12 +19,11 @@ public class Game {
 //    public ArrayList<Monster> monsterList = new ArrayList<Monster>();
 //    public MonsterFactory monsterFactory = new MonsterFactory(); 
 //    public Monster monster;
-    public CommandParser cmdParser;
+    public CommandParser cmdParser = new CommandParser();
     public Scanner input = new Scanner(System.in);
     Player player = null;
 
     public Game(Player player, String playerType) {
-        cmdParser = new CommandParser();
         
         player.setLocation(worldRepo.getLocation(DEFAULT_INITIAL_COORDINATE));
         if (playerType.equals("new")) { // New Game
@@ -77,12 +76,17 @@ public class Game {
             String userInput = input.nextLine().toLowerCase();
             System.out.println("User input '" + userInput + "'");
             String[] userInputArray = userInput.split("\\s");
-            System.out.println("User input []: " + CommandParser.toString(userInputArray));
+            System.out.println("User input []: " + Game.toString(userInputArray));
             if (userInput.length() > 0) {
-                String command = userInputArray[0];
+                String commandStr = userInputArray[0];
                 String[] argArray = removeFirst(userInputArray);
-                System.out.println("User input command '" + command + "' args " + CommandParser.toString(argArray));
-                continuePrompt = cmdParser.parse(player, command, argArray);
+                System.out.println("User input command '" + commandStr + "' args " + Game.toString(argArray));
+                if ("exit".equalsIgnoreCase(commandStr)) {
+                	continuePrompt = false;
+                }
+                TextBuilderVisitor visitor = new TextBuilderVisitor();
+                cmdParser.parse(player, commandStr, argArray, visitor);
+                QueueProvider.offer(visitor.toString());
             }
         }
     }
@@ -98,5 +102,24 @@ public class Game {
             newArray[index] = array[index + 1];
         }
         return newArray;
+    }
+    public static String toString(String[] args) {
+        boolean isFirstItem = true;
+        StringBuilder bldr = new StringBuilder("[");
+        for (String arg : args) {
+            if (isFirstItem) {
+                bldr.append(" ");
+            }
+            else {
+                bldr.append(", ");
+            }
+            bldr.append(arg);
+            isFirstItem = false;
+        }
+        if (! isFirstItem) {
+            bldr.append(" ");
+        }
+        bldr.append("]");
+        return bldr.toString();
     }
 }
