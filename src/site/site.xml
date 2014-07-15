@@ -50,6 +50,8 @@
         <item name="Command Debug" href="development/use-case/use-case-91-command-debug.html" />      
       </item>
     </menu>
+
+    <menu ref="reports" />
   </body>
 
 </project>
