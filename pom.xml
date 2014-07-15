@@ -123,7 +123,7 @@
             <configuration>
               <type>range</type>
               <range>30</range>
-              <displayFileDetailUrl>https://github.com/verhagen/JAdventure/tree/master/%FILE%</displayFileDetailUrl>              
+              <displayFileDetailUrl>https://github.com/Progether/JAdventure/tree/master/%FILE%</displayFileDetailUrl>
             </configuration>
             <reports>
               <report>changelog</report>
