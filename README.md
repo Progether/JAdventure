@@ -18,7 +18,7 @@ Everyone is welcome to help with the creation of JAdventure!
 The best way to find out more about the game and the ideas that are there, is to have a look at
 [Reddit - JAventure](http://www.reddit.com/search?q=jadventure).
 
-## Contributors ##
+### Contributors ###
 
  1. [Hawk554](https://github.com/hawk554)
  1. [projectdelphai](https://github.com/projectdelphai)
