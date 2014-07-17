@@ -13,10 +13,10 @@ Status
 Developers are Welcome
 -------------
 
-    Everyone is welcome to help with the creation of JAdventure!
+Everyone is welcome to help with the creation of JAdventure!
     
-    The best way to find out more about the game and the ideas that are there, is to have a look at
-    {{{http://www.reddit.com/search?q=jadventure}Reddit - JAventure}}.
+The best way to find out more about the game and the ideas that are there, is to have a look at
+[Reddit - JAventure](http://www.reddit.com/search?q=jadventure).
 
 ## Contributors
 
