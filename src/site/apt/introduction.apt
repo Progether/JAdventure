@@ -1,0 +1,38 @@
+Java Text Adventure Game
+
+* Introduction
+
+    {{{http://en.wikipedia.org/wiki/Adventure_game}Text Adventures}}, also known as 
+    {{{http://en.wikipedia.org/wiki/Interactive_Fiction}Interactive Fiction}} (IF), 
+    convey the game's story through passages of text, revealed to the player in 
+    response to typed instructions. Early text adventures, such as 
+    {{{http://en.wikipedia.org/wiki/Colossal_Cave_Adventure}Colossal Cave Adventure}},
+    used a simple verb-noun parser to interpret these instructions, allowing the player
+    to interact with objects at a basic level, for example by typing <<<get key>>> or 
+    <<<open door>>>.
+
+    JAdventure is a very simple Java based implementation of a
+    Text Adventure.
+    
+    [WARNING]
+    
+    The current version has only one concrete Text Adventure game implemented. But it should be easy
+    to create additional games. See also {{{./development/improvement-ideas.html}Improvement Ideas}}
+
+    []
+
+* Playing JAdventure
+
+    Project Status: <<Under Construction>>
+
+    See {{{https://github.com/Progether/JAdventure}JAventure readme}} at github
+
+* Developers are Welcome
+
+    Everyone is welcome to help with the creation of JAdventure!
+    
+    The best way to find out more about the game and the ideas that are there, is to have a look at
+    {{{http://www.reddit.com/search?q=jadventure}Reddit - JAventure}}.
+    
+    Also some {{{./development/use-case/index.html}Use Cases}} have been created, for the different commands.
+

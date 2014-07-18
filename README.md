@@ -1,12 +1,24 @@
 ![](http://i.imgur.com/xswo3w8.png "test")
 ==============================================
 
+
 Description
 -------------
 A text-based game written in Java. It was originally created as a project of the [progether subreddit](http://www.reddit.com/r/progether) and worked on by Applzor, add7, geniuus, Malfunction, bdong_, Qasaur, and tamul. It was revived by Hawk554.
 
-Contributors
+Status
 -------------
+**Under Construction**
+
+Developers are Welcome
+-------------
+
+Everyone is welcome to help with the creation of JAdventure!
+    
+The best way to find out more about the game and the ideas that are there, is to have a look at
+[Reddit - JAventure](http://www.reddit.com/search?q=jadventure).
+
+### Contributors ###
 
  1. [Hawk554](https://github.com/hawk554)
  1. [projectdelphai](https://github.com/projectdelphai)
