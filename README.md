@@ -1,12 +1,24 @@
 ![](http://i.imgur.com/xswo3w8.png "test")
 ==============================================
 
+
 Description
 -------------
 A text-based game written in Java. It was originally created as a project of the [progether subreddit](http://www.reddit.com/r/progether) and worked on by Applzor, add7, geniuus, Malfunction, bdong_, Qasaur, and tamul. It was revived by Hawk554.
 
-Contributors
+Status
 -------------
+**Under Construction**
+
+Developers are Welcome
+-------------
+
+Everyone is welcome to help with the creation of JAdventure!
+    
+The best way to find out more about the game and the ideas that are there, is to have a look at
+[Reddit - JAventure](http://www.reddit.com/search?q=jadventure).
+
+### Contributors ###
 
  1. [Hawk554](https://github.com/hawk554)
  1. [projectdelphai](https://github.com/projectdelphai)
@@ -30,13 +42,16 @@ Rather than opening a pull request, consider opening an issue to discuss the pro
  1. Clone your fork
  1. Create a branch
 
-      git branch <branchName>
-      git checkout <branchName>
-
+    ```
+    git branch <branchName>
+    git checkout <branchName>
+    ```
  1. Make your changes
  1. Push to your branch
-
-      git push origin <branchName>
+    
+    ```
+    git push origin <branchName>
+    ```
 
  1. Make a pull request between your branch and the progether master
 
@@ -87,23 +102,23 @@ To quit the game:
 
 To move:
 
-   gn - go north
-   gs - go south
-   ge - go east
-   gw - go west
+    gn - go north
+    gs - go south
+    ge - go east
+    gw - go west
 
 To pick up an item:
 
-   p<itemName>
+    p<itemName>
 
 To drop an item:
 
-   d<itemName>
+    d<itemName>
 
 To equip/dequip item:
 
-   e<itemName>
-   de<itemName>
+    e<itemName>
+    de<itemName>
 
 Coding Standard/Convention/Style
 -------------------

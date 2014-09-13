@@ -1,0 +1,57 @@
+<project>
+
+  <bannerLeft>
+    <name>JAdventure</name>
+    <!--
+    <src>http://maven.apache.org/images/apache-maven-project-2.png</src>
+    -->
+    <href>http://github.com/Progether/JAdventure</href>
+  </bannerLeft>
+
+  <!--
+  <bannerRight>
+    <src>http://maven.apache.org/images/maven-logo-2.gif</src>
+  </bannerRight>
+  -->
+
+  <publishDate position="right"/>
+  <version position="right"/>
+
+  <body>
+    <menu name="JAdventure">
+      <item name="Introduction" href="introduction.html" />
+    </menu>
+    
+    <menu name="Development">
+      <item name="Improvement Ideas" href="development/improvement-ideas.html" />
+      <!--
+      <item name="Issues" href="github-report.html" />
+      -->
+      
+      <item name="Use Cases" href="development/use-case/index.html" collapse="true">
+        <item name="Create New Game" href="development/use-case/use-case-00-create-new-game.html" />
+        <item name="Load Saved Game" href="development/use-case/use-case-01-load-saved-game.html" />
+
+        <item name="Command Look" href="development/use-case/use-case-10-command-look.html" />
+        <item name="Command Goto" href="development/use-case/use-case-11-command-goto.html" />
+
+        <item name="Command Inspect" href="development/use-case/use-case-12-command-inspect.html" />
+        <item name="Command Pick" href="development/use-case/use-case-13-command-pick.html" />
+        <item name="Command Drop" href="development/use-case/use-case-14-command-drop.html" />
+        <item name="Command Backpack" href="development/use-case/use-case-15-command-backpack.html" />
+
+        <item name="Command Equip" href="development/use-case/use-case-20-command-equip.html" />
+        <item name="Command Dequip" href="development/use-case/use-case-21-command-dequip.html" />
+
+        <item name="Command Help" href="development/use-case/use-case-80-command-help.html" />
+        <item name="Command Statistics" href="development/use-case/use-case-81-command-statistics.html" />
+
+        <item name="Command Save" href="development/use-case/use-case-90-command-save.html" />
+        <item name="Command Debug" href="development/use-case/use-case-91-command-debug.html" />      
+      </item>
+    </menu>
+
+    <menu ref="reports" />
+  </body>
+
+</project>

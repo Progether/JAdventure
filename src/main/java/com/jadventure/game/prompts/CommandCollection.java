@@ -23,11 +23,25 @@ public enum CommandCollection {
 
     public Player player;
 
-    private String helpText = "\nstats: Prints your statistics.\n" +
-            "backpack: Prints out the contents of your backpack.\n" +
-            "save: Save your progress.\n" +
-            "goto: Go in a direction.\n" +
-            "exit: Exit the game and return to the main menu.\n";
+    private String helpText = "\nActions\n" +
+"-------------------------------------------------------------\n" + 
+"goto (g)<direction>: Go in a direction.\n" +
+"inspect (i)<item>:   Inspects an item.\n" +
+"pick (p)<item>:      Picks up an item.\n" +
+"drop (d)<item>:      Drops an item.\n" +
+"equip (e)<item>:     Equips an item.\n" +
+"unequip (ue)<item>:  Unequips an item.\n" +
+"lookaround (la):     Prints out what is around you.\n" +
+"monster (m):         Prints out the monsters around you.\n\n" +
+"Player\n" +
+"-------------------------------------------------------------\n" + 
+"stats (st):          Prints your statistics.\n" +
+"backpack (b):        Prints out the contents of your backpack.\n\n" +
+"Game\n" +
+"-------------------------------------------------------------\n" + 
+"save (s):            Save your progress.\n" +
+"exit:                Exit the game and return to the main menu.\n" + 
+"debug: starts debuggung.\n";
 
     private HashMap<String, String> directionLinks = new HashMap<String,String>()
     {{
@@ -35,7 +49,7 @@ public enum CommandCollection {
          put("s", "south");
          put("e", "east");
          put("w", "west");
-     }};
+    }};
 
     public static CommandCollection getInstance() {
         return INSTANCE;
@@ -53,7 +67,7 @@ public enum CommandCollection {
         player.getStats();
     }
 
-    @Command(command="help", aliases="", description="Prints help")
+    @Command(command="help", aliases="h", description="Prints help")
     @SuppressWarnings("UnusedDeclaration")
     public void command_help(){
         QueueProvider.offer(helpText);
@@ -65,7 +79,7 @@ public enum CommandCollection {
         player.printBackPack();
     }
 
-    @Command(command="save", aliases="", description="Save the game")
+    @Command(command="save", aliases="s", description="Save the game")
     @SuppressWarnings("UnusedDeclaration")
     public void command_save(){
         player.save();
@@ -138,6 +152,16 @@ public enum CommandCollection {
         player.dequipItem(arg.trim());
     }
 
+   /*
+    * Corrected English as "dequip" is not actually a word - mainly for usability 
+    * purposes. Left dequip command for legacy support.
+    */
+    @Command(command="unequip", aliases="ue", description="Unequip an item")
+    @SuppressWarnings("UnusedDeclaration")
+    public void command_ue(String arg){
+        player.dequipItem(arg.trim());
+    }
+
     @Command(command="pick", aliases="p", description="Pick up an item")
     @SuppressWarnings("UnusedDeclaration")
     public void command_p(String arg){
@@ -148,5 +172,11 @@ public enum CommandCollection {
     @SuppressWarnings("UnusedDeclaration")
     public void command_d(String arg){
         player.dropItem(arg.trim());
+    }
+
+    @Command(command="lookaround", aliases="la", description="Displays the description of the room you are in.")
+    @SuppressWarnings("UnusedDeclaration")
+    public void command_la(){
+       player.getLocation().print(); 
     }
 }

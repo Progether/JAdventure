@@ -1,0 +1,19 @@
+Use Case Suite
+
+    [TODO]
+
+    Probably it would be good idea to have some Maven plugin which is capable at
+    reading in the Use Cases and present them here in some overview.
+    
+    * Use Cases by Priority
+
+    * Use Cases by Stakeholder
+    
+    * Use Cases by Functional Area
+    
+    []
+
+    []
+
+    
+    See ReadySET Tigris {{{http://readyset.tigris.org/nonav/templates/use-case-suite.html}Use Case Suite}}.
