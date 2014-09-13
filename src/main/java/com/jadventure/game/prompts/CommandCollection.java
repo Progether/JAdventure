@@ -44,12 +44,12 @@ public enum CommandCollection {
 "debug: starts debuggung.\n";
 
     private HashMap<String, String> directionLinks = new HashMap<String,String>()
-    {
+    {{
          put("n", "north");
          put("s", "south");
          put("e", "east");
          put("w", "west");
-    };
+    }};
 
     public static CommandCollection getInstance() {
         return INSTANCE;

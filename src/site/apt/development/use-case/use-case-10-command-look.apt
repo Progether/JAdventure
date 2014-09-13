@@ -14,7 +14,7 @@ UC-10 Command Look
   
 * Main Success Scenario
 
-  * player types command 'look' <<<look>>>
+  * player types command 'lookround' <<<la>>>
 
   * Return a description of the location and of the things possibly seen here like:
   
