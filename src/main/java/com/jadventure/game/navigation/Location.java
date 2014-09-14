@@ -147,8 +147,8 @@ public class Location implements ILocation {
         }
         QueueProvider.offer("");
         for (Map.Entry<Direction,ILocation> direction : getExits().entrySet()) {
-            System.out.print(direction.getKey().getDescription() + ", ");
-            QueueProvider.offer(direction.getValue().getDescription());
+		QueueProvider.offer(direction.getKey().getDescription() + ": ");
+    		QueueProvider.offer("    " + direction.getValue().getDescription());
         }
         QueueProvider.offer("");
     }
