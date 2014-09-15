@@ -27,6 +27,7 @@ public class Item {
     private String name;
     private String itemID;
     private String description;
+    private String position;
     public HashMap<String, Integer> properties;
 
     public Item(String itemID) {
@@ -43,6 +44,10 @@ public class Item {
 
     public double getWeight() {
         return this.properties.get("weight");
+    }
+
+    public String getPosition() {
+    	return this.position;
     }
 
     public boolean equals(Object obj) {
@@ -83,6 +88,12 @@ public class Item {
             JsonObject itemData = entry.getValue().getAsJsonObject();
             String name = itemData.get("name").getAsString();
             String description = itemData.get("description").getAsString();
+	    String position;
+	    try {
+	        position = itemData.get("position").getAsString();
+	    } catch (NullPointerException ex) {
+		position = "none";
+	    }
             //HashMap<String,Integer>
             JsonObject sProps = itemData.get("properties").getAsJsonObject();
             HashMap properties = new HashMap();
@@ -93,6 +104,7 @@ public class Item {
             itemDetails.put("name", name);
             itemDetails.put("description", description);
             itemDetails.put("properties", properties);
+	    itemDetails.put("position", position);
             itemList.put(rawItemID,itemDetails);
         }
         for (Map.Entry<String, HashMap> item : itemList.entrySet()) {
@@ -100,7 +112,8 @@ public class Item {
                 this.itemID = item.getKey();
                 this.name = item.getValue().get("name").toString();
                 this.description = item.getValue().get("description").toString();
-                this.properties = (HashMap<String,Integer>)item.getValue().get("properties");
+		this.position = item.getValue().get("position").toString();
+                this.properties = (HashMap<String, Integer>)item.getValue().get("properties");
             }
         }
 

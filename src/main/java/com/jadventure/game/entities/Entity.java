@@ -7,6 +7,7 @@ import com.jadventure.game.items.Storage;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.HashMap;
 
 /**
  * superclass for all entities (includes player, monsters...)
@@ -34,6 +35,7 @@ public abstract class Entity {
     // Every point in armour reduces an attackers attack by .33
     private int armour;
     private String weapon = "hands";
+    private HashMap<String, Item> equipment;
     protected Storage storage;
     Random globalRand = new Random();
     
@@ -43,14 +45,16 @@ public abstract class Entity {
         this.health = this.healthMax;
         this.name = "default";
         this.gold = 0;
-    }
+        this.equipment = new HashMap<String, Item>();
+   }
     
-    public Entity(int healthMax, int health, String name, int gold, Storage storage) {
+    public Entity(int healthMax, int health, String name, int gold, Storage storage, HashMap<String, Item> equipment) {
         this.healthMax = healthMax;
         this.health = health;
         this.name = name;
         this.gold = gold;
         this.storage = storage;
+	this.equipment = equipment;
     }
 
     public int getHealth() {
@@ -178,22 +182,57 @@ public abstract class Entity {
         return weapon;
     }
 
+    /* Now unnecessary
     public void setWeapon(String weaponID) {
         if (!weaponID.equals(this.weapon)) {
             if (weaponID.equals("hands")) {
                 if (!this.weapon.equals("hands")) {
                     Item weapon = new Item(this.weapon);
-                    int damage = weapon.properties.get("damage");
+                    int damage = Integer.parseInt(weapon.properties.get("damage"));
                     this.damage = this.damage - damage;
                 }
                 this.weapon = "hands";
             } else {
                 Item weapon = new Item(weaponID);
-                int damage = weapon.properties.get("damage");
+                int damage = Integer.parseInt(weapon.properties.get("damage"));
                 this.damage = this.damage + damage;
                 this.weapon = weapon.getItemID();
             }
         }
+    }
+    */
+
+    public void equipItem(String place, String itemID) {
+    	 Item item = new Item(itemID);
+	 if (!"empty".equals(itemID)) {
+             place = item.getPosition();
+	 }
+         this.equipment.put(place, item);
+	 String i = item.getItemID();
+	 switch (item.getItemID().charAt(0)) {
+	     case 'w': {
+	         this.weapon = item.getItemID();
+		 this.damage = this.damage + item.properties.get("damage");
+		 break;
+	     }
+	 }
+	 if (item.getItemID().startsWith("w")) {
+	     this.weapon = item.getItemID();
+	 } //else if (item.getItemID().startsWith()
+    }
+    
+    public void unequipItem(String itemID) {
+	Item item = new Item(itemID);
+	String place = "";
+	for (String key : this.equipment.keySet()) {
+	     if (this.equipment.get(key).equals(item)) {
+                 place = key;
+	     }
+	}
+	if (!place.isEmpty()) {
+	    this.damage = this.damage - item.properties.get("damage");
+	    this.equipment.put(place, new Item("empty"));
+	}
     }
 
     public Storage getStorage() {

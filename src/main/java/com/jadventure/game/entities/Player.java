@@ -76,7 +76,7 @@ public class Player extends Entity {
             player.setStrength(json.get("dexterity").getAsInt());
             player.setStrength(json.get("luck").getAsInt());
             player.setStrength(json.get("stealth").getAsInt());
-            player.setWeapon(json.get("weapon").getAsString());
+	    player.equipItem("", json.get("weapon").getAsString());
             if (json.has("items")) {
                 HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
                 ArrayList<ItemStack> itemList = new ArrayList<ItemStack>();
@@ -254,7 +254,7 @@ public class Player extends Entity {
         ArrayList<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
-            setWeapon(item.getItemID());
+            this.equipItem(item.getItemID());
             QueueProvider.offer("\n" + item.getName()+ " equipped");
         }
     }
@@ -263,7 +263,7 @@ public class Player extends Entity {
         ArrayList<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
-            setWeapon("hands");
+            this.unequipItem(item.getItemID());
             QueueProvider.offer("\n" + item.getName()+" dequipped");
         }
     }
