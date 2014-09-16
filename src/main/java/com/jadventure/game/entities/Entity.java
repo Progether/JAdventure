@@ -202,37 +202,55 @@ public abstract class Entity {
     }
     */
 
-    public void equipItem(String place, String itemID) {
-    	 Item item = new Item(itemID);
-	 if (!"empty".equals(itemID)) {
+    public void equipItem(String place, Item item) {
+    	 if (equipment.get(place) != new Item("empty") || equipment.get(place) != new Item("hands")) {
+              unequipItem(item);
+	 }  
+	 if (!item.equals(new Item("empty"))) {
              place = item.getPosition();
 	 }
          this.equipment.put(place, item);
-	 String i = item.getItemID();
 	 switch (item.getItemID().charAt(0)) {
-	     case 'w': {
-	         this.weapon = item.getItemID();
-		 this.damage = this.damage + item.properties.get("damage");
-		 break;
-	     }
-	 }
-	 if (item.getItemID().startsWith("w")) {
-	     this.weapon = item.getItemID();
-	 } //else if (item.getItemID().startsWith()
+	      case 'w': {
+	           this.weapon = item.getItemID();
+	           this.damage = this.damage + item.properties.get("damage");
+	           break;
+	      } case 'a': {
+	           this.armour = this.armour + item.properties.get("damage");
+		   break;
+	      } case 'p': {
+		   if (item.properties.containsKey("healthMax")) {
+	  	        this.healthMax += item.properties.get("healthMax");
+		        this.health += item.properties.get("healthMax");
+			unequipItem(item); // One use only
+		   }
+		   break;
+	      } case 'f': {
+		   this.health += item.properties.get("health");
+		   this.health = (this.health > this.healthMax) ? this.healthMax : this.health;
+		   unequipItem(item); //One use only
+		   break;
+	      }
+          }	     
     }
     
-    public void unequipItem(String itemID) {
-	Item item = new Item(itemID);
-	String place = "";
-	for (String key : this.equipment.keySet()) {
-	     if (this.equipment.get(key).equals(item)) {
-                 place = key;
-	     }
-	}
-	if (!place.isEmpty()) {
-	    this.damage = this.damage - item.properties.get("damage");
-	    this.equipment.put(place, new Item("empty"));
-	}
+    public void unequipItem(Item item) {
+	 String place = "";
+	 for (String key : this.equipment.keySet()) {
+	      if (this.equipment.get(key).equals(item)) {
+                   place = key;
+	      }
+	 }
+	 if (place.contains("Hand")) {
+	      Item weapon = new Item("hands");
+	      this.equipment.put(place, weapon);
+	      this.weapon = weapon.getItemID();
+	 } else if (!place.isEmpty()) {
+	      this.equipment.put(place, new Item("empty"));
+	 }
+	 if (item.properties.containsKey("damage")) {
+	      this.damage = this.damage - item.properties.get("damage");
+	 }
     }
 
     public Storage getStorage() {

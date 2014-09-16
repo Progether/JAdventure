@@ -76,7 +76,7 @@ public class Player extends Entity {
             player.setStrength(json.get("dexterity").getAsInt());
             player.setStrength(json.get("luck").getAsInt());
             player.setStrength(json.get("stealth").getAsInt());
-	    player.equipItem("", json.get("weapon").getAsString());
+	    player.equipItem("", new Item(json.get("weapon").getAsString()));
             if (json.has("items")) {
                 HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
                 ArrayList<ItemStack> itemList = new ArrayList<ItemStack>();
@@ -132,15 +132,15 @@ public class Player extends Entity {
 
     public void getStats(){
         Item weapon = new Item(getWeapon());
-        String tempname = weapon.getName();
+        String weaponName = weapon.getName();
 
-	if (tempname == null){
-	    tempname = "hands";
+	if (weaponName == null){
+	    weaponName = "hands";
 	}
 
   
         QueueProvider.offer("\nPlayer name: " + getName() +
-                            "\nCurrent weapon: " + tempname +
+                            "\nCurrent weapon: " + weaponName +
                             "\nGold: " + player.getGold() +
                             "\nHealth/Max: " + getHealth() + "/" + getHealthMax() +
                             "\nDamage/Armour: " + getDamage() + "/" + getArmour() +
@@ -254,7 +254,7 @@ public class Player extends Entity {
         ArrayList<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
-            this.equipItem(item.getItemID());
+            this.equipItem("", item);
             QueueProvider.offer("\n" + item.getName()+ " equipped");
         }
     }
@@ -263,7 +263,7 @@ public class Player extends Entity {
         ArrayList<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
-            this.unequipItem(item.getItemID());
+            this.unequipItem(item);
             QueueProvider.offer("\n" + item.getName()+" dequipped");
         }
     }

@@ -1,6 +1,7 @@
 package com.jadventure.game.classes;
 
 import com.jadventure.game.entities.Player;
+import com.jadventure.game.items.Item;
 
 import java.util.Random;
 
@@ -27,10 +28,10 @@ public class Recruit extends Player {
         this.setStealth(1);
 	String[] location = {"head", "leftArm", "chest", "rightArm", "legs", "boots"};
 	for (String place : location) {
-	    this.equipItem(place, "empty");
+	    this.equipItem(place, new Item("empty"));
 	}
-	this.equipItem("leftHand", "hands");
-	this.equipItem("rightHand", "hands");
+	this.equipItem("leftHand", new Item("hands"));
+	this.equipItem("rightHand", new Item("hands"));
         this.setIntro("Hey... you alive?\n*You let out a groan...*\nHey, mate, you need to wake up. The guards will be coming 'round soon, and they put a spear through the last guy they found still asleep.\n*Slowly, you sit up.*\nThat's the way! I'm going to head back up. Follow me as soon as you can.\nBy the way, I'm Thorall. What's your name?");
     }
 }
