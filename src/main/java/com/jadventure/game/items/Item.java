@@ -51,11 +51,14 @@ public class Item {
     }
 
     public boolean equals(Object obj) {
-        if(obj instanceof Item) {
-            Item i = (Item) obj;
-            return this.name.equals(i.name);
-        }
-        return false;
+	 if (obj == null) {
+	      return false;
+	 }
+         if(obj instanceof Item) {
+              Item i = (Item) obj;
+              return this.name.equals(i.name);
+         }
+         return false;
     }
 
     public void display() {

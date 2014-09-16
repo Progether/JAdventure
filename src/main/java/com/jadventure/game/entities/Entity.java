@@ -203,20 +203,24 @@ public abstract class Entity {
     */
 
     public void equipItem(String place, Item item) {
-    	 if (equipment.get(place) != new Item("empty") || equipment.get(place) != new Item("hands")) {
+	 Item empty = new Item("empty");
+	 Item hand = new Item("hands");
+	 if (!empty.equals(equipment.get(place)) && !hand.equals(equipment.get(place))) {
               unequipItem(item);
-	 }  
-	 if (!item.equals(new Item("empty"))) {
+	 } else if (equipment.get(place).equals(hand)) {
+   	      this.damage -= hand.properties.get("damage");
+	 }
+	 if (!item.equals(empty)) {
              place = item.getPosition();
 	 }
          this.equipment.put(place, item);
 	 switch (item.getItemID().charAt(0)) {
 	      case 'w': {
 	           this.weapon = item.getItemID();
-	           this.damage = this.damage + item.properties.get("damage");
-	           break;
+		   this.damage += item.properties.get("damage");
+		   break;
 	      } case 'a': {
-	           this.armour = this.armour + item.properties.get("damage");
+	           this.armour += item.properties.get("damage");
 		   break;
 	      } case 'p': {
 		   if (item.properties.containsKey("healthMax")) {
@@ -249,7 +253,7 @@ public abstract class Entity {
 	      this.equipment.put(place, new Item("empty"));
 	 }
 	 if (item.properties.containsKey("damage")) {
-	      this.damage = this.damage - item.properties.get("damage");
+	      this.damage -= item.properties.get("damage");
 	 }
     }
 
