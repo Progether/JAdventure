@@ -78,7 +78,7 @@ public class Player extends Entity {
             player.setStrength(json.get("dexterity").getAsInt());
             player.setStrength(json.get("luck").getAsInt());
             player.setStrength(json.get("stealth").getAsInt());
-	    player.equipItem("", new Item(json.get("weapon").getAsString()));
+	    player.equipItem("rightHand", new Item(json.get("weapon").getAsString()));
             if (json.has("items")) {
                 HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
                 ArrayList<ItemStack> itemList = new ArrayList<ItemStack>();
@@ -256,7 +256,7 @@ public class Player extends Entity {
         ArrayList<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
-            HashMap change = this.equipItem("", item);
+            HashMap change = this.equipItem(item.getPosition(), item);
             QueueProvider.offer("\n" + item.getName()+ " equipped");
  	    printStatChange(change);
 	}
@@ -264,16 +264,14 @@ public class Player extends Entity {
 
     public void equipItem(String place, String itemName) {
 	 Item item = new Item("empty");
-	 if (itemName.equals("empty") | itemName.equals("hands")) {
-		 item = new Item(itemName);
-	 } else {
+	 if (!itemName.equals("empty")) {
              ArrayList<Item> itemMap = searchItem(itemName, getStorage());
              if (!itemMap.isEmpty()) {
                  item = itemMap.get(0);
 	     }
 	 }
-         HashMap change = this.equipItem(place, item);
-         QueueProvider.offer("\n" + item.getName()+ " equipped");
+	 HashMap change = this.equipItem(place, item);
+         QueueProvider.offer("\n" + item.getName() + " equipped");
  	 printStatChange(change);
     }
     
@@ -281,8 +279,9 @@ public class Player extends Entity {
         ArrayList<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
-            this.unequipItem(item);
+            HashMap change = this.unequipItem(item);
             QueueProvider.offer("\n" + item.getName()+" dequipped");
+	    printStatChange(change);
         }
     }
 
@@ -291,10 +290,11 @@ public class Player extends Entity {
 	 Iterator i = set.iterator();
 	 while (i.hasNext()) {
 	      Map.Entry me = (Map.Entry) i.next();
-	      if ((int) me.getValue() > 0) {
-	           QueueProvider.offer("\n" + me.getKey() + ": +" + me.getValue());
+	      if ((double) me.getValue() > 0.0) {
+	           QueueProvider.offer("\n" + me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")");
 	      } else {
-		   QueueProvider.offer("\n" + me.getKey() + ": " + me.getValue());
+	           QueueProvider.offer("\n" + me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")");
+		   
 	      }
 	 }
     }

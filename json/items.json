@@ -16,13 +16,6 @@
         "weight": "1"
       }
     },
-    "hands": {
-        "name": "hands",
-        "description": "Your hands",
-	"properties": {
-	  "damage": "+1"
-	}
-    },
     "fmil1": {
       "name": "milk",
       "description": "some delicious milk",
@@ -71,7 +64,7 @@
     "wshi1": {
       "name": "shiv",
       "description": "a small dagger",
-      "position": "oneHand",
+      "position": "rightHand",
       "properties": {
         "damage": "+3",
         "weight": "2",
@@ -81,7 +74,7 @@
     "wdag1": {
       "name": "dagger",
       "description": "a basic dagger",
-      "position": "oneHand",
+      "position": "rightHand",
       "properties": {
         "damage": "+5",
         "weight": "1",
@@ -91,7 +84,7 @@
     "wshs1": {
       "name": "shortsword",
       "description": "a basic shortsword",
-      "position": "oneHand",
+      "position": "rightHand",
       "properties": {
         "damage": "+7",
         "weight": "5",
@@ -101,7 +94,7 @@
     "wspe1": {
       "name": "spear",
       "description": "a basic spear",
-      "position": "oneHand",
+      "position": "rightHand",
       "properties": {
         "damage": "+5",
         "weight": "4",
@@ -121,7 +114,7 @@
     "ashi1": {
       "name": "wooden shield",
       "description": "a wooden shield, watch out for splinters!",
-      "position": "oneHand",
+      "position": "rightHand",
       "properties": {
         "armour": "+3",
         "weight": "4",

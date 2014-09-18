@@ -26,12 +26,10 @@ public class SewerRat extends Player {
         int luck = rand.nextInt(3) + 1;
         this.setLuck(luck);
         this.setStealth(2);
-	String[] location = {"head", "leftArm", "chest", "rightArm", "legs", "boots"};
+	String[] location = {"head", "leftHand", "leftArm", "chest", "rightArm", "rightHand", "legs", "boots"};
 	for (String place : location) {
 	    this.equipItem(place, "empty");
 	}
-	this.equipItem("leftHand", "hands");
-	this.equipItem("rightHand", "hands");
         this.setIntro("Hey, rat. . . you dead??\n*You let out a groan...*\nWhat are you doing?!? Don't you know it's crazy to sleep so close to the recruits' camp? A guard will come down those stairs soon enough and catch you! You'll end up being drafted! You better come back in.\nBy the way, what's your name?");
     }
 
