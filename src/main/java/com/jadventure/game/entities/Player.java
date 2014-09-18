@@ -33,6 +33,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.lang.Math;
 
 /*
@@ -51,6 +52,7 @@ public class Player extends Entity {
     protected static String getProfileFileName(String name) {
         return "json/profiles/" + name + "/" + name + "_profile.json";
     }
+
     public static boolean profileExists(String name) {
         File file = new File(getProfileFileName(name));
         return file.exists();
@@ -109,17 +111,41 @@ public class Player extends Entity {
     private static Player player;
     
     public static Player getInstance(String playerClass){
-        if(playerClass.equals("recruit")){
-            // Instead of having a huge constructor, this is much more readable.
-            player = new Recruit();
-            setUpVariables(player);
-            return player;
-            
-        } else if(playerClass.equals("sewerrat")) {
-            player = new SewerRat();
-            setUpVariables(player);
-            return player;
+        player = new Player();
+        JsonParser parser = new JsonParser();
+        String fileName = "json/npcs.json";
+        try {
+            Reader reader = new FileReader(fileName);
+            JsonObject npcs = parser.parse(reader).getAsJsonObject().get("npcs").getAsJsonObject();
+            JsonObject json = new JsonObject();
+            for (Map.Entry<String, JsonElement> entry : npcs.entrySet()) {
+                if (entry.getKey().equals(playerClass)) {
+                    json = entry.getValue().getAsJsonObject();
+                }
+            }
+
+            player.setName(json.get("name").getAsString());
+            player.setHealthMax(json.get("healthMax").getAsInt());
+            player.setHealth(json.get("health").getAsInt());
+            player.setArmour(json.get("armour").getAsInt());
+            player.setDamage(json.get("damage").getAsInt());
+            player.setLevel(json.get("level").getAsInt());
+            player.setStrength(json.get("strength").getAsInt());
+            player.setStrength(json.get("intelligence").getAsInt());
+            player.setStrength(json.get("dexterity").getAsInt());
+            Random rand = new Random();
+            int luck = rand.nextInt(3) + 1;
+            player.setStrength(luck);
+            player.setStrength(json.get("stealth").getAsInt());
+            player.setIntro(json.get("intro").getAsString());
+            reader.close();
+        } catch (FileNotFoundException ex) {
+            QueueProvider.offer( "Unable to open file '" + fileName + "'.");
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
+
+        setUpVariables(player);
         return player;
     }
 
