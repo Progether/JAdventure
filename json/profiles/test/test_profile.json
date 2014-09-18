@@ -1,1 +1,1 @@
-{ "name" : "test", "healthMax" : "500", "health" : "400", "armour" : "1", "damage" : "100", "level" : "8", "strength" : "2", "intelligence" : "1", "dexterity" : "1", "luck" : "1", "stealth" : "1", "location" : "0,0,0", "weapon" : "hands" }
+{"name":"test","healthMax":100,"health":100,"armour":1,"damage":48.0,"level":1,"strength":2,"intelligence":1,"dexterity":2,"luck":1,"stealth":1,"weapon":"hands","items":{"fmil1":1},"location":"0,0,-1"}
