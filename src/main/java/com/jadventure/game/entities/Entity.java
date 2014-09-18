@@ -182,27 +182,7 @@ public abstract class Entity {
         return weapon;
     }
 
-    /* Now unnecessary
-    public void setWeapon(String weaponID) {
-        if (!weaponID.equals(this.weapon)) {
-            if (weaponID.equals("hands")) {
-                if (!this.weapon.equals("hands")) {
-                    Item weapon = new Item(this.weapon);
-                    int damage = Integer.parseInt(weapon.properties.get("damage"));
-                    this.damage = this.damage - damage;
-                }
-                this.weapon = "hands";
-            } else {
-                Item weapon = new Item(weaponID);
-                int damage = Integer.parseInt(weapon.properties.get("damage"));
-                this.damage = this.damage + damage;
-                this.weapon = weapon.getItemID();
-            }
-        }
-    }
-    */
-
-    public void equipItem(String place, Item item) {
+    public HashMap equipItem(String place, Item item) {
 	 Item empty = new Item("empty");
 	 Item hand = new Item("hands");
 	 if (!empty.equals(equipment.get(place)) && !hand.equals(equipment.get(place))) {
@@ -214,28 +194,34 @@ public abstract class Entity {
              place = item.getPosition();
 	 }
          this.equipment.put(place, item);
+	 HashMap result = new HashMap();
 	 switch (item.getItemID().charAt(0)) {
 	      case 'w': {
 	           this.weapon = item.getItemID();
 		   this.damage += item.properties.get("damage");
+		   result.put("damage", item.properties.get("damage"));
 		   break;
 	      } case 'a': {
 	           this.armour += item.properties.get("damage");
+		   result.put("armour", item.properties.get("armour"));
 		   break;
 	      } case 'p': {
 		   if (item.properties.containsKey("healthMax")) {
 	  	        this.healthMax += item.properties.get("healthMax");
 		        this.health += item.properties.get("healthMax");
 			unequipItem(item); // One use only
+		        result.put("health", item.properties.get("healthMax"));
 		   }
 		   break;
 	      } case 'f': {
 		   this.health += item.properties.get("health");
 		   this.health = (this.health > this.healthMax) ? this.healthMax : this.health;
 		   unequipItem(item); //One use only
+		   result.put("health", item.properties.get("healthMax"));
 		   break;
 	      }
-          }	     
+          }
+	return result;	 
     }
     
     public void unequipItem(Item item) {

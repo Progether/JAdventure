@@ -33,6 +33,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.Iterator;
 import java.lang.Math;
 
 /*
@@ -254,11 +256,27 @@ public class Player extends Entity {
         ArrayList<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
-            this.equipItem("", item);
+            HashMap change = this.equipItem("", item);
             QueueProvider.offer("\n" + item.getName()+ " equipped");
-        }
+ 	    printStatChange(change);
+	}
     }
 
+    public void equipItem(String place, String itemName) {
+	 Item item = new Item("empty");
+	 if (itemName.equals("empty") | itemName.equals("hands")) {
+		 item = new Item(itemName);
+	 } else {
+             ArrayList<Item> itemMap = searchItem(itemName, getStorage());
+             if (!itemMap.isEmpty()) {
+                 item = itemMap.get(0);
+	     }
+	 }
+         HashMap change = this.equipItem(place, item);
+         QueueProvider.offer("\n" + item.getName()+ " equipped");
+ 	 printStatChange(change);
+    }
+    
     public void dequipItem(String itemName) {
         ArrayList<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
@@ -266,6 +284,19 @@ public class Player extends Entity {
             this.unequipItem(item);
             QueueProvider.offer("\n" + item.getName()+" dequipped");
         }
+    }
+
+    private void printStatChange(HashMap stats) {
+	 Set set = stats.entrySet();
+	 Iterator i = set.iterator();
+	 while (i.hasNext()) {
+	      Map.Entry me = (Map.Entry) i.next();
+	      if ((int) me.getValue() > 0) {
+	           QueueProvider.offer("\n" + me.getKey() + ": +" + me.getValue());
+	      } else {
+		   QueueProvider.offer("\n" + me.getKey() + ": " + me.getValue());
+	      }
+	 }
     }
 
     public void inspectItem(String itemName) {
