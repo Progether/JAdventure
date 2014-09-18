@@ -74,10 +74,10 @@ public class Player extends Entity {
             player.setDamage(json.get("damage").getAsInt());
             player.setLevel(json.get("level").getAsInt());
             player.setStrength(json.get("strength").getAsInt());
-            player.setStrength(json.get("intelligence").getAsInt());
-            player.setStrength(json.get("dexterity").getAsInt());
-            player.setStrength(json.get("luck").getAsInt());
-            player.setStrength(json.get("stealth").getAsInt());
+            player.setIntelligence(json.get("intelligence").getAsInt());
+            player.setDexterity(json.get("dexterity").getAsInt());
+            player.setLuck(json.get("luck").getAsInt());
+            player.setStealth(json.get("stealth").getAsInt());
 	    player.equipItem("", new Item(json.get("weapon").getAsString()));
             if (json.has("items")) {
                 HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
@@ -131,12 +131,12 @@ public class Player extends Entity {
             player.setDamage(json.get("damage").getAsInt());
             player.setLevel(json.get("level").getAsInt());
             player.setStrength(json.get("strength").getAsInt());
-            player.setStrength(json.get("intelligence").getAsInt());
-            player.setStrength(json.get("dexterity").getAsInt());
+            player.setIntelligence(json.get("intelligence").getAsInt());
+            player.setDexterity(json.get("dexterity").getAsInt());
             Random rand = new Random();
             int luck = rand.nextInt(3) + 1;
-            player.setStrength(luck);
-            player.setStrength(json.get("stealth").getAsInt());
+            player.setLuck(luck);
+            player.setStealth(json.get("stealth").getAsInt());
             player.setIntro(json.get("intro").getAsString());
             reader.close();
         } catch (FileNotFoundException ex) {
