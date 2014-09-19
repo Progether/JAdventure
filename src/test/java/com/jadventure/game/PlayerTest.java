@@ -3,10 +3,25 @@ package com.jadventure.game;
 import com.jadventure.game.entities.Player;
 
 import org.junit.Test;
+import org.junit.Before;
+
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.io.File;
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
 public class PlayerTest {
+
+    @Before
+    public void copyFiles() {
+	File source = new File("json/original_data/locations.json");
+	File dest = new File("json/locations.json");
+	try {
+	Files.copy(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+	} catch (IOException ex) {}
+    }
 
     @Test
     public void newRecruit() {
