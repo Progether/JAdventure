@@ -9,11 +9,19 @@ import static org.junit.Assert.assertEquals;
 public class PlayerTest {
 
     @Test
-    public void newPlayer() {
+    public void newRecruit() {
         Player player = Player.getInstance("recruit");
         int expected = 1;
         int actual = player.getArmour();
-        assertEquals("Failure - new player not properly created", expected, actual);
+        assertEquals("Failure - new recruit not properly created", expected, actual);
+    }
+    
+    @Test
+    public void newSewerRat() {
+        Player player = Player.getInstance("sewerrat");
+        int expected = 0;
+        int actual = player.getArmour();
+        assertEquals("Failure - new recruit not properly created", expected, actual);
     }
 
     @Test
@@ -23,5 +31,4 @@ public class PlayerTest {
         String actual = player.getName();
         assertEquals("Failure - old player not properly loaded", expected, actual);
     }
-
 }

@@ -34,7 +34,7 @@ public abstract class Entity {
     private int critChance = 0;
     // Every point in armour reduces an attackers attack by .33
     private int armour;
-    private String weapon = "hands";
+    private String weapon = "empty";
     private HashMap<String, Item> equipment;
     protected Storage storage;
     Random globalRand = new Random();
@@ -182,79 +182,67 @@ public abstract class Entity {
         return weapon;
     }
 
-    /* Now unnecessary
-    public void setWeapon(String weaponID) {
-        if (!weaponID.equals(this.weapon)) {
-            if (weaponID.equals("hands")) {
-                if (!this.weapon.equals("hands")) {
-                    Item weapon = new Item(this.weapon);
-                    int damage = Integer.parseInt(weapon.properties.get("damage"));
-                    this.damage = this.damage - damage;
-                }
-                this.weapon = "hands";
-            } else {
-                Item weapon = new Item(weaponID);
-                int damage = Integer.parseInt(weapon.properties.get("damage"));
-                this.damage = this.damage + damage;
-                this.weapon = weapon.getItemID();
-            }
-        }
-    }
-    */
-
-    public void equipItem(String place, Item item) {
-	 Item empty = new Item("empty");
-	 Item hand = new Item("hands");
-	 if (!empty.equals(equipment.get(place)) && !hand.equals(equipment.get(place))) {
-              unequipItem(item);
-	 } else if (equipment.get(place).equals(hand)) {
-   	      this.damage -= hand.properties.get("damage");
-	 }
-	 if (!item.equals(empty)) {
+    public HashMap equipItem(String place, Item item) {
+	 double oldDamage = this.damage;
+         Item empty = new Item("empty");
+	 if (place.equals("")) {
              place = item.getPosition();
 	 }
+	 if (equipment.get(place) != null) {
+	      if (!empty.equals(equipment.get(place))) {
+	           unequipItem(equipment.get(place));
+	      }
+	 }
          this.equipment.put(place, item);
+	 HashMap result = new HashMap();
 	 switch (item.getItemID().charAt(0)) {
 	      case 'w': {
 	           this.weapon = item.getItemID();
 		   this.damage += item.properties.get("damage");
+		   double diffDamage = this.damage - oldDamage;
+		   result.put("damage", diffDamage);
 		   break;
 	      } case 'a': {
 	           this.armour += item.properties.get("damage");
+		   result.put("armour", item.properties.get("armour"));
 		   break;
 	      } case 'p': {
 		   if (item.properties.containsKey("healthMax")) {
 	  	        this.healthMax += item.properties.get("healthMax");
 		        this.health += item.properties.get("healthMax");
 			unequipItem(item); // One use only
+		        result.put("health", item.properties.get("healthMax"));
 		   }
 		   break;
 	      } case 'f': {
 		   this.health += item.properties.get("health");
 		   this.health = (this.health > this.healthMax) ? this.healthMax : this.health;
 		   unequipItem(item); //One use only
+		   result.put("health", item.properties.get("healthMax"));
 		   break;
 	      }
-          }	     
+          }
+	return result;	 
     }
     
-    public void unequipItem(Item item) {
+    public HashMap unequipItem(Item item) {
+	 double oldDamage = this.damage;
 	 String place = "";
 	 for (String key : this.equipment.keySet()) {
 	      if (this.equipment.get(key).equals(item)) {
                    place = key;
 	      }
 	 }
-	 if (place.contains("Hand")) {
-	      Item weapon = new Item("hands");
-	      this.equipment.put(place, weapon);
-	      this.weapon = weapon.getItemID();
-	 } else if (!place.isEmpty()) {
+	 if (!place.isEmpty()) {
 	      this.equipment.put(place, new Item("empty"));
 	 }
-	 if (item.properties.containsKey("damage")) {
+	 HashMap result = new HashMap();
+	 if (item.properties.containsKey("damage")) {   
 	      this.damage -= item.properties.get("damage");
+	      double diffDamage = this.damage - oldDamage;
+	      result.put("damage", diffDamage);
 	 }
+	 return result;
     }
 
     public Storage getStorage() {
