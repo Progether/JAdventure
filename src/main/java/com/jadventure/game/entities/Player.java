@@ -11,8 +11,6 @@ import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Backpack;
 import com.jadventure.game.items.Storage;
-import com.jadventure.game.classes.Recruit;
-import com.jadventure.game.classes.SewerRat;
 import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationManager;
