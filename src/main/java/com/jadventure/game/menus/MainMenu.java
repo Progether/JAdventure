@@ -26,6 +26,7 @@ public class MainMenu extends Menus {
     public MainMenu(){
          this.menuItems.add(new MenuItem("Start", "Starts a new Game", "new"));
          this.menuItems.add(new MenuItem("Load", "Loads an existing Game"));
+         this.menuItems.add(new MenuItem("Delete", "Deletes an existing Game"));
          this.menuItems.add(new MenuItem("Exit", null, "quit"));
 
          while(true) {
@@ -52,16 +53,7 @@ public class MainMenu extends Menus {
             System.exit(0);
         }
         else if(key.equals("load")) {
-            QueueProvider.offer("Profiles:");
-            File file = new File("json/profiles");
-            String[] profiles = file.list();
-            int i = 1;
-            for (String name : profiles) {
-                if (new File("json/profiles/" + name).isDirectory()) {
-                    QueueProvider.offer("  " + i + ". " + name);
-                }
-                i += 1;
-            }
+            listProfiles();
             QueueProvider.offer("\nWhat is the name of the avatar you want to load?");
             Player player = null;
 
@@ -83,6 +75,62 @@ public class MainMenu extends Menus {
             }
 
             Game game = new Game(player, "old");
+        } else if (key.equals("delete")) {
+            listProfiles();
+            QueueProvider.offer("\nWhich profile do you want to delete?");
+            boolean exit = false;
+            while (!exit) {
+                key = input.nextLine();
+                if (Player.profileExists(key)) {
+                    String profileName = key;
+                    QueueProvider.offer("Are you sure you want to delete? y/n");
+                    key = input.nextLine();
+                    if (key.equals("y")) {
+                        File profile = new File("json/profiles/" + profileName);
+                        deleteDirectory(profile);
+                        QueueProvider.offer("Profile Deleted");
+                        return;
+                    } else {
+                        listProfiles();
+                        QueueProvider.offer("\nWhich profile do you want to delete?");
+                    }
+                } else if (key.equals("exit")) {
+                    exit = true;
+                    break;
+                } else {
+                    QueueProvider.offer("That user doesn't exist. Try again.");
+                }
+            }
+        }
+    }
+
+    private static boolean deleteDirectory(File directory) {
+        if(directory.exists()){
+            File[] files = directory.listFiles();
+            if(null!=files){
+                for(int i=0; i<files.length; i++) {
+                    if(files[i].isDirectory()) {
+                        deleteDirectory(files[i]);
+                    }
+                    else {
+                        files[i].delete();
+                    }
+                }
+            }
+        }
+        return(directory.delete());
+    }
+
+    private static void listProfiles() {
+        QueueProvider.offer("Profiles:");
+        File file = new File("json/profiles");
+        String[] profiles = file.list();
+        int i = 1;
+        for (String name : profiles) {
+            if (new File("json/profiles/" + name).isDirectory()) {
+                QueueProvider.offer("  " + i + ". " + name);
+            }
+           i += 1;
         }
     }
 }
