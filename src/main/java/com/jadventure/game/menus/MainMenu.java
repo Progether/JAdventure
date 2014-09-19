@@ -10,6 +10,7 @@ import com.jadventure.game.QueueProvider;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.io.File;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -51,16 +52,34 @@ public class MainMenu extends Menus {
             System.exit(0);
         }
         else if(key.equals("load")) {
-            QueueProvider.offer("What is the name of the avatar you want to load?");
+            QueueProvider.offer("Profiles:");
+            File file = new File("json/profiles");
+            String[] profiles = file.list();
+            int i = 1;
+            for (String name : profiles) {
+                if (new File("json/profiles/" + name).isDirectory()) {
+                    QueueProvider.offer("  " + i + ". " + name);
+                }
+                i += 1;
+            }
+            QueueProvider.offer("\nWhat is the name of the avatar you want to load?");
             Player player = null;
 
+            boolean exit = false;
             while (player == null) {
                 key = input.nextLine();
                 if (Player.profileExists(key)) {
                     player = Player.load(key);
+                } else if (key.equals("exit")) {
+                    exit = true;
+                    break;
                 } else {
                     QueueProvider.offer("That user doesn't exist. Try again.");
                 }
+            }
+
+            if (exit) {
+                return;
             }
 
             Game game = new Game(player, "old");
