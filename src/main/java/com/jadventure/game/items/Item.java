@@ -28,7 +28,7 @@ public class Item {
     private String itemID;
     private String description;
     private String position;
-    public HashMap<String, Integer> properties;
+    private HashMap<String, Integer> properties;
 
     public Item(String itemID) {
         lookUpItem(itemID);
@@ -48,6 +48,14 @@ public class Item {
 
     public String getPosition() {
     	return this.position;
+    }
+
+    public int getProperty(String property) {
+	return this.properties.get(property);
+    }
+
+    public boolean propertiesContainsKey(String key) {
+         return this.properties.containsKey(key);
     }
 
     public boolean equals(Object obj) {
