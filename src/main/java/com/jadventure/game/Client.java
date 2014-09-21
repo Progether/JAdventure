@@ -1,9 +1,11 @@
+package com.jadventure.game;
+
 import java.net.*;
 import java.io.*;
 import java.util.Scanner;
 
 public class Client {
-    public static void main(String[] args) {
+    public Client() {
         String serverName = "localhost";
         Scanner query;
         query = new Scanner(System.in);

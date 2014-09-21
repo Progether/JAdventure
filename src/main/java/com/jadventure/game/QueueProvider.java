@@ -7,8 +7,8 @@ public class QueueProvider {
 
     public static BlockingQueue queue = new LinkedBlockingQueue();
 
-    public static void startMessenger() {
-        Messenger messenger = new Messenger(queue);
+    public static void startMessenger(String mode) {
+        Messenger messenger = new Messenger(queue,mode);
         new Thread(messenger).start();
     }
 

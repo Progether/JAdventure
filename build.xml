@@ -51,6 +51,7 @@
 
   <target name="run" depends="junit">
     <java fork="true" classname="${main-class}">
+      <arg value="${arg0}"/>
       <classpath>
         <path refid="classpath"/>
         <path refid="application"/>
