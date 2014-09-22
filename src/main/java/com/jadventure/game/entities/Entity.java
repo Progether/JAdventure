@@ -198,27 +198,27 @@ public abstract class Entity {
 	 switch (item.getItemID().charAt(0)) {
 	      case 'w': {
 	           this.weapon = item.getItemID();
-		   this.damage += item.properties.get("damage");
+		   this.damage += item.getProperty("damage");
 		   double diffDamage = this.damage - oldDamage;
 		   result.put("damage", diffDamage);
 		   break;
 	      } case 'a': {
-	           this.armour += item.properties.get("damage");
-		   result.put("armour", item.properties.get("armour"));
+	           this.armour += item.getProperty("armour");
+		   result.put("armour", item.getProperty("armour"));
 		   break;
 	      } case 'p': {
-		   if (item.properties.containsKey("healthMax")) {
-	  	        this.healthMax += item.properties.get("healthMax");
-		        this.health += item.properties.get("healthMax");
+		   if (item.propertiesContainsKey("healthMax")) {
+	  	        this.healthMax += item.getProperty("healthMax");
+		        this.health += item.getProperty("healthMax");
 			unequipItem(item); // One use only
-		        result.put("health", item.properties.get("healthMax"));
+		        result.put("health", item.getProperty("healthMax"));
 		   }
 		   break;
 	      } case 'f': {
-		   this.health += item.properties.get("health");
+		   this.health += item.getProperty("health");
 		   this.health = (this.health > this.healthMax) ? this.healthMax : this.health;
 		   unequipItem(item); //One use only
-		   result.put("health", item.properties.get("healthMax"));
+		   result.put("health", item.getProperty("healthMax"));
 		   break;
 	      }
           }
@@ -237,8 +237,8 @@ public abstract class Entity {
 	      this.equipment.put(place, new Item("empty"));
 	 }
 	 HashMap result = new HashMap();
-	 if (item.properties.containsKey("damage")) {   
-	      this.damage -= item.properties.get("damage");
+	 if (item.propertiesContainsKey("damage")) {   
+	      this.damage -= item.getProperty("damage");
 	      double diffDamage = this.damage - oldDamage;
 	      result.put("damage", diffDamage);
 	 }

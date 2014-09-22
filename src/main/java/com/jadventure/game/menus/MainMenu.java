@@ -52,7 +52,7 @@ public class MainMenu extends Menus {
         }
         else if(key.equals("load")) {
             listProfiles();
-            QueueProvider.offer("\nWhat is the name of the avatar you want to load?");
+            QueueProvider.offer("\nWhat is the name of the avatar you want to load? Type 'back' to go back");
             Player player = null;
 
             boolean exit = false;
@@ -60,7 +60,7 @@ public class MainMenu extends Menus {
                 key = QueueProvider.take();
                 if (Player.profileExists(key)) {
                     player = Player.load(key);
-                } else if (key.equals("exit")) {
+                } else if (key.equals("exit") || key.equals("back")) {
                     exit = true;
                     break;
                 } else {
@@ -75,7 +75,7 @@ public class MainMenu extends Menus {
             Game game = new Game(player, "old");
         } else if (key.equals("delete")) {
             listProfiles();
-            QueueProvider.offer("\nWhich profile do you want to delete?");
+            QueueProvider.offer("\nWhich profile do you want to delete? Type 'back' to go back");
             boolean exit = false;
             while (!exit) {
                 key = QueueProvider.take();
@@ -92,7 +92,7 @@ public class MainMenu extends Menus {
                         listProfiles();
                         QueueProvider.offer("\nWhich profile do you want to delete?");
                     }
-                } else if (key.equals("exit")) {
+                } else if (key.equals("exit") || key.equals("back")) {
                     exit = true;
                     break;
                 } else {
