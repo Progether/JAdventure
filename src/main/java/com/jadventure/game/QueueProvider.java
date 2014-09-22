@@ -2,13 +2,16 @@ package com.jadventure.game;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.Scanner;
 
 public class QueueProvider { 
 
     public static BlockingQueue<String> queue = new LinkedBlockingQueue();
     public static BlockingQueue<String> inputQueue = new LinkedBlockingQueue();
+    public static String mode;
 
-    public static void startMessenger(String mode) {
+    public static void startMessenger(String m) {
+        mode = m;
         Messenger messenger = new Messenger(queue,inputQueue,mode);
         new Thread(messenger).start();
     }
@@ -22,9 +25,14 @@ public class QueueProvider {
     }
 
     public static String take() {
-        queue.offer("QUERY");
         String message;
-        while ((message = inputQueue.poll()) == null) {
+        if (mode.equals("server")) {
+            queue.offer("QUERY");
+            while ((message = inputQueue.poll()) == null) {
+            }
+        } else {
+            Scanner input = new Scanner(System.in);
+            message = input.next();
         }
         return message;
     }
