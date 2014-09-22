@@ -9,7 +9,6 @@ import com.jadventure.game.prompts.CommandParser;
 import com.jadventure.game.QueueProvider;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * This class contains the main loop that takes the input and
@@ -19,7 +18,6 @@ public class Game {
     public ArrayList<Monster> monsterList = new ArrayList<Monster>();
     public MonsterFactory monsterFactory = new MonsterFactory(); 
     public CommandParser parser;
-    public Scanner input = new Scanner(System.in);
     public Monster monster;
     Player player = null;
 
@@ -47,7 +45,7 @@ public class Game {
      */
     public void newGameStart(Player player) {
         QueueProvider.offer(player.getIntro());
-        String userInput = input.nextLine();
+        String userInput = QueueProvider.take();
         player.setName(userInput);
         QueueProvider.offer("Welcome to Silliya, " + this.player.getName() + ".");
         QueueProvider.offer("");
@@ -66,7 +64,7 @@ public class Game {
         boolean continuePrompt = true;
         while (continuePrompt) {
             QueueProvider.offer("Prompt:");
-            String command = input.next().toLowerCase();
+            String command = QueueProvider.take().toLowerCase();
             continuePrompt = parser.parse(player, command, continuePrompt);
         }
     }

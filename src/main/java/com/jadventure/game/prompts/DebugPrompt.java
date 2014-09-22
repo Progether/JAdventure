@@ -4,8 +4,6 @@ import com.jadventure.game.entities.Player;
 import com.jadventure.game.prompts.BackpackDebugPrompt;
 import com.jadventure.game.QueueProvider;
 
-import java.util.Scanner;
-
 /**
  * Defines the debugging prompt.
  * 
@@ -26,10 +24,9 @@ public class DebugPrompt{
     
     public DebugPrompt(Player player){
         boolean continuePrompt = true;
-        Scanner input = new Scanner(System.in);
         while(continuePrompt){
             QueueProvider.offer("\nDebugPrompt:");
-            String command = input.nextLine();
+            String command = QueueProvider.take();
             continuePrompt = parse(player, command.toLowerCase());
         }
     }

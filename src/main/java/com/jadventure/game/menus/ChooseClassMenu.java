@@ -6,8 +6,6 @@ import com.jadventure.game.entities.Player;
 import com.jadventure.game.Game;
 import com.jadventure.game.QueueProvider;
 
-import java.util.Scanner;
-
 /**
  * Called when creating a new Player
  */

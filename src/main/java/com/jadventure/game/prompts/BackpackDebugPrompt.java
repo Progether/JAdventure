@@ -4,7 +4,6 @@ import com.jadventure.game.entities.Player;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.QueueProvider;
 
-import java.util.Scanner;
 
 /**
  * BackpackDebugPrompt is for editing the backpack contents
@@ -22,10 +21,9 @@ public class BackpackDebugPrompt{
 
     public BackpackDebugPrompt(Player player){
         boolean continuePrompt = true;
-        Scanner input = new Scanner(System.in);
         while(continuePrompt){
             QueueProvider.offer("Edit backpack:");
-            String command = input.nextLine();
+            String command = QueueProvider.take();
             continuePrompt = parse(player, command.toLowerCase());
         }
     }

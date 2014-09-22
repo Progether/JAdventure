@@ -2,7 +2,6 @@ package com.jadventure.game.menus;
 
 import com.jadventure.game.menus.Menus;
 
-import java.util.Scanner;
 import com.jadventure.game.Game;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.menus.ChooseClassMenu;
@@ -35,7 +34,6 @@ public class MainMenu extends Menus {
          }
      }
     private static void testOption(MenuItem m) {
-        Scanner input = new Scanner(System.in);
         String key = m.getKey();
         if(key.equals("start")) {
             try {
@@ -59,7 +57,7 @@ public class MainMenu extends Menus {
 
             boolean exit = false;
             while (player == null) {
-                key = input.nextLine();
+                key = QueueProvider.take();
                 if (Player.profileExists(key)) {
                     player = Player.load(key);
                 } else if (key.equals("exit")) {
@@ -80,11 +78,11 @@ public class MainMenu extends Menus {
             QueueProvider.offer("\nWhich profile do you want to delete?");
             boolean exit = false;
             while (!exit) {
-                key = input.nextLine();
+                key = QueueProvider.take();
                 if (Player.profileExists(key)) {
                     String profileName = key;
                     QueueProvider.offer("Are you sure you want to delete? y/n");
-                    key = input.nextLine();
+                    key = QueueProvider.take();
                     if (key.equals("y")) {
                         File profile = new File("json/profiles/" + profileName);
                         deleteDirectory(profile);

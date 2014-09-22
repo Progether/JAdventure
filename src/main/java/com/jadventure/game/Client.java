@@ -5,6 +5,10 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Client {
+
+    DataInputStream in;
+    DataOutputStream out;
+
     public Client() {
         String serverName = "localhost";
         Scanner query;
@@ -14,24 +18,43 @@ public class Client {
         try {
             Socket client = new Socket(serverName, port);
             
-            DataInputStream in = new DataInputStream(client.getInputStream());
+            in = new DataInputStream(client.getInputStream());
+            out = new DataOutputStream(client.getOutputStream());
+
             while(true) {
                 String serverMessage = in.readUTF();
                 if (serverMessage.endsWith("END")) {
                     serverMessage = serverMessage.substring(0, serverMessage.length() - 3);
-                    System.out.println(serverMessage);
-                } else {
-                    while(!serverMessage.endsWith("END")) {
+                    if (serverMessage.equals("QUERY")) {
+                        getInput();
+                    } else {
                         System.out.println(serverMessage);
+                    }
+                } else {
+                    String message = "";
+                    while(!serverMessage.endsWith("END")) {
+                        message += serverMessage;
                         serverMessage = in.readUTF();
                     }
-                    serverMessage = serverMessage.substring(0, serverMessage.length() - 3);
-                    System.out.println(serverMessage);
+                    message = serverMessage.substring(0, serverMessage.length() - 3);
+                    if (message.equals("QUERY")) {
+                        getInput();
+                    } else {
+                        System.out.println(serverMessage);
+                    }
                 }
             }
         } catch(IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void getInput() {
+        Scanner input = new Scanner(System.in);
+        String userInput = input.next();
+        try {
+            out.writeUTF(userInput);
+        } catch (IOException e) { e.printStackTrace(); }
     }
 }
 

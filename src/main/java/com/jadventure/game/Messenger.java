@@ -15,13 +15,15 @@ import java.io.IOException;
 class Messenger extends Thread {
 
     BlockingQueue<String> queue = new LinkedBlockingQueue<String>();
+    BlockingQueue<String> inputQueue = new LinkedBlockingQueue<String>();
     String mode;
     ServerSocket listener;
     Socket server;
     DataOutputStream out;
     DataInputStream in;
 
-    public Messenger(BlockingQueue q, String m) {
+    public Messenger(BlockingQueue q, BlockingQueue i, String m) {
+        inputQueue = i;
         queue = q;
         mode = m;
     }
@@ -39,7 +41,11 @@ class Messenger extends Thread {
             String message;
             while ((message = queue.poll()) != null) {
                 if (mode.equals("server")) {
-                    sendToServer(message);
+                    if (message == "QUERY") {
+                        getInput(message);
+                    } else {
+                        sendToServer(message);
+                    }
                 } else {
                     System.out.println(message);
                 }
@@ -54,4 +60,11 @@ class Messenger extends Thread {
         } catch(IOException e) { e.printStackTrace(); }
     }
 
+    public void getInput(String message) {
+        try {
+            out.writeUTF(message+"END");
+            String input = in.readUTF();
+            inputQueue.offer(input);
+        } catch(IOException e) { e.printStackTrace(); }
+    }
 }
