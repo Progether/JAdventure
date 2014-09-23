@@ -13,6 +13,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.net.Socket;
 
 /**
  * The first menu diplayed on user screen
@@ -20,20 +21,29 @@ import java.nio.file.StandardCopyOption;
  * This menu lets the player choose whether to load an exiting game,
  * start a new one, or exit to the terminal.
  */
-public class MainMenu extends Menus {
+public class MainMenu extends Menus implements Runnable {
      
-    public MainMenu(){
-         this.menuItems.add(new MenuItem("Start", "Starts a new Game", "new"));
-         this.menuItems.add(new MenuItem("Load", "Loads an existing Game"));
-         this.menuItems.add(new MenuItem("Delete", "Deletes an existing Game"));
-         this.menuItems.add(new MenuItem("Exit", null, "quit"));
+    public MainMenu(Socket server,String mode){
+        new QueueProvider().startMessenger(server,mode);
+    }
+    
+    public void run() {
+        this.menuItems.add(new MenuItem("Start", "Starts a new Game", "new"));
+        this.menuItems.add(new MenuItem("Load", "Loads an existing Game"));
+        this.menuItems.add(new MenuItem("Delete", "Deletes an existing Game"));
+        this.menuItems.add(new MenuItem("Exit", null, "quit"));
+        
+        while(true) {
+            MenuItem selectedItem = displayMenu(this.menuItems);
+            boolean exit = testOption(selectedItem);
+            if (!exit) {
+                break;
+            }
+        }
+        QueueProvider.offer("EXIT");
+    }
 
-         while(true) {
-             MenuItem selectedItem = displayMenu(this.menuItems);
-             testOption(selectedItem);
-         }
-     }
-    private static void testOption(MenuItem m) {
+    private static boolean testOption(MenuItem m) {
         String key = m.getKey();
         if(key.equals("start")) {
             try {
@@ -48,7 +58,7 @@ public class MainMenu extends Menus {
         }
         else if(key.equals("exit")) {
             QueueProvider.offer("Goodbye!");
-            System.exit(0);
+            return false;
         }
         else if(key.equals("load")) {
             listProfiles();
@@ -69,7 +79,7 @@ public class MainMenu extends Menus {
             }
 
             if (exit) {
-                return;
+                return true;
             }
 
             Game game = new Game(player, "old");
@@ -87,7 +97,7 @@ public class MainMenu extends Menus {
                         File profile = new File("json/profiles/" + profileName);
                         deleteDirectory(profile);
                         QueueProvider.offer("Profile Deleted");
-                        return;
+                        return true;
                     } else {
                         listProfiles();
                         QueueProvider.offer("\nWhich profile do you want to delete?");
@@ -100,6 +110,7 @@ public class MainMenu extends Menus {
                 }
             }
         }
+        return true;
     }
 
     private static boolean deleteDirectory(File directory) {

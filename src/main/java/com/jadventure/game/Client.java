@@ -27,6 +27,8 @@ public class Client {
                     serverMessage = serverMessage.substring(0, serverMessage.length() - 3);
                     if (serverMessage.equals("QUERY")) {
                         getInput();
+                    } else if (serverMessage.equals("EXIT")) {
+                        break;
                     } else {
                         System.out.println(serverMessage);
                     }
@@ -39,6 +41,8 @@ public class Client {
                     message = serverMessage.substring(0, serverMessage.length() - 3);
                     if (message.equals("QUERY")) {
                         getInput();
+                    } else if (serverMessage.equals("EXIT")) {
+                        break;
                     } else {
                         System.out.println(serverMessage);
                     }

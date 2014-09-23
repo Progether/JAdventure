@@ -4,6 +4,11 @@ import com.jadventure.game.menus.MainMenu;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.Client;
 
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.io.IOException;
+import java.net.SocketException;
+
 /**
  * This is the starting point of the game.
  * This class doesn't do much more than create
@@ -22,8 +27,22 @@ public class JAdventure {
         if (mode.equals("client")) {
             new Client();
         } else {
-            new QueueProvider().startMessenger(mode);
-            new MainMenu();
+            if (mode.equals("server")) {
+                while (true) {
+                    try {
+                        ServerSocket listener = new ServerSocket(4044);
+                        while (true) {
+                            Socket server = listener.accept();
+                            Runnable r = new MainMenu(server,mode);
+                            new Thread(r).start();
+                        }
+                    } catch (SocketException e) { 
+                       e.printStackTrace();
+                    } catch (IOException c) {
+                        c.printStackTrace();
+                    }
+                }
+            }
         }
     }
 
