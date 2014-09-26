@@ -12,6 +12,12 @@
   <property name="jar.dir" value="${build.dir}/jar" />
   <property name="lib.dir" value="lib"/>
 
+  <path id="libraries.path">
+    <fileset dir="${lib.dir}">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+
   <path id="classpath">
     <fileset dir="${lib.dir}" includes="**/*.jar"/>
   </path>
@@ -29,9 +35,20 @@
 
   <target name="jar" depends="compile">
     <mkdir dir="${jar.dir}"/>
+    <mkdir dir="${class.dir}/${lib.dir}"/>
+
+    <copy todir="${class.dir}/${lib.dir}" flatten="true">
+      <path refid="libraries.path"/>
+    </copy>
+
+    <manifestclasspath property="manifest.classpath" jarfile="${jar.file}">
+      <classpath refid="libraries.path"/>
+    </manifestclasspath>
+
     <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
       <manifest>
         <attribute name="Main-Class" value="${main-class}"/>
+        <attribute name="Class-Path" value="${manifest.classpath}"/>
       </manifest>
     </jar>
   </target>
