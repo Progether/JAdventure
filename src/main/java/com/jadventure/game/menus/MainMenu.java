@@ -26,8 +26,16 @@ public class MainMenu extends Menus implements Runnable {
     public MainMenu(Socket server,String mode){
         new QueueProvider().startMessenger(server,mode);
     }
+
+    public MainMenu() {
+        start();
+    }
     
     public void run() {
+        start();
+    }
+
+    public void start() {
         this.menuItems.add(new MenuItem("Start", "Starts a new Game", "new"));
         this.menuItems.add(new MenuItem("Load", "Loads an existing Game"));
         this.menuItems.add(new MenuItem("Delete", "Deletes an existing Game"));
@@ -41,6 +49,7 @@ public class MainMenu extends Menus implements Runnable {
             }
         }
         QueueProvider.offer("EXIT");
+    
     }
 
     private static boolean testOption(MenuItem m) {

@@ -25,6 +25,10 @@ public class QueueProvider {
         server = s;
     }
 
+    public static void startMessenger(String m) {
+        mode = m;
+    }
+
     public static BlockingQueue getQueue() {
         return queue;
     }

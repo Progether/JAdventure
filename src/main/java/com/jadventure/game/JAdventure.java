@@ -42,6 +42,9 @@ public class JAdventure {
                         c.printStackTrace();
                     }
                 }
+            } else {
+                new QueueProvider().startMessenger("complete");
+                new MainMenu();
             }
         }
     }
