@@ -78,7 +78,7 @@ public class QueueProvider {
             }
         } else {
             Scanner input = new Scanner(System.in);
-            message = input.next();
+            message = input.nextLine();
         }
         return message;
     }
