@@ -115,10 +115,14 @@ To drop an item:
 
     d<itemName>
 
-To equip/dequip item:
+To equip/unequip item:
 
     e<itemName>
-    de<itemName>
+    ue<itemName>
+
+To look around:
+ 
+    la
 
 Coding Standard/Convention/Style
 -------------------
