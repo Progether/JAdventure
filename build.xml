@@ -35,7 +35,7 @@
 
   <target name="jar" depends="compile">
     <mkdir dir="${jar.dir}"/>
-    <mkdir dir="${class.dir}/${lib.dir}"/>
+    <mkdir dir="${classes.dir}/${lib.dir}"/>
 
     <copy todir="${class.dir}/${lib.dir}" flatten="true">
       <path refid="libraries.path"/>
