@@ -35,9 +35,9 @@
 
   <target name="jar" depends="compile">
     <mkdir dir="${jar.dir}"/>
-    <mkdir dir="${class.dir}/${lib.dir}"/>
+    <mkdir dir="${classes.dir}/${lib.dir}"/>
 
-    <copy todir="${class.dir}/${lib.dir}" flatten="true">
+    <copy todir="${classes.dir}/${lib.dir}" flatten="true">
       <path refid="libraries.path"/>
     </copy>
 
@@ -51,6 +51,15 @@
         <attribute name="Class-Path" value="${manifest.classpath}"/>
       </manifest>
     </jar>
+  </target>
+
+  <target name="dist" depends="jar">
+    <copy todir="${jar.dir}/lib">
+        <fileset dir="lib" />
+     </copy>
+     <copy todir="${jar.dir}/json">
+	 <fileset dir="json" />
+     </copy>
   </target>
   
   <target name="junit" depends="jar">
