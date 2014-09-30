@@ -52,6 +52,15 @@
       </manifest>
     </jar>
   </target>
+
+  <target name="dist" depends="jar">
+    <copy todir="${jar.dir}/lib">
+        <fileset dir="lib" />
+     </copy>
+     <copy todir="${jar.dir}/json">
+	 <fileset dir="json" />
+     </copy>
+  </target>
   
   <target name="junit" depends="jar">
     <junit printsummary="yes" haltonfailure="yes" >
