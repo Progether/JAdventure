@@ -37,7 +37,7 @@
     <mkdir dir="${jar.dir}"/>
     <mkdir dir="${classes.dir}/${lib.dir}"/>
 
-    <copy todir="${class.dir}/${lib.dir}" flatten="true">
+    <copy todir="${classes.dir}/${lib.dir}" flatten="true">
       <path refid="libraries.path"/>
     </copy>
 
