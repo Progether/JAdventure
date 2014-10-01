@@ -218,7 +218,7 @@ public abstract class Entity {
 		   this.health += item.getProperty("health");
 		   this.health = (this.health > this.healthMax) ? this.healthMax : this.health;
 		   unequipItem(item); //One use only
-		   result.put("health", item.getProperty("healthMax"));
+		   result.put("health", item.getProperty("health"));
 		   break;
 	      }
           }

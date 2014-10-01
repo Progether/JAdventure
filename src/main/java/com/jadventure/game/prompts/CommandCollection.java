@@ -31,6 +31,7 @@ public enum CommandCollection {
 "drop (d)<item>:      Drops an item.\n" +
 "equip (e)<item>:     Equips an item.\n" +
 "unequip (ue)<item>:  Unequips an item.\n" +
+"attack (a)<entity>:  Attacks an entity.\n" +
 "lookaround (la):     Prints out what is around you.\n" +
 "monster (m):         Prints out the monsters around you.\n\n" +
 "Player\n" +
@@ -55,7 +56,7 @@ public enum CommandCollection {
         return INSTANCE;
     }
 
-    public void initPlayer(Player player){
+    public void initPlayer(Player player) {
         this.player = player;
     }
 
@@ -63,31 +64,31 @@ public enum CommandCollection {
 
     @Command(command="status", aliases="st", description="Returns player's status")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_st(){
+    public void command_st() {
         player.getStats();
     }
 
     @Command(command="help", aliases="h", description="Prints help")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_help(){
+    public void command_help() {
         QueueProvider.offer(helpText);
     }
 
     @Command(command="backpack", aliases="b", description="Backpack contents")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_b(){
+    public void command_b() {
         player.printBackPack();
     }
 
     @Command(command="save", aliases="s", description="Save the game")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_save(){
+    public void command_save() {
         player.save();
     }
 
     @Command(command="monster", aliases="m", description="Monsters around you")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_m(){
+    public void command_m() {
         ArrayList<Monster> monsterList = player.getLocation().getMonsters();
         if (monsterList.size() > 0) {
             QueueProvider.offer("Monsters around you:");
@@ -103,13 +104,13 @@ public enum CommandCollection {
 
     @Command(command="debug", aliases="", description="Start debugging")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_debug(){
+    public void command_debug() {
         new DebugPrompt(player);
     }
 
     @Command(command="goto", aliases="g", description="Goto a direction")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_g(String arg){
+    public void command_g(String arg) {
         ILocation location = player.getLocation();
 
         try {
@@ -136,19 +137,19 @@ public enum CommandCollection {
 
     @Command(command="inspect", aliases="i", description="Inspect an item")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_i(String arg){
+    public void command_i(String arg) {
         player.inspectItem(arg.trim());
     }
 
     @Command(command="equip", aliases="e", description="Equip an item")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_e(String arg){
+    public void command_e(String arg) {
         player.equipItem(arg.trim());
     }
 
     @Command(command="dequip", aliases="de", description="Dequip an item")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_de(String arg){
+    public void command_de(String arg) {
         player.dequipItem(arg.trim());
     }
 
@@ -158,25 +159,31 @@ public enum CommandCollection {
     */
     @Command(command="unequip", aliases="ue", description="Unequip an item")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_ue(String arg){
+    public void command_ue(String arg) {
         player.dequipItem(arg.trim());
     }
 
     @Command(command="pick", aliases="p", description="Pick up an item")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_p(String arg){
+    public void command_p(String arg) {
         player.pickUpItem(arg.trim());
     }
 
     @Command(command="drop", aliases="d", description="Drop an item")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_d(String arg){
+    public void command_d(String arg) {
         player.dropItem(arg.trim());
+    }
+
+    @Command(command="attack", aliases="a", description="Attacks an entity")
+    @SuppressWarnings("UnusedDeclaration")
+    public void command_a(String arg) {
+       player.attack(arg.trim());
     }
 
     @Command(command="lookaround", aliases="la", description="Displays the description of the room you are in.")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_la(){
+    public void command_la() {
        player.getLocation().print(); 
     }
 }

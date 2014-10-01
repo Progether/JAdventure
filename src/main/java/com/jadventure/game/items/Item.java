@@ -50,6 +50,10 @@ public class Item {
     	return this.position;
     }
 
+    public String getDescription() {
+	return this.description;
+    }
+
     public int getProperty(String property) {
 	return this.properties.get(property);
     }

@@ -15,6 +15,8 @@ import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.navigation.LocationType;
+import com.jadventure.game.menus.BattleMenu;
+import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.QueueProvider;
 
 import java.io.File;
@@ -281,7 +283,8 @@ public class Player extends Entity {
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             HashMap change = this.equipItem(item.getPosition(), item);
-            QueueProvider.offer("\n" + item.getName()+ " equipped");
+	    storage.removeItem(new ItemStack(1, item));
+            QueueProvider.offer(item.getName()+ " equipped");
  	    printStatChange(change);
 	}
     }
@@ -295,7 +298,8 @@ public class Player extends Entity {
 	     }
 	 }
 	 HashMap change = this.equipItem(place, item);
-         QueueProvider.offer("\n" + item.getName() + " equipped");
+	 storage.removeItem(new ItemStack(1, item));
+         QueueProvider.offer(item.getName() + " equipped");
  	 printStatChange(change);
     }
     
@@ -304,7 +308,8 @@ public class Player extends Entity {
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             HashMap change = this.unequipItem(item);
-            QueueProvider.offer("\n" + item.getName()+" dequipped");
+	    storage.addItem(new ItemStack(1,item));
+            QueueProvider.offer(item.getName()+" unequipped");
 	    printStatChange(change);
         }
     }
@@ -314,11 +319,20 @@ public class Player extends Entity {
 	 Iterator i = set.iterator();
 	 while (i.hasNext()) {
 	      Map.Entry me = (Map.Entry) i.next();
-	      if ((double) me.getValue() > 0.0) {
-	           QueueProvider.offer("\n" + me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")");
+	      try {
+	           if ((double) me.getValue() > 0.0) {
+	                QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")\n");
 	      } else {
-	           QueueProvider.offer("\n" + me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")");
+	                QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")\n");
 		   
+	      }
+	      } catch (ClassCastException e) {
+	           if ((int) me.getValue() > 0.0) {
+	                QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")\n");
+	           } else {
+	                QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")\n");
+		   
+	           }
 	      }
 	 }
     }
@@ -348,4 +362,18 @@ public class Player extends Entity {
     	return getLocation().getLocationType();
     }
 
+    public void attack(String opponentName) {
+	Monster opponent = null;
+	ArrayList<Monster> monsters = getLocation().getMonsters();
+	for (int i = 0; i < monsters.size(); i++) {
+             if (monsters.get(i).monsterType.equalsIgnoreCase(opponentName)) {
+		     opponent = monsters.get(i);
+	     }
+	}
+	if (opponent != null) {
+	     BattleMenu battleMenu = new BattleMenu(opponent, this);
+	} else {
+	     QueueProvider.offer("Opponent not found");
+	}
+    }
 }
