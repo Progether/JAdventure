@@ -31,7 +31,7 @@ public abstract class Entity {
     private int stealth;
     private int gold;
     private double damage = 30;
-    private int critChance = 0;
+    private double critChance = 0.0;
     // Every point in armour reduces an attackers attack by .33
     private int armour;
     private String weapon = "empty";
@@ -82,11 +82,11 @@ public abstract class Entity {
         this.damage = damage;
     }
 
-    public int getCritChance() {
+    public double getCritChance() {
         return critChance;
     }
 
-    public void setCritChance(int critChance) {
+    public void setCritChance(double critChance) {
         this.critChance = critChance;
     }
 
@@ -258,6 +258,6 @@ public abstract class Entity {
     }
 
     public void removeItemFromStorage(Item i) {
-        storage.removeItem(new ItemStack(1, i)); //TODO: fix this
+        storage.removeItem(new ItemStack(1, i)); 
     }
 }

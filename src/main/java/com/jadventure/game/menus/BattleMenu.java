@@ -3,57 +3,76 @@
  import com.jadventure.game.entities.Player;
  import com.jadventure.game.monsters.Monster;
  import com.jadventure.game.QueueProvider;
+ 
+ import java.util.Random;
 
  public class BattleMenu extends Menus {
 
-	 private Monster oponent;
-	 private Player player;
+     private Monster opponent;
+     private Player player;
+     private Random random;
 
-	 public BattleMenu(Monster oponent, Player player) {
-		 this.oponent = oponent;
-		 this.player = player;
-		 this.menuItems.add(new MenuItem("Attack", "Attack " + oponent.monsterType + "."));
-		 this.menuItems.add(new MenuItem("Defend", "Defend against " + oponent.monsterType + "'s attack."));
-		 this.menuItems.add(new MenuItem("Use", "Use item"));
+     public BattleMenu(Monster opponent, Player player) {
+          this.random = new Random();
+          this.opponent = opponent;
+          this.player = player;
+          this.menuItems.add(new MenuItem("Attack", "Attack " + opponent.monsterType + "."));
+          this.menuItems.add(new MenuItem("Defend", "Defend against " + opponent.monsterType + "'s attack."));
+          this.menuItems.add(new MenuItem("Use", "Use item"));
 
-		 while (true) {
-			 QueueProvider.offer("What is your choice?");
-			 MenuItem selectedItem = displayMenu(this.menuItems);
-			 if (isSuccessful(selectedItem)) {
+          while (opponent.getHealth() > 0 && player.getHealth() > 0) {
+               QueueProvider.offer("What is your choice?");
+               MenuItem selectedItem = displayMenu(this.menuItems);
+               testSelected(selectedItem);       
+          }
+     }
 
-			 } 		 
-		 }
-	 }
+     private void testSelected(MenuItem m) {
+          String key = m.getKey();
+          switch (m.getKey()) {
+               case "attack": {
+                    attack(true);
+                    break;
+               }
+               case "defend": {
+                    defend(true);
+                    break;
+               }
+               case "use": {
+                    use();
+                    break;
+               }
+               default: {
+                    break;
+               }
+          }
+     }
 
-	 private boolean isSuccessful(MenuItem m) {
-		 String key = m.getKey();
-		 switch (m.getKey()) {
-			 case "attack": {
-				return attack();
-			 }
-			 case "defend": {
-				return defend();
-			 }
-			 case "use": {
-				return use();
-			 }
-			 default: {
-				return false;
-			 }
-		 }
-	 }
+     private void attack(boolean isPlayer) {
+          //TODO:
+          if (isPlayer) {
+               double damage = player.getDamage();
+               double critCalc = random.nextDouble();
+               if (critCalc < player.getCritChance()) {
+                    damage += damage;
+                    QueueProvider.offer("Crit hit! Your damage has been doubled!");
+               }
+               int healthReduction = (int) ((((2 * player.getLevel() / 70 + 0.25) * damage * damage / player.getArmour() / 100) + 2));
+               opponent.setHealth(opponent.getHealth() - healthReduction);
+               if (opponent.getHealth() < 0) {
+                    opponent.setHealth(0);
+               }
+               QueueProvider.offer(healthReduction + " damage dealt!");
+               QueueProvider.offer(opponent.monsterType + "' health is " + opponent.getHealth());
+          }
+     }
 
-	 private boolean attack() {
-		 return true;
-	 }
+     private void defend(boolean isPlayer) {
+          //TODO:
+     }
 
-	 private boolean defend() {
-		 return true;
-	 }
-
-	 private boolean use() {
-		 new UseMenu(player.getStorage().getItems(), player);
-		 return true;
-	 }
+     private void use() {
+          new UseMenu(player.getStorage().getItems(), player);
+     }
  }
 

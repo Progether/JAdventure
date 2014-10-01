@@ -10,7 +10,7 @@ public class Wolf extends Monster {
 		this.setHealth(35 + playerLevel * 3);
 		this.setArmour(0);
 		this.setDamage(15 + playerLevel * 2.5);
-		this.setCritChance(4);
+		this.setCritChance(0.04);
 		this.setGold(playerLevel * 2);
 	}
 }

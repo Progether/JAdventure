@@ -10,7 +10,7 @@ public class Skeleton extends Monster {
 		this.setHealth(50 + (int) Math.pow(playerLevel, 3));
 		this.setArmour(0);
 		this.setDamage(8 + Math.pow(playerLevel, 1.5));
-		this.setCritChance(2);
+		this.setCritChance(0.02);
 		this.setGold(playerLevel * 3);
 	}
 }

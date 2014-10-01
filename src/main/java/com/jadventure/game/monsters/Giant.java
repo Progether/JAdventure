@@ -10,7 +10,7 @@ public class Giant extends Monster {
 		this.setHealth(150 + playerLevel * 8);
 		this.setArmour(6 + playerLevel * 3);
 		this.setDamage(40 + playerLevel * 3);
-		this.setCritChance(3);
+		this.setCritChance(0.03);
 		this.setGold(15 + playerLevel * 11);
 	}
 }
