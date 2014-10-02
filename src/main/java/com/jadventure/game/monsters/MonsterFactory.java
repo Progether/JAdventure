@@ -10,6 +10,7 @@ import java.util.Random;
  */
 public class MonsterFactory {
     Random random = new Random();
+ 
     public Monster generateMonster(Player player) {
         switch (player.getLocationType()) {
             case FOREST:
@@ -55,7 +56,7 @@ public class MonsterFactory {
     }
 
     private Monster getCaveMonster(int playerLevel) {
-    	int randomInt = random.nextInt(3);
+    	int randomInt = random.nextInt(4);
         if (randomInt == 0)
             return new Troll(playerLevel);
         else if (randomInt == 1)

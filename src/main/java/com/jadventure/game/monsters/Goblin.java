@@ -11,6 +11,7 @@ public class Goblin extends Monster {
 		this.setArmour(playerLevel + 3);
 		this.setDamage(12 + playerLevel * 2.5);
 		this.setCritChance(0.02);
+        this.setXPGain(10 + playerLevel * 3);
 		this.setGold(playerLevel * 5);
 	}
 }

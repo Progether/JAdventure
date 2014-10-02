@@ -6,6 +6,7 @@ import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.navigation.Direction;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.QueueProvider;
+import com.jadventure.game.DeathException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -124,7 +125,7 @@ public enum CommandCollection {
                 player.getLocation().print();
                 MonsterFactory monsterFactory = new MonsterFactory();
                 Monster monster = monsterFactory.generateMonster(player);
-                player.getLocation().setMonsters(monster);
+                player.getLocation().addMonster(monster);
             } else {
                 QueueProvider.offer("The is no exit that way.");
             }
@@ -177,7 +178,7 @@ public enum CommandCollection {
 
     @Command(command="attack", aliases="a", description="Attacks an entity")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_a(String arg) {
+    public void command_a(String arg) throws DeathException {
        player.attack(arg.trim());
     }
 

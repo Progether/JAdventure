@@ -3,6 +3,7 @@ package com.jadventure.game.menus;
 import com.jadventure.game.menus.Menus;
 import com.jadventure.game.menus.MenuItem;
 import com.jadventure.game.entities.Player;
+import com.jadventure.game.DeathException;
 import com.jadventure.game.Game;
 import com.jadventure.game.QueueProvider;
 
@@ -11,7 +12,7 @@ import com.jadventure.game.QueueProvider;
  */
 public class ChooseClassMenu extends Menus {
 
-    public ChooseClassMenu() {
+    public ChooseClassMenu() throws DeathException {
         this.menuItems.add(new MenuItem("Recruit", "A soldier newly enlisted to guard the city of Silliya"));
         this.menuItems.add(new MenuItem("SewerRat", "A member of the underground of Silliya"));
 
@@ -24,7 +25,7 @@ public class ChooseClassMenu extends Menus {
         }
     }
 
-    private static boolean testOption(MenuItem m) {
+    private static boolean testOption(MenuItem m) throws DeathException {
         String key = m.getKey();
         if(key.equals("recruit")) {
             Player player = Player.getInstance("recruit");

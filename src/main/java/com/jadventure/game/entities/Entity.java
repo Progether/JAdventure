@@ -183,66 +183,70 @@ public abstract class Entity {
     }
 
     public HashMap equipItem(String place, Item item) {
-	 double oldDamage = this.damage;
-         Item empty = new Item("empty");
-	 if (place.equals("")) {
-             place = item.getPosition();
-	 }
-	 if (equipment.get(place) != null) {
-	      if (!empty.equals(equipment.get(place))) {
-	           unequipItem(equipment.get(place));
-	      }
-	 }
+         double oldDamage = this.damage;
+             Item empty = new Item("empty");
+         if (place.equals("")) {
+                 place = item.getPosition();
+         }
+         if (equipment.get(place) != null) {
+              if (!empty.equals(equipment.get(place))) {
+                   unequipItem(equipment.get(place));
+              }
+         }
          this.equipment.put(place, item);
-	 HashMap result = new HashMap();
-	 switch (item.getItemID().charAt(0)) {
-	      case 'w': {
-	           this.weapon = item.getItemID();
-		   this.damage += item.getProperty("damage");
-		   double diffDamage = this.damage - oldDamage;
-		   result.put("damage", diffDamage);
-		   break;
-	      } case 'a': {
-	           this.armour += item.getProperty("armour");
-		   result.put("armour", item.getProperty("armour"));
-		   break;
-	      } case 'p': {
-		   if (item.propertiesContainsKey("healthMax")) {
-	  	        this.healthMax += item.getProperty("healthMax");
-		        this.health += item.getProperty("healthMax");
-			unequipItem(item); // One use only
-		        result.put("health", item.getProperty("healthMax"));
-		   }
-		   break;
-	      } case 'f': {
-		   this.health += item.getProperty("health");
-		   this.health = (this.health > this.healthMax) ? this.healthMax : this.health;
-		   unequipItem(item); //One use only
-		   result.put("health", item.getProperty("health"));
-		   break;
-	      }
-          }
-	return result;	 
+         removeItemFromStorage(item);
+         HashMap result = new HashMap();
+         switch (item.getItemID().charAt(0)) {
+              case 'w': {
+                  this.weapon = item.getItemID();
+                  this.damage += item.getProperty("damage");
+                  double diffDamage = this.damage - oldDamage;
+                  result.put("damage", diffDamage);
+                  break;
+              } case 'a': {
+                   this.armour += item.getProperty("armour");
+                   result.put("armour", item.getProperty("armour"));
+                   break;
+              } case 'p': {
+                   if (item.propertiesContainsKey("healthMax")) {
+                        this.healthMax += item.getProperty("healthMax");
+                        this.health += item.getProperty("healthMax");
+                        unequipItem(item); // One use only
+                        removeItemFromStorage(item);
+                        result.put("health", item.getProperty("healthMax"));
+                   }
+                   break;
+              } case 'f': {
+                   this.health += item.getProperty("health");
+                   this.health = (this.health > this.healthMax) ? this.healthMax : this.health;
+                   unequipItem(item); //One use only
+                   removeItemFromStorage(item);
+                   result.put("health", item.getProperty("health"));
+                   break;
+              }
+         }
+         return result;	 
     }
     
     public HashMap unequipItem(Item item) {
-	 double oldDamage = this.damage;
-	 String place = "";
-	 for (String key : this.equipment.keySet()) {
-	      if (this.equipment.get(key).equals(item)) {
-                   place = key;
-	      }
-	 }
-	 if (!place.isEmpty()) {
-	      this.equipment.put(place, new Item("empty"));
-	 }
-	 HashMap result = new HashMap();
-	 if (item.propertiesContainsKey("damage")) {   
-	      this.damage -= item.getProperty("damage");
-	      double diffDamage = this.damage - oldDamage;
-	      result.put("damage", diffDamage);
-	 }
-	 return result;
+         double oldDamage = this.damage;
+         String place = "";
+         for (String key : this.equipment.keySet()) {
+              if (this.equipment.get(key).equals(item)) {
+                       place = key;
+              }
+         }
+         if (!place.isEmpty()) {
+              this.equipment.put(place, new Item("empty"));
+         }
+         addItemToStorage(item);
+         HashMap result = new HashMap();
+         if (item.propertiesContainsKey("damage")) {   
+              this.damage -= item.getProperty("damage");
+              double diffDamage = this.damage - oldDamage;
+              result.put("damage", diffDamage);
+         }
+         return result;
     }
 
     public Storage getStorage() {
@@ -253,11 +257,15 @@ public abstract class Entity {
         this.storage = storage;
     }
     
-    public void addItemToStorage(Item i){
-        storage.addItem(new ItemStack(1, i));
+    public void addItemToStorage(Item i) {
+        if (!i.equals(new Item("empty"))) {
+            storage.addItem(new ItemStack(1, i));
+        }
     }
 
     public void removeItemFromStorage(Item i) {
-        storage.removeItem(new ItemStack(1, i)); 
+        if (!i.equals(new Item("empty"))) {
+            storage.removeItem(new ItemStack(1, i)); 
+        }
     }
 }

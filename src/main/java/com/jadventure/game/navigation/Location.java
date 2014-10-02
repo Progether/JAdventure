@@ -106,10 +106,18 @@ public class Location implements ILocation {
         return npcs;
     }
     
-    public void setMonsters(Monster monster) {
+    public void addMonster(Monster monster) {
         ArrayList<Monster> list = this.monsters;
         list.add(monster);
         this.monsters = list;
+    }
+
+    public void removeMonster(Monster monster) {
+        for (int i = 0; i < monsters.size(); i++) {
+            if (monsters.get(i).equals(monster)) {
+                monsters.remove(i);
+            }
+        }
     }
 
     public ArrayList<Monster> getMonsters() {

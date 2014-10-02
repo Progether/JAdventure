@@ -21,7 +21,8 @@ public interface ILocation {
     public ArrayList<NPC> getNPCs();
     public void removePublicItem(String itemID);
     public void addPublicItem(String itemID);
-    public void setMonsters(Monster monster);
+    public void addMonster(Monster monster);
+    public void removeMonster(Monster monster);
     public ArrayList<Monster> getMonsters();
     public void print();
 }

@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
+
 import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Backpack;
@@ -18,6 +19,7 @@ import com.jadventure.game.navigation.LocationType;
 import com.jadventure.game.menus.BattleMenu;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.QueueProvider;
+import com.jadventure.game.DeathException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -82,7 +84,7 @@ public class Player extends Entity {
             player.setDexterity(json.get("dexterity").getAsInt());
             player.setLuck(json.get("luck").getAsInt());
             player.setStealth(json.get("stealth").getAsInt());
-	    player.equipItem("rightHand", new Item(json.get("weapon").getAsString()));
+	        player.equipItem("rightHand", new Item(json.get("weapon").getAsString()));
             if (json.has("items")) {
                 HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
                 ArrayList<ItemStack> itemList = new ArrayList<ItemStack>();
@@ -172,12 +174,9 @@ public class Player extends Entity {
     public void getStats(){
         Item weapon = new Item(getWeapon());
         String weaponName = weapon.getName();
-
-	if (weaponName == null){
-	    weaponName = "hands";
-	}
-
-  
+        if (weaponName == null){
+            weaponName = "hands";
+        }
         QueueProvider.offer("\nPlayer name: " + getName() +
                             "\nCurrent weapon: " + weaponName +
                             "\nGold: " + player.getGold() +
@@ -188,6 +187,7 @@ public class Player extends Entity {
                             "\nDexterity: " + getDexterity() +
                             "\nLuck: " + getLuck() +
                             "\nStealth: " + getStealth() +
+                            "\nXP: " + getXP() +
                             "\n" + getName() + "'s level: " + getLevel());
     }
 
@@ -294,58 +294,53 @@ public class Player extends Entity {
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             HashMap change = this.equipItem(item.getPosition(), item);
-	    storage.removeItem(new ItemStack(1, item));
             QueueProvider.offer(item.getName()+ " equipped");
- 	    printStatChange(change);
-	}
-    }
-
-    public void equipItem(String place, String itemName) {
-	 Item item = new Item("empty");
-	 if (!itemName.equals("empty")) {
-             ArrayList<Item> itemMap = searchItem(itemName, getStorage());
-             if (!itemMap.isEmpty()) {
-                 item = itemMap.get(0);
-	     }
-	 }
-	 HashMap change = this.equipItem(place, item);
-	 storage.removeItem(new ItemStack(1, item));
-         QueueProvider.offer(item.getName() + " equipped");
- 	 printStatChange(change);
-    }
-    
-    public void dequipItem(String itemName) {
-        ArrayList<Item> itemMap = searchItem(itemName, getStorage());
-        if (!itemMap.isEmpty()) {
-            Item item = itemMap.get(0);
-            HashMap change = this.unequipItem(item);
-	    storage.addItem(new ItemStack(1,item));
-            QueueProvider.offer(item.getName()+" unequipped");
-	    printStatChange(change);
+            printStatChange(change);
         }
     }
 
+    public void equipItem(String place, String itemName) {
+	    Item item = new Item("empty");
+	    if (!itemName.equals("empty")) {
+                 ArrayList<Item> itemMap = searchItem(itemName, getStorage());
+                 if (!itemMap.isEmpty()) {
+                     item = itemMap.get(0);
+             }
+         }
+         HashMap change = this.equipItem(place, item);
+         QueueProvider.offer(item.getName() + " equipped");
+         printStatChange(change);
+    }
+    
+    public void dequipItem(String itemName) {
+         ArrayList<Item> itemMap = searchItem(itemName, getStorage());
+         if (!itemMap.isEmpty()) {
+            Item item = itemMap.get(0);
+            HashMap change = this.unequipItem(item);
+            QueueProvider.offer(item.getName()+" unequipped");
+	        printStatChange(change);
+         }
+    }
+
     private void printStatChange(HashMap stats) {
-	 Set set = stats.entrySet();
-	 Iterator i = set.iterator();
-	 while (i.hasNext()) {
-	      Map.Entry me = (Map.Entry) i.next();
-	      try {
-	           if ((double) me.getValue() > 0.0) {
-	                QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")\n");
-	      } else {
-	                QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")\n");
-		   
-	      }
-	      } catch (ClassCastException e) {
-	           if ((int) me.getValue() > 0.0) {
-	                QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")\n");
-	           } else {
-	                QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")\n");
-		   
-	           }
-	      }
-	 }
+         Set set = stats.entrySet();
+         Iterator i = set.iterator();
+         while (i.hasNext()) {
+              Map.Entry me = (Map.Entry) i.next();
+              try {
+                   if ((double) me.getValue() > 0.0) {
+                        QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")\n");
+                  } else {
+                       QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")\n");
+                  }
+              } catch (ClassCastException e) {
+                  if ((int) me.getValue() > 0) {
+                      QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")\n");
+                  } else {
+                      QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")\n");
+                  }
+              }
+         }
     }
 
     public void inspectItem(String itemName) {
@@ -373,18 +368,18 @@ public class Player extends Entity {
     	return getLocation().getLocationType();
     }
 
-    public void attack(String opponentName) {
-	Monster opponent = null;
-	ArrayList<Monster> monsters = getLocation().getMonsters();
-	for (int i = 0; i < monsters.size(); i++) {
-             if (monsters.get(i).monsterType.equalsIgnoreCase(opponentName)) {
-		     opponent = monsters.get(i);
-	     }
-	}
-	if (opponent != null) {
-	     BattleMenu battleMenu = new BattleMenu(opponent, this);
-	} else {
-	     QueueProvider.offer("Opponent not found");
-	}
+    public void attack(String opponentName) throws DeathException {
+        Monster opponent = null;
+        ArrayList<Monster> monsters = getLocation().getMonsters();
+        for (int i = 0; i < monsters.size(); i++) {
+                 if (monsters.get(i).monsterType.equalsIgnoreCase(opponentName)) {
+                 opponent = monsters.get(i);
+             }
+        }
+        if (opponent != null) {
+             BattleMenu battleMenu = new BattleMenu(opponent, this);
+        } else {
+             QueueProvider.offer("Opponent not found");
+        }
     }
 }
