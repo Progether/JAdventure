@@ -46,6 +46,7 @@ import java.lang.Math;
  */
 public class Player extends Entity {
     private ILocation location;
+    private int xp;
     
     public Player(){
         
@@ -75,6 +76,7 @@ public class Player extends Entity {
             player.setArmour(json.get("armour").getAsInt());
             player.setDamage(json.get("damage").getAsInt());
             player.setLevel(json.get("level").getAsInt());
+            player.setXP(json.get("xp").getAsInt());
             player.setStrength(json.get("strength").getAsInt());
             player.setIntelligence(json.get("intelligence").getAsInt());
             player.setDexterity(json.get("dexterity").getAsInt());
@@ -132,6 +134,7 @@ public class Player extends Entity {
             player.setArmour(json.get("armour").getAsInt());
             player.setDamage(json.get("damage").getAsInt());
             player.setLevel(json.get("level").getAsInt());
+            player.setXP(json.get("xp").getAsInt());
             player.setStrength(json.get("strength").getAsInt());
             player.setIntelligence(json.get("intelligence").getAsInt());
             player.setDexterity(json.get("dexterity").getAsInt());
@@ -149,6 +152,14 @@ public class Player extends Entity {
 
         setUpVariables(player);
         return player;
+    } 
+
+    public int getXP() {
+        return xp;
+    }
+
+    public void setXP(int xp) {
+        this.xp = xp;
     }
 
     public static void setUpVariables(Player player) {

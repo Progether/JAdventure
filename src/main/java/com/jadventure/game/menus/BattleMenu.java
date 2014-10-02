@@ -1,5 +1,6 @@
  package com.jadventure.game.menus;
 
+ import com.jadventure.game.entities.Entity;
  import com.jadventure.game.entities.Player;
  import com.jadventure.game.monsters.Monster;
  import com.jadventure.game.QueueProvider;
@@ -13,25 +14,39 @@
      private Random random;
 
      public BattleMenu(Monster opponent, Player player) {
-          this.random = new Random();
-          this.opponent = opponent;
-          this.player = player;
-          this.menuItems.add(new MenuItem("Attack", "Attack " + opponent.monsterType + "."));
-          this.menuItems.add(new MenuItem("Defend", "Defend against " + opponent.monsterType + "'s attack."));
-          this.menuItems.add(new MenuItem("Use", "Use item"));
+      
+         this.random = new Random();
+         this.opponent = opponent;
+         this.player = player;
+         this.menuItems.add(new MenuItem("Attack", "Attack " + opponent.monsterType + "."));
+         this.menuItems.add(new MenuItem("Defend", "Defend against " + opponent.monsterType + "'s attack."));
+         this.menuItems.add(new MenuItem("Use", "Use item"));
 
-          while (opponent.getHealth() > 0 && player.getHealth() > 0) {
-               QueueProvider.offer("What is your choice?");
-               MenuItem selectedItem = displayMenu(this.menuItems);
-               testSelected(selectedItem);       
-          }
+         while (opponent.getHealth() > 0 && player.getHealth() > 0) {
+             QueueProvider.offer("What is your choice?");
+             MenuItem selectedItem = displayMenu(this.menuItems);
+             testSelected(selectedItem);       
+         } 
+	    if (player.getHealth() == 0) {
+	         QueueProvider.offer("You died... Start again? (y/n)");
+	         String reply = QueueProvider.take();
+	         if (reply.equals("y")) {
+	            //TODO: restart game
+	         } else if (reply.equals("n")) {
+		        //TODO: Exit game
+              }
+	    }  else if (opponent.getHealth() == 0) {
+	         int xp = calculateXPGain();
+	         QueueProvider.offer("You killed " + opponent.monsterType + "! You have gained " + xp + " XP");
+      }
      }
 
      private void testSelected(MenuItem m) {
           String key = m.getKey();
           switch (m.getKey()) {
                case "attack": {
-                    attack(true);
+                    attack(player, opponent);
+		    attack(opponent, player);
                     break;
                }
                case "defend": {
@@ -48,23 +63,28 @@
           }
      }
 
-     private void attack(boolean isPlayer) {
+     private void attack(Entity attacker, Entity defender) {
           //TODO:
-          if (isPlayer) {
-               double damage = player.getDamage();
+          //if (isPlayer) {
+               double damage = attacker.getDamage();
                double critCalc = random.nextDouble();
-               if (critCalc < player.getCritChance()) {
+               if (critCalc < attacker.getCritChance()) {
                     damage += damage;
-                    QueueProvider.offer("Crit hit! Your damage has been doubled!");
+                    QueueProvider.offer("Crit hit! Damage has been doubled!");
                }
-               int healthReduction = (int) ((((2 * player.getLevel() / 70 + 0.25) * damage * damage / player.getArmour() / 100) + 2));
-               opponent.setHealth(opponent.getHealth() - healthReduction);
-               if (opponent.getHealth() < 0) {
-                    opponent.setHealth(0);
+               int healthReduction = (int) ((((3 * attacker.getLevel() / 60 + 0.5) * damage * damage / defender.getArmour() / 100) + 2) * random.nextDouble());
+               defender.setHealth((defender.getHealth() - healthReduction));
+               if (defender.getHealth() < 0) {
+                    defender.setHealth(0);
                }
                QueueProvider.offer(healthReduction + " damage dealt!");
-               QueueProvider.offer(opponent.monsterType + "' health is " + opponent.getHealth());
-          }
+	       if (attacker instanceof Player) {
+		    Monster m = (Monster) defender;
+                    QueueProvider.offer(m.monsterType + "' health is " + m.getHealth());
+	       } else {
+		    QueueProvider.offer("Your health is " + defender.getHealth());
+	       }
+          //}
      }
 
      private void defend(boolean isPlayer) {
@@ -74,5 +94,9 @@
      private void use() {
           new UseMenu(player.getStorage().getItems(), player);
      }
+
+     private int calculateXPGain() {
+	     return 1;
+     }  
  }
 
