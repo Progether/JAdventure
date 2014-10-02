@@ -5,6 +5,7 @@ import com.jadventure.game.menus.Menus;
 import com.jadventure.game.Game;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.menus.ChooseClassMenu;
+import com.jadventure.game.DeathException;
 import com.jadventure.game.QueueProvider;
 
 import java.io.IOException;
@@ -42,17 +43,23 @@ public class MainMenu extends Menus implements Runnable {
         this.menuItems.add(new MenuItem("Exit", null, "quit"));
         
         while(true) {
-            MenuItem selectedItem = displayMenu(this.menuItems);
-            boolean exit = testOption(selectedItem);
-            if (!exit) {
-                break;
+            try {
+                MenuItem selectedItem = displayMenu(this.menuItems);
+                boolean exit = testOption(selectedItem);
+                if (!exit) {
+                    break;
+                }
+            } catch (DeathException e) {
+                if (e.getLocalisedMessage().equals("close")) {
+                    break;
+                }
             }
         }
         QueueProvider.offer("EXIT");
     
     }
 
-    private static boolean testOption(MenuItem m) {
+    private static boolean testOption(MenuItem m) throws DeathException {
         String key = m.getKey();
         if(key.equals("start")) {
             try {
