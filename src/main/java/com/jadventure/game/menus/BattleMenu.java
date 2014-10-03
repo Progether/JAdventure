@@ -58,7 +58,7 @@
         String key = m.getKey();
         switch (m.getKey()) {
             case "attack": {
-                mutateStats(1.5, 0.5);
+                mutateStats(1, 0.5);
                 attack(player, opponent);
 		        attack(opponent, player);
                 resetStats();
@@ -66,7 +66,7 @@
             }
             case "defend": {
                 QueueProvider.offer("You get ready to defend against the " + opponent.monsterType + ".");
-                mutateStats(0.5, 2);
+                mutateStats(0.5, 1);
                 attack(opponent, player);
                 attack(player, opponent);
                 resetStats();
