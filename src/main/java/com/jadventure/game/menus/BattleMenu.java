@@ -41,7 +41,6 @@
             int oldLevel = this.player.getLevel();
             int newLevel = (int) (0.075 * Math.sqrt(this.player.getXP()) + 1);
             this.player.setLevel(newLevel);
-            System.out.println(newLevel);
             this.player.getLocation().removeMonster(opponent);
 		    QueueProvider.offer("You killed a " + opponent.monsterType + "! You have gained " + xp + " XP");
             if (oldLevel < newLevel) {
