@@ -14,6 +14,8 @@
      private Monster opponent;
      private Player player;
      private Random random;
+     private int armour;
+     private double damage;
 
      public BattleMenu(Monster opponent, Player player) throws DeathException {
         this.random = new Random();
@@ -22,6 +24,8 @@
         this.menuItems.add(new MenuItem("Attack", "Attack " + opponent.monsterType + "."));
         this.menuItems.add(new MenuItem("Defend", "Defend against " + opponent.monsterType + "'s attack."));
         this.menuItems.add(new MenuItem("Use", "Use item"));
+        this.armour = player.getArmour();
+        this.damage = player.getDamage();
         while (opponent.getHealth() > 0 && player.getHealth() > 0) {
             QueueProvider.offer("What is your choice?");
             MenuItem selectedItem = displayMenu(this.menuItems);
@@ -42,7 +46,8 @@
             int newLevel = (int) (0.075 * Math.sqrt(this.player.getXP()) + 1);
             this.player.setLevel(newLevel);
             this.player.getLocation().removeMonster(opponent);
-		    QueueProvider.offer("You killed a " + opponent.monsterType + "! You have gained " + xp + " XP");
+            this.player.setGold(this.player.getGold() + opponent.getGold());
+		    QueueProvider.offer("You killed a " + opponent.monsterType + "\nYou have gained " + xp + " XP and " + opponent.getGold() + " gold");
             if (oldLevel < newLevel) {
                 QueueProvider.offer("You've are now level " + newLevel + "!");
             }
@@ -53,12 +58,18 @@
         String key = m.getKey();
         switch (m.getKey()) {
             case "attack": {
+                mutateStats(1.5, 0.5);
                 attack(player, opponent);
 		        attack(opponent, player);
+                resetStats();
                 break;
             }
             case "defend": {
-                defend();
+                QueueProvider.offer("You get ready to defend against the " + opponent.monsterType + ".");
+                mutateStats(0.5, 2);
+                attack(opponent, player);
+                attack(player, opponent);
+                resetStats();
                 break;
             }
             case "use": {
@@ -95,12 +106,16 @@
         }
      }
 
-     private void defend() {
-        QueueProvider.offer("You get ready to defend against the " + opponent.monsterType + ".");
-        int armour = player.getArmour();
-        player.setArmour(armour * 2);
-        attack(opponent, player);
-        player.setArmour(armour);
+     private void mutateStats(double damageMult, double armourMult) {
+        armour = player.getArmour();
+        damage = player.getDamage();
+        player.setArmour((int) (armour * armourMult));
+        player.setDamage(damage * damageMult);
+     }
+
+     private void resetStats() {
+         player.setArmour(armour);
+         player.setDamage(damage);
      }
 
      private void use() {

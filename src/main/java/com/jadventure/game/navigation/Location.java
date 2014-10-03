@@ -1,6 +1,7 @@
 package com.jadventure.game.navigation;
 
 import com.jadventure.game.items.Item;
+import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.entities.NPC;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.QueueProvider;
@@ -145,6 +146,13 @@ public class Location implements ILocation {
         ArrayList<String> items = this.items;
         items.add(itemID);
         setItems(items);
+    }
+
+    public void addPublicItems(ArrayList<ItemStack> items) {
+        for (int i = 0; i < items.size(); i++) {
+            String itemID = items.get(i).getItem().getItemID();
+            addPublicItem(itemID);
+        }
     }
 
     public void print() {

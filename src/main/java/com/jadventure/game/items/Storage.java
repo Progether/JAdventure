@@ -1,6 +1,7 @@
 package com.jadventure.game.items;
 
 import java.util.ArrayList;
+
 /**
  * Defines an interface for any type of storage in this game.
  */

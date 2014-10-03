@@ -54,7 +54,7 @@ public abstract class Entity {
         this.name = name;
         this.gold = gold;
         this.storage = storage;
-	this.equipment = equipment;
+	    this.equipment = equipment;
     }
 
     public int getHealth() {

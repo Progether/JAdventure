@@ -11,6 +11,7 @@ import com.jadventure.game.DeathException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * CommandCollection contains the declaration of the methods mapped to game commands
@@ -111,7 +112,7 @@ public enum CommandCollection {
 
     @Command(command="goto", aliases="g", description="Goto a direction")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_g(String arg) {
+    public void command_g(String arg) throws DeathException {
         ILocation location = player.getLocation();
 
         try {
@@ -123,9 +124,22 @@ public enum CommandCollection {
                 ILocation newLocation = exits.get(Direction.valueOf(arg.toUpperCase()));
                 player.setLocation(newLocation);
                 player.getLocation().print();
-                MonsterFactory monsterFactory = new MonsterFactory();
-                Monster monster = monsterFactory.generateMonster(player);
-                player.getLocation().addMonster(monster);
+                Random random = new Random();
+                if (player.getLocation().getMonsters().size() == 0) {
+                    MonsterFactory monsterFactory = new MonsterFactory();
+                    int upperBound = random.nextInt(player.getLocation().getDangerRating() + 1);
+                    for (int i = 0; i < upperBound; i++) {
+                        Monster monster = monsterFactory.generateMonster(player);
+                        player.getLocation().addMonster(monster);
+                    }
+                }
+                if (random.nextDouble() < 0.5) {
+                    ArrayList<Monster> monsters = player.getLocation().getMonsters();
+                    int posMonster = random.nextInt(monsters.size());
+                    String monster = monsters.get(posMonster).monsterType;
+                    QueueProvider.offer("A " + monster + " is attacking you!");
+                    player.attack(monster);
+                }
             } else {
                 QueueProvider.offer("The is no exit that way.");
             }
