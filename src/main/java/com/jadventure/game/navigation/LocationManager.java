@@ -66,6 +66,7 @@ public enum LocationManager {
         location.setTitle(json.get("title").getAsString());
         location.setDescription(json.get("description").getAsString());
         location.setLocationType(LocationType.valueOf(json.get("locationType").getAsString()));
+        location.setDangerRating(json.get("danger").getAsInt());
         if (json.has("items")) {
             ArrayList<String> items = new Gson().fromJson(json.get("items"), new TypeToken<List<String>>(){}.getType());
             location.setItems(items);
@@ -93,6 +94,7 @@ public enum LocationManager {
                 locationJsonElement.addProperty("coordinate", location.getCoordinate().toString());
                 locationJsonElement.addProperty("description", location.getDescription());
                 locationJsonElement.addProperty("locationType", location.getLocationType().toString());
+                locationJsonElement.addProperty("danger", String.valueOf(location.getDangerRating()));
                 JsonArray itemList = new JsonArray();
                 ArrayList<Item> items = location.getItems();
                 if (items.size() > 0) {

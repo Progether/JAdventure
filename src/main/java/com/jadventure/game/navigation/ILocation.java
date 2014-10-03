@@ -25,5 +25,7 @@ public interface ILocation {
     public void removeMonster(Monster monster);
     public ArrayList<Monster> getMonsters();
     public void print();
+    public int getDangerRating();
+    public void setDangerRating(int dangerRating);
 }
 

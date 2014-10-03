@@ -148,16 +148,6 @@ public enum CommandCollection {
         player.equipItem(arg.trim());
     }
 
-    @Command(command="dequip", aliases="de", description="Dequip an item")
-    @SuppressWarnings("UnusedDeclaration")
-    public void command_de(String arg) {
-        player.dequipItem(arg.trim());
-    }
-
-   /*
-    * Corrected English as "dequip" is not actually a word - mainly for usability 
-    * purposes. Left dequip command for legacy support.
-    */
     @Command(command="unequip", aliases="ue", description="Unequip an item")
     @SuppressWarnings("UnusedDeclaration")
     public void command_ue(String arg) {
