@@ -1,6 +1,7 @@
 package com.jadventure.game.navigation;
 
 import com.jadventure.game.items.Item;
+import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.entities.NPC;
 import com.jadventure.game.monsters.Monster;
 
@@ -21,9 +22,12 @@ public interface ILocation {
     public ArrayList<NPC> getNPCs();
     public void removePublicItem(String itemID);
     public void addPublicItem(String itemID);
+    public void addPublicItems(ArrayList<ItemStack> items);
     public void addMonster(Monster monster);
     public void removeMonster(Monster monster);
     public ArrayList<Monster> getMonsters();
     public void print();
+    public int getDangerRating();
+    public void setDangerRating(int dangerRating);
 }
 

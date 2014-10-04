@@ -1,6 +1,7 @@
 package com.jadventure.game.navigation;
 
 import com.jadventure.game.items.Item;
+import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.entities.NPC;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.QueueProvider;
@@ -27,6 +28,7 @@ public class Location implements ILocation {
     private String title;
     private String description;
     private LocationType locationType;
+    private int dangerRating;
     private ArrayList<String> items;
     private ArrayList<String> npcs;
     private ArrayList<Monster> monsters = new ArrayList<Monster>();
@@ -67,6 +69,14 @@ public class Location implements ILocation {
         this.locationType = locationType;
     }
 
+    public int getDangerRating() {
+        return dangerRating;
+    }
+
+    public void setDangerRating(int dangerRating) {
+        this.dangerRating = dangerRating;
+    }
+
     // It checks each direction for an exit and adds it to the exits hashmap if it exists.
     public Map<Direction, ILocation> getExits() {
         Map<Direction, ILocation> exits = new HashMap<Direction, ILocation>();
@@ -105,11 +115,13 @@ public class Location implements ILocation {
         }
         return npcs;
     }
-    
+   
     public void addMonster(Monster monster) {
-        ArrayList<Monster> list = this.monsters;
-        list.add(monster);
-        this.monsters = list;
+        if (monster != null) {
+            ArrayList<Monster> list = this.monsters;
+            list.add(monster);
+            this.monsters = list;
+        }
     }
 
     public void removeMonster(Monster monster) {
@@ -134,6 +146,13 @@ public class Location implements ILocation {
         ArrayList<String> items = this.items;
         items.add(itemID);
         setItems(items);
+    }
+
+    public void addPublicItems(ArrayList<ItemStack> items) {
+        for (int i = 0; i < items.size(); i++) {
+            String itemID = items.get(i).getItem().getItemID();
+            addPublicItem(itemID);
+        }
     }
 
     public void print() {

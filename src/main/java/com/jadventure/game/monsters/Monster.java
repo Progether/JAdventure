@@ -19,6 +19,7 @@ public abstract class Monster extends Entity {
         this.xpGain = xpGain;
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
