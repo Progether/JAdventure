@@ -1,125 +1,358 @@
-{"2,9,-1":{
-	"title":"Dark Corridor",
-	"coordinate":"2,9,-1",
-	"description":"A very long dark corridor",
-	"locationType":"CAVE",
-    "danger":3
-},"0,-1,-1":{
-	"title":"Stairs",
-	"coordinate":"0,-1,-1",
-	"description":"Stairs up to the outside world.",
-	"locationType":"CAVE",
-    "danger":0
-},"1,1,-1":{
-	"title":"Dark Corridor",
-	"coordinate":"1,1,-1",
-	"description":"A very long dark corridor",
-	"locationType":"CAVE",
-    "danger":3
-},"-3,5,-1":{
-	"title":"Dark Corridor",
-	"coordinate":"-3,5,-1",
-	"description":"A very long dark corridor",
-	"locationType":"CAVE",
-    "danger":3
-},"2,6,-1":{
-	"title":"Dark Corridor",
-	"coordinate":"2,6,-1",
-	"description":"A very long dark corridor",
-	"locationType":"CAVE",
-    "danger":3
-},"-3,6,-1":{
-	"title":"Dark Corridor",
-	"coordinate":"-3,6,-1",
-	"description":"A very long dark corridor",
-	"locationType":"CAVE",
-    "danger":3
-},"2,10,-1":{
-	"title":"Underground Amphitheatre",
-	"coordinate":"2,10,-1",
-	"description":"The central hub of the underground",
-	"locationType":"CAVE",
-    "danger":2,
-	"items":[
-		"wshi1"
-    ]
-},"2,8,-1":{
-	"title":"Dark Corridor",
-	"coordinate":"2,8,-1",
-	"description":"A very long dark corridor",
-	"locationType":"CAVE",
-    "danger":3
-},"-1,6,-1":{
-	"title":"Dark Corridor",
-	"coordinate":"-1,6,-1",
-	"description":"A very long dark corridor",
-	"locationType":"CAVE",
-    "danger":3
-},"2,7,-1":{
-	"title":"Dark Corridor",
-	"coordinate":"2,7,-1",
-	"description":"A very long dark corridor",
-	"locationType":"CAVE",
-    "danger":3
-},"0,5,-1":{
-	"title":"Dark Corridor",
-	"coordinate":"0,5,-1",
-	"description":"A very long dark corridor",
-	"locationType":"CAVE",
-    "danger":3
-},"0,6,-1":{
-	"title":"Dark Corridor",
-	"coordinate":"0,6,-1",
-	"description":"A very long dark corridor",
-	"locationType":"CAVE",
-    "danger":3
-},"1,6,-1":{
-	"title":"Dark Corridor",
-	"coordinate":"1,6,-1",
-	"description":"A very long dark corridor",
-	"locationType":"CAVE",
-    "danger":3
-},"-2,6,-1":{
-	"title":"Dark Corridor",
-	"coordinate":"-2,6,-1",
-	"description":"A very long dark corridor",
-	"locationType":"CAVE",
-    "danger":3
-},"0,3,-1":{
-	"title":"Dark Corridor",
-	"coordinate":"0,3,-1",
-	"description":"A very long dark corridor",
-	"locationType":"CAVE",
-    "danger":3
-},"0,4,-1":{
-	"title":"Underground Entrance",
-	"coordinate":"0,4,-1",
-	"description":"The entrance to Silliya\u0027s Underground Society",
-	"locationType":"CAVE",
-    "danger":1,
-	"items":[
-		"tlap1"
-    ]
-},"0,2,-1":{
-	"title":"Dark Corridor",
-	"coordinate":"0,2,-1",
-	"description":"A very long dark corridor",
-	"locationType":"CAVE",
-    "danger":3
-},"0,0,-1":{
-	"title":"First Location Ever",
-	"coordinate":"0,0,-1",
-	"description":"You are in a massive, empty room.",
-	"locationType":"CAVE",
-    "danger":0,
-	"items":[
-		"wshi1"
-    ]
-},"0,1,-1":{
-	"title":"Dark Corridor",
-	"coordinate":"0,1,-1",
-	"description":"A very long dark corridor.",
-	"locationType":"CAVE",
-    "danger":3
-    }
-}
+{
+"1,1,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor",
+	"coordinate": "1,1,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"2,9,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor",
+	"coordinate": "2,9,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"0,2,0": {
+	"title": "Ground",
+	"coordinate": "0,2,0",
+	"locationType": "PLAINS",
+	"description": "The ground",
+	"danger": 1},
+"1,6,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor",
+	"coordinate": "1,6,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"1,10,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor",
+	"coordinate": "1,10,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"0,1,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor.",
+	"coordinate": "0,1,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"6,6,-1": {
+	"title": "Cave",
+	"description": "A dark cave",
+	"locationType": "CAVE",
+	"coordinate": "6,6,-1",
+	"danger": 3},
+"-3,4,-1": {
+	"title": "Market Place",
+	"description": "The central market place of the underground",
+	"coordinate": "-3,4,-1",
+	"locationType": "CAVE",
+	"danger": 0},
+"2,7,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor",
+	"coordinate": "2,7,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"2,8,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor",
+	"coordinate": "2,8,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"2,3,-1": {
+	"title": "Cave",
+	"description": "A large open cave",
+	"coordinate": "2,3,-1",
+	"locationType": "CAVE",
+	"danger": 4},
+"5,9,-1": {
+	"title": "Dark corridor",
+	"description": "A long dark corridor",
+	"locationType": "CAVE",
+	"coordinate": "5,9,-1",
+	"danger": 1},
+"5,2,-1": {
+	"title": "Cave",
+	"description": "A dark cave",
+	"coordinate": "5,2,-1",
+	"locationType": "CAVE",
+	"danger": 4},
+"0,2,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor",
+	"coordinate": "0,2,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"4,4,-1": {
+	"title": "Cave",
+	"description": "A dark cave",
+	"coordinate": "4,4,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"7,10,-1": {
+	"title": "Underground Entrance",
+	"description": "A way out",
+	"locationType": "CAVE",
+	"coordinate": "7,10,-1",
+	"danger": 1},
+"7,9,-1": {
+	"title": "Cave",
+	"description": "A large open cave",
+	"locationType": "CAVE",
+	"coordinate": "7,9,-1",
+	"danger": 4},
+"2,6,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor",
+	"coordinate": "2,6,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"0,0,-1": {
+	"title": "First Location Ever",
+	"items": ["wshi1"],
+	"coordinate": "0,0,-1",
+	"locationType": "CAVE",
+	"description": "You are in a massive empty room.",
+	"danger": 0},
+"0,4,-1": {
+	"title": "Underground Entrance",
+	"items": ["tlap1"],
+	"coordinate": "0,4,-1",
+	"locationType": "CAVE",
+	"description": "The entrance to Silliya's Underground Society",
+	"danger": 1},
+"0,3,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor",
+	"coordinate": "0,3,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"0,1,0": {
+	"title": "Ground",
+	"coordinate": "0,1,0",
+	"locationType": "PLAINS",
+	"description": "The ground",
+	"danger": 1},
+"-2,8,-1": {
+	"title": "Above",
+	"description": "A tunnle to Above",
+	"coordinate": "-2,8,-1",
+	"locationType": "CAVE",
+	"danger": 0},
+"-1,6,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor",
+	"coordinate": "-1,6,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"1,0,0": {
+	"title": "Ground",
+	"coordinate": "1,0,0",
+	"locationType": "PLAINS",
+	"description": "The ground",
+	"danger": 1},
+"5,10,-1": {
+	"title": "Cave",
+	"description": "A large open cave",
+	"locationType": "CAVE",
+	"coordinate": "5,10,-1",
+	"danger": 5},
+"4,10,-1": {
+	"title": "Cave",
+	"description": "A large open cave",
+	"locationType": "CAVE",
+	"coordinate": "4,10,-1",
+	"danger": 5},
+"6,0,-1": {
+	"title": "Lair",
+	"description": "A large lair of some unknown creature",
+	"coordinate": "6,0,-1",
+	"locationType": "CAVE",
+	"danger": 5},
+"0,-1,-1": {
+	"title": "Stairs",
+	"description": "Stairs up to the outside world.",
+	"coordinate": "0,-1,-1",
+	"locationType": "CAVE",
+	"danger": 0},
+"4,3,-1": {
+	"title": "Cave",
+	"description": "A dark cave",
+	"coordinate": "4,3,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"6,2,-1": {
+	"title": "Cave",
+	"description": "A dark cave",
+	"coordinate": "6,2,-1",
+	"locationType": "CAVE",
+	"danger": 4},
+"-1,0,0": {
+	"title": "Wall",
+	"coordinate": "-1,0,0",
+	"locationType": "WALL",
+	"description": "The city wall",
+	"danger": 0},
+"6,4,-1": {
+	"title": "Cave",
+	"description": "A dark cave",
+	"locationType": "CAVE",
+	"coordinate": "6,4,-1",
+	"danger": 3},
+"4,2,-1": {
+	"title": "Cave",
+	"description": "A dark cave",
+	"coordinate": "4,2,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"2,10,-1": {
+	"title": "Underground Amphitheatre",
+	"items": ["wshi1"],
+	"coordinate": "2,10,-1",
+	"locationType": "CAVE",
+	"description": "The central hub of the underground",
+	"danger": 2},
+"-3,6,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor",
+	"coordinate": "-3,6,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"6,8,-1": {
+	"title": "Cave",
+	"description": "A dark cave",
+	"locationType": "CAVE",
+	"coordinate": "6,8,-1",
+	"danger": 2},
+"0,-1,0": {
+	"title": "Ground",
+	"coordinate": "0,-1,0",
+	"locationType": "PLAINS",
+	"description": "The ground",
+	"danger": 1},
+"-2,6,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor",
+	"coordinate": "-2,6,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"5,7,-1": {
+	"title": "Cave",
+	"description": "A dark cave",
+	"locationType": "CAVE",
+	"coordinate": "5,7,-1",
+	"danger": 4},
+"0,6,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor",
+	"coordinate": "0,6,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"7,2,-1": {
+	"title": "Cave",
+	"description": "A dark cave",
+	"coordinate": "7,2,-1",
+	"locationType": "CAVE",
+	"danger": 4},
+"6,9,-1": {
+	"title": "Cave",
+	"description": "A dark cave",
+	"locationType": "CAVE",
+	"coordinate": "6,9,-1",
+	"danger": 2},
+"6,5,-1": {
+	"title": "Cave",
+	"description": "A dark cave",
+	"locationType": "CAVE",
+	"coordinate": "6,5,-1",
+	"danger": 3},
+"0,10,-1": {
+	"title": "Arena",
+	"description": "The battle arena",
+	"coordinate": "0,10,-1",
+	"locationType": "CAVE",
+	"danger": 5},
+"-1,1,0": {
+	"title": "Wall",
+	"coordinate": "-1,1,0",
+	"locationType": "WALL",
+	"description": "The city wall",
+	"danger": 0},
+"7,6,-1": {
+	"title": "Cave",
+	"description": "A dark cave",
+	"locationType": "CAVE",
+	"coordinate": "7,6,-1",
+	"danger": 4},
+"5,1,-1": {
+	"title": "Cave",
+	"description": "A dark cave",
+	"coordinate": "5,1,-1",
+	"locationType": "CAVE",
+	"danger": 4},
+"5,4,-1": {
+	"title": "Cave",
+	"description": "A dark cave",
+	"locationType": "CAVE",
+	"coordinate": "5,4,-1",
+	"danger": 3},
+"2,1,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor",
+	"coordinate": "2,1,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"5,0,-1": {
+	"title": "Cave",
+	"description": "A dark cave",
+	"coordinate": "5,0,-1",
+	"locationType": "CAVE",
+	"danger": 5},
+"6,7,-1": {
+	"title": "Cave",
+	"description": "A dark cave",
+	"locationType": "CAVE",
+	"coordinate": "6,7,-1",
+	"danger": 3},
+"2,2,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor",
+	"coordinate": "2,2,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"4,9,-1": {
+	"title": "Cave",
+	"description": "A large open cave",
+	"locationType": "CAVE",
+	"coordinate": "4,9,-1",
+	"danger": 4},
+"-2,7,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor",
+	"coordinate": "-2,7,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"0,0,0": {
+	"title": "Cave Mouth",
+	"description": "The entrance to a cave",
+	"coordinate": "0,0,0",
+	"locationType": "PLAINS",
+	"danger": 0},
+"0,5,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor",
+	"coordinate": "0,5,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"-3,5,-1": {
+	"title": "Dark Corridor",
+	"description": "A very long dark corridor",
+	"coordinate": "-3,5,-1",
+	"locationType": "CAVE",
+	"danger": 3},
+"-4,4,-1": {
+	"title": "Thieves' Guild",
+	"description": "The headquaters of the Thieve's Guild",
+	"coordinate": "-4,4,-1",
+	"locationType": "CAVE",
+	"danger": 0}}
