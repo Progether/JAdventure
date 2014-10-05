@@ -10,5 +10,6 @@ public enum LocationType {
 	SWAMP,
 	MOUNTAIN,
 	PLAINS,
-	CAVE;
+	CAVE,
+    WALL;
 }

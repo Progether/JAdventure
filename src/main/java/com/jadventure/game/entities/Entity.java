@@ -4,10 +4,13 @@ import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Backpack;
 import com.jadventure.game.items.Storage;
+import com.jadventure.game.QueueProvider;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * superclass for all entities (includes player, monsters...)
@@ -138,6 +141,10 @@ public abstract class Entity {
         this.level = level;
     }
 
+    public HashMap<String, Item> getEquipment() {
+        return equipment;
+    }
+
     public int getStrength() {
         return strength;
     }
@@ -249,6 +256,19 @@ public abstract class Entity {
          return result;
     }
 
+    public void printEquipment() {
+        QueueProvider.offer("\n------------------------------------------------------------");
+        QueueProvider.offer("Equipped Items:");
+        if (equipment.keySet().size() == 0) {
+            QueueProvider.offer("--Empty--");
+        } else {
+            for (Map.Entry<String, Item> item : equipment.entrySet()) {
+                QueueProvider.offer(item.getKey() + " - " + item.getValue().getName());
+            }
+        }
+        QueueProvider.offer("------------------------------------------------------------"); 
+    }
+
     public Storage getStorage() {
         return storage;
     }
@@ -256,6 +276,10 @@ public abstract class Entity {
     public void setStorage(Storage storage) {
         this.storage = storage;
     }
+
+    public void printStorage() {
+       storage.display();
+    } 
     
     public void addItemToStorage(Item i) {
         if (!i.equals(new Item("empty"))) {
