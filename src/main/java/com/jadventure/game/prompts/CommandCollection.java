@@ -52,6 +52,8 @@ public enum CommandCollection {
          put("s", "south");
          put("e", "east");
          put("w", "west");
+         put("u", "up");
+         put("d", "down");
     }};
 
     public static CommandCollection getInstance() {
@@ -135,10 +137,12 @@ public enum CommandCollection {
                 }
                 if (random.nextDouble() < 0.5) {
                     ArrayList<Monster> monsters = player.getLocation().getMonsters();
-                    int posMonster = random.nextInt(monsters.size());
-                    String monster = monsters.get(posMonster).monsterType;
-                    QueueProvider.offer("A " + monster + " is attacking you!");
-                    player.attack(monster);
+                    if (monsters.size() > 0) {
+                        int posMonster = random.nextInt(monsters.size());
+                        String monster = monsters.get(posMonster).monsterType;
+                        QueueProvider.offer("A " + monster + " is attacking you!");
+                        player.attack(monster);
+                    }
                 }
             } else {
                 QueueProvider.offer("The is no exit that way.");
