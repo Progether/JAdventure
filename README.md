@@ -70,7 +70,7 @@ Install apache-ant
 Run the game with:
 
     ant -emacs run
-u
+
 It will automatically compile, test, and run the game.
 
 
