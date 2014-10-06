@@ -224,11 +224,12 @@ public abstract class Entity {
                    }
                    break;
               } case 'f': {
+                   int healthOld = this.getHealth();
                    this.health += item.getProperty("health");
                    this.health = (this.health > this.healthMax) ? this.healthMax : this.health;
                    unequipItem(item); //One use only
                    removeItemFromStorage(item);
-                   result.put("health", item.getProperty("health"));
+                   result.put("health", health - healthOld);
                    break;
               }
          }
@@ -248,10 +249,11 @@ public abstract class Entity {
          }
          addItemToStorage(item);
          HashMap result = new HashMap();
-         if (item.propertiesContainsKey("damage")) {   
-              this.damage -= item.getProperty("damage");
-              double diffDamage = this.damage - oldDamage;
-              result.put("damage", diffDamage);
+         if (item.propertiesContainsKey("damage")) {
+            this.weapon = "hands";   
+            this.damage -= item.getProperty("damage");
+            double diffDamage = this.damage - oldDamage;
+            result.put("damage", diffDamage);
          }
          return result;
     }
@@ -263,7 +265,9 @@ public abstract class Entity {
             QueueProvider.offer("--Empty--");
         } else {
             for (Map.Entry<String, Item> item : equipment.entrySet()) {
-                QueueProvider.offer(item.getKey() + " - " + item.getValue().getName());
+                if (!item.getKey().equals("mouth")) {
+                    QueueProvider.offer(item.getKey() + " - " + item.getValue().getName());
+                }
             }
         }
         QueueProvider.offer("------------------------------------------------------------"); 
