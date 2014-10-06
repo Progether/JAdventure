@@ -65,22 +65,10 @@ public enum CommandCollection {
 
     // command methods here
 
-    @Command(command="stats", aliases="st", description="Returns player's status")
-    @SuppressWarnings("UnusedDeclaration")
-    public void command_st() {
-        player.getStats();
-    }
-
     @Command(command="help", aliases="h", description="Prints help")
     @SuppressWarnings("UnusedDeclaration")
     public void command_help() {
         QueueProvider.offer(helpText);
-    }
-
-    @Command(command="backpack", aliases="b", description="Backpack contents")
-    @SuppressWarnings("UnusedDeclaration")
-    public void command_b() {
-        player.printBackPack();
     }
 
     @Command(command="save", aliases="s", description="Save the game")
