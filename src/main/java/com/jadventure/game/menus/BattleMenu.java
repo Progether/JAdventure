@@ -23,7 +23,8 @@
         this.player = player;
         this.menuItems.add(new MenuItem("Attack", "Attack " + opponent.monsterType + "."));
         this.menuItems.add(new MenuItem("Defend", "Defend against " + opponent.monsterType + "'s attack."));
-        this.menuItems.add(new MenuItem("Use", "Use item"));
+        this.menuItems.add(new MenuItem("Equip", "Equip an item"));
+        this.menuItems.add(new MenuItem("Unequip", "Unequip an item"));
         this.armour = player.getArmour();
         this.damage = player.getDamage();
         while (opponent.getHealth() > 0 && player.getHealth() > 0) {
@@ -72,8 +73,12 @@
                 resetStats();
                 break;
             }
-            case "use": {
-                use();
+            case "equip": {
+                equip();
+                break;
+            }
+            case "unequip": {
+                unequip();
                 break;
             }
             default: {
@@ -118,8 +123,22 @@
          player.setDamage(damage);
      }
 
-     private void use() {
-        new UseMenu(player.getStorage().getItems(), player);
+     private void equip() {
+        player.printStorage();
+		QueueProvider.offer("What item do you want to use?");
+		String itemName = QueueProvider.take();
+		if (!itemName.equalsIgnoreCase("back")) {
+			player.equipItem(itemName);
+		}
+     }
+
+     private void unequip() {
+        player.printEquipment();
+        QueueProvider.offer("What item do you want to unequip?");
+        String itemName = QueueProvider.take();
+        if (!itemName.equalsIgnoreCase("back")) {
+            player.dequipItem(itemName);
+        }
      }
  }
 

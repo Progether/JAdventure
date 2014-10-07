@@ -261,6 +261,17 @@ public class Player extends Entity {
         }
         return itemMap;
     }
+    
+    public ArrayList<Item> searchEquipment(String itemName, HashMap<String, Item> equipment) {
+        ArrayList<Item> itemMap = new ArrayList();
+        for (Item item : equipment.values()) {
+            String testItemName = item.getName();
+            if (testItemName.equals(itemName)) {
+                itemMap.add(item);
+            }
+        }
+        return itemMap;
+    }
 
     public void pickUpItem(String itemName) {
         ArrayList<Item> itemMap = searchItem(itemName, getLocation().getItems());
@@ -303,10 +314,10 @@ public class Player extends Entity {
     public void equipItem(String place, String itemName) {
 	    Item item = new Item("empty");
 	    if (!itemName.equals("empty")) {
-                 ArrayList<Item> itemMap = searchItem(itemName, getStorage());
-                 if (!itemMap.isEmpty()) {
-                     item = itemMap.get(0);
-             }
+            ArrayList<Item> itemMap = searchItem(itemName, getStorage());
+            if (!itemMap.isEmpty()) {
+                item = itemMap.get(0);
+            }
          }
          HashMap change = this.equipItem(place, item);
          QueueProvider.offer(item.getName() + " equipped");
@@ -314,7 +325,7 @@ public class Player extends Entity {
     }
     
     public void dequipItem(String itemName) {
-         ArrayList<Item> itemMap = searchItem(itemName, getStorage());
+         ArrayList<Item> itemMap = searchEquipment(itemName, getEquipment());
          if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             HashMap change = this.unequipItem(item);
@@ -328,18 +339,47 @@ public class Player extends Entity {
          Iterator i = set.iterator();
          while (i.hasNext()) {
               Map.Entry me = (Map.Entry) i.next();
-              try {
-                   if ((double) me.getValue() > 0.0) {
-                        QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")\n");
-                  } else {
-                       QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")\n");
-                  }
-              } catch (ClassCastException e) {
-                  if ((int) me.getValue() > 0) {
-                      QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")\n");
-                  } else {
-                      QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")\n");
-                  }
+              switch ((String) me.getKey()) {
+                  case "damage": {
+                        try {
+                            if ((double) me.getValue() >= 0.0) {
+                                QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")\n");
+                              } else {
+                                QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")\n");
+                              }
+                          } catch (ClassCastException e) {
+                              if ((int) me.getValue() >= 0) {
+                                  QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")\n");
+                              } else {
+                                  QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")\n");
+                              }
+                          }
+                          break;
+                    }
+                    case "health": {
+                          if ((int) me.getValue() >= 0) {
+                              QueueProvider.offer(me.getKey() + ": " + this.getHealth() + " (+" + me.getValue() + ")\n");
+                          } else {
+                              QueueProvider.offer(me.getKey() + ": " + this.getHealth() + " (" + me.getValue() + ")\n");
+                          }
+                          break;
+                    }
+                    case "armour": {
+                          if ((int) me.getValue() >= 0) {
+                              QueueProvider.offer(me.getKey() + ": " + this.getArmour() + " (+" + me.getValue() + ")\n");
+                          } else {
+                              QueueProvider.offer(me.getKey() + ": " + this.getArmour() + " (" + me.getValue() + ")\n");
+                          }
+                          break;
+                    }
+                    case "maxHealth": {
+                          if ((int) me.getValue()  >= 0) {
+                              QueueProvider.offer(me.getKey() + ": " + this.getHealthMax() + " (+" + me.getValue() + ")\n");
+                          } else {
+                              QueueProvider.offer(me.getKey() + ": " + this.getHealthMax() + " (" + me.getValue() + ")\n");
+                          }
+                          break;
+                    }
               }
          }
     }

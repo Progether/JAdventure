@@ -33,18 +33,17 @@ public enum CommandCollection {
 "drop (d)<item>:      Drops an item.\n" +
 "equip (e)<item>:     Equips an item.\n" +
 "unequip (ue)<item>:  Unequips an item.\n" +
-"attack (a)<entity>:  Attacks an entity.\n" +
+"attack (a)<monster>: Attacks an monster.\n" +
 "lookaround (la):     Prints out what is around you.\n" +
 "monster (m):         Prints out the monsters around you.\n\n" +
 "Player\n" +
 "-------------------------------------------------------------\n" + 
-"stats (st):          Prints your statistics.\n" +
-"backpack (b):        Prints out the contents of your backpack.\n\n" +
+"view (v)<s/e/b>:     Views your stats, equipped items or backpack respectively.\n" +
 "Game\n" +
 "-------------------------------------------------------------\n" + 
 "save (s):            Save your progress.\n" +
 "exit:                Exit the game and return to the main menu.\n" + 
-"debug: starts debuggung.\n";
+"debug:               Starts debuggung.\n";
 
     private HashMap<String, String> directionLinks = new HashMap<String,String>()
     {{
@@ -66,22 +65,10 @@ public enum CommandCollection {
 
     // command methods here
 
-    @Command(command="status", aliases="st", description="Returns player's status")
-    @SuppressWarnings("UnusedDeclaration")
-    public void command_st() {
-        player.getStats();
-    }
-
     @Command(command="help", aliases="h", description="Prints help")
     @SuppressWarnings("UnusedDeclaration")
     public void command_help() {
         QueueProvider.offer(helpText);
-    }
-
-    @Command(command="backpack", aliases="b", description="Backpack contents")
-    @SuppressWarnings("UnusedDeclaration")
-    public void command_b() {
-        player.printBackPack();
     }
 
     @Command(command="save", aliases="s", description="Save the game")
@@ -170,6 +157,29 @@ public enum CommandCollection {
     @SuppressWarnings("UnusedDeclaration")
     public void command_ue(String arg) {
         player.dequipItem(arg.trim());
+    }
+
+    @Command(command="view", aliases="v", description="View details")
+    @SuppressWarnings("UnusedDeclaration")
+    public void command_v(String arg) {
+        arg = arg.trim();
+        switch (arg) {
+            case "s":
+            case "stats":
+                player.getStats();
+                break;
+            case "e":
+            case "equipped":
+                player.printEquipment();
+                break;
+            case "b":
+            case "backpack":
+                player.printStorage();
+                break;
+            default:
+                QueueProvider.offer("That is not a valid display");
+                break;
+        }
     }
 
     @Command(command="pick", aliases="p", description="Pick up an item")

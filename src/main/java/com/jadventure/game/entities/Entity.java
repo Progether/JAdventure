@@ -4,10 +4,13 @@ import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Backpack;
 import com.jadventure.game.items.Storage;
+import com.jadventure.game.QueueProvider;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * superclass for all entities (includes player, monsters...)
@@ -138,6 +141,10 @@ public abstract class Entity {
         this.level = level;
     }
 
+    public HashMap<String, Item> getEquipment() {
+        return equipment;
+    }
+
     public int getStrength() {
         return strength;
     }
@@ -217,11 +224,12 @@ public abstract class Entity {
                    }
                    break;
               } case 'f': {
+                   int healthOld = this.getHealth();
                    this.health += item.getProperty("health");
                    this.health = (this.health > this.healthMax) ? this.healthMax : this.health;
                    unequipItem(item); //One use only
                    removeItemFromStorage(item);
-                   result.put("health", item.getProperty("health"));
+                   result.put("health", health - healthOld);
                    break;
               }
          }
@@ -241,12 +249,28 @@ public abstract class Entity {
          }
          addItemToStorage(item);
          HashMap result = new HashMap();
-         if (item.propertiesContainsKey("damage")) {   
-              this.damage -= item.getProperty("damage");
-              double diffDamage = this.damage - oldDamage;
-              result.put("damage", diffDamage);
+         if (item.propertiesContainsKey("damage")) {
+            this.weapon = "hands";   
+            this.damage -= item.getProperty("damage");
+            double diffDamage = this.damage - oldDamage;
+            result.put("damage", diffDamage);
          }
          return result;
+    }
+
+    public void printEquipment() {
+        QueueProvider.offer("\n------------------------------------------------------------");
+        QueueProvider.offer("Equipped Items:");
+        if (equipment.keySet().size() == 0) {
+            QueueProvider.offer("--Empty--");
+        } else {
+            for (Map.Entry<String, Item> item : equipment.entrySet()) {
+                if (!item.getKey().equals("mouth")) {
+                    QueueProvider.offer(item.getKey() + " - " + item.getValue().getName());
+                }
+            }
+        }
+        QueueProvider.offer("------------------------------------------------------------"); 
     }
 
     public Storage getStorage() {
@@ -256,6 +280,10 @@ public abstract class Entity {
     public void setStorage(Storage storage) {
         this.storage = storage;
     }
+
+    public void printStorage() {
+       storage.display();
+    } 
     
     public void addItemToStorage(Item i) {
         if (!i.equals(new Item("empty"))) {
