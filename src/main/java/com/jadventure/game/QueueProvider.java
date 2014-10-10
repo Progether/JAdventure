@@ -13,8 +13,8 @@ import java.net.SocketException;
 
 public class QueueProvider { 
 
-    public static BlockingQueue<String> queue = new LinkedBlockingQueue();
-    public static BlockingQueue<String> inputQueue = new LinkedBlockingQueue();
+    public static BlockingQueue<String> queue = new LinkedBlockingQueue<>();
+    public static BlockingQueue<String> inputQueue = new LinkedBlockingQueue<>();
     public static DataOutputStream out;
     public static DataInputStream in;
     public static String mode;

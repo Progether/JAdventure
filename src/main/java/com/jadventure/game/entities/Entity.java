@@ -202,17 +202,17 @@ public abstract class Entity {
          }
          this.equipment.put(place, item);
          removeItemFromStorage(item);
-         HashMap result = new HashMap();
+         HashMap<String, String> result = new HashMap<String, String>();
          switch (item.getItemID().charAt(0)) {
               case 'w': {
                   this.weapon = item.getItemID();
                   this.damage += item.getProperty("damage");
                   double diffDamage = this.damage - oldDamage;
-                  result.put("damage", diffDamage);
+                  result.put("damage", String.valueOf(diffDamage));
                   break;
               } case 'a': {
                    this.armour += item.getProperty("armour");
-                   result.put("armour", item.getProperty("armour"));
+                   result.put("armour", String.valueOf(item.getProperty("armour")));
                    break;
               } case 'p': {
                    if (item.propertiesContainsKey("healthMax")) {
@@ -220,7 +220,7 @@ public abstract class Entity {
                         this.health += item.getProperty("healthMax");
                         unequipItem(item); // One use only
                         removeItemFromStorage(item);
-                        result.put("health", item.getProperty("healthMax"));
+                        result.put("health", String.valueOf(item.getProperty("healthMax")));
                    }
                    break;
               } case 'f': {
@@ -229,7 +229,7 @@ public abstract class Entity {
                    this.health = (this.health > this.healthMax) ? this.healthMax : this.health;
                    unequipItem(item); //One use only
                    removeItemFromStorage(item);
-                   result.put("health", health - healthOld);
+                   result.put("health", String.valueOf(health - healthOld));
                    break;
               }
          }
@@ -248,12 +248,12 @@ public abstract class Entity {
               this.equipment.put(place, new Item("empty"));
          }
          addItemToStorage(item);
-         HashMap result = new HashMap();
+         HashMap<String, String> result = new HashMap<String, String>();
          if (item.propertiesContainsKey("damage")) {
             this.weapon = "hands";   
             this.damage -= item.getProperty("damage");
             double diffDamage = this.damage - oldDamage;
-            result.put("damage", diffDamage);
+            result.put("damage", String.valueOf(diffDamage));
          }
          return result;
     }

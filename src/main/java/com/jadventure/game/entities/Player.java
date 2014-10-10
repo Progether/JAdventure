@@ -242,7 +242,7 @@ public class Player extends Entity {
     }
 
     public ArrayList<Item> searchItem(String itemName, ArrayList<Item> itemList) {
-        ArrayList<Item> itemMap = new ArrayList();
+        ArrayList<Item> itemMap = new ArrayList<>();
         for (Item item : itemList) {
             String testItemName = item.getName();
             if (testItemName.equals(itemName)) {
@@ -253,7 +253,7 @@ public class Player extends Entity {
     }
 
     public ArrayList<Item> searchItem(String itemName, Storage storage) {
-        ArrayList<Item> itemMap = new ArrayList();
+        ArrayList<Item> itemMap = new ArrayList<>();
         for (ItemStack item : storage.getItems()) {
             String testItemName = item.getItem().getName();
             if (testItemName.equals(itemName)) {
@@ -264,7 +264,7 @@ public class Player extends Entity {
     }
     
     public ArrayList<Item> searchEquipment(String itemName, HashMap<String, Item> equipment) {
-        ArrayList<Item> itemMap = new ArrayList();
+        ArrayList<Item> itemMap = new ArrayList<>();
         for (Item item : equipment.values()) {
             String testItemName = item.getName();
             if (testItemName.equals(itemName)) {
