@@ -5,6 +5,7 @@ import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.navigation.Direction;
 import com.jadventure.game.navigation.ILocation;
+import com.jadventure.game.navigation.LocationType;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.DeathException;
 
@@ -108,28 +109,31 @@ public enum CommandCollection {
             arg = directionLinks.get(arg);
             Direction direction = Direction.valueOf(arg.toUpperCase());
             Map<Direction, ILocation> exits = location.getExits();
-
             if (exits.containsKey(direction)) {
                 ILocation newLocation = exits.get(Direction.valueOf(arg.toUpperCase()));
-                player.setLocation(newLocation);
-                player.getLocation().print();
-                Random random = new Random();
-                if (player.getLocation().getMonsters().size() == 0) {
-                    MonsterFactory monsterFactory = new MonsterFactory();
-                    int upperBound = random.nextInt(player.getLocation().getDangerRating() + 1);
-                    for (int i = 0; i < upperBound; i++) {
-                        Monster monster = monsterFactory.generateMonster(player);
-                        player.getLocation().addMonster(monster);
+                if (!newLocation.getLocationType().equals(LocationType.WALL)) {
+                    player.setLocation(newLocation);
+                    player.getLocation().print();
+                    Random random = new Random();
+                    if (player.getLocation().getMonsters().size() == 0) {
+                        MonsterFactory monsterFactory = new MonsterFactory();
+                        int upperBound = random.nextInt(player.getLocation().getDangerRating() + 1);
+                        for (int i = 0; i < upperBound; i++) {
+                            Monster monster = monsterFactory.generateMonster(player);
+                            player.getLocation().addMonster(monster);
+                        }
                     }
-                }
-                if (random.nextDouble() < 0.5) {
-                    ArrayList<Monster> monsters = player.getLocation().getMonsters();
-                    if (monsters.size() > 0) {
-                        int posMonster = random.nextInt(monsters.size());
-                        String monster = monsters.get(posMonster).monsterType;
-                        QueueProvider.offer("A " + monster + " is attacking you!");
-                        player.attack(monster);
+                    if (random.nextDouble() < 0.5) {
+                        ArrayList<Monster> monsters = player.getLocation().getMonsters();
+                        if (monsters.size() > 0) {
+                            int posMonster = random.nextInt(monsters.size());
+                            String monster = monsters.get(posMonster).monsterType;
+                            QueueProvider.offer("A " + monster + " is attacking you!");
+                            player.attack(monster);
+                        }
                     }
+                } else {
+                    QueueProvider.offer("You cannot walk through walls.");
                 }
             } else {
                 QueueProvider.offer("The is no exit that way.");

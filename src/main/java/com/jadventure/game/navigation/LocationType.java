@@ -11,5 +11,6 @@ public enum LocationType {
 	MOUNTAIN,
 	PLAINS,
     WALL,
-	CAVE;
+	CAVE,
+    STAIRS;
 }
