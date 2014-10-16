@@ -26,6 +26,18 @@ public class Coordinate {
         return new Coordinate(x + direction.getDx(), y + direction.getDy(), z + direction.getDz());
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    } 
+
+    public int getZ() {
+        return z;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -108,11 +108,11 @@
 	"locationType": "CAVE",
 	"danger": 3},
 "0,0,-1": {
-	"title": "First Location Ever",
+	"title": "Cave",
 	"items": ["wshi1"],
 	"coordinate": "0,0,-1",
 	"locationType": "CAVE",
-	"description": "You are in a massive empty room.",
+	"description": "A large open cave.",
 	"danger": 0},
 "0,4,-1": {
 	"title": "Underground Entrance",
@@ -137,7 +137,7 @@
 	"title": "Above",
 	"description": "A tunnle to Above",
 	"coordinate": "-2,8,-1",
-	"locationType": "CAVE",
+	"locationType": "STAIRS",
 	"danger": 0},
 "-1,6,-1": {
 	"title": "Dark Corridor",
@@ -173,7 +173,7 @@
 	"title": "Stairs",
 	"description": "Stairs up to the outside world.",
 	"coordinate": "0,-1,-1",
-	"locationType": "CAVE",
+	"locationType": "STAIRS",
 	"danger": 0},
 "4,3,-1": {
 	"title": "Cave",
@@ -207,7 +207,7 @@
 	"danger": 3},
 "2,10,-1": {
 	"title": "Underground Amphitheatre",
-	"items": ["wshi1"],
+	"items": ["wshs1"],
 	"coordinate": "2,10,-1",
 	"locationType": "CAVE",
 	"description": "The central hub of the underground",
@@ -224,9 +224,9 @@
 	"locationType": "CAVE",
 	"coordinate": "6,8,-1",
 	"danger": 2},
-"0,-1,0": {
+"0,0,0": {
 	"title": "Ground",
-	"coordinate": "0,-1,0",
+	"coordinate": "0,0,0",
 	"locationType": "PLAINS",
 	"description": "The ground",
 	"danger": 1},
@@ -332,11 +332,11 @@
 	"coordinate": "-2,7,-1",
 	"locationType": "CAVE",
 	"danger": 3},
-"0,0,0": {
+"0,-1,0": {
 	"title": "Cave Mouth",
 	"description": "The entrance to a cave",
-	"coordinate": "0,0,0",
-	"locationType": "PLAINS",
+	"coordinate": "0,-1,0",
+	"locationType": "STAIRS",
 	"danger": 0},
 "0,5,-1": {
 	"title": "Dark Corridor",
