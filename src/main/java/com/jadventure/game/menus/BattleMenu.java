@@ -34,7 +34,11 @@
         } 
 	    if (player.getHealth() == 0) {
 		    QueueProvider.offer("You died... Start again? (y/n)");
-		    String reply = QueueProvider.take();
+		    String reply = QueueProvider.take().toLowerCase();
+            while (!reply.startsWith("y") && !reply.startsWith("n")) {
+		        QueueProvider.offer("You died... Start again? (y/n)");
+		        reply = QueueProvider.take().toLowerCase();
+            }
 		    if (reply.startsWith("y")) {
                 throw new DeathException("restart");
             } else if (reply.startsWith("n")) {
