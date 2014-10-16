@@ -37,18 +37,12 @@ public enum LocationManager {
 
     private LocationManager() {
         JsonParser parser = new JsonParser();
-
         try {
             Reader reader = new FileReader(FILE_NAME);
-
             JsonObject json = parser.parse(reader).getAsJsonObject();
-
-            // For every location in the locations.file, it parses the location uses loadLocation() and adds it
-            // to the locations Map.
             for(Map.Entry<String, JsonElement> entry: json.entrySet()) {
                 Locations.locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));
             }
-
             reader.close();
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
@@ -60,7 +54,6 @@ public enum LocationManager {
 
     private Location loadLocation(JsonObject json) {
         Location location = new Location();
-
         Coordinate coordinate = new Coordinate(json.get("coordinate").getAsString());
         location.setCoordinate(coordinate);
         location.setTitle(json.get("title").getAsString());
@@ -117,12 +110,30 @@ public enum LocationManager {
     }
 
     public static ILocation getInitialLocation() {
+        INSTANCE.reload();
         Coordinate coordinate = new Coordinate(0, 0, -1);
         return getLocation(coordinate);
     }
 
     public static ILocation getLocation(Coordinate coordinate) {
         return Locations.locations.get(coordinate);
+    }
+
+    public void reload() {
+        JsonParser parser = new JsonParser();
+        try {
+            Reader reader = new FileReader(FILE_NAME);
+            JsonObject json = parser.parse(reader).getAsJsonObject();
+            for(Map.Entry<String, JsonElement> entry: json.entrySet()) {
+                Locations.locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));
+            }
+            reader.close();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+            System.exit(-1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
