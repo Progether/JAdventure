@@ -25,6 +25,7 @@
         this.menuItems.add(new MenuItem("Defend", "Defend against " + opponent.monsterType + "'s attack."));
         this.menuItems.add(new MenuItem("Equip", "Equip an item"));
         this.menuItems.add(new MenuItem("Unequip", "Unequip an item"));
+        this.menuItems.add(new MenuItem("View", "View details about your character"));
         this.armour = player.getArmour();
         this.damage = player.getDamage();
         while (opponent.getHealth() > 0 && player.getHealth() > 0) {
@@ -85,6 +86,10 @@
                 unequip();
                 break;
             }
+            case "view": {
+                viewStats();
+                break;
+            }
             default: {
                 break;
             }
@@ -142,6 +147,31 @@
         String itemName = QueueProvider.take();
         if (!itemName.equalsIgnoreCase("back")) {
             player.dequipItem(itemName);
+        }
+     }
+
+     private void viewStats() {
+        QueueProvider.offer("What is your command?");
+        String input = QueueProvider.take();
+        switch (input) {
+            case "vs":
+            case "viewstats":
+                player.getStats();
+                break;
+            case "ve":
+            case "viewequipped":
+                player.printEquipment();
+                break;
+            case "vb":
+            case "viewbackpack":
+                player.printStorage();
+                break;
+            case "back":
+            case "exit":
+                break;
+            default:
+                viewStats();
+                break;
         }
      }
  }
