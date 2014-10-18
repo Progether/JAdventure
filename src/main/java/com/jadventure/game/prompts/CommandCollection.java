@@ -43,8 +43,7 @@ public enum CommandCollection {
 "Game\n" +
 "-------------------------------------------------------------\n" + 
 "save (s):            Save your progress.\n" +
-"exit:                Exit the game and return to the main menu.\n" + 
-"debug:               Starts debuggung.\n";
+"exit:                Exit the game and return to the main menu.";
 
     private HashMap<String, String> directionLinks = new HashMap<String,String>()
     {{
@@ -70,6 +69,11 @@ public enum CommandCollection {
     @SuppressWarnings("UnusedDeclaration")
     public void command_help() {
         QueueProvider.offer(helpText);
+        if (player.getName().equals("test")) {
+            QueueProvider.offer("debug:               Starts Debugging.\n");
+        } else {
+            QueueProvider.offer("\n");
+        }
     }
 
     @Command(command="save", aliases="s", description="Save the game")
@@ -97,7 +101,11 @@ public enum CommandCollection {
     @Command(command="debug", aliases="", description="Start debugging")
     @SuppressWarnings("UnusedDeclaration")
     public void command_debug() {
-        new DebugPrompt(player);
+        if (player.getName().equals("test")) {
+            new DebugPrompt(player);
+        } else {
+            QueueProvider.offer("You don't have access to this function");
+        }
     }
 
     @Command(command="goto", aliases="g", description="Goto a direction")

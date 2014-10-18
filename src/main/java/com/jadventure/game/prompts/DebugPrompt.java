@@ -18,7 +18,7 @@ public class DebugPrompt{
                               "level: modify player's level\n"+
                               "gold: modify player's gold\n"+
                               "backpack: Modify the player backpack\n"+
-                              "stats: Display the current stats\n"+
+                              "vs: Display the current stats\n"+
                               "help: Prints this info\n"+
                               "exit: Exits the debug prompt\n";
     
@@ -71,9 +71,9 @@ public class DebugPrompt{
                 player.setGold(newVal);
             }
 		    else if(command.equals("backpack")){
-                new BackpackDebugPrompt(player);
+                        new BackpackDebugPrompt(player);
 		    }
-		    else if(command.equals("stats"))
+		    else if(command.equals("vs"))
 			    player.getStats();
             else if(command.equals("help"))
                 QueueProvider.offer(helpText);
