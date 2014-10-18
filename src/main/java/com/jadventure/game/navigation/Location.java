@@ -22,7 +22,7 @@ public class Location implements ILocation {
     private int dangerRating;
     private ArrayList<String> items;
     private ArrayList<String> npcs;
-    private ArrayList<Monster> monsters = new ArrayList<Monster>();
+    private ArrayList<Monster> monsters = new ArrayList<>();
 
     public Location() {
 
@@ -85,12 +85,12 @@ public class Location implements ILocation {
         return exits;
     }
 
-    public void setItems(ArrayList items) {
+    public void setItems(ArrayList<String> items) {
         this.items = items;
     }
 
     public ArrayList<Item> getItems() {
-        ArrayList<Item> items = new ArrayList<Item>();
+        ArrayList<Item> items = new ArrayList<>();
         for (String itemId : this.items) {
             Item itemName = new Item(itemId);
             items.add(itemName);
@@ -98,12 +98,12 @@ public class Location implements ILocation {
         return items;
     }
 
-    public void setNPCs(ArrayList npcs) {
+    public void setNPCs(ArrayList<String> npcs) {
         this.npcs = npcs;
     }
 
     public ArrayList<NPC> getNPCs() {
-        ArrayList<NPC> npcs = new ArrayList<NPC>();
+        ArrayList<NPC> npcs = new ArrayList<>();
         for (String npcID : this.npcs) {
             NPC npc = new NPC(npcID);
             npcs.add(npc);

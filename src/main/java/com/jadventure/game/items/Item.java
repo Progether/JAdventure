@@ -96,22 +96,21 @@ public class Item {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        HashMap<String,HashMap> itemList = new HashMap();
+        HashMap<String, HashMap> itemList = new HashMap<String, HashMap>();
         for (Map.Entry<String, JsonElement> entry : items.entrySet()) {
-            HashMap itemDetails = new HashMap();
+            HashMap<String, Object> itemDetails = new HashMap<String, Object>();
             String rawItemID = entry.getKey().toString();
             JsonObject itemData = entry.getValue().getAsJsonObject();
             String name = itemData.get("name").getAsString();
             String description = itemData.get("description").getAsString();
-	    String position;
-	    try {
-	        position = itemData.get("position").getAsString();
-	    } catch (NullPointerException ex) {
-		position = "none";
-	    }
-            //HashMap<String,Integer>
+            String position;
+            try {
+                position = itemData.get("position").getAsString();
+            } catch (NullPointerException ex) {
+            position = "none";
+            }
             JsonObject sProps = itemData.get("properties").getAsJsonObject();
-            HashMap properties = new HashMap();
+            HashMap<String, Integer> properties = new HashMap<String, Integer>();
             for (Map.Entry<String,JsonElement> entry2 : sProps.entrySet()) {
                 Integer propValue = entry2.getValue().getAsInt();
                 properties.put(entry2.getKey(), propValue);
@@ -119,7 +118,7 @@ public class Item {
             itemDetails.put("name", name);
             itemDetails.put("description", description);
             itemDetails.put("properties", properties);
-	    itemDetails.put("position", position);
+            itemDetails.put("position", position);
             itemList.put(rawItemID,itemDetails);
         }
         for (Map.Entry<String, HashMap> item : itemList.entrySet()) {
@@ -127,11 +126,14 @@ public class Item {
                 this.itemID = item.getKey();
                 this.name = item.getValue().get("name").toString();
                 this.description = item.getValue().get("description").toString();
-		this.position = item.getValue().get("position").toString();
-                this.properties = (HashMap<String, Integer>)item.getValue().get("properties");
+                this.position = item.getValue().get("position").toString();
+                this.properties = getHashMap(item.getValue().get("properties"));
             }
         }
-
     }
-
+    
+    @SuppressWarnings("unchecked")
+    private HashMap<String, Integer> getHashMap(Object obj) {
+        return (HashMap<String, Integer>) obj;
+    }
 }

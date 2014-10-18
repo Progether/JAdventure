@@ -242,7 +242,7 @@ public class Player extends Entity {
     }
 
     public ArrayList<Item> searchItem(String itemName, ArrayList<Item> itemList) {
-        ArrayList<Item> itemMap = new ArrayList();
+        ArrayList<Item> itemMap = new ArrayList<>();
         for (Item item : itemList) {
             String testItemName = item.getName();
             if (testItemName.equals(itemName)) {
@@ -253,7 +253,7 @@ public class Player extends Entity {
     }
 
     public ArrayList<Item> searchItem(String itemName, Storage storage) {
-        ArrayList<Item> itemMap = new ArrayList();
+        ArrayList<Item> itemMap = new ArrayList<>();
         for (ItemStack item : storage.getItems()) {
             String testItemName = item.getItem().getName();
             if (testItemName.equals(itemName)) {
@@ -264,7 +264,7 @@ public class Player extends Entity {
     }
     
     public ArrayList<Item> searchEquipment(String itemName, HashMap<String, Item> equipment) {
-        ArrayList<Item> itemMap = new ArrayList();
+        ArrayList<Item> itemMap = new ArrayList<>();
         for (Item item : equipment.values()) {
             String testItemName = item.getName();
             if (testItemName.equals(itemName)) {
@@ -340,25 +340,18 @@ public class Player extends Entity {
          Iterator i = set.iterator();
          while (i.hasNext()) {
               Map.Entry me = (Map.Entry) i.next();
+              double value = Double.parseDouble((String) me.getValue());
               switch ((String) me.getKey()) {
                   case "damage": {
-                        try {
-                            if ((double) me.getValue() >= 0.0) {
-                                QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")\n");
-                              } else {
-                                QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")\n");
-                              }
-                          } catch (ClassCastException e) {
-                              if ((int) me.getValue() >= 0) {
-                                  QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")\n");
-                              } else {
-                                  QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")\n");
-                              }
+                          if (value >= 0.0) {
+                              QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")\n");
+                          } else {
+                              QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")\n");
                           }
                           break;
                     }
                     case "health": {
-                          if ((int) me.getValue() >= 0) {
+                          if (value >= 0) {
                               QueueProvider.offer(me.getKey() + ": " + this.getHealth() + " (+" + me.getValue() + ")\n");
                           } else {
                               QueueProvider.offer(me.getKey() + ": " + this.getHealth() + " (" + me.getValue() + ")\n");
@@ -366,7 +359,7 @@ public class Player extends Entity {
                           break;
                     }
                     case "armour": {
-                          if ((int) me.getValue() >= 0) {
+                          if (value >= 0) {
                               QueueProvider.offer(me.getKey() + ": " + this.getArmour() + " (+" + me.getValue() + ")\n");
                           } else {
                               QueueProvider.offer(me.getKey() + ": " + this.getArmour() + " (" + me.getValue() + ")\n");
@@ -374,7 +367,7 @@ public class Player extends Entity {
                           break;
                     }
                     case "maxHealth": {
-                          if ((int) me.getValue()  >= 0) {
+                          if (value  >= 0) {
                               QueueProvider.offer(me.getKey() + ": " + this.getHealthMax() + " (+" + me.getValue() + ")\n");
                           } else {
                               QueueProvider.offer(me.getKey() + ": " + this.getHealthMax() + " (" + me.getValue() + ")\n");
