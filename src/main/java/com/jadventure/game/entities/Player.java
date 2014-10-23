@@ -84,7 +84,7 @@ public class Player extends Entity {
             player.setDexterity(json.get("dexterity").getAsInt());
             player.setLuck(json.get("luck").getAsInt());
             player.setStealth(json.get("stealth").getAsInt());
-	        player.equipItem("rightHand", new Item(json.get("weapon").getAsString()));
+	    player.equipItem("rightHand", new Item(json.get("weapon").getAsString()));
             if (json.has("items")) {
                 HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
                 ArrayList<ItemStack> itemList = new ArrayList<ItemStack>();
@@ -145,6 +145,15 @@ public class Player extends Entity {
             player.setLuck(luck);
             player.setStealth(json.get("stealth").getAsInt());
             player.setIntro(json.get("intro").getAsString());
+            if (player.getName().equals("Recruit")) {
+                player.classStats.put("Recruit", 50);
+                player.setCurrentClass("Recruit");
+            } else if (player.getName().equals("Sewer Rat")) {
+                player.classStats.put("Sewer Rat", 50);
+                player.setCurrentClass("Sewer Rat");
+            } else {
+                System.out.println("Not a valid class");
+            }
             reader.close();
         } catch (FileNotFoundException ex) {
             QueueProvider.offer( "Unable to open file '" + fileName + "'.");
@@ -178,6 +187,7 @@ public class Player extends Entity {
             weaponName = "hands";
         }
         String message = "\nPlayer name: " + getName();
+              message += "\nClass: " + getCurrentClass();
               message += "\nCurrent weapon: " + weaponName;
               message += "\nGold: " + getGold();
               message += "\nHealth/Max: " + getHealth() + "/" + getHealthMax();

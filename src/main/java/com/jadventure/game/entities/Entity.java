@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.Iterator;
 
 /**
  * superclass for all entities (includes player, monsters...)
@@ -39,8 +40,37 @@ public abstract class Entity {
     private int armour;
     private String weapon = "empty";
     private HashMap<String, Item> equipment;
+    public HashMap<String, Integer> classStats = new HashMap<String, Integer>() {
+        {
+            put("Recruit", 0);
+            put("Sewer Rat", 0);
+        };
+    };
+    private String currentClassName;
     protected Storage storage;
     Random globalRand = new Random();
+
+    public String getCurrentClass() {
+        return this.currentClassName;
+    }
+
+    public void setCurrentClass(String className) {
+        this.currentClassName = className;
+    }
+
+    public void checkCurrentClass() {
+        Iterator it = this.classStats.entrySet().iterator();
+        int highestClassLevel = 0;
+        String highestClassName = "";
+        while (it.hasNext()) {
+            Map.Entry<String, Integer> pairs = (Map.Entry<String, Integer>)it.next();
+            if (pairs.getValue() > highestClassLevel) {
+                highestClassLevel = pairs.getValue();
+                highestClassName = pairs.getKey();
+            }
+        }
+        this.currentClassName = highestClassName;
+    }
     
     // maybe not all entities start at full health, etc.
     public Entity() {
