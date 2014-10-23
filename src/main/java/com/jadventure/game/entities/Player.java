@@ -152,7 +152,7 @@ public class Player extends Entity {
                 player.classStats.put("Sewer Rat", 50);
                 player.setCurrentClass("Sewer Rat");
             } else {
-                System.out.println("Not a valid class");
+                QueueProvider.offer("Not a valid class");
             }
             reader.close();
         } catch (FileNotFoundException ex) {
