@@ -201,7 +201,7 @@ public abstract class Entity {
               }
          }
          this.equipment.put(place, item);
-         removeItemFromStorage(item);
+         //removeItemFromStorage(item);
          HashMap<String, String> result = new HashMap<String, String>();
          switch (item.getItemID().charAt(0)) {
               case 'w': {
@@ -247,7 +247,7 @@ public abstract class Entity {
          if (!place.isEmpty()) {
               this.equipment.put(place, new Item("empty"));
          }
-         addItemToStorage(item);
+         //addItemToStorage(item);
          HashMap<String, String> result = new HashMap<String, String>();
          if (item.propertiesContainsKey("damage")) {
             this.weapon = "hands";   

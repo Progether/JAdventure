@@ -313,16 +313,16 @@ public class Player extends Entity {
     }
 
     public void equipItem(String place, String itemName) {
-	    Item item = new Item("empty");
-	    if (!itemName.equals("empty")) {
+        Item item = new Item("empty");
+        if (!itemName.equals("empty")) {
             ArrayList<Item> itemMap = searchItem(itemName, getStorage());
             if (!itemMap.isEmpty()) {
                 item = itemMap.get(0);
             }
-         }
-         HashMap change = this.equipItem(place, item);
-         QueueProvider.offer(item.getName() + " equipped");
-         printStatChange(change);
+        }
+        HashMap change = this.equipItem(place, item);
+        QueueProvider.offer(item.getName() + " equipped");
+        printStatChange(change);
     }
     
     public void dequipItem(String itemName) {
