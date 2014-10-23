@@ -107,7 +107,7 @@ public class MainMenu extends Menus implements Runnable {
                 key = QueueProvider.take();
                 if (Player.profileExists(key)) {
                     String profileName = key;
-                    QueueProvider.offer("Are you sure you want to delete? y/n");
+                    QueueProvider.offer("Are you sure you want to delete " + profileName + "? y/n");
                     key = QueueProvider.take();
                     if (key.equals("y")) {
                         File profile = new File("json/profiles/" + profileName);
