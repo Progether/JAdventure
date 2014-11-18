@@ -135,5 +135,4 @@ public enum LocationManager {
             e.printStackTrace();
         }
     }
-
 }
