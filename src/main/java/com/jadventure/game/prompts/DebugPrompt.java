@@ -20,7 +20,7 @@ public class DebugPrompt{
                               "armour: Modify player's armour\n"+
                               "level: modify player's level\n"+
                               "gold: modify player's gold\n"+
-                              "teleport: moves the player to the co-ordinates entered"+
+                              "teleport: moves the player to the co-ordinates entered\n"+
                               "backpack: Modify the player backpack\n"+
                               "vs: Display the current stats\n"+
                               "help: Prints this info\n"+
