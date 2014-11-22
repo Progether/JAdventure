@@ -45,7 +45,7 @@ public class Game {
         QueueProvider.offer(player.getIntro());
         String userInput = QueueProvider.take();
         player.setName(userInput);
-        QueueProvider.offer("Welcome to Silliya, " + this.player.getName() + ".");
+        QueueProvider.offer("Welcome to Blitz Hell, " + this.player.getName() + ".");
         QueueProvider.offer("");
         player.getLocation().print();
         gamePrompt(player);
