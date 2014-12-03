@@ -25,12 +25,12 @@ public class Game {
           this.player = player;
           this.player.setLocation(LocationManager.INSTANCE.getInitialLocation());
           if (playerType.equals("new")) { // New Game
-              this.newGameStart(player);
+              newGameStart(player);
           } else if (playerType.equals("old")) {
               QueueProvider.offer("Welcome back, " + player.getName() + "!");
               QueueProvider.offer("");
               player.getLocation().print();
-              this.gamePrompt(player);
+              gamePrompt(player);
           } else {
               QueueProvider.offer("Invalid player type");
           }
@@ -45,7 +45,7 @@ public class Game {
         QueueProvider.offer(player.getIntro());
         String userInput = QueueProvider.take();
         player.setName(userInput);
-        QueueProvider.offer("Welcome to Silliya, " + this.player.getName() + ".");
+        QueueProvider.offer("Welcome to Silliya, " + player.getName() + ".");
         QueueProvider.offer("");
         player.getLocation().print();
         gamePrompt(player);
