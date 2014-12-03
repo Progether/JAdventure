@@ -5,25 +5,31 @@ import com.jadventure.game.entities.Player;
 import java.util.Random;
 
 /**
- * the MonsterFactory generates random monsters appropriately according
+ * The MonsterFactory generates random monsters appropriately according
  * to the player's level and location
  */
 public class MonsterFactory {
     Random random = new Random();
+ 
     public Monster generateMonster(Player player) {
-        switch (player.getLocationType()) {
-            case FOREST:
-                return getForestMonster(player.getLevel());
-            case SWAMP:
-                return getSwampMonster(player.getLevel());
-            case MOUNTAIN:
-                return getMountainMonster(player.getLevel());   
-            case CAVE:
-                return getCaveMonster(player.getLevel());
-            case PLAINS:
-                return getPlainsMonster(player.getLevel());
-            default: // any non-hostile location
-                return null;
+        int randomInt = random.nextInt(5) + 1;
+        if (randomInt <= player.getLocation().getDangerRating()) {
+            switch (player.getLocationType()) {
+                case FOREST:
+                    return getForestMonster(player.getLevel());
+                case SWAMP:
+                    return getSwampMonster(player.getLevel());
+                case MOUNTAIN:
+                    return getMountainMonster(player.getLevel());   
+                case CAVE:
+                    return getCaveMonster(player.getLevel());
+                case PLAINS:
+                    return getPlainsMonster(player.getLevel());
+                default: // any non-hostile location
+                    return null;
+            }
+        } else {
+            return null;
         }
     }
 
@@ -55,7 +61,7 @@ public class MonsterFactory {
     }
 
     private Monster getCaveMonster(int playerLevel) {
-    	int randomInt = random.nextInt(3);
+    	int randomInt = random.nextInt(4);
         if (randomInt == 0)
             return new Troll(playerLevel);
         else if (randomInt == 1)

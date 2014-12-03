@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 /**
  * All menus in JAdventure extend this class
@@ -34,9 +33,7 @@ public class Menus {
     // calls for user input from command line
     protected MenuItem selectMenu(List<MenuItem> m) {
         this.printMenuItems(m);
-
-        Scanner input = new Scanner(System.in);
-        String command = input.next();
+        String command = QueueProvider.take();
         if (commandMap.containsKey(command.toLowerCase())) {
             return commandMap.get(command.toLowerCase());
         } else {

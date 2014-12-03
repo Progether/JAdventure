@@ -2,6 +2,7 @@ package com.jadventure.game.prompts;
 
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.QueueProvider;
+import com.jadventure.game.DeathException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -43,7 +44,7 @@ public class CommandParser {
         }
     }
 
-    public boolean parse(Player player, String command, boolean continuePrompt) {
+    public boolean parse(Player player, String command, boolean continuePrompt) throws DeathException {
         CommandCollection com = CommandCollection.getInstance();
         com.initPlayer(player);
 
@@ -71,7 +72,11 @@ public class CommandParser {
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
-                        e.printStackTrace();
+                        if (e.getCause() instanceof DeathException) {
+                            throw (DeathException) e.getCause();
+                        } else {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 return continuePrompt;

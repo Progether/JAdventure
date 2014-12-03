@@ -5,11 +5,14 @@ import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.navigation.Direction;
 import com.jadventure.game.navigation.ILocation;
+import com.jadventure.game.navigation.LocationType;
 import com.jadventure.game.QueueProvider;
+import com.jadventure.game.DeathException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * CommandCollection contains the declaration of the methods mapped to game commands
@@ -31,17 +34,16 @@ public enum CommandCollection {
 "drop (d)<item>:      Drops an item.\n" +
 "equip (e)<item>:     Equips an item.\n" +
 "unequip (ue)<item>:  Unequips an item.\n" +
+"attack (a)<monster>: Attacks an monster.\n" +
 "lookaround (la):     Prints out what is around you.\n" +
 "monster (m):         Prints out the monsters around you.\n\n" +
 "Player\n" +
 "-------------------------------------------------------------\n" + 
-"stats (st):          Prints your statistics.\n" +
-"backpack (b):        Prints out the contents of your backpack.\n\n" +
+"view (v)<s/e/b>:     Views your stats, equipped items or backpack respectively.\n" +
 "Game\n" +
 "-------------------------------------------------------------\n" + 
 "save (s):            Save your progress.\n" +
-"exit:                Exit the game and return to the main menu.\n" + 
-"debug: starts debuggung.\n";
+"exit:                Exit the game and return to the main menu.";
 
     private HashMap<String, String> directionLinks = new HashMap<String,String>()
     {{
@@ -49,45 +51,40 @@ public enum CommandCollection {
          put("s", "south");
          put("e", "east");
          put("w", "west");
+         put("u", "up");
+         put("d", "down");
     }};
 
     public static CommandCollection getInstance() {
         return INSTANCE;
     }
 
-    public void initPlayer(Player player){
+    public void initPlayer(Player player) {
         this.player = player;
     }
 
     // command methods here
 
-    @Command(command="status", aliases="st", description="Returns player's status")
-    @SuppressWarnings("UnusedDeclaration")
-    public void command_st(){
-        player.getStats();
-    }
-
     @Command(command="help", aliases="h", description="Prints help")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_help(){
+    public void command_help() {
         QueueProvider.offer(helpText);
-    }
-
-    @Command(command="backpack", aliases="b", description="Backpack contents")
-    @SuppressWarnings("UnusedDeclaration")
-    public void command_b(){
-        player.printBackPack();
+        if (player.getName().equals("test")) {
+            QueueProvider.offer("debug:               Starts Debugging.\n");
+        } else {
+            QueueProvider.offer("\n");
+        }
     }
 
     @Command(command="save", aliases="s", description="Save the game")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_save(){
+    public void command_save() {
         player.save();
     }
 
     @Command(command="monster", aliases="m", description="Monsters around you")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_m(){
+    public void command_m() {
         ArrayList<Monster> monsterList = player.getLocation().getMonsters();
         if (monsterList.size() > 0) {
             QueueProvider.offer("Monsters around you:");
@@ -103,27 +100,49 @@ public enum CommandCollection {
 
     @Command(command="debug", aliases="", description="Start debugging")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_debug(){
-        new DebugPrompt(player);
+    public void command_debug() {
+        if (player.getName().equals("test")) {
+            new DebugPrompt(player);
+        } else {
+            QueueProvider.offer("You don't have access to this function");
+        }
     }
 
     @Command(command="goto", aliases="g", description="Goto a direction")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_g(String arg){
+    public void command_g(String arg) throws DeathException {
         ILocation location = player.getLocation();
 
         try {
             arg = directionLinks.get(arg);
             Direction direction = Direction.valueOf(arg.toUpperCase());
             Map<Direction, ILocation> exits = location.getExits();
-
             if (exits.containsKey(direction)) {
                 ILocation newLocation = exits.get(Direction.valueOf(arg.toUpperCase()));
-                player.setLocation(newLocation);
-                player.getLocation().print();
-                MonsterFactory monsterFactory = new MonsterFactory();
-                Monster monster = monsterFactory.generateMonster(player);
-                player.getLocation().setMonsters(monster);
+                if (!newLocation.getLocationType().equals(LocationType.WALL)) {
+                    player.setLocation(newLocation);
+                    player.getLocation().print();
+                    Random random = new Random();
+                    if (player.getLocation().getMonsters().size() == 0) {
+                        MonsterFactory monsterFactory = new MonsterFactory();
+                        int upperBound = random.nextInt(player.getLocation().getDangerRating() + 1);
+                        for (int i = 0; i < upperBound; i++) {
+                            Monster monster = monsterFactory.generateMonster(player);
+                            player.getLocation().addMonster(monster);
+                        }
+                    }
+                    if (random.nextDouble() < 0.5) {
+                        ArrayList<Monster> monsters = player.getLocation().getMonsters();
+                        if (monsters.size() > 0) {
+                            int posMonster = random.nextInt(monsters.size());
+                            String monster = monsters.get(posMonster).monsterType;
+                            QueueProvider.offer("A " + monster + " is attacking you!");
+                            player.attack(monster);
+                        }
+                    }
+                } else {
+                    QueueProvider.offer("You cannot walk through walls.");
+                }
             } else {
                 QueueProvider.offer("The is no exit that way.");
             }
@@ -136,47 +155,66 @@ public enum CommandCollection {
 
     @Command(command="inspect", aliases="i", description="Inspect an item")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_i(String arg){
+    public void command_i(String arg) {
         player.inspectItem(arg.trim());
     }
 
     @Command(command="equip", aliases="e", description="Equip an item")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_e(String arg){
+    public void command_e(String arg) {
         player.equipItem(arg.trim());
     }
 
-    @Command(command="dequip", aliases="de", description="Dequip an item")
+    @Command(command="unequip", aliases="ue", description="Unequip an item")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_de(String arg){
+    public void command_ue(String arg) {
         player.dequipItem(arg.trim());
     }
 
-   /*
-    * Corrected English as "dequip" is not actually a word - mainly for usability 
-    * purposes. Left dequip command for legacy support.
-    */
-    @Command(command="unequip", aliases="ue", description="Unequip an item")
+    @Command(command="view", aliases="v", description="View details")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_ue(String arg){
-        player.dequipItem(arg.trim());
+    public void command_v(String arg) {
+        arg = arg.trim();
+        switch (arg) {
+            case "s":
+            case "stats":
+                player.getStats();
+                break;
+            case "e":
+            case "equipped":
+                player.printEquipment();
+                break;
+            case "b":
+            case "backpack":
+                player.printStorage();
+                break;
+            default:
+                QueueProvider.offer("That is not a valid display");
+                break;
+        }
     }
 
     @Command(command="pick", aliases="p", description="Pick up an item")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_p(String arg){
+    public void command_p(String arg) {
         player.pickUpItem(arg.trim());
     }
 
     @Command(command="drop", aliases="d", description="Drop an item")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_d(String arg){
+    public void command_d(String arg) {
         player.dropItem(arg.trim());
+    }
+
+    @Command(command="attack", aliases="a", description="Attacks an entity")
+    @SuppressWarnings("UnusedDeclaration")
+    public void command_a(String arg) throws DeathException {
+       player.attack(arg.trim());
     }
 
     @Command(command="lookaround", aliases="la", description="Displays the description of the room you are in.")
     @SuppressWarnings("UnusedDeclaration")
-    public void command_la(){
+    public void command_la() {
        player.getLocation().print(); 
     }
 }

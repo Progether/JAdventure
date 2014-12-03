@@ -1,1 +1,1 @@
-{"name":"test","healthMax":100,"health":100,"armour":1,"damage":48.0,"level":1,"strength":2,"intelligence":1,"dexterity":2,"luck":1,"stealth":1,"weapon":"empty","items":{"fmil1":1},"location":"0,0,-1"}
+{"name":"test","healthMax":100,"health":100,"armour":1,"damage":50.0,"level":1,"xp":0,"strength":2,"intelligence":1,"dexterity":2,"luck":2,"stealth":1,"weapon":"empty","items":{"wshi1":1,"fmil1":1},"location":"0,0,-1"}

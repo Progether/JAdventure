@@ -16,7 +16,7 @@ Developers are Welcome
 Everyone is welcome to help with the creation of JAdventure!
     
 The best way to find out more about the game and the ideas that are there, is to have a look at
-[Reddit - JAventure](http://www.reddit.com/search?q=jadventure).
+[Reddit - JAdventure](http://www.reddit.com/search?q=jadventure).
 
 ### Contributors ###
 
@@ -30,6 +30,7 @@ The best way to find out more about the game and the ideas that are there, is to
  1. [Reinecker](https://github.com/reinecker)
  1. [tamul](https://github.com/tamul)
  1. [shkesar](https://github.com/shkesar)
+ 1. [paddatrapper](https://github.com/paddatrapper)
 
 Contributing
 -------------
@@ -60,7 +61,7 @@ Setting Up The Game For Development or Gameplay
 
 You can download the game with:
 
-    git clone https://github.com/hawk554/JAdventure
+    git clone https://github.com/progether/JAdventure
 
 ###Run with Ant###
 
@@ -92,9 +93,9 @@ To get a list of monsters around you:
 
     m
 
-To get your own current status/stats:
+To view details about your player:
 
-    st
+    v<s,e,b> - view status, equipped items, backpack
 
 To quit the game:
 
@@ -115,10 +116,18 @@ To drop an item:
 
     d<itemName>
 
-To equip/dequip item:
+To equip/unequip item:
 
     e<itemName>
-    de<itemName>
+    ue<itemName>
+
+To attack:
+    
+    a<monster>
+
+To look around:
+ 
+    la
 
 Coding Standard/Convention/Style
 -------------------
@@ -133,4 +142,4 @@ To help make code more readable, understandable, and consistent, each contributo
  1. Opening curly braces appear a space after the closing parentheses, not directly after.
  1. Closing curly braces appear on own line unless followed by an else etc. which will be a space after the curly brace.
  1. Comments should have one space after "//"
- 1. Comments 4 or greater in length should be multi-line commented
+ 1. Comments 4 lines or greater in length should be multi-line commented

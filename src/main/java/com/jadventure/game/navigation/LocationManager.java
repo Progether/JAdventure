@@ -37,18 +37,12 @@ public enum LocationManager {
 
     private LocationManager() {
         JsonParser parser = new JsonParser();
-
         try {
             Reader reader = new FileReader(FILE_NAME);
-
             JsonObject json = parser.parse(reader).getAsJsonObject();
-
-            // For every location in the locations.file, it parses the location uses loadLocation() and adds it
-            // to the locations Map.
             for(Map.Entry<String, JsonElement> entry: json.entrySet()) {
                 Locations.locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));
             }
-
             reader.close();
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
@@ -60,12 +54,12 @@ public enum LocationManager {
 
     private Location loadLocation(JsonObject json) {
         Location location = new Location();
-
         Coordinate coordinate = new Coordinate(json.get("coordinate").getAsString());
         location.setCoordinate(coordinate);
         location.setTitle(json.get("title").getAsString());
         location.setDescription(json.get("description").getAsString());
         location.setLocationType(LocationType.valueOf(json.get("locationType").getAsString()));
+        location.setDangerRating(json.get("danger").getAsInt());
         if (json.has("items")) {
             ArrayList<String> items = new Gson().fromJson(json.get("items"), new TypeToken<List<String>>(){}.getType());
             location.setItems(items);
@@ -93,6 +87,7 @@ public enum LocationManager {
                 locationJsonElement.addProperty("coordinate", location.getCoordinate().toString());
                 locationJsonElement.addProperty("description", location.getDescription());
                 locationJsonElement.addProperty("locationType", location.getLocationType().toString());
+                locationJsonElement.addProperty("danger", String.valueOf(location.getDangerRating()));
                 JsonArray itemList = new JsonArray();
                 ArrayList<Item> items = location.getItems();
                 if (items.size() > 0) {
@@ -115,6 +110,7 @@ public enum LocationManager {
     }
 
     public static ILocation getInitialLocation() {
+        INSTANCE.reload();
         Coordinate coordinate = new Coordinate(0, 0, -1);
         return getLocation(coordinate);
     }
@@ -123,4 +119,20 @@ public enum LocationManager {
         return Locations.locations.get(coordinate);
     }
 
+    public void reload() {
+        JsonParser parser = new JsonParser();
+        try {
+            Reader reader = new FileReader(FILE_NAME);
+            JsonObject json = parser.parse(reader).getAsJsonObject();
+            for(Map.Entry<String, JsonElement> entry: json.entrySet()) {
+                Locations.locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));
+            }
+            reader.close();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+            System.exit(-1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

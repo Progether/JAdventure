@@ -12,6 +12,12 @@
   <property name="jar.dir" value="${build.dir}/jar" />
   <property name="lib.dir" value="lib"/>
 
+  <path id="libraries.path">
+    <fileset dir="${lib.dir}">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+
   <path id="classpath">
     <fileset dir="${lib.dir}" includes="**/*.jar"/>
   </path>
@@ -29,11 +35,31 @@
 
   <target name="jar" depends="compile">
     <mkdir dir="${jar.dir}"/>
+    <mkdir dir="${classes.dir}/${lib.dir}"/>
+
+    <copy todir="${classes.dir}/${lib.dir}" flatten="true">
+      <path refid="libraries.path"/>
+    </copy>
+
+    <manifestclasspath property="manifest.classpath" jarfile="${jar.file}">
+      <classpath refid="libraries.path"/>
+    </manifestclasspath>
+
     <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
       <manifest>
         <attribute name="Main-Class" value="${main-class}"/>
+        <attribute name="Class-Path" value="${manifest.classpath}"/>
       </manifest>
     </jar>
+  </target>
+
+  <target name="dist" depends="jar">
+    <copy todir="${jar.dir}/lib">
+        <fileset dir="lib" />
+     </copy>
+     <copy todir="${jar.dir}/json">
+	 <fileset dir="json" />
+     </copy>
   </target>
   
   <target name="junit" depends="jar">
@@ -51,6 +77,7 @@
 
   <target name="run" depends="junit">
     <java fork="true" classname="${main-class}">
+      <arg value="${arg0}"/>
       <classpath>
         <path refid="classpath"/>
         <path refid="application"/>

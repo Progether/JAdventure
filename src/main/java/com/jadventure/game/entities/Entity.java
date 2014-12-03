@@ -4,10 +4,14 @@ import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Backpack;
 import com.jadventure.game.items.Storage;
+import com.jadventure.game.QueueProvider;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.Iterator;
 
 /**
  * superclass for all entities (includes player, monsters...)
@@ -31,13 +35,42 @@ public abstract class Entity {
     private int stealth;
     private int gold;
     private double damage = 30;
-    private int critChance = 0;
+    private double critChance = 0.0;
     // Every point in armour reduces an attackers attack by .33
     private int armour;
     private String weapon = "empty";
     private HashMap<String, Item> equipment;
+    public HashMap<String, Integer> classStats = new HashMap<String, Integer>() {
+        {
+            put("Recruit", 0);
+            put("Sewer Rat", 0);
+        };
+    };
+    private String currentClassName;
     protected Storage storage;
     Random globalRand = new Random();
+
+    public String getCurrentClass() {
+        return this.currentClassName;
+    }
+
+    public void setCurrentClass(String className) {
+        this.currentClassName = className;
+    }
+
+    public void checkCurrentClass() {
+        Iterator it = this.classStats.entrySet().iterator();
+        int highestClassLevel = 0;
+        String highestClassName = "";
+        while (it.hasNext()) {
+            Map.Entry<String, Integer> pairs = (Map.Entry<String, Integer>)it.next();
+            if (pairs.getValue() > highestClassLevel) {
+                highestClassLevel = pairs.getValue();
+                highestClassName = pairs.getKey();
+            }
+        }
+        this.currentClassName = highestClassName;
+    }
     
     // maybe not all entities start at full health, etc.
     public Entity() {
@@ -54,7 +87,7 @@ public abstract class Entity {
         this.name = name;
         this.gold = gold;
         this.storage = storage;
-	this.equipment = equipment;
+	    this.equipment = equipment;
     }
 
     public int getHealth() {
@@ -82,11 +115,11 @@ public abstract class Entity {
         this.damage = damage;
     }
 
-    public int getCritChance() {
+    public double getCritChance() {
         return critChance;
     }
 
-    public void setCritChance(int critChance) {
+    public void setCritChance(double critChance) {
         this.critChance = critChance;
     }
 
@@ -138,6 +171,10 @@ public abstract class Entity {
         this.level = level;
     }
 
+    public HashMap<String, Item> getEquipment() {
+        return equipment;
+    }
+
     public int getStrength() {
         return strength;
     }
@@ -183,66 +220,87 @@ public abstract class Entity {
     }
 
     public HashMap equipItem(String place, Item item) {
-	 double oldDamage = this.damage;
-         Item empty = new Item("empty");
-	 if (place.equals("")) {
-             place = item.getPosition();
-	 }
-	 if (equipment.get(place) != null) {
-	      if (!empty.equals(equipment.get(place))) {
-	           unequipItem(equipment.get(place));
-	      }
-	 }
+         double oldDamage = this.damage;
+             Item empty = new Item("empty");
+         if (place.equals("")) {
+                 place = item.getPosition();
+         }
+         if (equipment.get(place) != null) {
+              if (!empty.equals(equipment.get(place))) {
+                   unequipItem(equipment.get(place));
+              }
+         }
          this.equipment.put(place, item);
-	 HashMap result = new HashMap();
-	 switch (item.getItemID().charAt(0)) {
-	      case 'w': {
-	           this.weapon = item.getItemID();
-		   this.damage += item.properties.get("damage");
-		   double diffDamage = this.damage - oldDamage;
-		   result.put("damage", diffDamage);
-		   break;
-	      } case 'a': {
-	           this.armour += item.properties.get("damage");
-		   result.put("armour", item.properties.get("armour"));
-		   break;
-	      } case 'p': {
-		   if (item.properties.containsKey("healthMax")) {
-	  	        this.healthMax += item.properties.get("healthMax");
-		        this.health += item.properties.get("healthMax");
-			unequipItem(item); // One use only
-		        result.put("health", item.properties.get("healthMax"));
-		   }
-		   break;
-	      } case 'f': {
-		   this.health += item.properties.get("health");
-		   this.health = (this.health > this.healthMax) ? this.healthMax : this.health;
-		   unequipItem(item); //One use only
-		   result.put("health", item.properties.get("healthMax"));
-		   break;
-	      }
-          }
-	return result;	 
+         //removeItemFromStorage(item);
+         HashMap<String, String> result = new HashMap<String, String>();
+         switch (item.getItemID().charAt(0)) {
+              case 'w': {
+                  this.weapon = item.getItemID();
+                  this.damage += item.getProperty("damage");
+                  double diffDamage = this.damage - oldDamage;
+                  result.put("damage", String.valueOf(diffDamage));
+                  break;
+              } case 'a': {
+                   this.armour += item.getProperty("armour");
+                   result.put("armour", String.valueOf(item.getProperty("armour")));
+                   break;
+              } case 'p': {
+                   if (item.propertiesContainsKey("healthMax")) {
+                        this.healthMax += item.getProperty("healthMax");
+                        this.health += item.getProperty("healthMax");
+                        unequipItem(item); // One use only
+                        removeItemFromStorage(item);
+                        result.put("health", String.valueOf(item.getProperty("healthMax")));
+                   }
+                   break;
+              } case 'f': {
+                   int healthOld = this.getHealth();
+                   this.health += item.getProperty("health");
+                   this.health = (this.health > this.healthMax) ? this.healthMax : this.health;
+                   unequipItem(item); //One use only
+                   removeItemFromStorage(item);
+                   result.put("health", String.valueOf(health - healthOld));
+                   break;
+              }
+         }
+         return result;	 
     }
     
     public HashMap unequipItem(Item item) {
-	 double oldDamage = this.damage;
-	 String place = "";
-	 for (String key : this.equipment.keySet()) {
-	      if (this.equipment.get(key).equals(item)) {
-                   place = key;
-	      }
-	 }
-	 if (!place.isEmpty()) {
-	      this.equipment.put(place, new Item("empty"));
-	 }
-	 HashMap result = new HashMap();
-	 if (item.properties.containsKey("damage")) {   
-	      this.damage -= item.properties.get("damage");
-	      double diffDamage = this.damage - oldDamage;
-	      result.put("damage", diffDamage);
-	 }
-	 return result;
+         double oldDamage = this.damage;
+         String place = "";
+         for (String key : this.equipment.keySet()) {
+              if (this.equipment.get(key).equals(item)) {
+                       place = key;
+              }
+         }
+         if (!place.isEmpty()) {
+              this.equipment.put(place, new Item("empty"));
+         }
+         //addItemToStorage(item);
+         HashMap<String, String> result = new HashMap<String, String>();
+         if (item.propertiesContainsKey("damage")) {
+            this.weapon = "hands";   
+            this.damage -= item.getProperty("damage");
+            double diffDamage = this.damage - oldDamage;
+            result.put("damage", String.valueOf(diffDamage));
+         }
+         return result;
+    }
+
+    public void printEquipment() {
+        QueueProvider.offer("\n------------------------------------------------------------");
+        QueueProvider.offer("Equipped Items:");
+        if (equipment.keySet().size() == 0) {
+            QueueProvider.offer("--Empty--");
+        } else {
+            for (Map.Entry<String, Item> item : equipment.entrySet()) {
+                if (!item.getKey().equals("mouth")) {
+                    QueueProvider.offer(item.getKey() + " - " + item.getValue().getName());
+                }
+            }
+        }
+        QueueProvider.offer("------------------------------------------------------------"); 
     }
 
     public Storage getStorage() {
@@ -252,12 +310,20 @@ public abstract class Entity {
     public void setStorage(Storage storage) {
         this.storage = storage;
     }
+
+    public void printStorage() {
+       storage.display();
+    } 
     
-    public void addItemToStorage(Item i){
-        storage.addItem(new ItemStack(1, i));
+    public void addItemToStorage(Item i) {
+        if (!i.equals(new Item("empty"))) {
+            storage.addItem(new ItemStack(1, i));
+        }
     }
 
     public void removeItemFromStorage(Item i) {
-        storage.removeItem(new ItemStack(1, i)); //TODO: fix this
+        if (!i.equals(new Item("empty"))) {
+            storage.removeItem(new ItemStack(1, i)); 
+        }
     }
 }

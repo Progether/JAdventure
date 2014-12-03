@@ -2,10 +2,10 @@ package com.jadventure.game.menus;
 
 import com.jadventure.game.menus.Menus;
 
-import java.util.Scanner;
 import com.jadventure.game.Game;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.menus.ChooseClassMenu;
+import com.jadventure.game.DeathException;
 import com.jadventure.game.QueueProvider;
 
 import java.io.IOException;
@@ -14,6 +14,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.net.Socket;
 
 /**
  * The first menu diplayed on user screen
@@ -21,21 +22,44 @@ import java.nio.file.StandardCopyOption;
  * This menu lets the player choose whether to load an exiting game,
  * start a new one, or exit to the terminal.
  */
-public class MainMenu extends Menus {
+public class MainMenu extends Menus implements Runnable {
      
-    public MainMenu(){
-         this.menuItems.add(new MenuItem("Start", "Starts a new Game", "new"));
-         this.menuItems.add(new MenuItem("Load", "Loads an existing Game"));
-         this.menuItems.add(new MenuItem("Delete", "Deletes an existing Game"));
-         this.menuItems.add(new MenuItem("Exit", null, "quit"));
+    public MainMenu(Socket server,String mode){
+        new QueueProvider().startMessenger(server,mode);
+    }
 
-         while(true) {
-             MenuItem selectedItem = displayMenu(this.menuItems);
-             testOption(selectedItem);
-         }
-     }
-    private static void testOption(MenuItem m) {
-        Scanner input = new Scanner(System.in);
+    public MainMenu() {
+        start();
+    }
+    
+    public void run() {
+        start();
+    }
+
+    public void start() {
+        this.menuItems.add(new MenuItem("Start", "Starts a new Game", "new"));
+        this.menuItems.add(new MenuItem("Load", "Loads an existing Game"));
+        this.menuItems.add(new MenuItem("Delete", "Deletes an existing Game"));
+        this.menuItems.add(new MenuItem("Exit", null, "quit"));
+        
+        while(true) {
+            try {
+                MenuItem selectedItem = displayMenu(this.menuItems);
+                boolean exit = testOption(selectedItem);
+                if (!exit) {
+                    break;
+                }
+            } catch (DeathException e) {
+                if (e.getLocalisedMessage().equals("close")) {
+                    break;
+                }
+            }
+        }
+        QueueProvider.offer("EXIT");
+    
+    }
+
+    private static boolean testOption(MenuItem m) throws DeathException {
         String key = m.getKey();
         if(key.equals("start")) {
             try {
@@ -50,19 +74,19 @@ public class MainMenu extends Menus {
         }
         else if(key.equals("exit")) {
             QueueProvider.offer("Goodbye!");
-            System.exit(0);
+            return false;
         }
         else if(key.equals("load")) {
             listProfiles();
-            QueueProvider.offer("\nWhat is the name of the avatar you want to load?");
+            QueueProvider.offer("\nWhat is the name of the avatar you want to load? Type 'back' to go back");
             Player player = null;
 
             boolean exit = false;
             while (player == null) {
-                key = input.nextLine();
+                key = QueueProvider.take();
                 if (Player.profileExists(key)) {
                     player = Player.load(key);
-                } else if (key.equals("exit")) {
+                } else if (key.equals("exit") || key.equals("back")) {
                     exit = true;
                     break;
                 } else {
@@ -71,30 +95,30 @@ public class MainMenu extends Menus {
             }
 
             if (exit) {
-                return;
+                return true;
             }
 
             Game game = new Game(player, "old");
         } else if (key.equals("delete")) {
             listProfiles();
-            QueueProvider.offer("\nWhich profile do you want to delete?");
+            QueueProvider.offer("\nWhich profile do you want to delete? Type 'back' to go back");
             boolean exit = false;
             while (!exit) {
-                key = input.nextLine();
+                key = QueueProvider.take();
                 if (Player.profileExists(key)) {
                     String profileName = key;
-                    QueueProvider.offer("Are you sure you want to delete? y/n");
-                    key = input.nextLine();
+                    QueueProvider.offer("Are you sure you want to delete " + profileName + "? y/n");
+                    key = QueueProvider.take();
                     if (key.equals("y")) {
                         File profile = new File("json/profiles/" + profileName);
                         deleteDirectory(profile);
                         QueueProvider.offer("Profile Deleted");
-                        return;
+                        return true;
                     } else {
                         listProfiles();
                         QueueProvider.offer("\nWhich profile do you want to delete?");
                     }
-                } else if (key.equals("exit")) {
+                } else if (key.equals("exit") || key.equals("back")) {
                     exit = true;
                     break;
                 } else {
@@ -102,6 +126,7 @@ public class MainMenu extends Menus {
                 }
             }
         }
+        return true;
     }
 
     private static boolean deleteDirectory(File directory) {
