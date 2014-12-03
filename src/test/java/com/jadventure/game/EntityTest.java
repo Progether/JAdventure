@@ -11,8 +11,6 @@ import com.jadventure.game.entities.Entity;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.items.Backpack;
 import com.jadventure.game.items.Item;
-import com.jadventure.game.items.ItemStack;
-import com.jadventure.game.items.Storage;
 
 public class EntityTest {
     private Entity entity;

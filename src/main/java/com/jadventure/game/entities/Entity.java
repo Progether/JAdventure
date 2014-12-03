@@ -25,7 +25,7 @@ public abstract class Entity {
     private String className;
     private String intro;
     private int level;
-    // Statstics
+    // Statistics
     private int strength;
     private int intelligence;
     private int dexterity;
