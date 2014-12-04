@@ -2,15 +2,12 @@ package com.jadventure.game.entities;
 
 import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
-import com.jadventure.game.items.Backpack;
 import com.jadventure.game.items.Storage;
 import com.jadventure.game.QueueProvider;
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.Iterator;
 
 /**

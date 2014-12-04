@@ -4,7 +4,6 @@
  import com.jadventure.game.entities.Entity;
  import com.jadventure.game.entities.Player;
  import com.jadventure.game.monsters.Monster;
- import com.jadventure.game.Game;
  import com.jadventure.game.QueueProvider;
  
  import java.util.Random;

@@ -1,6 +1,5 @@
 package com.jadventure.game.prompts;
 
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 

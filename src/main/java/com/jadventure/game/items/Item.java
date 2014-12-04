@@ -2,23 +2,16 @@ package com.jadventure.game.items;
 
 import com.jadventure.game.QueueProvider;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.internal.LinkedTreeMap;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ArrayList;
 
 /*
  * This class deals with parsing and interacting with an item.

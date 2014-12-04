@@ -3,7 +3,6 @@ package com.jadventure.game;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.Scanner;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.DataOutputStream;
 import java.io.DataInputStream;
