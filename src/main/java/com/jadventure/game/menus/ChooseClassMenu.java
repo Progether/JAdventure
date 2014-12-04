@@ -1,7 +1,5 @@
 package com.jadventure.game.menus;
 
-import com.jadventure.game.menus.Menus;
-import com.jadventure.game.menus.MenuItem;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.DeathException;
 import com.jadventure.game.Game;
