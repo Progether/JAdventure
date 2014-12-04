@@ -60,7 +60,6 @@ public class BattleMenu extends Menus {
     }
 
     private void testSelected(MenuItem m) {
-        String key = m.getKey();
         switch (m.getKey()) {
             case "attack": {
                 mutateStats(1, 0.5);
