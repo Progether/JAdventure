@@ -1,22 +1,22 @@
- package com.jadventure.game.menus;
+package com.jadventure.game.menus;
 
- import com.jadventure.game.DeathException;
- import com.jadventure.game.entities.Entity;
- import com.jadventure.game.entities.Player;
- import com.jadventure.game.monsters.Monster;
- import com.jadventure.game.QueueProvider;
- 
- import java.util.Random;
+import com.jadventure.game.DeathException;
+import com.jadventure.game.entities.Entity;
+import com.jadventure.game.entities.Player;
+import com.jadventure.game.monsters.Monster;
+import com.jadventure.game.QueueProvider;
 
- public class BattleMenu extends Menus {
+import java.util.Random;
 
-     private Monster opponent;
-     private Player player;
-     private Random random;
-     private int armour;
-     private double damage;
+public class BattleMenu extends Menus {
 
-     public BattleMenu(Monster opponent, Player player) throws DeathException {
+    private Monster opponent;
+    private Player player;
+    private Random random;
+    private int armour;
+    private double damage;
+
+    public BattleMenu(Monster opponent, Player player) throws DeathException {
         this.random = new Random();
         this.opponent = opponent;
         this.player = player;
@@ -30,42 +30,42 @@
         while (opponent.getHealth() > 0 && player.getHealth() > 0) {
             QueueProvider.offer("What is your choice?");
             MenuItem selectedItem = displayMenu(this.menuItems);
-            testSelected(selectedItem);       
-        } 
-	    if (player.getHealth() == 0) {
-		    QueueProvider.offer("You died... Start again? (y/n)");
-		    String reply = QueueProvider.take().toLowerCase();
+            testSelected(selectedItem);
+        }
+        if (player.getHealth() == 0) {
+            QueueProvider.offer("You died... Start again? (y/n)");
+            String reply = QueueProvider.take().toLowerCase();
             while (!reply.startsWith("y") && !reply.startsWith("n")) {
-		        QueueProvider.offer("You died... Start again? (y/n)");
-		        reply = QueueProvider.take().toLowerCase();
+                QueueProvider.offer("You died... Start again? (y/n)");
+                reply = QueueProvider.take().toLowerCase();
             }
-		    if (reply.startsWith("y")) {
+            if (reply.startsWith("y")) {
                 throw new DeathException("restart");
             } else if (reply.startsWith("n")) {
                 throw new DeathException("close");
             }
         }  else if (opponent.getHealth() == 0) {
-		    int xp = opponent.getXPGain();
+            int xp = opponent.getXPGain();
             this.player.setXP(this.player.getXP() + xp);
             int oldLevel = this.player.getLevel();
             int newLevel = (int) (0.075 * Math.sqrt(this.player.getXP()) + 1);
             this.player.setLevel(newLevel);
             this.player.getLocation().removeMonster(opponent);
             this.player.setGold(this.player.getGold() + opponent.getGold());
-		    QueueProvider.offer("You killed a " + opponent.monsterType + "\nYou have gained " + xp + " XP and " + opponent.getGold() + " gold");
+            QueueProvider.offer("You killed a " + opponent.monsterType + "\nYou have gained " + xp + " XP and " + opponent.getGold() + " gold");
             if (oldLevel < newLevel) {
                 QueueProvider.offer("You've are now level " + newLevel + "!");
             }
         }
-     }
+    }
 
-     private void testSelected(MenuItem m) {
+    private void testSelected(MenuItem m) {
         String key = m.getKey();
         switch (m.getKey()) {
             case "attack": {
                 mutateStats(1, 0.5);
                 attack(player, opponent);
-		        attack(opponent, player);
+                attack(opponent, player);
                 resetStats();
                 break;
             }
@@ -93,9 +93,9 @@
                 break;
             }
         }
-     }
+    }
 
-     private void attack(Entity attacker, Entity defender) {
+    private void attack(Entity attacker, Entity defender) {
         if (attacker.getHealth() == 0) {
             return;
         }
@@ -117,39 +117,39 @@
         } else {
             QueueProvider.offer("Your health is " + defender.getHealth());
         }
-     }
+    }
 
-     private void mutateStats(double damageMult, double armourMult) {
+    private void mutateStats(double damageMult, double armourMult) {
         armour = player.getArmour();
         damage = player.getDamage();
         player.setArmour((int) (armour * armourMult));
         player.setDamage(damage * damageMult);
-     }
+    }
 
-     private void resetStats() {
-         player.setArmour(armour);
-         player.setDamage(damage);
-     }
+    private void resetStats() {
+        player.setArmour(armour);
+        player.setDamage(damage);
+    }
 
-     private void equip() {
+    private void equip() {
         player.printStorage();
-		QueueProvider.offer("What item do you want to use?");
-		String itemName = QueueProvider.take();
-		if (!itemName.equalsIgnoreCase("back")) {
-			player.equipItem(itemName);
-		}
-     }
+        QueueProvider.offer("What item do you want to use?");
+        String itemName = QueueProvider.take();
+        if (!itemName.equalsIgnoreCase("back")) {
+            player.equipItem(itemName);
+        }
+    }
 
-     private void unequip() {
+    private void unequip() {
         player.printEquipment();
         QueueProvider.offer("What item do you want to unequip?");
         String itemName = QueueProvider.take();
         if (!itemName.equalsIgnoreCase("back")) {
             player.dequipItem(itemName);
         }
-     }
+    }
 
-     private void viewStats() {
+    private void viewStats() {
         QueueProvider.offer("What is your command?");
         String input = QueueProvider.take();
         switch (input) {
@@ -172,6 +172,6 @@
                 viewStats();
                 break;
         }
-     }
- }
+    }
+}
 
