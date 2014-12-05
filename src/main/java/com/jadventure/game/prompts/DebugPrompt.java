@@ -4,7 +4,6 @@ import com.jadventure.game.entities.Player;
 import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationManager;
-import com.jadventure.game.prompts.BackpackDebugPrompt;
 import com.jadventure.game.QueueProvider;
 
 /**

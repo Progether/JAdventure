@@ -1,10 +1,7 @@
 package com.jadventure.game.menus;
 
-import com.jadventure.game.menus.Menus;
-
 import com.jadventure.game.Game;
 import com.jadventure.game.entities.Player;
-import com.jadventure.game.menus.ChooseClassMenu;
 import com.jadventure.game.DeathException;
 import com.jadventure.game.QueueProvider;
 
@@ -17,7 +14,7 @@ import java.nio.file.StandardCopyOption;
 import java.net.Socket;
 
 /**
- * The first menu diplayed on user screen
+ * The first menu displayed on user screen
  * @see JAdventure
  * This menu lets the player choose whether to load an exiting game,
  * start a new one, or exit to the terminal.

@@ -1,7 +1,6 @@
 package com.jadventure.game.navigation;
 
 import com.jadventure.game.items.Item;
-import com.jadventure.game.entities.NPC;
 import com.jadventure.game.QueueProvider;
 
 import com.google.gson.JsonElement;
