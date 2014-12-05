@@ -11,4 +11,5 @@ public @interface Command {
     String command();
     String aliases();
     String description();
+    boolean debug();
 }
