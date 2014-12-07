@@ -98,9 +98,6 @@ public class Player extends Entity {
                 float maxWeight = (float)Math.sqrt(player.getStrength()*300);
                 player.setStorage(new Backpack(maxWeight, itemList));
             }
-            Path orig = Paths.get("json/profiles/"+name+"/locations.json");
-            Path dest = Paths.get("json/locations.json");
-            Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
             Coordinate coordinate = new Coordinate(json.get("location").getAsString());
             player.setLocation(LocationManager.getLocation(coordinate));
             reader.close();
