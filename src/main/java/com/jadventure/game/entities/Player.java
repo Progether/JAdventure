@@ -148,7 +148,7 @@ public class Player extends Entity {
             if (player.getName().equals("Recruit")) {
                 player.classStats.put("Recruit", 50);
                 player.setCurrentClass("Recruit");
-            } else if (player.getName().equals("Sewer Rat")) {
+            } else if (player.getName().equals("Sewer_Rat")) {
                 player.classStats.put("Sewer Rat", 50);
                 player.setCurrentClass("Sewer Rat");
             } else {
@@ -174,7 +174,7 @@ public class Player extends Entity {
     }
 
     public static void setUpVariables(Player player) {
-        player.setLocation(LocationManager.getInitialLocation());
+        player.setLocation(LocationManager.getInitialLocation(player.getName()));
         float maxWeight = (float)Math.sqrt(player.getStrength()*300);
         player.setStorage(new Backpack(maxWeight));
         player.addItemToStorage(new Item("fmil1"));
@@ -241,7 +241,7 @@ public class Player extends Entity {
             Writer writer = new FileWriter(fileName);
             gson.toJson(jsonObject, writer);
             writer.close();
-            LocationManager.writeLocations();
+            LocationManager.writeLocations(getName());
             Path orig = Paths.get("json/locations.json");
             Path dest = Paths.get("json/profiles/"+getName()+"/locations.json");
             Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
