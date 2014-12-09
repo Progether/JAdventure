@@ -12,7 +12,7 @@
       ]
     },
     "sewerrat": {
-      "name": "Sewer Rat",
+      "name": "Sewer_Rat",
       "health": 100,
       "healthMax": 100,
       "damage": 40,

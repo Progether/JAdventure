@@ -22,7 +22,7 @@ public class Game {
     public Game(Player player, String playerType) throws DeathException {
           this.parser = new CommandParser(player);
           this.player = player;
-          this.player.setLocation(LocationManager.INSTANCE.getInitialLocation());
+          this.player.setLocation(LocationManager.getInstance(player.getName()).getInitialLocation(player.getName()));
           if (playerType.equals("new")) { // New Game
               newGameStart(player);
           } else if (playerType.equals("old")) {
