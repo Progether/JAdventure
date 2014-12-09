@@ -80,10 +80,10 @@ public class ItemRepositoryTest {
     @Test
     public void retrieveItems() throws IOException {
         String input = "{\"items\":{"
-                + "\"egg-1\":{\"id\":\"egg-1\",\"type\": \"food\",\"name\":\"egg\",\"description\":\"A nice egg\","
+                + "\"fegg1\":{\"id\":\"fegg1\",\"type\": \"food\",\"name\":\"egg\",\"description\":\"A nice egg\","
                 + "\"position\":\"mouth\","
                 + "\"properties\":{\"weight\":1,\"value\":3,\"health\":2}},"
-                + "\"milk-bottle\":{\"id\":\"milk-bottle\",\"type\": \"food-liquid\",\"name\":\"milk\",\"description\":\"Milk in a bottle\","
+                + "\"fmil1\":{\"id\":\"fmil1\",\"type\": \"food-liquid\",\"name\":\"milk\",\"description\":\"Milk in a bottle\","
                 + "\"position\":\"mouth\","
                 + "\"properties\":{\"weight\":1,\"value\":10,\"health\":5}}"
                 + "}}";
@@ -94,10 +94,10 @@ public class ItemRepositoryTest {
         
         itemRepo.retrieve(jsonReader);
 
-        Item eggItem = itemRepo.getItem("egg-1");
+        Item eggItem = itemRepo.getItem("fegg1");
         assertEquals("A nice egg", eggItem.getDescription());
         
-        Item milkItem = itemRepo.getItem("milk-bottle");
+        Item milkItem = itemRepo.getItem("fmil1");
         assertEquals("Milk in a bottle", milkItem.getDescription());
     }
 
