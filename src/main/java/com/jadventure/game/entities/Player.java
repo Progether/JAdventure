@@ -102,9 +102,6 @@ public class Player extends Entity {
                 float maxWeight = (float)Math.sqrt(player.getStrength()*300);
                 player.setStorage(new Backpack(maxWeight, itemList));
             }
-            Path orig = Paths.get("json/profiles/"+name+"/locations.json");
-            Path dest = Paths.get("json/locations.json");
-            Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
             Coordinate coordinate = new Coordinate(json.get("location").getAsString());
             player.setLocation(LocationManager.getLocation(coordinate));
             reader.close();
@@ -152,7 +149,7 @@ public class Player extends Entity {
             if (player.getName().equals("Recruit")) {
                 player.classStats.put("Recruit", 50);
                 player.setCurrentClass("Recruit");
-            } else if (player.getName().equals("Sewer Rat")) {
+            } else if (player.getName().equals("Sewer_Rat")) {
                 player.classStats.put("Sewer Rat", 50);
                 player.setCurrentClass("Sewer Rat");
             } else {
@@ -178,7 +175,7 @@ public class Player extends Entity {
     }
 
     public static void setUpVariables(Player player) {
-        player.setLocation(LocationManager.getInitialLocation());
+        player.setLocation(LocationManager.getInitialLocation(player.getName()));
         float maxWeight = (float)Math.sqrt(player.getStrength()*300);
         player.setStorage(new Backpack(maxWeight));
         player.addItemToStorage(itemRepo.getItem("fmil1"));
@@ -245,7 +242,7 @@ public class Player extends Entity {
             Writer writer = new FileWriter(fileName);
             gson.toJson(jsonObject, writer);
             writer.close();
-            LocationManager.writeLocations();
+            LocationManager.writeLocations(getName());
             Path orig = Paths.get("json/locations.json");
             Path dest = Paths.get("json/profiles/"+getName()+"/locations.json");
             Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
@@ -295,7 +292,7 @@ public class Player extends Entity {
             Item itemToPickUp = itemRepo.getItem(item.getId());
             addItemToStorage(itemToPickUp);
             location.removePublicItem(itemToPickUp.getId());
-            QueueProvider.offer("\n" + item.getName()+ " picked up");
+            QueueProvider.offer(item.getName()+ " picked up");
         }
     }
 
@@ -312,7 +309,7 @@ public class Player extends Entity {
             }
             removeItemFromStorage(itemToDrop);
             location.addPublicItem(itemToDrop.getId());
-            QueueProvider.offer("\n" + item.getName()+ " dropped");
+            QueueProvider.offer(item.getName() + " dropped");
         }
     }
 

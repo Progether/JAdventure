@@ -11,6 +11,9 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.Gson;
 
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -26,18 +29,23 @@ import java.util.ArrayList;
  * This class loads the locations from the locations.json file on start.
  * It also provides methods for getting the initial location and the current location.
  */
-public enum LocationManager {
-    INSTANCE;
-    private static final String FILE_NAME = "json/locations.json";
+public class LocationManager {
+    private static LocationManager instance = null;
+    private String fileName;
 
     private static class Locations {
         private static Map<Coordinate, ILocation> locations = new HashMap<Coordinate, ILocation>();
     }
 
-    private LocationManager() {
+    private LocationManager(String profileName) {
+        fileName = "json/profiles/" + profileName + "/locations.json";
         JsonParser parser = new JsonParser();
+        File f = new File(fileName);
+        if (!f.exists()) {
+            copyLocationsFile();
+        }
         try {
-            Reader reader = new FileReader(FILE_NAME);
+            Reader reader = new FileReader("json/profiles/" + profileName + "/locations.json");
             JsonObject json = parser.parse(reader).getAsJsonObject();
             for(Map.Entry<String, JsonElement> entry: json.entrySet()) {
                 Locations.locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));
@@ -49,6 +57,13 @@ public enum LocationManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static LocationManager getInstance(String profileName) {
+        if (instance == null) {
+            instance = new LocationManager(profileName);
+        }
+        return instance;
     }
 
     private Location loadLocation(JsonObject json) {
@@ -76,7 +91,7 @@ public enum LocationManager {
         return location;
     }
 
-    public static void writeLocations() {
+    public static void writeLocations(String profileName) {
         try {
             JsonObject jsonObject = new JsonObject();
             for (Map.Entry<Coordinate,ILocation> entry : Locations.locations.entrySet()) {
@@ -98,7 +113,7 @@ public enum LocationManager {
                 }
                 jsonObject.add(location.getCoordinate().toString(), locationJsonElement);
             }
-            Writer writer = new FileWriter("json/locations.json");
+            Writer writer = new FileWriter("json/profiles/" + profileName + "/locations.json");
             Gson gson = new Gson();
             gson.toJson(jsonObject, writer);
             writer.close();
@@ -108,8 +123,9 @@ public enum LocationManager {
         }
     }
 
-    public static ILocation getInitialLocation() {
-        INSTANCE.reload();
+    public static ILocation getInitialLocation(String profileName) {
+        getInstance(profileName);
+        instance.reload();
         Coordinate coordinate = new Coordinate(0, 0, -1);
         return getLocation(coordinate);
     }
@@ -120,16 +136,31 @@ public enum LocationManager {
 
     public void reload() {
         JsonParser parser = new JsonParser();
+        File f = new File(fileName);
+        if (!f.exists()) {
+            copyLocationsFile();
+        }
         try {
-            Reader reader = new FileReader(FILE_NAME);
+            Reader reader = new FileReader(fileName);
             JsonObject json = parser.parse(reader).getAsJsonObject();
             for(Map.Entry<String, JsonElement> entry: json.entrySet()) {
                 Locations.locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));
             }
             reader.close();
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
             System.exit(-1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void copyLocationsFile() {
+        File source = new File("json/locations.json");
+        File dest = new File(fileName);
+        dest.mkdirs();
+        try {
+        Files.copy(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
         }

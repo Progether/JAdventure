@@ -1,4 +1,4 @@
-package com.jadventure.game;
+package com.jadventure.game.entities;
 
 import com.jadventure.game.entities.Player;
 
