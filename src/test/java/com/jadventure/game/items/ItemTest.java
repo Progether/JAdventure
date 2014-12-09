@@ -13,7 +13,7 @@ public class ItemTest {
 	public void createTest() {
 		Item milk = createMilk();
 		
-		assertEquals("milk-bottle", milk.getId());
+		assertEquals("fmil1", milk.getId());
 		assertEquals("milk", milk.getName());
 		assertEquals("Milk in a bottle", milk.getDescription());
 		assertEquals(Integer.valueOf(1), milk.getWeight());
@@ -26,7 +26,7 @@ public class ItemTest {
         properties.put("weight", Integer.valueOf(1));
         properties.put("value", Integer.valueOf(10));
         
-        Item item = new Item("milk-bottle", "food-liquid", "milk", "Milk in a bottle", properties);
+        Item item = new Item("fmil1", "food-liquid", "milk", "Milk in a bottle", properties);
         return item;
     }
 
@@ -36,7 +36,7 @@ public class ItemTest {
         properties.put("weight", Integer.valueOf(1));
         properties.put("value", Integer.valueOf(3));
         
-        Item item = new Item("egg-1", "food", "egg", "A nice egg", properties);
+        Item item = new Item("fegg1", "food", "egg", "A nice egg", properties);
         return item;
     }
 
