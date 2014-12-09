@@ -4,6 +4,8 @@ import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.entities.NPC;
 import com.jadventure.game.monsters.Monster;
+import com.jadventure.game.repository.ItemRepository;
+import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
 
 import java.util.HashMap;
@@ -15,6 +17,9 @@ import java.util.ArrayList;
  * It also contains the method to print a location's details.
  */
 public class Location implements ILocation {
+    // @Resource
+    protected static ItemRepository itemRepo = GameBeans.getItemRepository();
+
     private Coordinate coordinate;
     private String title;
     private String description;
@@ -92,7 +97,7 @@ public class Location implements ILocation {
     public ArrayList<Item> getItems() {
         ArrayList<Item> items = new ArrayList<>();
         for (String itemId : this.items) {
-            Item itemName = new Item(itemId);
+            Item itemName = itemRepo.getItem(itemId);
             items.add(itemName);
         }
         return items;
@@ -145,7 +150,7 @@ public class Location implements ILocation {
 
     public void addPublicItems(ArrayList<ItemStack> items) {
         for (int i = 0; i < items.size(); i++) {
-            String itemID = items.get(i).getItem().getItemID();
+            String itemID = items.get(i).getItem().getId();
             addPublicItem(itemID);
         }
     }

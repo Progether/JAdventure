@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.jadventure.game.entities.Entity;
 import com.jadventure.game.entities.Player;
@@ -69,7 +70,11 @@ public class EntityTest {
 
     @Test
     public void testStorage() {
-        Item item = new Item("fmil1");
+        String id = "fmil1";
+        String type = "food-liquid";
+        String name = "milk"; 
+        String description = "";
+        Item item = new Item(id, type, name, description, null);
         entity.setStorage(new Backpack(300));
         entity.addItemToStorage(item);
         Assert.assertEquals(entity.getStorage().getItems().get(0).getItem(), item);
