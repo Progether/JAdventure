@@ -92,57 +92,7 @@ public class Item {
         }
     }
 
-//    // gets data about an item based on its itemID
-//    public void lookUpItem(String itemID) {
-//        String fileName = "json/items.json";
-//        JsonObject items = new JsonObject();
-//        try {
-//            Reader reader = new FileReader(fileName);
-//            JsonParser parser = new JsonParser();
-//            JsonObject json = parser.parse(reader).getAsJsonObject();
-//            items = json.get("items").getAsJsonObject();
-//            reader.close();
-//        } catch (FileNotFoundException ex) {
-//            ex.printStackTrace();
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//        }
-//        HashMap<String, HashMap> itemList = new HashMap<String, HashMap>();
-//        for (Map.Entry<String, JsonElement> entry : items.entrySet()) {
-//            HashMap<String, Object> itemDetails = new HashMap<String, Object>();
-//            String rawItemID = entry.getKey().toString();
-//            JsonObject itemData = entry.getValue().getAsJsonObject();
-//            String name = itemData.get("name").getAsString();
-//            String description = itemData.get("description").getAsString();
-//            String position;
-//            try {
-//                position = itemData.get("position").getAsString();
-//            } catch (NullPointerException ex) {
-//            position = "none";
-//            }
-//            JsonObject sProps = itemData.get("properties").getAsJsonObject();
-//            HashMap<String, Integer> properties = new HashMap<String, Integer>();
-//            for (Map.Entry<String,JsonElement> entry2 : sProps.entrySet()) {
-//                Integer propValue = entry2.getValue().getAsInt();
-//                properties.put(entry2.getKey(), propValue);
-//            }
-//            itemDetails.put("name", name);
-//            itemDetails.put("description", description);
-//            itemDetails.put("properties", properties);
-//            itemDetails.put("position", position);
-//            itemList.put(rawItemID,itemDetails);
-//        }
-//        for (Map.Entry<String, HashMap> item : itemList.entrySet()) {
-//            if (item.getKey().equals(itemID)) {
-//                this.id = item.getKey();
-//                this.name = item.getValue().get("name").toString();
-//                this.description = item.getValue().get("description").toString();
-//                this.position = item.getValue().get("position").toString();
-//                this.properties = getHashMap(item.getValue().get("properties"));
-//            }
-//        }
-//    }
-    
+
     @SuppressWarnings("unchecked")
     private HashMap<String, Integer> getHashMap(Object obj) {
         return (HashMap<String, Integer>) obj;
