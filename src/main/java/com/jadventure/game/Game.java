@@ -62,7 +62,7 @@ public class Game {
             while (continuePrompt) {
                 QueueProvider.offer("Prompt:");
                 String command = QueueProvider.take().toLowerCase();
-                continuePrompt = parser.parse(player, command, continuePrompt);
+                continuePrompt = parser.parse(player, command);
             }
         } catch (DeathException e) {
             if (e.getLocalisedMessage().equals("replay")) {
