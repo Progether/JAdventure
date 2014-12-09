@@ -1,4 +1,4 @@
-package com.jadventure.game;
+package com.jadventure.game.entities;
 
 import org.junit.After;
 import org.junit.Assert;
