@@ -9,12 +9,12 @@ import com.jadventure.game.QueueProvider;
  * Items lay around in the game world and can be taken with you.
  */
 public class Item {
-	private String id;
+	private final String id;
     private final String type;
-    private String name;
-    private String description;
-    private String position;
-    private Map<String, Integer> properties;
+    private final String name;
+    private final String description;
+    private final String position;
+    private final Map<String, Integer> properties;
 
     public Item(String id, String type, String name, String description, Map<String, Integer> properties) {
         this(id, type, name, description, null, properties);
@@ -87,15 +87,9 @@ public class Item {
     public void display() {
         QueueProvider.offer("Name: " + this.name +
                 "\nDescription: " + this.description);
-        for (Map.Entry entry : this.properties.entrySet()) {
+        for (Map.Entry<String, Integer> entry : this.properties.entrySet()) {
             QueueProvider.offer(entry.getKey() + ": " + entry.getValue());
         }
-    }
-
-
-    @SuppressWarnings("unchecked")
-    private HashMap<String, Integer> getHashMap(Object obj) {
-        return (HashMap<String, Integer>) obj;
     }
 
 }
