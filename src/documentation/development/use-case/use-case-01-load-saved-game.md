@@ -26,14 +26,14 @@ Often
 
 ## Main Success Scenario
 
-1. launch the application, show a menu, with the option <load a saved game>
+1. launch the application, show a menu, with the option _load a saved game_
 1. ask the user his name, used for loading an existing game
-1. load game based on the <user-name>
+1. load game based on the _user-name_
 1. show the room / location description as if the player just entered the room / location
 
 
 ### Not successful loading existing game
 
 1. in case the game is not found, for the given player-name, ask again the user name and 
-        try to load the game again.
+   try to load the game again.
  

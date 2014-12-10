@@ -18,14 +18,14 @@ When starting the game, the user can choose to start a new game. After which he 
 
 ## Main Success Scenario
 
-1. launch the application, show a menu, with the option <start new game>
-1. choose <start new game>
+1. launch the application, show a menu, with the option _start new game_
+1. choose _start new game_
 1. show a menu with the characters to choose from
 1. choose one of the possible characters
 1. create new game world
 1. ask user his / her name  
-1. show welcome text, using the <player name>
+1. show welcome text, using the _player name_
 
 **REMARK**
   
-The <player-name> is also used for saving the game.
+The _player name_ is also used for saving the game.
