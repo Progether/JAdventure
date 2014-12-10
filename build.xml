@@ -61,8 +61,15 @@
 	 <fileset dir="json" />
      </copy>
   </target>
-  
-  <target name="junit" depends="jar">
+
+
+  <target name="copy-resources">
+    <copy todir="${classes.dir}">
+      <fileset dir="${basedir}/src/test/resources" />
+  	</copy>
+  </target>
+
+  <target name="junit" depends="jar, copy-resources">
     <junit printsummary="yes" haltonfailure="yes" showoutput="yes">
       <classpath>
         <path refid="classpath"/>
