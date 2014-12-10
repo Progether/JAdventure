@@ -18,6 +18,8 @@ Everyone is welcome to help with the creation of JAdventure!
 The best way to find out more about the game and the ideas that are there, is to have a look at
 [Reddit - JAdventure](http://www.reddit.com/search?q=jadventure).
 
+Or drop by at our [IRC channel reddit-progether](http://webchat.freenode.net/?channels=reddit-progether&uio=d4)
+
 ### Contributors ###
 
  1. [Hawk554](https://github.com/hawk554)

@@ -1,5 +1,11 @@
 # Improvement Ideas
 
+Project Collaboration takes place at [Reddit - Progether](https://www.reddit.com/r/progether/)
+search there for [JAdventure](https://www.reddit.com/search?q=jadventure&sort=new).
+
+Or drop by at our [IRC channel reddit-progether](http://webchat.freenode.net/?channels=reddit-progether&uio=d4)
+
+
 ## Suggestions
 
 * Rename LocationRepository to WorldRepository, as it contains the games world.
