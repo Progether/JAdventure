@@ -1,11 +1,12 @@
-# Java Text Adventure Game
+# Java Adventure Game
 
 ## Introduction
 
 **Multi-User Dungeon ( MUD )**
 
-A MUD (originally Multi-User Dungeon, with later variants Multi-User Dimension and
-Multi-User Domain), is a multiplayer real-time virtual world, usually 
+A [MUD](http://en.wikipedia.org/wiki/MUD) (originally Multi-User Dungeon, 
+with later variants Multi-User Dimension and Multi-User Domain), is a 
+multiplayer real-time virtual world, usually 
 [text-based](http://en.wikipedia.org/wiki/Text-based_game).
 MUDs combine elements of role-playing games, hack and slash, player versus player, 
 [interactive fiction](http://en.wikipedia.org/wiki/Interactive_Fiction),
