@@ -3,6 +3,8 @@ package com.jadventure.game.entities;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Storage;
+import com.jadventure.game.repository.ItemRepository;
+import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
 
 import java.util.Random;
@@ -14,6 +16,8 @@ import java.util.Iterator;
  * superclass for all entities (includes player, monsters...)
  */
 public abstract class Entity {
+    // @Resource
+    protected ItemRepository itemRepo = GameBeans.getItemRepository();
     
     // All entities can attack, have health, have names
     private int healthMax;
@@ -219,7 +223,7 @@ public abstract class Entity {
 
     public HashMap equipItem(String place, Item item) {
          double oldDamage = this.damage;
-             Item empty = new Item("empty");
+             Item empty = itemRepo.getItem("empty");
          if (place.equals("")) {
                  place = item.getPosition();
          }
@@ -230,9 +234,9 @@ public abstract class Entity {
          }
          this.equipment.put(place, item);
          HashMap<String, String> result = new HashMap<String, String>();
-         switch (item.getItemID().charAt(0)) {
+         switch (item.getId().charAt(0)) {
               case 'w': {
-                  this.weapon = item.getItemID();
+                  this.weapon = item.getId();
                   this.damage += item.getProperty("damage");
                   double diffDamage = this.damage - oldDamage;
                   result.put("damage", String.valueOf(diffDamage));
@@ -272,7 +276,7 @@ public abstract class Entity {
               }
          }
          if (!place.isEmpty()) {
-              this.equipment.put(place, new Item("empty"));
+              this.equipment.put(place, itemRepo.getItem("empty"));
          }
          HashMap<String, String> result = new HashMap<String, String>();
          if (item.propertiesContainsKey("damage")) {
@@ -312,13 +316,13 @@ public abstract class Entity {
     } 
     
     public void addItemToStorage(Item i) {
-        if (!i.equals(new Item("empty"))) {
+        if (!i.equals(itemRepo.getItem("empty"))) {
             storage.addItem(new ItemStack(1, i));
         }
     }
 
     public void removeItemFromStorage(Item i) {
-        if (!i.equals(new Item("empty"))) {
+        if (!i.equals(itemRepo.getItem("empty"))) {
             storage.removeItem(new ItemStack(1, i)); 
         }
     }

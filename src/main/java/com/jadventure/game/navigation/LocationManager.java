@@ -106,7 +106,7 @@ public class LocationManager {
                 ArrayList<Item> items = location.getItems();
                 if (items.size() > 0) {
                     for (Item item : location.getItems()) {
-                        JsonPrimitive itemJson = new JsonPrimitive(item.getItemID());
+                        JsonPrimitive itemJson = new JsonPrimitive(item.getId());
                         itemList.add(itemJson);
                     }
                     locationJsonElement.add("items", itemList);
