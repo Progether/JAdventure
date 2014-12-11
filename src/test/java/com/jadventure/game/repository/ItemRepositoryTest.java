@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -103,6 +104,8 @@ public class ItemRepositoryTest {
 
     @Test
     public void load() {
+        URL url = this.getClass().getClassLoader().getResource("items.json");
+        System.out.println("resource items: " + url);
 		InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream("items.json");
 		
 		ItemRepository itemRepo = new ItemRepository();

@@ -69,7 +69,7 @@
   	</copy>
   </target>
 
-  <target name="junit" depends="jar, copy-resources">
+  <target name="junit" depends="copy-resources, jar">
     <junit printsummary="yes" haltonfailure="yes" showoutput="yes">
       <classpath>
         <path refid="classpath"/>
