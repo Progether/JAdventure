@@ -1,9 +1,9 @@
 package com.jadventure.game.navigation;
 
-/*
- * A enum list of all the locationtypes.
+/**
+ * An enumeration list of all the location types.
  * For now, it only includes environments
- * and not safezones or city areas.
+ * and not safe zones or city areas.
  */
 public enum LocationType {
 	FOREST,
@@ -11,6 +11,7 @@ public enum LocationType {
 	MOUNTAIN,
 	PLAINS,
     WALL,
+    ROAD,
 	CAVE,
     STAIRS;
 }
