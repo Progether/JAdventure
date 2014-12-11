@@ -1,5 +1,6 @@
 package com.jadventure.game.items;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,10 +67,10 @@ public class Item {
     }
 
     public Map<String, Integer> getProperties() {
-        return properties;
+        return Collections.unmodifiableMap(properties);
     }
 
-    public boolean propertiesContainsKey(String key) {
+    public boolean containsProperty(String key) {
         return properties.containsKey(key);
     }
 

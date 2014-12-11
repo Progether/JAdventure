@@ -1,5 +1,6 @@
 package com.jadventure.game.entities;
 
+import com.jadventure.game.items.Backpack;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Storage;
@@ -7,6 +8,7 @@ import com.jadventure.game.repository.ItemRepository;
 import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
 
+import java.util.Collections;
 import java.util.Random;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,16 +39,32 @@ public abstract class Entity {
     private double critChance = 0.0;
     private int armour;
     private String weapon = "empty";
-    private HashMap<String, Item> equipment;
-    public HashMap<String, Integer> classStats = new HashMap<String, Integer>() {
-        {
-            put("Recruit", 0);
-            put("Sewer Rat", 0);
-        };
-    };
+    private Map<String, Item> equipment;
+    public Map<String, Integer> classStats = new HashMap<String, Integer>();
     private String currentClassName;
     protected Storage storage;
     Random globalRand = new Random();
+
+    public Entity() {
+    	this(100, 100, "default", 0, null, new HashMap<String, Item>());
+    }
+    
+    public Entity(int healthMax, int health, String name, int gold, Storage storage, Map<String, Item> equipment) {
+        this.healthMax = healthMax;
+        this.health = health;
+        this.name = name;
+        this.gold = gold;
+        if (storage != null) {
+        	this.storage = storage;
+        }
+        else {
+        	this.storage = new Backpack(300);
+        }
+	    this.equipment = equipment;
+	    
+	    classStats.put("Recruit", 0);
+	    classStats.put("Sewer Rat", 0);
+    }
 
     public String getCurrentClass() {
         return this.currentClassName;
@@ -57,11 +75,11 @@ public abstract class Entity {
     }
 
     public void checkCurrentClass() {
-        Iterator it = this.classStats.entrySet().iterator();
+        Iterator<Map.Entry<String, Integer>> it = this.classStats.entrySet().iterator();
         int highestClassLevel = 0;
         String highestClassName = "";
         while (it.hasNext()) {
-            Map.Entry<String, Integer> pairs = (Map.Entry<String, Integer>)it.next();
+            Map.Entry<String, Integer> pairs = it.next();
             if (pairs.getValue() > highestClassLevel) {
                 highestClassLevel = pairs.getValue();
                 highestClassName = pairs.getKey();
@@ -70,22 +88,6 @@ public abstract class Entity {
         this.currentClassName = highestClassName;
     }
     
-    public Entity() {
-        this.healthMax = 100;
-        this.health = this.healthMax;
-        this.name = "default";
-        this.gold = 0;
-        this.equipment = new HashMap<String, Item>();
-   }
-    
-    public Entity(int healthMax, int health, String name, int gold, Storage storage, HashMap<String, Item> equipment) {
-        this.healthMax = healthMax;
-        this.health = health;
-        this.name = name;
-        this.gold = gold;
-        this.storage = storage;
-	    this.equipment = equipment;
-    }
 
     public int getHealth() {
         return this.health;
@@ -173,8 +175,8 @@ public abstract class Entity {
         this.level = level;
     }
 
-    public HashMap<String, Item> getEquipment() {
-        return equipment;
+    public Map<String, Item> getEquipment() {
+        return Collections.unmodifiableMap(equipment);
     }
 
     public int getStrength() {
@@ -221,7 +223,7 @@ public abstract class Entity {
         return weapon;
     }
 
-    public HashMap equipItem(String place, Item item) {
+    public Map<String, String> equipItem(String place, Item item) {
          double oldDamage = this.damage;
              Item empty = itemRepo.getItem("empty");
          if (place.equals("")) {
@@ -233,7 +235,7 @@ public abstract class Entity {
               }
          }
          this.equipment.put(place, item);
-         HashMap<String, String> result = new HashMap<String, String>();
+         Map<String, String> result = new HashMap<String, String>();
          switch (item.getId().charAt(0)) {
               case 'w': {
                   this.weapon = item.getId();
@@ -246,7 +248,7 @@ public abstract class Entity {
                    result.put("armour", String.valueOf(item.getProperty("armour")));
                    break;
               } case 'p': {
-                   if (item.propertiesContainsKey("healthMax")) {
+                   if (item.containsProperty("healthMax")) {
                         this.healthMax += item.getProperty("healthMax");
                         this.health += item.getProperty("healthMax");
                         unequipItem(item); // One use only
@@ -267,7 +269,7 @@ public abstract class Entity {
          return result;	 
     }
     
-    public HashMap unequipItem(Item item) {
+    public Map<String, String> unequipItem(Item item) {
          double oldDamage = this.damage;
          String place = "";
          for (String key : this.equipment.keySet()) {
@@ -278,8 +280,8 @@ public abstract class Entity {
          if (!place.isEmpty()) {
               this.equipment.put(place, itemRepo.getItem("empty"));
          }
-         HashMap<String, String> result = new HashMap<String, String>();
-         if (item.propertiesContainsKey("damage")) {
+         Map<String, String> result = new HashMap<String, String>();
+         if (item.containsProperty("damage")) {
             this.weapon = "hands";   
             this.damage -= item.getProperty("damage");
             double diffDamage = this.damage - oldDamage;

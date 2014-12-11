@@ -8,7 +8,7 @@ package com.jadventure.game.entities;
  */
 public class NPC extends Entity {
     
-    public NPC(String entityID){
+    public NPC(String entityID) {
         setName(entityID);
     }
 

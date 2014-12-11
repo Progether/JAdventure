@@ -36,6 +36,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 import java.util.Iterator;
@@ -54,7 +55,7 @@ public class Player extends Entity {
     private ILocation location;
     private int xp;
     
-    public Player(){
+    public Player() {
         
     }
 
@@ -274,7 +275,7 @@ public class Player extends Entity {
         return itemMap;
     }
     
-    public ArrayList<Item> searchEquipment(String itemName, HashMap<String, Item> equipment) {
+    public ArrayList<Item> searchEquipment(String itemName, Map<String, Item> equipment) {
         ArrayList<Item> itemMap = new ArrayList<>();
         for (Item item : equipment.values()) {
             String testItemName = item.getName();
@@ -317,7 +318,7 @@ public class Player extends Entity {
         ArrayList<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
-            HashMap change = this.equipItem(item.getPosition(), item);
+            Map<String, String> change = equipItem(item.getPosition(), item);
             QueueProvider.offer(item.getName()+ " equipped");
             printStatChange(change);
         }
@@ -331,7 +332,7 @@ public class Player extends Entity {
                 item = itemMap.get(0);
             }
         }
-        HashMap change = this.equipItem(place, item);
+        Map<String, String> change = equipItem(place, item);
         QueueProvider.offer(item.getName() + " equipped");
         printStatChange(change);
     }
@@ -340,17 +341,17 @@ public class Player extends Entity {
          ArrayList<Item> itemMap = searchEquipment(itemName, getEquipment());
          if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
-            HashMap change = this.unequipItem(item);
+            Map<String, String> change = unequipItem(item);
             QueueProvider.offer(item.getName()+" unequipped");
 	        printStatChange(change);
          }
     }
 
-    private void printStatChange(HashMap stats) {
-         Set set = stats.entrySet();
-         Iterator i = set.iterator();
+    private void printStatChange(Map<String, String> stats) {
+         Set<Entry<String, String>> set = stats.entrySet();
+         Iterator<Entry<String, String>> i = set.iterator();
          while (i.hasNext()) {
-              Map.Entry me = (Map.Entry) i.next();
+              Entry<String, String> me = i.next();
               double value = Double.parseDouble((String) me.getValue());
               switch ((String) me.getKey()) {
                   case "damage": {
@@ -423,7 +424,7 @@ public class Player extends Entity {
              }
         }
         if (opponent != null) {
-             BattleMenu battleMenu = new BattleMenu(opponent, this);
+             new BattleMenu(opponent, this);
         } else {
              QueueProvider.offer("Opponent not found");
         }
