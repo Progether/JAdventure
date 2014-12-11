@@ -1,6 +1,9 @@
 package com.jadventure.game.items;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +22,23 @@ public class ItemTest {
 		assertEquals(Integer.valueOf(1), milk.getWeight());
 	}
 	
+	@Test
+	public void checkEqual() {
+		Item milk = createMilk();
+
+		assertEquals(milk, createMilk());
+		assertTrue(milk.equals(createMilk()));
+	}
+
+	@Test
+	public void checkNotEqual() {
+		Item milk = createMilk();
+		Item egg = createEgg();
+		
+		assertNotEquals(milk, egg);
+		assertFalse(milk.equals(egg));
+	}
+
     private Item createMilk() {
         Map<String, Integer> properties = new HashMap<>();
         properties.put("health", Integer.valueOf(5));

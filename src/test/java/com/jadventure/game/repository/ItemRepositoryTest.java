@@ -3,18 +3,15 @@ package com.jadventure.game.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.gson.stream.JsonReader;
@@ -104,7 +101,6 @@ public class ItemRepositoryTest {
 
     @Test
     public void load() {
-        URL url = this.getClass().getClassLoader().getResource("items.json");
 		InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream("items.json");
 		
 		ItemRepository itemRepo = new ItemRepository();

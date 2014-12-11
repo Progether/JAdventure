@@ -18,19 +18,18 @@ import java.net.SocketException;
 public class JAdventure {
 
     public static void main(String[] args) {
-        String mode = "complete";
+        GameModeType mode = GameModeType.STAND_ALONE;
         if (args.length == 1) {
-            if (args[0].equals("server") || args[0].equals("client")) {
-                mode = args[0];
-            }
+            mode = GameModeType.valueOf(args[0].toUpperCase());
         }
-        if (mode.equals("client")) {
+        if (GameModeType.CLIENT == mode) {
             new Client();
         } else {
-            if (mode.equals("server")) {
+            if (GameModeType.SERVER == mode) {
                 while (true) {
+                	ServerSocket listener = null;
                     try {
-                        ServerSocket listener = new ServerSocket(4044);
+                        listener = new ServerSocket(4044);
                         while (true) {
                             Socket server = listener.accept();
                             Runnable r = new MainMenu(server,mode);
@@ -40,10 +39,16 @@ public class JAdventure {
                        e.printStackTrace();
                     } catch (IOException c) {
                         c.printStackTrace();
+                    } finally {
+                    	try {
+							listener.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
                     }
                 }
             } else {
-                new QueueProvider().startMessenger("complete");
+                QueueProvider.startMessenger(GameModeType.STAND_ALONE);
                 new MainMenu();
             }
         }

@@ -1,14 +1,14 @@
 package com.jadventure.game;
 
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.Scanner;
-import java.net.Socket;
-import java.io.DataOutputStream;
 import java.io.DataInputStream;
-
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.Socket;
 import java.net.SocketException;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class QueueProvider { 
 
@@ -16,24 +16,23 @@ public class QueueProvider {
     public static BlockingQueue<String> inputQueue = new LinkedBlockingQueue<>();
     public static DataOutputStream out;
     public static DataInputStream in;
-    public static String mode;
+    public static GameModeType mode;
     public static Socket server;
 
-    public static void startMessenger(Socket s,String m) {
-        mode = m;
-        server = s;
+    public static void startMessenger(Socket sockerInc, GameModeType modeInc) {
+        mode = modeInc;
+        server = sockerInc;
     }
 
-    public static void startMessenger(String m) {
-        mode = m;
+    public static void startMessenger(GameModeType modeInc) {
+        mode = modeInc;
     }
 
-    public static BlockingQueue getQueue() {
+    public static BlockingQueue<String> getQueue() {
         return queue;
     }
 
     public static void offer(String message) {
-        boolean success = true;
         if (mode.equals("server")) {
             try {
                 out = new DataOutputStream(server.getOutputStream());
@@ -41,7 +40,7 @@ public class QueueProvider {
             } catch (IOException e) { e.printStackTrace(); }
         }
         if (mode.equals("server")) {
-            success = sendToServer(message);
+        	// Nothing to do
         } else {
             System.out.println(message);
         }
@@ -49,7 +48,6 @@ public class QueueProvider {
 
     public static boolean sendToServer(String message) {
         try {
-            int rawMessageLength = message.length();
             out.writeUTF(message+"END");
         } catch(SocketException c) { 
             return false;
@@ -64,20 +62,31 @@ public class QueueProvider {
             input = in.readUTF();
         } catch(SocketException c) { 
             input = "error";
-        } catch(IOException e) { e.printStackTrace(); }
+        } catch(IOException e) { 
+        	e.printStackTrace();
+        }
         return input;
     }
 
     public static String take() {
-        String message;
+        String message = null;
         if (mode.equals("server")) {
             message = getInput("QUERY");
             if (message.equals("error")) {
                 message = "exit";
             }
         } else {
-            Scanner input = new Scanner(System.in);
-            message = input.nextLine();
+        	Scanner input = null;
+        	try {
+	            input = new Scanner(System.in);
+	            message = input.nextLine();
+        	}
+        	catch (NoSuchElementException nsee) {
+        		
+        	}
+        	catch (IllegalStateException ise) {
+        		
+        	}
         }
         return message;
     }

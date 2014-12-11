@@ -11,12 +11,11 @@ public class Client {
 
     public Client() {
         String serverName = "localhost";
-        Scanner query;
-        query = new Scanner(System.in);
         
         int port = 4044;
+        Socket client = null;
         try {
-            Socket client = new Socket(serverName, port);
+            client = new Socket(serverName, port);
             
             in = new DataInputStream(client.getInputStream());
             out = new DataOutputStream(client.getOutputStream());
@@ -50,15 +49,26 @@ public class Client {
             }
         } catch(IOException e) {
             e.printStackTrace();
+        } finally {
+        	try {
+				client.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
     }
 
     public void getInput() {
-        Scanner input = new Scanner(System.in);
-        String userInput = input.next();
+        Scanner input = null;
         try {
+        	input = new Scanner(System.in);
+        	String userInput = input.next();
             out.writeUTF(userInput);
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) { 
+        	e.printStackTrace();
+    	} finally {
+    		input.close();
+    	}
     }
 }
 

@@ -20,8 +20,9 @@ public class MenuItem {
 
     public MenuItem(String command, String description, String... altCommands) {
         this(command, description);
-        for (String altCommand: altCommands)
+        for (String altCommand: altCommands) {
             this.altCommands.add(altCommand);
+        }
     }
 
     public String getCommand() {

@@ -1,13 +1,11 @@
 package com.jadventure.game.prompts;
 
-import com.jadventure.game.QueueProvider;
-import com.jadventure.game.DeathException;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.TreeMap;
 
 import com.jadventure.game.DeathException;
+import com.jadventure.game.QueueProvider;
 import com.jadventure.game.entities.Player;
 
 /**
