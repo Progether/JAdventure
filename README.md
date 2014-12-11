@@ -142,7 +142,7 @@ To look around:
 Coding Standard/Convention/Style
 -------------------
 To help make code more readable, understandable, and consistent, each contributor should follow the set 
-guidelines lain out below. If you disagree with something or come across a style that has not been decided
+guidelines laid out below. If you disagree with something or come across a style that has not been decided
 upon, make an issue or a pull request respectively for discussion on the best style. The standard will be
 decided based on either majority rule or official documentation (i.e. oracle coding standard).
 
