@@ -1,15 +1,12 @@
 package com.jadventure.game.entities;
 
+import java.util.HashMap;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.jadventure.game.entities.Entity;
-import com.jadventure.game.entities.Player;
 import com.jadventure.game.items.Backpack;
 import com.jadventure.game.items.Item;
 
