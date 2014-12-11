@@ -1,13 +1,19 @@
 package com.jadventure.game.navigation;
 
+/**
+ * This class takes two possible constructions: either a string or three integers.
+ * Either way, it is parsed into a Coordinate.
+ */
 public class Coordinate {
     public final int x;
     public final int y;
     public final int z;
 
-    /*
-     * This class takes two possible constructions: either a string or three integers.
-     * Either way, it is parsed into a Coordinate.
+    /**
+     * Create an 3D coordinate based on a String.
+     *
+     * @param rawCoordinate - A String containing three numbers, separated by a comma,
+     * like {@code 'x, y, z'}
      */
     public Coordinate(String rawCoordinate) {
         String[] parts = rawCoordinate.split(",");
@@ -16,6 +22,13 @@ public class Coordinate {
         this.z = Integer.parseInt(parts[2]);
     }
 
+    /**
+     * Create an 3D coordinate based on a String.
+     * 
+     * @param x - The X position
+     * @param y - The Y position
+     * @param z - The Z position
+     */
     public Coordinate(int x, int y, int z) {
         this.x = x;
         this.y = y;

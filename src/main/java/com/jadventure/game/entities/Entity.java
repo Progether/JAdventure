@@ -224,70 +224,75 @@ public abstract class Entity {
     }
 
     public Map<String, String> equipItem(String place, Item item) {
-         double oldDamage = this.damage;
-             Item empty = itemRepo.getItem("empty");
-         if (place.equals("")) {
-                 place = item.getPosition();
-         }
-         if (equipment.get(place) != null) {
-              if (!empty.equals(equipment.get(place))) {
-                   unequipItem(equipment.get(place));
-              }
-         }
-         this.equipment.put(place, item);
-         Map<String, String> result = new HashMap<String, String>();
-         switch (item.getId().charAt(0)) {
-              case 'w': {
-                  this.weapon = item.getId();
-                  this.damage += item.getProperty("damage");
-                  double diffDamage = this.damage - oldDamage;
-                  result.put("damage", String.valueOf(diffDamage));
-                  break;
-              } case 'a': {
-                   this.armour += item.getProperty("armour");
-                   result.put("armour", String.valueOf(item.getProperty("armour")));
-                   break;
-              } case 'p': {
-                   if (item.containsProperty("healthMax")) {
-                        this.healthMax += item.getProperty("healthMax");
-                        this.health += item.getProperty("healthMax");
-                        unequipItem(item); // One use only
-                        removeItemFromStorage(item);
-                        result.put("health", String.valueOf(item.getProperty("healthMax")));
-                   }
-                   break;
-              } case 'f': {
-                   int healthOld = this.getHealth();
-                   this.health += item.getProperty("health");
-                   this.health = (this.health > this.healthMax) ? this.healthMax : this.health;
-                   unequipItem(item); //One use only
-                   removeItemFromStorage(item);
-                   result.put("health", String.valueOf(health - healthOld));
-                   break;
-              }
-         }
-         return result;	 
+        double oldDamage = this.damage;
+        Item empty = itemRepo.getItem("empty");
+        if (place.equals("")) {
+            place = item.getPosition();
+        }
+        if (equipment.get(place) != null) {
+            if (!empty.equals(equipment.get(place))) {
+                unequipItem(equipment.get(place));
+            }
+        }
+        this.equipment.put(place, item);
+        Map<String, String> result = new HashMap<String, String>();
+        switch (item.getId().charAt(0)) {
+        case 'w': {
+            this.weapon = item.getId();
+            this.damage += item.getProperty("damage");
+            double diffDamage = this.damage - oldDamage;
+            result.put("damage", String.valueOf(diffDamage));
+            break;
+        }
+        case 'a': {
+            this.armour += item.getProperty("armour");
+            result.put("armour", String.valueOf(item.getProperty("armour")));
+            break;
+        }
+        case 'p': {
+            if (item.containsProperty("healthMax")) {
+                this.healthMax += item.getProperty("healthMax");
+                this.health += item.getProperty("healthMax");
+                unequipItem(item); // One use only
+                removeItemFromStorage(item);
+                result.put("health",
+                        String.valueOf(item.getProperty("healthMax")));
+            }
+            break;
+        }
+        case 'f': {
+            int healthOld = this.getHealth();
+            this.health += item.getProperty("health");
+            this.health = (this.health > this.healthMax) ? this.healthMax
+                    : this.health;
+            unequipItem(item); // One use only
+            removeItemFromStorage(item);
+            result.put("health", String.valueOf(health - healthOld));
+            break;
+        }
+        }
+        return result;
     }
-    
+
     public Map<String, String> unequipItem(Item item) {
-         double oldDamage = this.damage;
-         String place = "";
-         for (String key : this.equipment.keySet()) {
-              if (this.equipment.get(key).equals(item)) {
-                       place = key;
-              }
-         }
-         if (!place.isEmpty()) {
-              this.equipment.put(place, itemRepo.getItem("empty"));
-         }
-         Map<String, String> result = new HashMap<String, String>();
-         if (item.containsProperty("damage")) {
-            this.weapon = "hands";   
+        double oldDamage = this.damage;
+        String place = "";
+        for (String key : this.equipment.keySet()) {
+            if (this.equipment.get(key).equals(item)) {
+                place = key;
+            }
+        }
+        if (!place.isEmpty()) {
+            this.equipment.put(place, itemRepo.getItem("empty"));
+        }
+        Map<String, String> result = new HashMap<String, String>();
+        if (item.containsProperty("damage")) {
+            this.weapon = "hands";
             this.damage -= item.getProperty("damage");
             double diffDamage = this.damage - oldDamage;
             result.put("damage", String.valueOf(diffDamage));
-         }
-         return result;
+        }
+        return result;
     }
 
     public void printEquipment() {
@@ -317,15 +322,15 @@ public abstract class Entity {
        storage.display();
     } 
     
-    public void addItemToStorage(Item i) {
-        if (!i.equals(itemRepo.getItem("empty"))) {
-            storage.addItem(new ItemStack(1, i));
+    public void addItemToStorage(Item item) {
+        if (!item.equals(itemRepo.getItem("empty"))) {
+            storage.addItem(new ItemStack(1, item));
         }
     }
 
-    public void removeItemFromStorage(Item i) {
-        if (!i.equals(itemRepo.getItem("empty"))) {
-            storage.removeItem(new ItemStack(1, i)); 
+    public void removeItemFromStorage(Item item) {
+        if (!item.equals(itemRepo.getItem("empty"))) {
+            storage.removeItem(new ItemStack(1, item)); 
         }
     }
 }

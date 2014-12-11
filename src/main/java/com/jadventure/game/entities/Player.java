@@ -42,7 +42,7 @@ import java.util.Set;
 import java.util.Iterator;
 import java.lang.Math;
 
-/*
+/**
  * This class deals with the player and all of its properties.
  * Any method that changes a character or interacts with it should
  * be placed within this class. If a method deals with entities in general or
