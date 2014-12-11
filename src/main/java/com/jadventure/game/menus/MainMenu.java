@@ -22,7 +22,7 @@ import java.net.Socket;
 public class MainMenu extends Menus implements Runnable {
      
     public MainMenu(Socket server,String mode){
-        new QueueProvider().startMessenger(server,mode);
+        QueueProvider.startMessenger(server,mode);
     }
 
     public MainMenu() {
@@ -95,7 +95,7 @@ public class MainMenu extends Menus implements Runnable {
                 return true;
             }
 
-            Game game = new Game(player, "old");
+            new Game(player, "old");
         } else if (key.equals("delete")) {
             listProfiles();
             QueueProvider.offer("\nWhich profile do you want to delete? Type 'back' to go back");

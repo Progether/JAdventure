@@ -1,5 +1,6 @@
 package com.jadventure.game.items;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,11 +35,11 @@ public class Item {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public String getId() {
-        return this.id;
+        return id;
     }
 
     public String getType() {
@@ -54,23 +55,23 @@ public class Item {
     }
 
     public String getPosition() {
-    	return this.position;
+    	return position;
     }
 
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
     public int getProperty(String property) {
-        return this.properties.get(property);
+        return properties.get(property);
     }
 
     public Map<String, Integer> getProperties() {
-        return properties;
+        return Collections.unmodifiableMap(properties);
     }
 
-    public boolean propertiesContainsKey(String key) {
-        return this.properties.containsKey(key);
+    public boolean containsProperty(String key) {
+        return properties.containsKey(key);
     }
 
     public boolean equals(Object obj) {
@@ -79,15 +80,15 @@ public class Item {
         }
         if (obj instanceof Item) {
             Item i = (Item) obj;
-            return this.name.equals(i.name);
+            return name.equals(i.name);
         }
         return false;
     }
 
     public void display() {
-        QueueProvider.offer("Name: " + this.name +
-                "\nDescription: " + this.description);
-        for (Map.Entry<String, Integer> entry : this.properties.entrySet()) {
+        QueueProvider.offer("Name: " + name +
+                "\nDescription: " + description);
+        for (Map.Entry<String, Integer> entry : properties.entrySet()) {
             QueueProvider.offer(entry.getKey() + ": " + entry.getValue());
         }
     }

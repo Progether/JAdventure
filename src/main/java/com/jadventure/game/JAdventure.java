@@ -29,8 +29,9 @@ public class JAdventure {
         } else {
             if (mode.equals("server")) {
                 while (true) {
+                	ServerSocket listener = null;
                     try {
-                        ServerSocket listener = new ServerSocket(4044);
+                        listener = new ServerSocket(4044);
                         while (true) {
                             Socket server = listener.accept();
                             Runnable r = new MainMenu(server,mode);
@@ -40,10 +41,16 @@ public class JAdventure {
                        e.printStackTrace();
                     } catch (IOException c) {
                         c.printStackTrace();
+                    } finally {
+                    	try {
+							listener.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
                     }
                 }
             } else {
-                new QueueProvider().startMessenger("complete");
+                QueueProvider.startMessenger("complete");
                 new MainMenu();
             }
         }

@@ -1,15 +1,12 @@
 package com.jadventure.game.entities;
 
+import java.util.Map;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.jadventure.game.entities.Entity;
-import com.jadventure.game.entities.Player;
 import com.jadventure.game.items.Backpack;
 import com.jadventure.game.items.Item;
 
@@ -49,7 +46,7 @@ public class EntityTest {
         test = entity.getWeapon();
         Assert.assertTrue(test instanceof String);
         test = entity.getEquipment();
-        Assert.assertTrue(test instanceof HashMap);
+        Assert.assertTrue(test instanceof Map);
     }
 
     @Test
