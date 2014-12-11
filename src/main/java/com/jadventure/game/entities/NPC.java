@@ -7,7 +7,6 @@ package com.jadventure.game.entities;
  * with variables not unique to the npc, place it in the entity class.
  */
 public class NPC extends Entity {
-    private String name;
     
     public NPC(String entityID){
         setName(entityID);
