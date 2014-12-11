@@ -16,6 +16,6 @@ public class Bugbear extends Monster {
 		this.setCritChance(0.02);
         this.setXPGain(30 + playerLevel * 3);
 		this.setGold(playerLevel * 3);
-	    this.getStorage().addItem(new ItemStack(1, new Item("fmil1")));
+	    this.getStorage().addItem(new ItemStack(1, itemRepo.getItem("fmil1")));
 	}
 }

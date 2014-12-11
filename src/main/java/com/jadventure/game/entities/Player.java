@@ -7,7 +7,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
-
 import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Backpack;
@@ -16,8 +15,10 @@ import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.navigation.LocationType;
+import com.jadventure.game.repository.ItemRepository;
 import com.jadventure.game.menus.BattleMenu;
 import com.jadventure.game.monsters.Monster;
+import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.DeathException;
 
@@ -47,6 +48,9 @@ import java.lang.Math;
  * with variables not unique to the player, place it in the entity class.
  */
 public class Player extends Entity {
+    // @Resource
+    protected static ItemRepository itemRepo = GameBeans.getItemRepository();
+
     private ILocation location;
     private int xp;
     
@@ -84,14 +88,14 @@ public class Player extends Entity {
             player.setDexterity(json.get("dexterity").getAsInt());
             player.setLuck(json.get("luck").getAsInt());
             player.setStealth(json.get("stealth").getAsInt());
-            player.equipItem("rightHand", new Item(json.get("weapon").getAsString()));
+            player.equipItem("rightHand", itemRepo.getItem((json.get("weapon").getAsString())));
             if (json.has("items")) {
                 HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
                 ArrayList<ItemStack> itemList = new ArrayList<ItemStack>();
                 for (Map.Entry<String, Integer> entry : items.entrySet()) {
                     String itemID = entry.getKey();
                     int amount = entry.getValue();
-                    Item item = new Item(itemID);
+                    Item item = itemRepo.getItem(itemID);
                     ItemStack itemStack = new ItemStack(amount, item);
                     itemList.add(itemStack);
                 }
@@ -174,11 +178,11 @@ public class Player extends Entity {
         player.setLocation(LocationManager.getInitialLocation(player.getName()));
         float maxWeight = (float)Math.sqrt(player.getStrength()*300);
         player.setStorage(new Backpack(maxWeight));
-        player.addItemToStorage(new Item("fmil1"));
+        player.addItemToStorage(itemRepo.getItem("fmil1"));
     }
 
     public void getStats(){
-        Item weapon = new Item(getWeapon());
+        Item weapon = itemRepo.getItem(getWeapon());
         String weaponName = weapon.getName();
         if (weaponName.equals(null) || weaponName.equals("empty")){
             weaponName = "hands";
@@ -222,8 +226,8 @@ public class Player extends Entity {
         HashMap<String, Integer> items = new HashMap<String, Integer>();
         JsonArray itemList = new JsonArray();
         for (ItemStack item : getStorage().getItems()) {
-            items.put(item.getItem().getItemID(), item.getAmount());
-            JsonPrimitive itemJson = new JsonPrimitive(item.getItem().getItemID());
+            items.put(item.getItem().getId(), item.getAmount());
+            JsonPrimitive itemJson = new JsonPrimitive(item.getItem().getId());
             itemList.add(itemJson);
         }
         JsonElement itemsJsonObj = gson.toJsonTree(items);
@@ -285,9 +289,9 @@ public class Player extends Entity {
         ArrayList<Item> itemMap = searchItem(itemName, getLocation().getItems());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
-            Item itemToPickUp = new Item(item.getItemID());
+            Item itemToPickUp = itemRepo.getItem(item.getId());
             addItemToStorage(itemToPickUp);
-            location.removePublicItem(itemToPickUp.getItemID());
+            location.removePublicItem(itemToPickUp.getId());
             QueueProvider.offer(item.getName()+ " picked up");
         }
     }
@@ -296,15 +300,15 @@ public class Player extends Entity {
         ArrayList<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
-            Item itemToDrop = new Item(item.getItemID());
-            Item weapon = new Item(getWeapon());
+            Item itemToDrop = itemRepo.getItem(item.getId());
+            Item weapon = itemRepo.getItem(getWeapon());
             String wName = weapon.getName();
 
             if (itemName.equals(wName)) {
                 dequipItem(wName);
             }
             removeItemFromStorage(itemToDrop);
-            location.addPublicItem(itemToDrop.getItemID());
+            location.addPublicItem(itemToDrop.getId());
             QueueProvider.offer(item.getName() + " dropped");
         }
     }
@@ -320,7 +324,7 @@ public class Player extends Entity {
     }
 
     public void equipItem(String place, String itemName) {
-        Item item = new Item("empty");
+        Item item = itemRepo.getItem("empty");
         if (!itemName.equals("empty")) {
             ArrayList<Item> itemMap = searchItem(itemName, getStorage());
             if (!itemMap.isEmpty()) {

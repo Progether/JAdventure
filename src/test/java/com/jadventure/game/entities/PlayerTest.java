@@ -16,13 +16,14 @@ public class PlayerTest {
 
     @Before
     public void copyFiles() {
-	File source = new File("json/original_data/locations.json");
-	File dest = new File("json/locations.json");
-	try {
-	     Files.copy(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-	} catch (IOException ex) {
-	     ex.printStackTrace();
-	}
+        File source = new File("json/original_data/locations.json");
+        File dest = new File("json/locations.json");
+        try {
+            Files.copy(source.toPath(), dest.toPath(),
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Test
