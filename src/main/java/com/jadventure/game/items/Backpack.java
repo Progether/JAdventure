@@ -1,8 +1,8 @@
 package com.jadventure.game.items;
 
-import com.jadventure.game.QueueProvider;
+import java.util.List;
 
-import java.util.ArrayList;
+import com.jadventure.game.QueueProvider;
 
 /**
  * Represents a players backpack.
@@ -13,7 +13,7 @@ public class Backpack extends Storage {
             this.maxWeight = maxWeight;
 	}
 
-	public Backpack(double maxWeight, ArrayList<ItemStack> initialItems) {
+	public Backpack(double maxWeight, List<ItemStack> initialItems) {
 		this.maxWeight = maxWeight;
 		this.items = initialItems;
 	}
@@ -99,7 +99,7 @@ public class Backpack extends Storage {
 		return this.items.isEmpty();
 	}
 
-	public ArrayList<ItemStack> getItems() {
+	public List<ItemStack> getItems() {
 		return this.items;
 	}
 
