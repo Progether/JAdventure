@@ -1,23 +1,32 @@
-# Java Text Adventure Game
+# Java Adventure Game
 
 ## Introduction
 
-[Text Adventures](http://en.wikipedia.org/wiki/Adventure_game), also known as 
-[Interactive Fiction](http://en.wikipedia.org/wiki/Interactive_Fiction) (IF), 
-convey the game's story through passages of text, revealed to the player in 
-response to typed instructions. Early text adventures, such as 
-[Colossal Cave Adventure](http://en.wikipedia.org/wiki/Colossal_Cave_Adventure),
-used a simple verb-noun parser to interpret these instructions, allowing the player
-to interact with objects at a basic level, for example by typing _get key_ or 
-_open door_.
+**Multi-User Dungeon ( MUD )**
 
-JAdventure is a very simple Java based implementation of a
-Text Adventure.
+A [MUD](http://en.wikipedia.org/wiki/MUD) (originally Multi-User Dungeon, 
+with later variants Multi-User Dimension and Multi-User Domain), is a 
+multiplayer real-time virtual world, usually 
+[text-based](http://en.wikipedia.org/wiki/Text-based_game).
+MUDs combine elements of role-playing games, hack and slash, player versus player, 
+[interactive fiction](http://en.wikipedia.org/wiki/Interactive_Fiction),
+and online chat. Players can read or view descriptions of rooms, objects,
+other players, non-player characters, and actions performed in the virtual world.
+Players typically interact with each other and the world by typing commands that
+resemble a natural language.
+
+Traditional MUDs implement a role-playing video game set in a fantasy world populated by
+fictional races and monsters, with players choosing classes in order to gain specific
+skills or powers. The objective of this sort of game is to slay monsters, explore a
+fantasy world, complete quests, go on adventures, create a story by role playing,
+and advance the created character. Many MUDs were fashioned around the dice-rolling
+rules of the Dungeons & Dragons series of games.
+
+JAdventure is a very simple Java based implementation of a Multi-User Dungeon.
     
 **WARNING**
 
-The current version has only one concrete Text Adventure game implemented. But it should be easy
-to create additional games. See also [Improvement Ideas](./development/improvement-ideas.html).
+The current version has only one concrete MUD Adventure game implemented.
 
 
 ## Playing JAdventure
