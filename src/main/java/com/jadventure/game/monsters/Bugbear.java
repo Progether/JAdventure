@@ -1,6 +1,5 @@
 package com.jadventure.game.monsters;
 
-import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
 
 /*
