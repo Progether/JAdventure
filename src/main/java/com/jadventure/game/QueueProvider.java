@@ -16,16 +16,16 @@ public class QueueProvider {
     public static BlockingQueue<String> inputQueue = new LinkedBlockingQueue<>();
     public static DataOutputStream out;
     public static DataInputStream in;
-    public static String mode;
+    public static GameModeType mode;
     public static Socket server;
 
-    public static void startMessenger(Socket s,String m) {
-        mode = m;
-        server = s;
+    public static void startMessenger(Socket sockerInc, GameModeType modeInc) {
+        mode = modeInc;
+        server = sockerInc;
     }
 
-    public static void startMessenger(String m) {
-        mode = m;
+    public static void startMessenger(GameModeType modeInc) {
+        mode = modeInc;
     }
 
     public static BlockingQueue<String> getQueue() {
