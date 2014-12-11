@@ -87,11 +87,6 @@ public class QueueProvider {
         	catch (IllegalStateException ise) {
         		
         	}
-        	finally {
-        		if (input != null) {
-        			input.close();
-        		}
-        	}
         }
         return message;
     }
