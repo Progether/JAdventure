@@ -17,7 +17,6 @@ public class ItemTest {
 		assertEquals("milk", milk.getName());
 		assertEquals("Milk in a bottle", milk.getDescription());
 		assertEquals(Integer.valueOf(1), milk.getWeight());
-//		assertEquals("milk-bottle", milk.getItemID());
 	}
 	
     private Item createMilk() {

@@ -31,7 +31,6 @@ public class ItemRepository {
 	
     // Load all items, from the given file
     protected void load(File repo) {
-        System.out.println("File " + repo);
         try {
 			JsonReader reader = new JsonReader(new FileReader(repo));
 			load(reader);
