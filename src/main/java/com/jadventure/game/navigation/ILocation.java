@@ -13,21 +13,21 @@ import java.util.ArrayList;
  * pertain to a specific location.
  */
 public interface ILocation {
-    public Coordinate getCoordinate();
-    public String getTitle();
-    public String getDescription();
-    public LocationType getLocationType();
-    public Map<Direction, ILocation> getExits();
-    public ArrayList<Item> getItems();
-    public ArrayList<NPC> getNPCs();
-    public void removePublicItem(String itemID);
-    public void addPublicItem(String itemID);
-    public void addPublicItems(ArrayList<ItemStack> items);
-    public void addMonster(Monster monster);
-    public void removeMonster(Monster monster);
-    public ArrayList<Monster> getMonsters();
-    public void print();
-    public int getDangerRating();
-    public void setDangerRating(int dangerRating);
+    Coordinate getCoordinate();
+    String getTitle();
+    String getDescription();
+    LocationType getLocationType();
+    Map<Direction, ILocation> getExits();
+    ArrayList<Item> getItems();
+    ArrayList<NPC> getNPCs();
+    void removePublicItem(String itemID);
+    void addPublicItem(String itemID);
+    void addPublicItems(ArrayList<ItemStack> items);
+    void addMonster(Monster monster);
+    void removeMonster(Monster monster);
+    ArrayList<Monster> getMonsters();
+    void print();
+    int getDangerRating();
+    void setDangerRating(int dangerRating);
 }
 
