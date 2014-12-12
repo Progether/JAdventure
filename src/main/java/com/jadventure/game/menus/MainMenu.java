@@ -1,17 +1,19 @@
 package com.jadventure.game.menus;
 
-import com.jadventure.game.Game;
-import com.jadventure.game.entities.Player;
-import com.jadventure.game.DeathException;
-import com.jadventure.game.QueueProvider;
-
-import java.io.IOException;
-import java.nio.file.Files;
 import java.io.File;
-import java.nio.file.Paths;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.io.IOException;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+import com.jadventure.game.DeathException;
+import com.jadventure.game.Game;
+import com.jadventure.game.GameModeType;
+import com.jadventure.game.JAdventure;
+import com.jadventure.game.QueueProvider;
+import com.jadventure.game.entities.Player;
 
 /**
  * The first menu displayed on user screen
@@ -21,8 +23,8 @@ import java.net.Socket;
  */
 public class MainMenu extends Menus implements Runnable {
      
-    public MainMenu(Socket server,String mode){
-        QueueProvider.startMessenger(server,mode);
+    public MainMenu(Socket server, GameModeType mode){
+        QueueProvider.startMessenger(server, mode);
     }
 
     public MainMenu() {
