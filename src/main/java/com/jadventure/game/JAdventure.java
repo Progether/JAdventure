@@ -25,7 +25,7 @@ public class JAdventure {
         logger.info("Starting JAdventure " + toString(args));
         GameModeType mode = GameModeType.STAND_ALONE;
         if (args.length == 1) {
-            mode = GameModeType.valueOf(args[0].toUpperCase());
+            mode = getGameMode(args);
         }
         if (GameModeType.CLIENT == mode) {
             new Client();
@@ -55,6 +55,21 @@ public class JAdventure {
             QueueProvider.startMessenger(GameModeType.STAND_ALONE);
             new MainMenu();
         }
+    }
+
+    private static GameModeType getGameMode(String[] args) {
+        if (args == null || args.length == 0 || "".equals(args[0].trim())) {
+            return GameModeType.STAND_ALONE;
+        }
+
+        try {
+            return GameModeType.valueOf(args[0].toUpperCase());
+        }
+        catch (IllegalArgumentException iae) {
+            logger.warn("No game mode '" + args[0].toUpperCase() + "' known."
+                    + "Starting in default mode '" + GameModeType.STAND_ALONE + "'");
+        }
+        return GameModeType.STAND_ALONE;
     }
 
     private static String toString(String[] args) {
