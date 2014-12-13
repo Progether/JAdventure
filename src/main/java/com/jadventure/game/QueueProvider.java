@@ -44,8 +44,8 @@ public class QueueProvider {
             try {
                 out = new DataOutputStream(server.getOutputStream());
                 in = new DataInputStream(server.getInputStream());
-            } catch (IOException e) { 
-                e.printStackTrace();
+            } catch (IOException ioe) { 
+                logger.debug("Inside offer( " + message + " )", ioe);
             }
         }
 
@@ -71,14 +71,17 @@ public class QueueProvider {
     }
 
     public static String getInput(String message) {
+        logger.debug("getInput( " + message + " )");
         String input = "";
         try {
             out.writeUTF(message + "END");
             input = in.readUTF();
-        } catch(SocketException c) { 
+        } catch(SocketException se) { 
+            logger.debug("Inside getInput( " + message + " )", se);
             input = "error";
-        } catch(IOException e) { 
-        	e.printStackTrace();
+        } catch(IOException ioe) { 
+            logger.debug("Inside getInput( " + message + " )", ioe);
+            input = "error";
         }
         return input;
     }
