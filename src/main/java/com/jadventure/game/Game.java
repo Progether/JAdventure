@@ -37,7 +37,7 @@ public class Game {
    
     /**
      * Starts a new game.
-     * It prints the introduction text first and asks for the name of the player's
+     * It prints the introduction text first and asks for the name of the players
      * character and welcomes him / her. After that, it goes to the normal game prompt.
      */
     public void newGameStart(Player player) throws DeathException {
