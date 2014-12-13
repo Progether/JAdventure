@@ -37,11 +37,11 @@ public class JAdventure {
                         listener = new ServerSocket(4044);
                         while (true) {
                             Socket server = listener.accept();
-                            Runnable r = new MainMenu(server,mode);
+                            Runnable r = new MainMenu(server, mode);
                             new Thread(r).start();
                         }
                     } catch (SocketException e) { 
-                       e.printStackTrace();
+                        e.printStackTrace();
                     } catch (IOException c) {
                         c.printStackTrace();
                     } finally {
