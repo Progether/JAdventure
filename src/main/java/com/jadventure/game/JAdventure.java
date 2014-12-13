@@ -29,33 +29,31 @@ public class JAdventure {
         }
         if (GameModeType.CLIENT == mode) {
             new Client();
-        } else {
-            if (GameModeType.SERVER == mode) {
-                while (true) {
-                	ServerSocket listener = null;
-                    try {
-                        listener = new ServerSocket(4044);
-                        while (true) {
-                            Socket server = listener.accept();
-                            Runnable r = new MainMenu(server, mode);
-                            new Thread(r).start();
-                        }
-                    } catch (SocketException e) { 
-                        e.printStackTrace();
-                    } catch (IOException c) {
-                        c.printStackTrace();
-                    } finally {
-                    	try {
-							listener.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+        } else if (GameModeType.SERVER == mode) {
+            while (true) {
+            	ServerSocket listener = null;
+                try {
+                    listener = new ServerSocket(4044);
+                    while (true) {
+                        Socket server = listener.accept();
+                        Runnable r = new MainMenu(server, mode);
+                        new Thread(r).start();
                     }
+                } catch (SocketException e) { 
+                    e.printStackTrace();
+                } catch (IOException c) {
+                    c.printStackTrace();
+                } finally {
+                	try {
+						listener.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
                 }
-            } else {
-                QueueProvider.startMessenger(GameModeType.STAND_ALONE);
-                new MainMenu();
             }
+        } else {
+            QueueProvider.startMessenger(GameModeType.STAND_ALONE);
+            new MainMenu();
         }
     }
 
