@@ -18,16 +18,14 @@ import java.net.SocketException;
 public class JAdventure {
 
     public static void main(String[] args) {
-        String mode = "complete";
+        GameModeType mode = GameModeType.STAND_ALONE;
         if (args.length == 1) {
-            if (args[0].equals("server") || args[0].equals("client")) {
-                mode = args[0];
-            }
+            mode = GameModeType.valueOf(args[0].toUpperCase());
         }
-        if (mode.equals("client")) {
+        if (GameModeType.CLIENT == mode) {
             new Client();
         } else {
-            if (mode.equals("server")) {
+            if (GameModeType.SERVER == mode) {
                 while (true) {
                 	ServerSocket listener = null;
                     try {
@@ -50,7 +48,7 @@ public class JAdventure {
                     }
                 }
             } else {
-                QueueProvider.startMessenger("complete");
+                QueueProvider.startMessenger(GameModeType.STAND_ALONE);
                 new MainMenu();
             }
         }
