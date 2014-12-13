@@ -10,8 +10,11 @@ import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class QueueProvider { 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+public class QueueProvider {
+    private static Logger logger = LoggerFactory.getLogger(QueueProvider.class);
     public static BlockingQueue<String> queue = new LinkedBlockingQueue<>();
     public static BlockingQueue<String> inputQueue = new LinkedBlockingQueue<>();
     public static DataOutputStream out;
@@ -19,12 +22,14 @@ public class QueueProvider {
     public static GameModeType mode;
     public static Socket server;
 
-    public static void startMessenger(Socket sockerInc, GameModeType modeInc) {
+    public static void startMessenger(GameModeType modeInc, Socket sockerInc) {
+        logger.debug("startMessenger( " + modeInc + " , " + sockerInc + " )");
         mode = modeInc;
         server = sockerInc;
     }
 
     public static void startMessenger(GameModeType modeInc) {
+        logger.debug("startMessenger( " + modeInc + " )");
         mode = modeInc;
     }
 
@@ -33,32 +38,42 @@ public class QueueProvider {
     }
 
     public static void offer(String message) {
-        if (mode.equals("server")) {
+        logger.debug("offer( " + message + " )");
+
+        if (GameModeType.SERVER == mode) {
             try {
                 out = new DataOutputStream(server.getOutputStream());
                 in = new DataInputStream(server.getInputStream());
-            } catch (IOException e) { e.printStackTrace(); }
+            } catch (IOException e) { 
+                e.printStackTrace();
+            }
         }
-        if (mode.equals("server")) {
-        	// Nothing to do
+
+        if (GameModeType.SERVER == mode) {
+            sendToServer(message);
         } else {
             System.out.println(message);
         }
     }
 
     public static boolean sendToServer(String message) {
+        logger.debug("sendToServer( " + message + " )");
         try {
-            out.writeUTF(message+"END");
-        } catch(SocketException c) { 
+            out.writeUTF(message + "END");
+        } catch(SocketException se) { 
+            logger.debug("Inside  sendToServer( " + message + " )", se);
             return false;
-        } catch(IOException e) { e.printStackTrace(); }
+        } catch(IOException ioe) { 
+            logger.debug("Inside  sendToServer( " + message + " )", ioe);
+            return false;
+        }
         return true;
     }
 
     public static String getInput(String message) {
         String input = "";
         try {
-            out.writeUTF(message+"END");
+            out.writeUTF(message + "END");
             input = in.readUTF();
         } catch(SocketException c) { 
             input = "error";
@@ -70,7 +85,7 @@ public class QueueProvider {
 
     public static String take() {
         String message = null;
-        if (mode.equals("server")) {
+        if (GameModeType.SERVER == mode) {
             message = getInput("QUERY");
             if (message.equals("error")) {
                 message = "exit";
@@ -82,10 +97,10 @@ public class QueueProvider {
 	            message = input.nextLine();
         	}
         	catch (NoSuchElementException nsee) {
-        		
+        	    nsee.printStackTrace();
         	}
         	catch (IllegalStateException ise) {
-        		
+                ise.printStackTrace();
         	}
         }
         return message;

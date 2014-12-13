@@ -24,7 +24,7 @@ import com.jadventure.game.entities.Player;
 public class MainMenu extends Menus implements Runnable {
      
     public MainMenu(Socket server, GameModeType mode){
-        QueueProvider.startMessenger(server, mode);
+        QueueProvider.startMessenger(mode, server);
     }
 
     public MainMenu() {

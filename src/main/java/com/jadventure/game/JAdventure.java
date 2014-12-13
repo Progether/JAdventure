@@ -9,6 +9,9 @@ import java.net.Socket;
 import java.io.IOException;
 import java.net.SocketException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * This is the starting point of the game.
  * This class doesn't do much more than create
@@ -16,8 +19,10 @@ import java.net.SocketException;
  * the game.
  */
 public class JAdventure {
+    private static Logger logger = LoggerFactory.getLogger(JAdventure.class);
 
     public static void main(String[] args) {
+        logger.info("Starting JAdventure " + toString(args));
         GameModeType mode = GameModeType.STAND_ALONE;
         if (args.length == 1) {
             mode = GameModeType.valueOf(args[0].toUpperCase());
@@ -52,5 +57,22 @@ public class JAdventure {
                 new MainMenu();
             }
         }
+    }
+
+    private static String toString(String[] args) {
+        if (args.length == 0) {
+            return "";
+        }
+
+        final StringBuilder bldr = new StringBuilder();
+        bldr.append("[ ");
+        for (int index = 0; index < args.length; index++) {
+            if (index > 0) {
+                bldr.append(", ");
+            }
+            bldr.append(args[index]);
+        }
+        bldr.append(" ]");
+        return bldr.toString();
     }
 }
