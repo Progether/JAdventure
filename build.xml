@@ -65,6 +65,9 @@
 
   <target name="copy-resources">
     <copy todir="${classes.dir}">
+      <fileset dir="${basedir}/src/main/resources" />
+  	</copy>
+    <copy todir="${classes.dir}">
       <fileset dir="${basedir}/src/test/resources" />
   	</copy>
   </target>
