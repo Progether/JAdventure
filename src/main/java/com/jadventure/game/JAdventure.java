@@ -23,10 +23,8 @@ public class JAdventure {
 
     public static void main(String[] args) {
         logger.info("Starting JAdventure " + toString(args));
-        GameModeType mode = GameModeType.STAND_ALONE;
-        if (args.length == 1) {
-            mode = getGameMode(args);
-        }
+        GameModeType mode = getGameMode(args);
+        logger.debug("Starting in mode " + mode.name());
         if (GameModeType.CLIENT == mode) {
             new Client();
         } else if (GameModeType.SERVER == mode) {
