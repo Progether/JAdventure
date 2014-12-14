@@ -58,7 +58,6 @@ public class Player extends Entity {
     private String type;
     
     public Player() {
-        
     }
 
     protected static String getProfileFileName(String name) {
@@ -150,10 +149,8 @@ public class Player extends Entity {
             player.setStealth(json.get("stealth").getAsInt());
             player.setIntro(json.get("intro").getAsString());
             if (player.getName().equals("Recruit")) {
-                player.classStats.put("Recruit", 50);
                 player.type = "Recruit";
             } else if (player.getName().equals("Sewer_Rat")) {
-                player.classStats.put("Sewer Rat", 50);
                 player.type = "Sewer Rat";
             } else {
                 QueueProvider.offer("Not a valid class");

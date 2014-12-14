@@ -2,7 +2,6 @@ package com.jadventure.game.entities;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import com.jadventure.game.GameBeans;
@@ -39,7 +38,6 @@ public abstract class Entity {
     private int armour;
     private String weapon = "empty";
     private Map<String, Item> equipment;
-    public Map<String, Integer> classStats = new HashMap<String, Integer>();
     protected Storage storage;
 
     public Entity() {
@@ -58,25 +56,7 @@ public abstract class Entity {
         	this.storage = new Backpack(300);
         }
 	    this.equipment = equipment;
-	    
-	    classStats.put("Recruit", 0);
-	    classStats.put("Sewer Rat", 0);
     }
-
-
-//    public void checkCurrentClass() {
-//        Iterator<Map.Entry<String, Integer>> it = this.classStats.entrySet().iterator();
-//        int highestClassLevel = 0;
-//        String highestClassName = "";
-//        while (it.hasNext()) {
-//            Map.Entry<String, Integer> pairs = it.next();
-//            if (pairs.getValue() > highestClassLevel) {
-//                highestClassLevel = pairs.getValue();
-//                highestClassName = pairs.getKey();
-//            }
-//        }
-//        this.currentClassName = highestClassName;
-//    }
     
 
     public int getHealth() {
