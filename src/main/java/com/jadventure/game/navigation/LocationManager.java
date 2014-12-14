@@ -103,7 +103,7 @@ public class LocationManager {
                 locationJsonElement.addProperty("locationType", location.getLocationType().toString());
                 locationJsonElement.addProperty("danger", String.valueOf(location.getDangerRating()));
                 JsonArray itemList = new JsonArray();
-                ArrayList<Item> items = location.getItems();
+                List<Item> items = location.getItems();
                 if (items.size() > 0) {
                     for (Item item : location.getItems()) {
                         JsonPrimitive itemJson = new JsonPrimitive(item.getId());

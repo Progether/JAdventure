@@ -1,5 +1,14 @@
 package com.jadventure.game.prompts;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+import com.jadventure.game.DeathException;
+import com.jadventure.game.QueueProvider;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
@@ -8,14 +17,6 @@ import com.jadventure.game.navigation.Direction;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.navigation.LocationType;
-import com.jadventure.game.QueueProvider;
-import com.jadventure.game.DeathException;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 
 /**
  * CommandCollection contains the declaration of the methods mapped to game commands
@@ -99,7 +100,7 @@ public enum CommandCollection {
     @Command(command="monster", aliases="m", description="Monsters around you", debug=false)
     @SuppressWarnings("UnusedDeclaration")
     public void command_m() {
-        ArrayList<Monster> monsterList = player.getLocation().getMonsters();
+        List<Monster> monsterList = player.getLocation().getMonsters();
         if (monsterList.size() > 0) {
             QueueProvider.offer("Monsters around you:");
             QueueProvider.offer("----------------------------");
@@ -136,7 +137,7 @@ public enum CommandCollection {
                         }
                     }
                     if (random.nextDouble() < 0.5) {
-                        ArrayList<Monster> monsters = player.getLocation().getMonsters();
+                        List<Monster> monsters = player.getLocation().getMonsters();
                         if (monsters.size() > 0) {
                             int posMonster = random.nextInt(monsters.size());
                             String monster = monsters.get(posMonster).monsterType;
