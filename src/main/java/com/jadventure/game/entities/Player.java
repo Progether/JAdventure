@@ -1,27 +1,5 @@
 package com.jadventure.game.entities;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.reflect.TypeToken;
-import com.jadventure.game.items.Item;
-import com.jadventure.game.items.ItemStack;
-import com.jadventure.game.items.Backpack;
-import com.jadventure.game.items.Storage;
-import com.jadventure.game.navigation.Coordinate;
-import com.jadventure.game.navigation.ILocation;
-import com.jadventure.game.navigation.LocationManager;
-import com.jadventure.game.navigation.LocationType;
-import com.jadventure.game.repository.ItemRepository;
-import com.jadventure.game.menus.BattleMenu;
-import com.jadventure.game.monsters.Monster;
-import com.jadventure.game.GameBeans;
-import com.jadventure.game.QueueProvider;
-import com.jadventure.game.DeathException;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -35,12 +13,34 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
-import java.util.Iterator;
-import java.lang.Math;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.reflect.TypeToken;
+import com.jadventure.game.DeathException;
+import com.jadventure.game.GameBeans;
+import com.jadventure.game.QueueProvider;
+import com.jadventure.game.items.Backpack;
+import com.jadventure.game.items.Item;
+import com.jadventure.game.items.ItemStack;
+import com.jadventure.game.items.Storage;
+import com.jadventure.game.menus.BattleMenu;
+import com.jadventure.game.monsters.Monster;
+import com.jadventure.game.navigation.Coordinate;
+import com.jadventure.game.navigation.ILocation;
+import com.jadventure.game.navigation.LocationManager;
+import com.jadventure.game.navigation.LocationType;
+import com.jadventure.game.repository.ItemRepository;
 
 /**
  * This class deals with the player and all of its properties.
@@ -54,9 +54,10 @@ public class Player extends Entity {
 
     private ILocation location;
     private int xp;
+    /** Player type */
+    private String type;
     
     public Player() {
-        
     }
 
     protected static String getProfileFileName(String name) {
@@ -148,11 +149,9 @@ public class Player extends Entity {
             player.setStealth(json.get("stealth").getAsInt());
             player.setIntro(json.get("intro").getAsString());
             if (player.getName().equals("Recruit")) {
-                player.classStats.put("Recruit", 50);
-                player.setCurrentClass("Recruit");
+                player.type = "Recruit";
             } else if (player.getName().equals("Sewer_Rat")) {
-                player.classStats.put("Sewer Rat", 50);
-                player.setCurrentClass("Sewer Rat");
+                player.type = "Sewer Rat";
             } else {
                 QueueProvider.offer("Not a valid class");
             }
@@ -189,7 +188,7 @@ public class Player extends Entity {
             weaponName = "hands";
         }
         String message = "\nPlayer name: " + getName();
-              message += "\nClass: " + getCurrentClass();
+              message += "\nType: " + type;
               message += "\nCurrent weapon: " + weaponName;
               message += "\nGold: " + getGold();
               message += "\nHealth/Max: " + getHealth() + "/" + getHealthMax();
@@ -253,8 +252,8 @@ public class Player extends Entity {
         }
     }
 
-    public ArrayList<Item> searchItem(String itemName, ArrayList<Item> itemList) {
-        ArrayList<Item> itemMap = new ArrayList<>();
+    public List<Item> searchItem(String itemName, List<Item> itemList) {
+        List<Item> itemMap = new ArrayList<>();
         for (Item item : itemList) {
             String testItemName = item.getName();
             if (testItemName.equals(itemName)) {
@@ -264,8 +263,8 @@ public class Player extends Entity {
         return itemMap;
     }
 
-    public ArrayList<Item> searchItem(String itemName, Storage storage) {
-        ArrayList<Item> itemMap = new ArrayList<>();
+    public List<Item> searchItem(String itemName, Storage storage) {
+        List<Item> itemMap = new ArrayList<>();
         for (ItemStack item : storage.getItems()) {
             String testItemName = item.getItem().getName();
             if (testItemName.equals(itemName)) {
@@ -275,19 +274,19 @@ public class Player extends Entity {
         return itemMap;
     }
     
-    public ArrayList<Item> searchEquipment(String itemName, Map<String, Item> equipment) {
-        ArrayList<Item> itemMap = new ArrayList<>();
+    public List<Item> searchEquipment(String itemName, Map<String, Item> equipment) {
+        List<Item> items = new ArrayList<>();
         for (Item item : equipment.values()) {
             String testItemName = item.getName();
             if (testItemName.equals(itemName)) {
-                itemMap.add(item);
+                items.add(item);
             }
         }
-        return itemMap;
+        return items;
     }
 
     public void pickUpItem(String itemName) {
-        ArrayList<Item> itemMap = searchItem(itemName, getLocation().getItems());
+        List<Item> itemMap = searchItem(itemName, getLocation().getItems());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             Item itemToPickUp = itemRepo.getItem(item.getId());
@@ -298,7 +297,7 @@ public class Player extends Entity {
     }
 
     public void dropItem(String itemName) {
-        ArrayList<Item> itemMap = searchItem(itemName, getStorage());
+        List<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             Item itemToDrop = itemRepo.getItem(item.getId());
@@ -315,7 +314,7 @@ public class Player extends Entity {
     }
 
     public void equipItem(String itemName) {
-        ArrayList<Item> itemMap = searchItem(itemName, getStorage());
+        List<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             Map<String, String> change = equipItem(item.getPosition(), item);
@@ -327,7 +326,7 @@ public class Player extends Entity {
     public void equipItem(String place, String itemName) {
         Item item = itemRepo.getItem("empty");
         if (!itemName.equals("empty")) {
-            ArrayList<Item> itemMap = searchItem(itemName, getStorage());
+            List<Item> itemMap = searchItem(itemName, getStorage());
             if (!itemMap.isEmpty()) {
                 item = itemMap.get(0);
             }
@@ -338,7 +337,7 @@ public class Player extends Entity {
     }
     
     public void dequipItem(String itemName) {
-         ArrayList<Item> itemMap = searchEquipment(itemName, getEquipment());
+         List<Item> itemMap = searchEquipment(itemName, getEquipment());
          if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             Map<String, String> change = unequipItem(item);
@@ -391,7 +390,7 @@ public class Player extends Entity {
     }
 
     public void inspectItem(String itemName) {
-        ArrayList<Item> itemMap = searchItem(itemName, getStorage());
+        List<Item> itemMap = searchItem(itemName, getStorage());
         if (itemMap.isEmpty()) {
             itemMap = searchItem(itemName, getLocation().getItems());
         }
@@ -417,7 +416,7 @@ public class Player extends Entity {
 
     public void attack(String opponentName) throws DeathException {
         Monster opponent = null;
-        ArrayList<Monster> monsters = getLocation().getMonsters();
+        List<Monster> monsters = getLocation().getMonsters();
         for (int i = 0; i < monsters.size(); i++) {
                  if (monsters.get(i).monsterType.equalsIgnoreCase(opponentName)) {
                  opponent = monsters.get(i);
