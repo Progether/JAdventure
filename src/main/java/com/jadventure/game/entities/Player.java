@@ -320,6 +320,8 @@ public class Player extends Entity {
             Map<String, String> change = equipItem(item.getPosition(), item);
             QueueProvider.offer(item.getName()+ " equipped");
             printStatChange(change);
+        } else {
+            QueueProvider.offer("You do not have that item");
         }
     }
 
