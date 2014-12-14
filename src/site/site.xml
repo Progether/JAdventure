@@ -19,7 +19,7 @@
 
   <body>
     <menu name="JAdventure">
-      <item name="Introduction" href="introduction.html" />
+	    <item name="Index" href="index.html" />
     </menu>
     
     <menu name="Development">
