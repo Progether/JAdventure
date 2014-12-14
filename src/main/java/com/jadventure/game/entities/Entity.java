@@ -23,7 +23,6 @@ public abstract class Entity {
     private int healthMax;
     private int health;
     private String name;
-    private String className;
     private String intro;
     private int level;
     // Statistics
@@ -119,14 +118,6 @@ public abstract class Entity {
 
     public void setName(String name) {
         this.name = name;
-    }
-    
-    public String getClassName() {
-        return this.className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
     }
      
     public void setIntro(String intro) {
