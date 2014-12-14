@@ -59,16 +59,14 @@ public class Client {
     }
 
     public void getInput() {
-        Scanner input = null;
-        try {
-        	input = new Scanner(System.in);
-        	String userInput = input.next();
-            out.writeUTF(userInput);
-        } catch (IOException e) { 
-        	e.printStackTrace();
-    	} finally {
-    		input.close();
-    	}
+         Scanner input;
+         try {
+             input = new Scanner(System.in);
+             String userInput = input.next();
+             out.writeUTF(userInput);
+         } catch (IOException e) {
+             e.printStackTrace(); 
+         } 
     }
 }
 
