@@ -54,6 +54,8 @@ public class Player extends Entity {
 
     private ILocation location;
     private int xp;
+    /** Player type */
+    private String type;
     
     public Player() {
         
@@ -149,10 +151,10 @@ public class Player extends Entity {
             player.setIntro(json.get("intro").getAsString());
             if (player.getName().equals("Recruit")) {
                 player.classStats.put("Recruit", 50);
-                player.setCurrentClass("Recruit");
+                player.type = "Recruit";
             } else if (player.getName().equals("Sewer_Rat")) {
                 player.classStats.put("Sewer Rat", 50);
-                player.setCurrentClass("Sewer Rat");
+                player.type = "Sewer Rat";
             } else {
                 QueueProvider.offer("Not a valid class");
             }
@@ -189,7 +191,7 @@ public class Player extends Entity {
             weaponName = "hands";
         }
         String message = "\nPlayer name: " + getName();
-              message += "\nClass: " + getCurrentClass();
+              message += "\nType: " + type;
               message += "\nCurrent weapon: " + weaponName;
               message += "\nGold: " + getGold();
               message += "\nHealth/Max: " + getHealth() + "/" + getHealthMax();

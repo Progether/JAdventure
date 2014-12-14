@@ -1,18 +1,17 @@
 package com.jadventure.game.entities;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import com.jadventure.game.GameBeans;
+import com.jadventure.game.QueueProvider;
 import com.jadventure.game.items.Backpack;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Storage;
 import com.jadventure.game.repository.ItemRepository;
-import com.jadventure.game.GameBeans;
-import com.jadventure.game.QueueProvider;
-
-import java.util.Collections;
-import java.util.Random;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Iterator;
 
 /**
  * superclass for all entities (includes player, monsters...)
@@ -41,9 +40,7 @@ public abstract class Entity {
     private String weapon = "empty";
     private Map<String, Item> equipment;
     public Map<String, Integer> classStats = new HashMap<String, Integer>();
-    private String currentClassName;
     protected Storage storage;
-    Random globalRand = new Random();
 
     public Entity() {
     	this(100, 100, "default", 0, null, new HashMap<String, Item>());
@@ -66,27 +63,20 @@ public abstract class Entity {
 	    classStats.put("Sewer Rat", 0);
     }
 
-    public String getCurrentClass() {
-        return this.currentClassName;
-    }
 
-    public void setCurrentClass(String className) {
-        this.currentClassName = className;
-    }
-
-    public void checkCurrentClass() {
-        Iterator<Map.Entry<String, Integer>> it = this.classStats.entrySet().iterator();
-        int highestClassLevel = 0;
-        String highestClassName = "";
-        while (it.hasNext()) {
-            Map.Entry<String, Integer> pairs = it.next();
-            if (pairs.getValue() > highestClassLevel) {
-                highestClassLevel = pairs.getValue();
-                highestClassName = pairs.getKey();
-            }
-        }
-        this.currentClassName = highestClassName;
-    }
+//    public void checkCurrentClass() {
+//        Iterator<Map.Entry<String, Integer>> it = this.classStats.entrySet().iterator();
+//        int highestClassLevel = 0;
+//        String highestClassName = "";
+//        while (it.hasNext()) {
+//            Map.Entry<String, Integer> pairs = it.next();
+//            if (pairs.getValue() > highestClassLevel) {
+//                highestClassLevel = pairs.getValue();
+//                highestClassName = pairs.getKey();
+//            }
+//        }
+//        this.currentClassName = highestClassName;
+//    }
     
 
     public int getHealth() {
