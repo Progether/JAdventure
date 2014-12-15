@@ -19,6 +19,7 @@ public class ItemTest {
 		assertEquals("fmil1", milk.getId());
 		assertEquals("milk", milk.getName());
 		assertEquals("Milk in a bottle", milk.getDescription());
+        assertEquals(1, milk.getLevel());
 		assertEquals(Integer.valueOf(1), milk.getWeight());
 	}
 	
@@ -45,7 +46,7 @@ public class ItemTest {
         properties.put("weight", Integer.valueOf(1));
         properties.put("value", Integer.valueOf(10));
         
-        Item item = new Item("fmil1", "food-liquid", "milk", "Milk in a bottle", properties);
+        Item item = new Item("fmil1", "food-liquid", "milk", "Milk in a bottle", 1, properties);
         return item;
     }
 
@@ -55,7 +56,7 @@ public class ItemTest {
         properties.put("weight", Integer.valueOf(1));
         properties.put("value", Integer.valueOf(3));
         
-        Item item = new Item("fegg1", "food", "egg", "A nice egg", properties);
+        Item item = new Item("fegg1", "food", "egg", "A nice egg", 1, properties);
         return item;
     }
 

@@ -317,27 +317,18 @@ public class Player extends Entity {
         List<Item> itemMap = searchItem(itemName, getStorage());
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
+            if (getLevel() >= item.getLevel()) {
             Map<String, String> change = equipItem(item.getPosition(), item);
             QueueProvider.offer(item.getName()+ " equipped");
             printStatChange(change);
+            } else {
+                QueueProvider.offer("You do not have the required level to use this item");
+            }
         } else {
             QueueProvider.offer("You do not have that item");
         }
     }
 
-    public void equipItem(String place, String itemName) {
-        Item item = itemRepo.getItem("empty");
-        if (!itemName.equals("empty")) {
-            List<Item> itemMap = searchItem(itemName, getStorage());
-            if (!itemMap.isEmpty()) {
-                item = itemMap.get(0);
-            }
-        }
-        Map<String, String> change = equipItem(place, item);
-        QueueProvider.offer(item.getName() + " equipped");
-        printStatChange(change);
-    }
-    
     public void dequipItem(String itemName) {
          List<Item> itemMap = searchEquipment(itemName, getEquipment());
          if (!itemMap.isEmpty()) {

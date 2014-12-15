@@ -5,6 +5,7 @@
       "name": "empty",
       "description": "",
       "position": "rightHand",
+      "level": 1,
       "properties": {
         "health": "0",
         "value": "0"
@@ -15,6 +16,7 @@
       "name": "hands",
       "description": "they look quite strong",
       "position": "rightHand",
+      "level": 1,
       "properties": {
         "damage": "1"
       }
@@ -24,6 +26,7 @@
       "name": "bread",
       "description": "small piece of bread",
       "position": "mouth",
+      "level": 1,
       "properties": {
         "health": "+5",
         "value": "10"
@@ -34,6 +37,7 @@
       "name": "milk",
       "description": "some delicious milk",
       "position": "mouth",
+      "level": 1,
       "properties": {
         "health": "+5",
         "weight": "1",
@@ -45,6 +49,7 @@
       "name": "super milk",
       "description": "this milk must have come from a super cow because it is extra delicious milk",
       "position": "mouth",
+      "level": 2,
       "properties": {
         "health": "+15",
         "weight": "1",
@@ -56,6 +61,7 @@
       "name": "raw meat",
       "description": "some delicious raw meat",
       "position": "mouth",
+      "level": 1,
       "properties": {
         "health": "+2",
         "weight": "2",
@@ -67,6 +73,7 @@
       "name": "cooked meat",
       "description": "some delicious cooked meat",
       "position": "mouth",
+      "level": 1,
       "properties": {
         "health": "+10",
         "weight": "2",
@@ -78,6 +85,7 @@
       "name": "burnt meat",
       "description": "some crispy burnt meat",
       "position": "mouth",
+      "level": 1,
       "properties": {
         "health": "+4",
         "weight": "2",
@@ -89,6 +97,7 @@
       "name": "shiv",
       "description": "a small dagger",
       "position": "rightHand",
+      "level": 1,
       "properties": {
         "damage": "+3",
         "weight": "2",
@@ -100,6 +109,7 @@
       "name": "dagger",
       "description": "a basic dagger",
       "position": "rightHand",
+      "level": 1,
       "properties": {
         "damage": "+5",
         "weight": "1",
@@ -111,6 +121,7 @@
       "name": "shortsword",
       "description": "a basic shortsword",
       "position": "rightHand",
+      "level": 1,
       "properties": {
         "damage": "+7",
         "weight": "5",
@@ -122,6 +133,7 @@
       "name": "spear",
       "description": "a basic spear",
       "position": "rightHand",
+      "level": 1,
       "properties": {
         "damage": "+5",
         "weight": "4",
@@ -133,6 +145,7 @@
       "name": "broadsword",
       "description": "a two handed broadsword",
       "position": "twoHand",
+      "level": 1,
       "properties": {
         "damage": "+10",
         "weight": "4",
@@ -144,6 +157,7 @@
       "name": "wooden shield",
       "description": "a wooden shield, watch out for splinters!",
       "position": "rightHand",
+      "level": 1,
       "properties": {
         "armour": "+3",
         "weight": "4",
@@ -155,6 +169,7 @@
       "name": "rusted helmet",
       "description": "a rusted helmet, it will do for now",
       "position": "head",
+      "level": 1,
       "properties": {
         "armour": "+4",
         "weight": "3",
@@ -166,6 +181,7 @@
       "name": "leather breastplate",
       "description": "a leather breastplate, it will do for now",
       "position": "chest",
+      "level": 1,
       "properties": {
         "armour": "+5",
         "weight": "10",
@@ -177,6 +193,7 @@
       "name": "leather greaves",
       "description": "a pair of leather greaves",
       "position": "legs",
+      "level": 1,
       "properties": {
         "armour": "+2",
         "weight": "4",
@@ -188,6 +205,7 @@
       "name": "leather boots",
       "description": "a pair of leather boots, it will do for now",
       "position": "feet",
+      "level": 1,
       "properties": {
         "armour": "+2",
         "weight": "10",
@@ -199,6 +217,7 @@
       "name": "leather gauntlet",
       "description": "a leather gaunlet, it will do for now",
       "position": "arms",
+      "level": 1,
       "properties": {
         "armour": "+3",
         "weight": "10",
@@ -210,6 +229,7 @@
       "name": "lock-and-pick",
       "description": "tools to pick locks",
       "position": "rightHand",
+      "level": 1,
       "properties": {
         "value": "20",
         "weight": "1"
@@ -220,6 +240,7 @@
       "name": "Potion-of-Health",
       "description": "Magic potion that increases vitality",
       "position": "rightHand",
+      "level": 1,
       "properties": {
         "healthMax": "+5",
         "weight": "1",
