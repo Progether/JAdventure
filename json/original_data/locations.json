@@ -189,6 +189,7 @@
 		"locationType": "CAVE",
 		"title": "Market Place",
 		"coordinate": "-3,4,-1",
+		"items": ["wdag1"], 
 		"description": "The central market place of the underground",
 		"danger": 0},
 	"0,5,-1": {
@@ -317,6 +318,7 @@
 		"title": "Stairs",
 		"coordinate": "0,-1,-1",
 		"description": "Stairs up to the outside world.",
+		"items": ["fmil2"], 
 		"danger": 0},
 	"4,2,-1": {
 		"locationType": "CAVE",

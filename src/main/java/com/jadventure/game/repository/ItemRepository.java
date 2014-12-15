@@ -60,6 +60,7 @@ public class ItemRepository {
             String name = itemData.get("name").getAsString();
             String description = itemData.get("description").getAsString();
             String position = itemData.get("position").getAsString();
+            int level = itemData.get("level").getAsInt();
             JsonObject sProps = itemData.get("properties").getAsJsonObject();
             Map<String, Integer> properties = new HashMap<>();
             for (Map.Entry<String, JsonElement> entry2 : sProps.entrySet()) {
@@ -67,7 +68,7 @@ public class ItemRepository {
                 properties.put(entry2.getKey(), propValue);
             }
 
-            addItem(new Item(id, type, name, description, position, properties));
+            addItem(new Item(id, type, name, description, position, level, properties));
             
         }
     }
@@ -76,7 +77,6 @@ public class ItemRepository {
     void addItem(Item item) {
         itemMap.put(item.getId(), item);
     }
-
 
     private static ItemRepository itemRepository = null;
     public static ItemRepository createRepo() {

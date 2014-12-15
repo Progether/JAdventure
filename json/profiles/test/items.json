@@ -5,7 +5,6 @@
       "name": "empty",
       "description": "",
       "position": "rightHand",
-      "level": 1,
       "properties": {
         "health": "0",
         "value": "0"

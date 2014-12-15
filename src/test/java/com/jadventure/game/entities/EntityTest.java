@@ -71,7 +71,7 @@ public class EntityTest {
         String type = "food-liquid";
         String name = "milk"; 
         String description = "";
-        Item item = new Item(id, type, name, description, null);
+        Item item = new Item(id, type, name, description, 1, null);
         entity.setStorage(new Backpack(300));
         entity.addItemToStorage(item);
         Assert.assertEquals(entity.getStorage().getItems().get(0).getItem(), item);

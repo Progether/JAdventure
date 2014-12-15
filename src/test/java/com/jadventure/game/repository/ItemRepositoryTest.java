@@ -67,9 +67,9 @@ public class ItemRepositoryTest {
         
         String expected = "{\"items\":{"
                 + "\"egg-1\":{\"id\":\"egg-1\",\"type\":\"food\",\"name\":\"egg\",\"description\":\"A nice egg\","
-                + "\"properties\":{\"weight\":1,\"value\":3,\"health\":2}},"
+                + "\"level\":1,\"properties\":{\"weight\":1,\"value\":3,\"health\":2}},"
                 + "\"milk-bottle\":{\"id\":\"milk-bottle\",\"type\":\"food-liquid\",\"name\":\"milk\",\"description\":\"Milk in a bottle\","
-                + "\"properties\":{\"weight\":1,\"value\":10,\"health\":5}}"
+                + "\"level\":1,\"properties\":{\"weight\":1,\"value\":10,\"health\":5}}"
                 + "}}";
         String gsonMsg = writer.toString();
         assertEquals(expected, gsonMsg);
@@ -79,10 +79,10 @@ public class ItemRepositoryTest {
     public void retrieveItems() throws IOException {
         String input = "{\"items\":{"
                 + "\"fegg1\":{\"id\":\"fegg1\",\"type\": \"food\",\"name\":\"egg\",\"description\":\"A nice egg\","
-                + "\"position\":\"mouth\","
+                + "\"position\":\"mouth\",\"level\":1,"
                 + "\"properties\":{\"weight\":1,\"value\":3,\"health\":2}},"
                 + "\"fmil1\":{\"id\":\"fmil1\",\"type\": \"food-liquid\",\"name\":\"milk\",\"description\":\"Milk in a bottle\","
-                + "\"position\":\"mouth\","
+                + "\"position\":\"mouth\",\"level\":1,"
                 + "\"properties\":{\"weight\":1,\"value\":10,\"health\":5}}"
                 + "}}";
         
@@ -122,7 +122,7 @@ public class ItemRepositoryTest {
         properties.put("weight", Integer.valueOf(1));
         properties.put("value", Integer.valueOf(10));
         
-        Item item = new Item("milk-bottle", "food-liquid", "milk", "Milk in a bottle", properties);
+        Item item = new Item("milk-bottle", "food-liquid", "milk", "Milk in a bottle", 1, properties);
         return item;
     }
 
@@ -132,7 +132,7 @@ public class ItemRepositoryTest {
         properties.put("weight", Integer.valueOf(1));
         properties.put("value", Integer.valueOf(3));
         
-        Item item = new Item("egg-1", "food", "egg", "A nice egg", properties);
+        Item item = new Item("egg-1", "food", "egg", "A nice egg", 1, properties);
         return item;
     }
 

@@ -15,17 +15,19 @@ public class Item {
     private final String name;
     private final String description;
     private final String position;
+    private final int level;
     private final Map<String, Integer> properties;
 
-    public Item(String id, String type, String name, String description, Map<String, Integer> properties) {
-        this(id, type, name, description, null, properties);
+    public Item(String id, String type, String name, String description, int level, Map<String, Integer> properties) {
+        this(id, type, name, description, null, level, properties);
     }
-    public Item(String id, String type, String name, String description, String position, Map<String, Integer> properties) {
+    public Item(String id, String type, String name, String description, String position, int level, Map<String, Integer> properties) {
         this.id = id;
         this.type = type;
         this.name = name;
         this.description = description;
         this.position = position;
+        this.level = level;
         if (properties != null) {
             this.properties = properties;
         }
@@ -50,12 +52,15 @@ public class Item {
         if (properties.containsKey("weight")) {
             return properties.get("weight");
         }
-
         return Integer.valueOf(0);
     }
 
     public String getPosition() {
     	return position;
+    }
+
+    public int getLevel() {
+        return level;
     }
 
     public String getDescription() {
