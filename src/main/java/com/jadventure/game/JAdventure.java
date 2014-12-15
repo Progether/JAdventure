@@ -64,8 +64,9 @@ public class JAdventure {
             return GameModeType.valueOf(args[0].toUpperCase());
         }
         catch (IllegalArgumentException iae) {
-            logger.warn("No game mode '" + args[0].toUpperCase() + "' known."
-                    + "Starting in default mode '" + GameModeType.STAND_ALONE + "'");
+            logger.warn("No game mode '" + args[0].toUpperCase() + "' known." +
+                    "Terminating application.");
+            System.exit(-1);
         }
         return GameModeType.STAND_ALONE;
     }
