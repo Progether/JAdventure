@@ -86,8 +86,14 @@
   </target>
 
   <target name="run" depends="junit">
+    <condition property="arg0" value="stand_alone">
+      <not>
+        <isset property="arg0"/>
+      </not>
+    </condition>
     <java fork="true" classname="${main-class}">
-      <arg value="${arg0}"/>
+      <arg value="${arg0}">
+      </arg>
       <classpath>
         <path refid="classpath"/>
         <path refid="application"/>
