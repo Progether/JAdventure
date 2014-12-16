@@ -10,7 +10,7 @@ There are three [layers](http://en.wikipedia.org/wiki/Multitier_architecture):
 - Game Engine Layer (logic layer)
 - Persistence Layer (data layer)
 
-There is also an diagram [layer architecture](https://raw.githubusercontent.com/verhagen/JAdventure/master/src/site/resources/images/diagrams/overview_layer_architecture.png)
+There is also an diagram [layer architecture](https://raw.githubusercontent.com/Progether/JAdventure/master/src/site/resources/images/diagrams/overview_layer_architecture.png)
 
 The most important class here is the _GameEngine_ as it is the [facade](http://en.wikipedia.org/wiki/Facade_pattern) to the game.
 
