@@ -2,7 +2,7 @@
 
 ## The Layers
 
-**Warning** [2014.12.16] Currently not there.
+**Warning** [2014.12.16] Currently not there, still need to be implemented.
 
 There are three [layers](http://en.wikipedia.org/wiki/Multitier_architecture):  
 
