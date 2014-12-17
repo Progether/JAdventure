@@ -67,9 +67,9 @@
 		"danger": 4},
 	"2,3,-1": {
 		"locationType": "CAVE",
-		"title": "Cave",
+		"title": "The Brotherhood Gang's Base",
 		"coordinate": "2,3,-1",
-		"description": "A large open cave",
+		"description": "The headquarters of the infamous Brotherhood Gang",
 		"danger": 4},
 	"-1,6,-1": {
 		"locationType": "CAVE",
@@ -397,6 +397,7 @@
 		"title": "Dark Corridor",
 		"coordinate": "2,2,-1",
 		"description": "A very long dark corridor",
+                "npcs" : ["brotherhoodmember"],
 		"danger": 3},
 	"6,5,-1": {
 		"locationType": "CAVE",
@@ -425,6 +426,7 @@
 	"0,0,-1": {
 		"description": "You are in a massive empty room.",
 		"items": ["wshi1"], 
+                "npcs" : ["guide"],
 		"danger": 0, 
 		"locationType": "CAVE",
 		"title": "First Location Ever",

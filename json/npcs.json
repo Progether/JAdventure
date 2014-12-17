@@ -23,11 +23,134 @@
       "intelligence": 2,
       "dexterity": 1,
       "stealth": 2,
-      "location": [ { "head": "empty" }, {"leftArm": "empty"}, {"chest":"empty"}, {"rightArm":"empty"}, {"legs":"empty"}, {"boots":"empty"}, {"leftHand": "hands"}, {"rightHand": "hands"} ],
+      "location": [
+        {
+          "head": "empty"
+        },
+        {
+          "leftArm": "empty"
+        },
+        {
+          "chest": "empty"
+        },
+        {
+          "rightArm": "empty"
+        },
+        {
+          "legs": "empty"
+        },
+        {
+          "boots": "empty"
+        },
+        {
+          "leftHand": "hands"
+        },
+        {
+          "rightHand": "hands"
+        }
+      ],
       "intro": "Hey, rat. . . you dead??\n*You let out a groan...*\nWhat are you doing?!? Don't you know it's crazy to sleep so close to the recruits' camp? A guard will come down those stairs soon enough and catch you! You'll end up being drafted! You better come back in.\nBy the way, what's your name?",
       "relationships": [
         {
           "recruit": "enemy"
+        },
+        {
+          "sewer rat": "ally"
+        }
+      ]
+    },
+    "syndicatemember": {
+      "name": "Syndicate Member",
+      "health": 100,
+      "healthMax": 100,
+      "damage": 50,
+      "armour": 10,
+      "level": 1,
+      "xp": 0,
+      "strength": 1,
+      "intelligence": 2,
+      "dexterity": 2,
+      "stealth": 2,
+      "location": [
+        {
+          "head": "empty"
+        },
+        {
+          "leftArm": "empty"
+        },
+        {
+          "chest": "empty"
+        },
+        {
+          "rightArm": "empty"
+        },
+        {
+          "legs": "empty"
+        },
+        {
+          "boots": "empty"
+        },
+        {
+          "leftHand": "hands"
+        },
+        {
+          "rightHand": "hands"
+        }
+      ],
+      "intro": "Hello. Can I help you with something? A service perhaps? Anything and everything you need I have. For a price of course. . . ",
+      "relationships": [
+        {
+          "recruit": "enemy",
+          "brotherhoodmember": "enemy"
+        },
+        {
+          "sewer rat": "ally"
+        }
+      ]
+    },
+    "brotherhoodmember": {
+      "name": "Brotherhood Member",
+      "health": 100,
+      "healthMax": 120,
+      "damage": 60,
+      "armour": 0,
+      "level": 1,
+      "xp": 0,
+      "strength": 3,
+      "intelligence": 1,
+      "dexterity": 1,
+      "stealth": 1,
+      "location": [
+        {
+          "head": "empty"
+        },
+        {
+          "leftArm": "empty"
+        },
+        {
+          "chest": "empty"
+        },
+        {
+          "rightArm": "empty"
+        },
+        {
+          "legs": "empty"
+        },
+        {
+          "boots": "empty"
+        },
+        {
+          "leftHand": "hands"
+        },
+        {
+          "rightHand": "hands"
+        }
+      ],
+      "intro": "You looking at me?! What do you want? If you aren't here for a good reason, get outta here. . . or get a beating.   ",
+      "relationships": [
+        {
+          "recruit": "enemy",
+          "syndicatemember": "enemy"
         },
         {
           "sewer rat": "ally"
@@ -46,9 +169,33 @@
       "intelligence": 1,
       "dexterity": 2,
       "stealth": 1,
-      "location": [ { "head": "empty" }, {"leftArm": "empty"}, {"chest":"empty"}, {"rightArm":"empty"}, {"legs":"empty"}, {"boots":"empty"}, {"leftHand": "hands"}, {"rightHand": "hands"} ],
+      "location": [
+        {
+          "head": "empty"
+        },
+        {
+          "leftArm": "empty"
+        },
+        {
+          "chest": "empty"
+        },
+        {
+          "rightArm": "empty"
+        },
+        {
+          "legs": "empty"
+        },
+        {
+          "boots": "empty"
+        },
+        {
+          "leftHand": "hands"
+        },
+        {
+          "rightHand": "hands"
+        }
+      ],
       "intro": "Hey... you alive?\n*You let out a groan...*\nHey, mate, you need to wake up. The guards will be coming 'round soon, and they put a spear through the last guy they found still asleep.\n*Slowly, you sit up.*\nThat's the way! I'm going to head back up. Follow me as soon as you can.\nBy the way, I'm Thorall. What's your name?",
-
       "relationships": [
         {
           "recruit": "ally"
