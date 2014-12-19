@@ -4,7 +4,9 @@
 
 Description
 -------------
-JAdventure is a Java based implementation of a Multi-User Dungeon Adventure game.
+JAdventure is a Java (text) based implementation of a [Role Playing Game](http://en.wikipedia.org/wiki/Role-playing_game) (RPG) - 
+[Single Player](http://en.wikipedia.org/wiki/Role-playing_game#Single-player). 
+
 
 Project Background
 -------------
