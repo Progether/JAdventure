@@ -18,15 +18,21 @@ public interface ILocation {
     String getTitle();
     String getDescription();
     LocationType getLocationType();
+
     Map<Direction, ILocation> getExits();
+
     List<Item> getItems();
-    List<NPC> getNPCs();
     void removePublicItem(String itemID);
     void addPublicItem(String itemID);
+
     void addPublicItems(ArrayList<ItemStack> items);
+
+    List<NPC> getNPCs();
+
+    List<Monster> getMonsters();
     void addMonster(Monster monster);
     void removeMonster(Monster monster);
-    List<Monster> getMonsters();
+
     void print();
     int getDangerRating();
     void setDangerRating(int dangerRating);
