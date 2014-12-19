@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
-import com.jadventure.game.items.Backpack;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Storage;
@@ -52,7 +51,7 @@ public abstract class Entity {
         	this.storage = storage;
         }
         else {
-        	this.storage = new Backpack(300);
+        	this.storage = new Storage(300);
         }
 	    this.equipment = equipment;
     }
