@@ -28,7 +28,7 @@ public class BattleMenu extends Menus {
         this.armour = player.getArmour();
         this.damage = player.getDamage();
         while (opponent.getHealth() > 0 && player.getHealth() > 0) {
-            QueueProvider.offer("What is your choice?");
+            QueueProvider.offer("\nWhat is your choice?");
             MenuItem selectedItem = displayMenu(this.menuItems);
             testSelected(selectedItem);
         }
@@ -69,7 +69,7 @@ public class BattleMenu extends Menus {
                 break;
             }
             case "defend": {
-                QueueProvider.offer("You get ready to defend against the " + opponent.monsterType + ".");
+                QueueProvider.offer("\nYou get ready to defend against the " + opponent.monsterType + ".");
                 mutateStats(0.5, 1);
                 attack(opponent, player);
                 attack(player, opponent);
@@ -149,7 +149,7 @@ public class BattleMenu extends Menus {
     }
 
     private void viewStats() {
-        QueueProvider.offer("What is your command?");
+        QueueProvider.offer("\nWhat is your command?");
         String input = QueueProvider.take();
         switch (input) {
             case "vs":

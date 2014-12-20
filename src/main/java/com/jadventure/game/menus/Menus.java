@@ -23,7 +23,6 @@ public class Menus {
             for (String command: menuItem.getAltCommands()) {
                 commandMap.put(command.toLowerCase(), menuItem);
             }
-
             i ++;
         }
         MenuItem selectedItem = selectMenu(m);
