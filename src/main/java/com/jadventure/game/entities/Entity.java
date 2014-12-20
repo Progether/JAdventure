@@ -186,7 +186,7 @@ public abstract class Entity {
     public Map<String, String> equipItem(EquipmentLocation place, Item item) {
         double oldDamage = this.damage;
         Item empty = itemRepo.getItem("empty");
-        if (place.equals("")) {
+        if (place == null) {
             place = item.getPosition();
         }
         if (equipment.get(place) != null) {
