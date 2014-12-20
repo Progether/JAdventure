@@ -134,7 +134,7 @@ public class LocationManager {
         return Locations.locations.get(coordinate);
     }
 
-    public void reload() {
+    private void reload() {
         JsonParser parser = new JsonParser();
         File f = new File(fileName);
         if (!f.exists()) {
