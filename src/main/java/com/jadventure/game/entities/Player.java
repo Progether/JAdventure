@@ -30,7 +30,6 @@ import com.google.gson.reflect.TypeToken;
 import com.jadventure.game.DeathException;
 import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
-import com.jadventure.game.items.Backpack;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Storage;
@@ -131,7 +130,7 @@ public class Player extends Entity {
                     itemList.add(itemStack);
                 }
                 float maxWeight = (float)Math.sqrt(player.getStrength()*300);
-                player.setStorage(new Backpack(maxWeight, itemList));
+                player.setStorage(new Storage(maxWeight, itemList));
             }
             Coordinate coordinate = new Coordinate(json.get("location").getAsString());
             player.setLocation(LocationManager.getLocation(coordinate));
@@ -208,7 +207,7 @@ public class Player extends Entity {
     public static void setUpVariables(Player player) {
         player.setLocation(LocationManager.getInitialLocation(player.getName()));
         float maxWeight = (float)Math.sqrt(player.getStrength()*300);
-        player.setStorage(new Backpack(maxWeight));
+        player.setStorage(new Storage(maxWeight));
         player.addItemToStorage(itemRepo.getItem("fmil1"));
     }
 

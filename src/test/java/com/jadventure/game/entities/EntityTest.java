@@ -7,8 +7,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.jadventure.game.items.Backpack;
 import com.jadventure.game.items.Item;
+import com.jadventure.game.items.Storage;
 
 public class EntityTest {
     private Entity entity;
@@ -72,7 +72,7 @@ public class EntityTest {
         String name = "milk"; 
         String description = "";
         Item item = new Item(id, type, name, description, 1, null);
-        entity.setStorage(new Backpack(300));
+        entity.setStorage(new Storage(300));
         entity.addItemToStorage(item);
         Assert.assertEquals(entity.getStorage().getItems().get(0).getItem(), item);
     }

@@ -1,16 +1,17 @@
 package com.jadventure.game.navigation;
 
-import com.jadventure.game.items.Item;
-import com.jadventure.game.items.ItemStack;
-import com.jadventure.game.entities.NPC;
-import com.jadventure.game.monsters.Monster;
-import com.jadventure.game.repository.ItemRepository;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ArrayList;
+import com.jadventure.game.entities.NPC;
+import com.jadventure.game.items.Item;
+import com.jadventure.game.items.ItemStack;
+import com.jadventure.game.monsters.Monster;
+import com.jadventure.game.repository.ItemRepository;
 
 /**
  * The location class mostly deals with getting and setting variables.
@@ -25,9 +26,9 @@ public class Location implements ILocation {
     private String description;
     private LocationType locationType;
     private int dangerRating;
-    private ArrayList<String> items;
-    private ArrayList<String> npcs;
-    private ArrayList<Monster> monsters = new ArrayList<>();
+    private List<String> items;
+    private List<String> npcs;
+    private List<Monster> monsters = new ArrayList<>();
 
     public Location() {
 
@@ -118,9 +119,7 @@ public class Location implements ILocation {
    
     public void addMonster(Monster monster) {
         if (monster != null) {
-            ArrayList<Monster> list = this.monsters;
-            list.add(monster);
-            this.monsters = list;
+            monsters.add(monster);
         }
     }
 
@@ -132,20 +131,16 @@ public class Location implements ILocation {
         }
     }
 
-    public ArrayList<Monster> getMonsters() {
-        return this.monsters;
+    public List<Monster> getMonsters() {
+        return monsters;
     }
 
     public void removePublicItem(String itemID) {
-        ArrayList<String> items = this.items;
         items.remove(itemID);
-        setItems(items);
     }
 
     public void addPublicItem(String itemID) {
-        ArrayList<String> items = this.items;
         items.add(itemID);
-        setItems(items);
     }
 
     public void addPublicItems(ArrayList<ItemStack> items) {

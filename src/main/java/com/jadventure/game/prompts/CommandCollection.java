@@ -1,11 +1,13 @@
 package com.jadventure.game.prompts;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.jadventure.game.DeathException;
 import com.jadventure.game.QueueProvider;
@@ -28,17 +30,19 @@ import com.jadventure.game.navigation.LocationType;
 public enum CommandCollection {
     INSTANCE;
 
+    private Logger logger = LoggerFactory.getLogger(CommandCollection.class);
+
     public Player player;
 
-    private HashMap<String, String> directionLinks = new HashMap<String,String>()
-    {{
-         put("n", "north");
-         put("s", "south");
-         put("e", "east");
-         put("w", "west");
-         put("u", "up");
-         put("d", "down");
-    }};
+    private final static Map<String, String> DIRECTION_LINKS = new HashMap<String,String>();
+    static {
+        DIRECTION_LINKS.put("n", "north");
+        DIRECTION_LINKS.put("s", "south");
+        DIRECTION_LINKS.put("e", "east");
+        DIRECTION_LINKS.put("w", "west");
+        DIRECTION_LINKS.put("u", "up");
+        DIRECTION_LINKS.put("d", "down");
+    }
 
     public static CommandCollection getInstance() {
         return INSTANCE;
@@ -51,7 +55,6 @@ public enum CommandCollection {
     // command methods here
 
     @Command(command="help", aliases="h", description="Prints help", debug=false)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_help() {
         Method[] methods = CommandCollection.class.getMethods();
         int commandWidth = 0;
@@ -92,13 +95,12 @@ public enum CommandCollection {
     }
 
     @Command(command="save", aliases="s", description="Save the game", debug=false)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_save() {
+        logger.info("Command 'save' is running");
         player.save();
     }
 
     @Command(command="monster", aliases="m", description="Monsters around you", debug=false)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_m() {
         List<Monster> monsterList = player.getLocation().getMonsters();
         if (monsterList.size() > 0) {
@@ -114,12 +116,11 @@ public enum CommandCollection {
     }
 
     @Command(command="goto", aliases="g", description="Goto a direction", debug=false)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_g(String arg) throws DeathException {
         ILocation location = player.getLocation();
 
         try {
-            arg = directionLinks.get(arg);
+            arg = DIRECTION_LINKS.get(arg);
             Direction direction = Direction.valueOf(arg.toUpperCase());
             Map<Direction, ILocation> exits = location.getExits();
             if (exits.containsKey(direction)) {
@@ -159,25 +160,21 @@ public enum CommandCollection {
     }
 
     @Command(command="inspect", aliases="i", description="Inspect an item", debug=false)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_i(String arg) {
         player.inspectItem(arg.trim());
     }
 
     @Command(command="equip", aliases="e", description="Equip an item", debug=false)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_e(String arg) {
         player.equipItem(arg.trim());
     }
 
     @Command(command="unequip", aliases="ue", description="Unequip an item", debug=false)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_ue(String arg) {
         player.dequipItem(arg.trim());
     }
 
     @Command(command="view", aliases="v", description="View details", debug=false)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_v(String arg) {
         arg = arg.trim();
         switch (arg) {
@@ -200,25 +197,21 @@ public enum CommandCollection {
     }
 
     @Command(command="pick", aliases="p", description="Pick up an item", debug=false)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_p(String arg) {
         player.pickUpItem(arg.trim());
     }
 
     @Command(command="drop", aliases="d", description="Drop an item", debug=false)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_d(String arg) {
         player.dropItem(arg.trim());
     }
 
     @Command(command="attack", aliases="a", description="Attacks an entity", debug=false)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_a(String arg) throws DeathException {
        player.attack(arg.trim());
     }
 
     @Command(command="lookaround", aliases="la", description="Displays the description of the room you are in.", debug=false)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_la() {
        player.getLocation().print(); 
     }
@@ -226,14 +219,12 @@ public enum CommandCollection {
     // Debug methods here
 
     @Command(command="attack", aliases="", description="Adjusts the damage level the player has", debug=true)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_attack(String arg) {
         double damage = Double.parseDouble(arg);
         player.setDamage(damage);
     }
 
     @Command(command="maxhealth", aliases="", description="Adjusts the maximum health of the player", debug=true)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_maxhealth(String arg) {
         int healthMax = Integer.parseInt(arg);
         if (healthMax > 0) {
@@ -244,7 +235,6 @@ public enum CommandCollection {
     }
 
     @Command(command="health", aliases="", description="Adjusts the amount of gold the player has", debug=true)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_health(String arg) {
         int health = Integer.parseInt(arg);
         if (health > 0) {
@@ -255,28 +245,24 @@ public enum CommandCollection {
     }
 
     @Command(command="armour", aliases="", description="Adjusts the amount of armour the player has", debug=true)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_armour(String arg) {
         int armour = Integer.parseInt(arg);
         player.setArmour(armour);
     }
 
     @Command(command="level", aliases="", description="Adjusts the level of the player", debug=true)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_level(String arg) {
         int level = Integer.parseInt(arg);
         player.setLevel(level);
     }
 
     @Command(command="gold", aliases="", description="Adjusts the amount of gold the player has", debug=true)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_gold(String arg) {
         int gold = Integer.parseInt(arg);
         player.setGold(gold);
     }
 
     @Command(command="teleport", aliases="", description="Moves the player to specified coordinates", debug=true)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_teleport(String arg) {
         ILocation newLocation = LocationManager.getLocation(new Coordinate(arg));
         ILocation oldLocation = player.getLocation();
@@ -290,7 +276,6 @@ public enum CommandCollection {
     }
 
     @Command(command="backpack", aliases="", description="Opens the backpack debug menu.", debug=true)
-    @SuppressWarnings("UnusedDeclaration")
     public void command_backpack(String arg) {
         new BackpackDebugPrompt(player);
     }
