@@ -23,15 +23,19 @@ public class Game {
           this.parser = new CommandParser(player);
           this.player = player;
           this.player.setLocation(LocationManager.getInstance(player.getName()).getInitialLocation(player.getName()));
-          if (playerType.equals("new")) { // New Game
-              newGameStart(player);
-          } else if (playerType.equals("old")) {
-              QueueProvider.offer("Welcome back, " + player.getName() + "!");
-              QueueProvider.offer("");
-              player.getLocation().print();
-              gamePrompt(player);
-          } else {
-              QueueProvider.offer("Invalid player type");
+          switch (playerType) {
+              case "new":
+                  newGameStart(player);
+                  break;
+              case "old":
+                  QueueProvider.offer("Welcome back, " + player.getName() + "!");
+                  QueueProvider.offer("");
+                  player.getLocation().print();
+                  gamePrompt(player);
+                  break;
+              default:
+                  QueueProvider.offer("Invalid player type");
+                  break;
           }
     }
    
@@ -45,7 +49,6 @@ public class Game {
         String userInput = QueueProvider.take();
         player.setName(userInput);
         QueueProvider.offer("Welcome to Silliya, " + player.getName() + ".");
-        QueueProvider.offer("");
         player.getLocation().print();
         gamePrompt(player);
     }
@@ -60,7 +63,7 @@ public class Game {
         boolean continuePrompt = true;
         try {
             while (continuePrompt) {
-                QueueProvider.offer("Prompt:");
+                QueueProvider.offer("\nPrompt:");
                 String command = QueueProvider.take().toLowerCase();
                 continuePrompt = parser.parse(player, command);
             }

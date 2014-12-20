@@ -59,6 +59,7 @@ public enum CommandCollection {
         Method[] methods = CommandCollection.class.getMethods();
         int commandWidth = 0;
         int descriptionWidth = 0;
+        QueueProvider.offer("");
         for (Method method : methods) {
             if (!method.isAnnotationPresent(Command.class)) {
                 continue;

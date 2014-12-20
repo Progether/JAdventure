@@ -317,9 +317,9 @@ public class Player extends Entity {
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             if (getLevel() >= item.getLevel()) {
-            Map<String, String> change = equipItem(item.getPosition(), item);
-            QueueProvider.offer(item.getName()+ " equipped");
-            printStatChange(change);
+                Map<String, String> change = equipItem(item.getPosition(), item);
+                QueueProvider.offer(item.getName()+ " equipped");
+                printStatChange(change);
             } else {
                 QueueProvider.offer("You do not have the required level to use this item");
             }
@@ -347,33 +347,33 @@ public class Player extends Entity {
               switch ((String) me.getKey()) {
                   case "damage": {
                           if (value >= 0.0) {
-                              QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")\n");
+                              QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")");
                           } else {
-                              QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")\n");
+                              QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")");
                           }
                           break;
                     }
                     case "health": {
                           if (value >= 0) {
-                              QueueProvider.offer(me.getKey() + ": " + this.getHealth() + " (+" + me.getValue() + ")\n");
+                              QueueProvider.offer(me.getKey() + ": " + this.getHealth() + " (+" + me.getValue() + ")");
                           } else {
-                              QueueProvider.offer(me.getKey() + ": " + this.getHealth() + " (" + me.getValue() + ")\n");
+                              QueueProvider.offer(me.getKey() + ": " + this.getHealth() + " (" + me.getValue() + ")");
                           }
                           break;
                     }
                     case "armour": {
                           if (value >= 0) {
-                              QueueProvider.offer(me.getKey() + ": " + this.getArmour() + " (+" + me.getValue() + ")\n");
+                              QueueProvider.offer(me.getKey() + ": " + this.getArmour() + " (+" + me.getValue() + ")");
                           } else {
-                              QueueProvider.offer(me.getKey() + ": " + this.getArmour() + " (" + me.getValue() + ")\n");
+                              QueueProvider.offer(me.getKey() + ": " + this.getArmour() + " (" + me.getValue() + ")");
                           }
                           break;
                     }
                     case "maxHealth": {
                           if (value  >= 0) {
-                              QueueProvider.offer(me.getKey() + ": " + this.getHealthMax() + " (+" + me.getValue() + ")\n");
+                              QueueProvider.offer(me.getKey() + ": " + this.getHealthMax() + " (+" + me.getValue() + ")");
                           } else {
-                              QueueProvider.offer(me.getKey() + ": " + this.getHealthMax() + " (" + me.getValue() + ")\n");
+                              QueueProvider.offer(me.getKey() + ": " + this.getHealthMax() + " (" + me.getValue() + ")");
                           }
                           break;
                     }
