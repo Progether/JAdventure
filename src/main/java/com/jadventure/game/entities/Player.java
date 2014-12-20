@@ -56,8 +56,37 @@ public class Player extends Entity {
     private int xp;
     /** Player type */
     private String type;
-    
+    private static HashMap<String, Integer>characterLevels = new HashMap<String, Integer>();
+
     public Player() {
+    }
+
+    protected static void setUpCharacterLevels() {
+        characterLevels.put("Sewer Rat", 5);
+        characterLevels.put("Recruit", 3);
+        characterLevels.put("Syndicate Member", 4);
+        characterLevels.put("Brotherhood Member", 4);
+    }
+
+    public HashMap<String, Integer> getCharacterLevels() {
+        return characterLevels;
+    }
+
+    public String getCurrentCharacterType() {
+        return this.type;
+    }
+    
+    public void setCurrentCharacterType(String newCharacterType) {
+        this.type = newCharacterType;
+    }
+
+    public void setCharacterLevel(String characterType, int level) {
+        this.characterLevels.put(characterType, level);
+    }
+
+    public int getCharacterLevel(String characterType) {
+        int characterLevel = this.characterLevels.get(characterType);
+        return characterLevel;
     }
 
     protected static String getProfileFileName(String name) {
@@ -107,6 +136,7 @@ public class Player extends Entity {
             Coordinate coordinate = new Coordinate(json.get("location").getAsString());
             player.setLocation(LocationManager.getLocation(coordinate));
             reader.close();
+            setUpCharacterLevels();
         } catch (FileNotFoundException ex) {
             QueueProvider.offer( "Unable to open file '" + fileName + "'.");
         } catch (IOException ex) {
@@ -156,6 +186,7 @@ public class Player extends Entity {
                 QueueProvider.offer("Not a valid class");
             }
             reader.close();
+            setUpCharacterLevels();
         } catch (FileNotFoundException ex) {
             QueueProvider.offer( "Unable to open file '" + fileName + "'.");
         } catch (IOException ex) {
