@@ -35,14 +35,14 @@ public abstract class Entity {
     private double critChance = 0.0;
     private int armour;
     private String weapon = "empty";
-    private Map<String, Item> equipment;
+    private Map<EquipmentLocation, Item> equipment;
     protected Storage storage;
 
     public Entity() {
-    	this(100, 100, "default", 0, null, new HashMap<String, Item>());
+    	this(100, 100, "default", 0, null, new HashMap<EquipmentLocation, Item>());
     }
     
-    public Entity(int healthMax, int health, String name, int gold, Storage storage, Map<String, Item> equipment) {
+    public Entity(int healthMax, int health, String name, int gold, Storage storage, Map<EquipmentLocation, Item> equipment) {
         this.healthMax = healthMax;
         this.health = health;
         this.name = name;
@@ -135,7 +135,7 @@ public abstract class Entity {
         this.level = level;
     }
 
-    public Map<String, Item> getEquipment() {
+    public Map<EquipmentLocation, Item> getEquipment() {
         return Collections.unmodifiableMap(equipment);
     }
 
@@ -183,7 +183,7 @@ public abstract class Entity {
         return weapon;
     }
 
-    public Map<String, String> equipItem(String place, Item item) {
+    public Map<String, String> equipItem(EquipmentLocation place, Item item) {
         double oldDamage = this.damage;
         Item empty = itemRepo.getItem("empty");
         if (place.equals("")) {
@@ -194,7 +194,7 @@ public abstract class Entity {
                 unequipItem(equipment.get(place));
             }
         }
-        this.equipment.put(place, item);
+        equipment.put(place, item);
         removeItemFromStorage(item);
         Map<String, String> result = new HashMap<String, String>();
         switch (item.getId().charAt(0)) {
@@ -236,22 +236,18 @@ public abstract class Entity {
     }
 
     public Map<String, String> unequipItem(Item item) {
-        double oldDamage = this.damage;
-        String place = "";
-        for (String key : this.equipment.keySet()) {
-            if (this.equipment.get(key).equals(item)) {
-                place = key;
+        double oldDamage = damage;
+        for (EquipmentLocation key : equipment.keySet()) {
+            if (equipment.get(key).equals(item)) {
+                equipment.put(key, null);
             }
-        }
-        if (!place.isEmpty()) {
-            this.equipment.put(place, itemRepo.getItem("empty"));
         }
         addItemToStorage(item);
         Map<String, String> result = new HashMap<String, String>();
         if (item.containsProperty("damage")) {
-            this.weapon = "hands";
-            this.damage -= item.getProperty("damage");
-            double diffDamage = this.damage - oldDamage;
+            weapon = "hands";
+            damage -= item.getProperty("damage");
+            double diffDamage = damage - oldDamage;
             result.put("damage", String.valueOf(diffDamage));
         }
         return result;
@@ -263,8 +259,8 @@ public abstract class Entity {
         if (equipment.keySet().size() == 0) {
             QueueProvider.offer("--Empty--");
         } else {
-            for (Map.Entry<String, Item> item : equipment.entrySet()) {
-                if (!item.getKey().equals("mouth")) {
+            for (Map.Entry<EquipmentLocation, Item> item : equipment.entrySet()) {
+                if (! item.getKey().equals("mouth")) {
                     QueueProvider.offer(item.getKey() + " - " + item.getValue().getName());
                 }
             }

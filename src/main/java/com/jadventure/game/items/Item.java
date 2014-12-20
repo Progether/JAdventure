@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.jadventure.game.QueueProvider;
+import com.jadventure.game.entities.EquipmentLocation;
 
 /**
  * Items lay around in the game world and can be taken with you.
@@ -14,14 +15,14 @@ public class Item {
     private final String type;
     private final String name;
     private final String description;
-    private final String position;
+    private final EquipmentLocation position;
     private final int level;
     private final Map<String, Integer> properties;
 
     public Item(String id, String type, String name, String description, int level, Map<String, Integer> properties) {
         this(id, type, name, description, null, level, properties);
     }
-    public Item(String id, String type, String name, String description, String position, int level, Map<String, Integer> properties) {
+    public Item(String id, String type, String name, String description, EquipmentLocation position, int level, Map<String, Integer> properties) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -55,7 +56,7 @@ public class Item {
         return Integer.valueOf(0);
     }
 
-    public String getPosition() {
+    public EquipmentLocation getPosition() {
     	return position;
     }
 

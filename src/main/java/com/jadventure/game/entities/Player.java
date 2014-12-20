@@ -89,7 +89,7 @@ public class Player extends Entity {
             player.setDexterity(json.get("dexterity").getAsInt());
             player.setLuck(json.get("luck").getAsInt());
             player.setStealth(json.get("stealth").getAsInt());
-            player.equipItem("rightHand", itemRepo.getItem((json.get("weapon").getAsString())));
+            player.equipItem(EquipmentLocation.RIGHT_HAND, itemRepo.getItem((json.get("weapon").getAsString())));
             if (json.has("items")) {
                 HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
                 ArrayList<ItemStack> itemList = new ArrayList<ItemStack>();
@@ -273,7 +273,7 @@ public class Player extends Entity {
         return itemMap;
     }
     
-    public List<Item> searchEquipment(String itemName, Map<String, Item> equipment) {
+    public List<Item> searchEquipment(String itemName, Map<EquipmentLocation, Item> equipment) {
         List<Item> items = new ArrayList<>();
         for (Item item : equipment.values()) {
             String testItemName = item.getName();
