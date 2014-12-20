@@ -156,7 +156,7 @@ public class Location implements ILocation {
     }
 
     public void print() {
-        QueueProvider.offer(getTitle() + ":");
+        QueueProvider.offer("\n" + getTitle() + ":");
         QueueProvider.offer("    " + getDescription());
         ArrayList<Item> publicItems = getItems();
         if (!publicItems.isEmpty()) {
@@ -177,6 +177,5 @@ public class Location implements ILocation {
 		QueueProvider.offer(direction.getKey().getDescription() + ": ");
     		QueueProvider.offer("    " + direction.getValue().getDescription());
         }
-        QueueProvider.offer("");
     }
 }
