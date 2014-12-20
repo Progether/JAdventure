@@ -318,9 +318,9 @@ public class Player extends Entity {
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             if (getLevel() >= item.getLevel()) {
-            Map<String, String> change = equipItem(item.getPosition(), item);
-            QueueProvider.offer(item.getName()+ " equipped");
-            printStatChange(change);
+                Map<String, String> change = equipItem(item.getPosition(), item);
+                QueueProvider.offer(item.getName()+ " equipped");
+                printStatChange(change);
             } else {
                 QueueProvider.offer("You do not have the required level to use this item");
             }
