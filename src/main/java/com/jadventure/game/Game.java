@@ -48,6 +48,8 @@ public class Game {
         QueueProvider.offer(player.getIntro());
         String userInput = QueueProvider.take();
         player.setName(userInput);
+        this.player.setLocation(LocationManager.getInstance(player.getName()).getInitialLocation(player.getName()));
+        player.save();
         QueueProvider.offer("Welcome to Silliya, " + player.getName() + ".");
         player.getLocation().print();
         gamePrompt(player);
