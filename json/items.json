@@ -226,7 +226,7 @@
     },
     "tlap1": {
       "type": "tool",
-      "name": "lock-and-pick",
+      "name": "lock and pick",
       "description": "tools to pick locks",
       "position": "rightHand",
       "level": 1,
