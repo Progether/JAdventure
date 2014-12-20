@@ -58,7 +58,7 @@ public class BattleMenu extends Menus {
                 QueueProvider.offer("You've are now level " + newLevel + "!");
             }
             CharacterChange cc = new CharacterChange();
-            cc.trigger(this.player, "kill", opponnent.getName());
+            cc.trigger(this.player, "kill", opponent.getName());
         }
     }
 

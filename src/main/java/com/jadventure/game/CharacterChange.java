@@ -29,32 +29,33 @@ public class CharacterChange {
             JsonObject currentCharacterTransitions;
             JsonObject events;
             JsonObject characterEffects = new JsonObject();
+            boolean goAhead = false;
             if (json.has(currentCharacter)) {
                 currentCharacterTransitions = json.get(currentCharacter).getAsJsonObject();
                 if (currentCharacterTransitions.has(triggerType)) {
                     events = currentCharacterTransitions.get(triggerType).getAsJsonObject();
                     if (events.has(keyword)) {
                         characterEffects = events.get(keyword).getAsJsonObject();
+                        goAhead = true;
                     } else {
-                        QueueProvider.offer("Error: The effects for this event was not found");
-                        System.exit(1);
+                        QueueProvider.offer("Warning: The effects for the '" + triggerType + "' event and the '" + currentCharacter + "' character was not found");
                     }
                 } else {
-                    QueueProvider.offer("Error: This event was not found");
-                    System.exit(1);
+                    QueueProvider.offer("Warning: The event '" + triggerType + "' for the '" + currentCharacter + "' character was not found");
                 }
             } else {
-                QueueProvider.offer("Error: This character was not found");
-                System.exit(1);
+                QueueProvider.offer("Warning: The character '" + currentCharacter + "' was not found");
             }
 
-            for (Map.Entry<String, JsonElement> entry : characterEffects.entrySet()) {
-                String characterName = entry.getKey();
-                int characterLevelEffect = entry.getValue().getAsInt();
-                int characterLevel = player.getCharacterLevel(characterName); 
-                int newCharacterLevel = characterLevel + characterLevelEffect;
-                player.setCharacterLevel(characterName, newCharacterLevel);
-                checkForCharacterChange(player);
+            if (goAhead == true) {
+                for (Map.Entry<String, JsonElement> entry : characterEffects.entrySet()) {
+                    String characterName = entry.getKey();
+                    int characterLevelEffect = entry.getValue().getAsInt();
+                    int characterLevel = player.getCharacterLevel(characterName); 
+                    int newCharacterLevel = characterLevel + characterLevelEffect;
+                    player.setCharacterLevel(characterName, newCharacterLevel);
+                    checkForCharacterChange(player);
+                }
             }
 
         } catch (FileNotFoundException ex) {
