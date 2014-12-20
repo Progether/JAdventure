@@ -45,7 +45,7 @@ public class LocationManager {
             copyLocationsFile();
         }
         try {
-            Reader reader = new FileReader("json/profiles/" + profileName + "/locations.json");
+            Reader reader = new FileReader(fileName);
             JsonObject json = parser.parse(reader).getAsJsonObject();
             for(Map.Entry<String, JsonElement> entry: json.entrySet()) {
                 Locations.locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));

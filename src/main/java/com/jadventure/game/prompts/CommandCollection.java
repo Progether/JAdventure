@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.jadventure.game.DeathException;
 import com.jadventure.game.QueueProvider;
+import com.jadventure.game.conversation.ConversationManager;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
@@ -279,5 +280,10 @@ public enum CommandCollection {
     @Command(command="backpack", aliases="", description="Opens the backpack debug menu.", debug=true)
     public void command_backpack(String arg) {
         new BackpackDebugPrompt(player);
+    }
+
+    @Command(command="printjson", aliases="pj", description="", debug=true)
+    public void command_prontJson() {
+        ConversationManager.getInstance();
     }
 }

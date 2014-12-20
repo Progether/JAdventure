@@ -9,7 +9,25 @@
         {
           "sewer rat": "ally"
         }
-      ]
+      ],
+      "conversations": {
+ 	1: {
+	  "condition":"none",
+	  "text":"Welcome to Syllia!",
+	  "response":[2, 3]
+	},
+	2: {
+	  "condition": "none",
+	  "player":"What is Syllia?",
+	  "text": "A place of wonder and awe... Well it used to be at least, until these damn monsters invaded. Now it's all about fighting the monsters. There's not fun any more...",
+	  "response":[5]
+	},
+	3: {
+	  "condition": "None",
+	  "player": "Goodbye",
+	  "text": "Goodbye my friend!"
+	}
+      }
     },
     "sewerrat": {
       "name": "Sewer_Rat",
@@ -146,7 +164,6 @@
           "rightHand": "hands"
         }
       ],
-      "intro": "You looking at me?! What do you want? If you aren't here for a good reason, get outta here. . . or get a beating.   ",
       "relationships": [
         {
           "recruit": "enemy",
@@ -155,7 +172,28 @@
         {
           "sewer rat": "ally"
         }
-      ]
+      ],
+      "conversations": {
+ 	1: {
+	  "condition": "ally",
+	  "text": "I have a task for you...",
+	  "response": [3, 10]
+	},
+	2: {
+	  "condition": "enemy",
+	  "text": "You looking at me?",
+	  "action": "attack"
+	},
+	3: {
+	  "player": "What is it?",
+	  "text": "insert quest here",
+	  "response": [4]
+	},
+	4: {
+	  "player": "I'm busy",
+	  "text": "See you around"
+	}
+      }
     },
     "recruit": {
       "name": "Recruit",
