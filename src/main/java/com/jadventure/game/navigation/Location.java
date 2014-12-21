@@ -33,6 +33,12 @@ public class Location implements ILocation {
     public Location() {
 
     }
+    public Location(Coordinate coordinate, String title, String description, LocationType locationType) {
+        this.coordinate = coordinate;
+        this.title = title;
+        this.description = description;
+        this.locationType = locationType;
+    }
 
     public Coordinate getCoordinate() {
         return coordinate;
@@ -129,8 +135,8 @@ public class Location implements ILocation {
         return monsters;
     }
 
-    public void removeItem(Item item) {
-        storage.remove(item);
+    public Item removeItem(Item item) {
+        return storage.remove(item);
     }
 
     public void addItem(Item item) {

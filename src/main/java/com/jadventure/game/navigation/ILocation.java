@@ -22,7 +22,7 @@ public interface ILocation {
 
     List<Item> getItems();
     Storage getStorage();
-    void removeItem(Item item);
+    Item removeItem(Item item);
     void addItem(Item item);
 
     List<NPC> getNPCs();
