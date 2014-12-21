@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import com.jadventure.game.DeathException;
 import com.jadventure.game.QueueProvider;
+import com.jadventure.game.conversation.ConversationManager;
 import com.jadventure.game.entities.Player;
+import com.jadventure.game.entities.NPC;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.navigation.Coordinate;
@@ -279,5 +281,22 @@ public enum CommandCollection {
     @Command(command="backpack", aliases="", description="Opens the backpack debug menu.", debug=true)
     public void command_backpack(String arg) {
         new BackpackDebugPrompt(player);
+    }
+    
+    @Command(command="talk", aliases="t", description="Talks to a character.", debug=false)
+    public void command_talk(String arg) {
+        ConversationManager cm = new ConversationManager();
+        List<NPC> npcs = player.getLocation().getNPCs();
+        NPC npc = null;
+        for (NPC i : npcs) {
+            if (i.getName().equalsIgnoreCase(arg)) {
+                npc = i;
+            }
+        }
+        if (npc != null) {
+            cm.startConversation(npc, player);
+        } else {
+            QueueProvider.offer("Unable to talk to " + arg);
+        }
     }
 }
