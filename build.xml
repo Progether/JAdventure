@@ -85,7 +85,7 @@
     </junit>
   </target>
 
-  <target name="run" depends="junit">
+  <target name="run-app">
     <condition property="arg0" value="stand_alone">
       <not>
         <isset property="arg0"/>
@@ -100,6 +100,10 @@
       </classpath>
     </java>
   </target>
+
+  <target name="run" depends="junit, run-app" />
+
+  <target name="run-no-tests" depends="copy-resources, jar, run-app" />
 
   <target name="clean">
     <delete dir="build" />
