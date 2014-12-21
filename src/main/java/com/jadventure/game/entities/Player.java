@@ -174,7 +174,6 @@ public class Player extends Entity {
     }
 
     public static void setUpVariables(Player player) {
-        //player.setLocation(LocationManager.getInitialLocation(player.getName()));
         float maxWeight = (float)Math.sqrt(player.getStrength()*300);
         player.setStorage(new Storage(maxWeight));
         player.addItemToStorage(itemRepo.getItem("fmil1"));

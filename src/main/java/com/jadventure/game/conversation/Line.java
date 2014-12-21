@@ -21,12 +21,24 @@ public class Line {
         this.action = action;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getText() {
         return text;
     }
 
     public String getPlayerPrompt() {
         return playerPrompt;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public ActionType getAction() {
+        return action;
     }
 
     public void display() {

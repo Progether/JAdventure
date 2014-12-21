@@ -283,7 +283,7 @@ public enum CommandCollection {
     }
 
     @Command(command="printjson", aliases="pj", description="", debug=true)
-    public void command_prontJson() {
+    public void command_printJson() {
         ConversationManager.getInstance();
     }
 }
