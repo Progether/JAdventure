@@ -285,7 +285,7 @@ public enum CommandCollection {
     
     @Command(command="talk", aliases="t", description="Talks to a character.", debug=false)
     public void command_talk(String arg) {
-        ConversationManager cm = ConversationManager.getInstance();
+        ConversationManager cm = new ConversationManager();
         List<NPC> npcs = player.getLocation().getNPCs();
         NPC npc = null;
         for (NPC i : npcs) {

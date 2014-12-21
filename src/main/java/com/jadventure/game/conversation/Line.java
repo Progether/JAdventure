@@ -1,7 +1,10 @@
 package com.jadventure.game.conversation;
 
 import com.jadventure.game.QueueProvider;
+import com.jadventure.game.menus.Menus;
+import com.jadventure.game.menus.MenuItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Line {
@@ -41,10 +44,22 @@ public class Line {
         return action;
     }
 
-    public void display() {
+    public Line display() {
         QueueProvider.offer("\n" + text + "\n");
-        for (Line response : responses) {
-            QueueProvider.offer(response.getPlayerPrompt());
+        if (responses.size() == 0) {
+            return null;
         }
+        List<MenuItem> responseList = new ArrayList<>();
+        for (Line response : responses) {
+            responseList.add(new MenuItem(response.getPlayerPrompt(), null));
+        }
+        Menus responseMenu = new Menus();
+        MenuItem response = responseMenu.displayMenu(responseList);
+        for (Line possibleResponse : responses) {
+            if (possibleResponse.getPlayerPrompt().equals(response.getCommand())) {
+                return possibleResponse;
+            }
+        }
+        return null;
     }
 }

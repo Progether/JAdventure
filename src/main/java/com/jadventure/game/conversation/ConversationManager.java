@@ -34,7 +34,7 @@ public class ConversationManager {
         ACTION_TYPE_MAP.put("take", ActionType.TAKE);
     }
 
-    private ConversationManager() {
+    public ConversationManager() {
        load(); 
     } 
 
@@ -105,8 +105,11 @@ public class ConversationManager {
             }
             it.remove();
         }
-        conversation.get(0).display();
-        QueueProvider.offer("What is your choice?");
-        String response = QueueProvider.take();
+        if (conversation != null) {
+            Line response = conversation.get(0).display();
+            while (response != null) {
+                response = response.display();
+            }
+        }
     }
 }
