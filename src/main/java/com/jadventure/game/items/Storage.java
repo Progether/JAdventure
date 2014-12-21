@@ -63,8 +63,14 @@ public class Storage {
      * Adds an ItemStack to the items list.
      */
     public void addItem(ItemStack itemStack) {
-        double totalWeight = itemStack.getItem().getWeight() * itemStack.getAmount();
-        if (totalWeight < this.maxWeight) {
+        boolean canBeAdded = true;
+        if (hasMaxWeight()) {
+            double totalWeight = itemStack.getItem().getWeight() * itemStack.getAmount();
+            if (totalWeight > maxWeight) {
+                canBeAdded = false;
+            }
+        }
+        if (canBeAdded) {
             if (contains(itemStack)) {
                 ItemStack sameType = this.getSameType(itemStack);
                 this.itemStacks.remove(sameType);
@@ -75,31 +81,37 @@ public class Storage {
         }
     }
 
+    private boolean hasMaxWeight() {
+        return (maxWeight == -1) ? false : true;
+    }
+
     /**
      * Removes one Item from the ItemStack and replaces the old ItemStack
      * in this.items with the new one.
      */
-    public void removeItem(ItemStack item) {
-        removeItem(item, 1);
+    public Item removeItem(ItemStack item) {
+        return removeItem(item, 1);
     }
-    public void remove(Item item) {
-        removeItem(new ItemStack(0, item), 1);
+    public Item remove(Item item) {
+        return removeItem(new ItemStack(0, item), 1);
     }
 
     /**
-     * Removes amount of Item's from the ItemStack and replaces the old ItemStack
+     * Removes amount of Items from the ItemStack and replaces the old ItemStack
      * in this.items with the new one.
      */
-    public void removeItem(ItemStack item, int amount) {
-        if (this.contains(item)) {
-            ItemStack sameType = this.getSameType(item);
-            if (sameType.getAmount()-amount <= 0) {
-                this.itemStacks.remove(sameType);
+    public Item removeItem(ItemStack itemStack, int amount) {
+        if (contains(itemStack)) {
+            ItemStack sameType = getSameType(itemStack);
+            if (sameType.getAmount() - amount <= 0) {
+                itemStacks.remove(sameType);
             } else {
-                this.itemStacks.remove(sameType);
-                this.itemStacks.add(new ItemStack(sameType.getAmount()-amount, sameType.getItem()));
+                itemStacks.remove(sameType);
+                itemStacks.add(new ItemStack(sameType.getAmount() - amount, sameType.getItem()));
             }
+            return itemStack.getItem();
         }
+        return null;
     }
 
     /**
@@ -147,6 +159,13 @@ public class Storage {
     }
     public List<ItemStack> getItemStack() {
         return itemStacks;
+    }
+    public Integer calculateWeight() {
+        int weight = 0;
+        for (ItemStack itemStask : itemStacks) {
+            weight += itemStask.getAmount() * itemStask.getItem().getProperty("weight");
+        }
+        return Integer.valueOf(weight);
     }
 
 }
