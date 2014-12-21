@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -94,6 +95,18 @@ public class ConversationManager {
     }
 
     public void startConversation(NPC npc, Player player) {
-    
+        List<Line> conversation = null;
+        //Workaround as <code>lines.get(npc)</code> is not working.
+        Iterator it = lines.entrySet().iterator();;
+        while (it.hasNext()) {
+            Map.Entry<NPC, List<Line>> entry = (Map.Entry) it.next();
+            if (entry.getKey().equals(npc)) {
+                conversation = entry.getValue();
+            }
+            it.remove();
+        }
+        conversation.get(0).display();
+        QueueProvider.offer("What is your choice?");
+        String response = QueueProvider.take();
     }
 }

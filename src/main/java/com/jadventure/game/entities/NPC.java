@@ -17,8 +17,10 @@ import com.jadventure.game.QueueProvider;
  * with variables not unique to the NPC, place it in the entity class.
  */
 public class NPC extends Entity {
+    String id;
     
     public NPC(String entityID) {
+        this.id = entityID;
         JsonParser parser = new JsonParser();
         String fileName = "json/npcs.json";
 
@@ -37,4 +39,19 @@ public class NPC extends Entity {
         }
     }
 
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof NPC) {
+            NPC npc = (NPC) obj;
+            return npc.getId().equals(id);
+        }
+        return false;
+    }
 }

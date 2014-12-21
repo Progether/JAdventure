@@ -13,6 +13,7 @@ import com.jadventure.game.DeathException;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.conversation.ConversationManager;
 import com.jadventure.game.entities.Player;
+import com.jadventure.game.entities.NPC;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.navigation.Coordinate;
@@ -281,9 +282,21 @@ public enum CommandCollection {
     public void command_backpack(String arg) {
         new BackpackDebugPrompt(player);
     }
-
-    @Command(command="printjson", aliases="pj", description="", debug=true)
-    public void command_printJson() {
-        ConversationManager.getInstance();
+    
+    @Command(command="talk", aliases="t", description="Talks to a character.", debug=false)
+    public void command_talk(String arg) {
+        ConversationManager cm = ConversationManager.getInstance();
+        List<NPC> npcs = player.getLocation().getNPCs();
+        NPC npc = null;
+        for (NPC i : npcs) {
+            if (i.getName().equalsIgnoreCase(arg)) {
+                npc = i;
+            }
+        }
+        if (npc != null) {
+            cm.startConversation(npc, player);
+        } else {
+            QueueProvider.offer("Unable to talk to " + arg);
+        }
     }
 }

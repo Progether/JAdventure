@@ -42,11 +42,9 @@ public class Line {
     }
 
     public void display() {
-        QueueProvider.offer(text);
-        QueueProvider.offer("\n");
+        QueueProvider.offer("\n" + text + "\n");
         for (Line response : responses) {
             QueueProvider.offer(response.getPlayerPrompt());
         }
-        QueueProvider.offer("What is your choice?");
     }
 }
