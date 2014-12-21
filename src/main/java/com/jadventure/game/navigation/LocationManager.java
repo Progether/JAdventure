@@ -1,8 +1,9 @@
 package com.jadventure.game.navigation;
 
 import com.jadventure.game.items.Item;
+import com.jadventure.game.repository.ItemRepository;
+import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
@@ -23,13 +24,13 @@ import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * This class loads the locations from the locations.json file on start.
  * It also provides methods for getting the initial location and the current location.
  */
 public class LocationManager {
+    private static ItemRepository itemRepo = GameBeans.getItemRepository();
     private static LocationManager instance = null;
     private String fileName;
 
@@ -75,18 +76,16 @@ public class LocationManager {
         location.setLocationType(LocationType.valueOf(json.get("locationType").getAsString()));
         location.setDangerRating(json.get("danger").getAsInt());
         if (json.has("items")) {
-            ArrayList<String> items = new Gson().fromJson(json.get("items"), new TypeToken<List<String>>(){}.getType());
-            location.setItems(items);
-        } else {
-            ArrayList<String> items = new ArrayList<String>();
-            location.setItems(items);
+            List<String> items = new Gson().fromJson(json.get("items"), new TypeToken<List<String>>(){}.getType());
+            for (String id : items) {
+                location.addPublicItem(itemRepo.getItem(id));
+            }
         }
         if (json.has("npcs")) {
-            ArrayList<String> npcs = new Gson().fromJson(json.get("npcs"), new TypeToken<List<String>>(){}.getType());
-            location.setNPCs(npcs);
-        } else {
-            ArrayList<String> npcs = new ArrayList<String>();
-            location.setNPCs(npcs);
+            List<String> npcs = new Gson().fromJson(json.get("npcs"), new TypeToken<List<String>>(){}.getType());
+            for (String npc : npcs) {
+                location.addNpc(npc);
+            }
         }
         return location;
     }
