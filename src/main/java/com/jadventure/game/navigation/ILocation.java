@@ -22,8 +22,8 @@ public interface ILocation {
 
     List<Item> getItems();
     Storage getStorage();
-    void removePublicItem(Item item);
-    void addPublicItem(Item item);
+    void removeItem(Item item);
+    void addItem(Item item);
 
     List<NPC> getNPCs();
 

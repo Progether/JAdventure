@@ -283,7 +283,7 @@ public class Player extends Entity {
         if (! items.isEmpty()) {
             Item item = items.get(0);
             addItemToStorage(item);
-            location.removePublicItem(item);
+            location.removeItem(item);
             QueueProvider.offer(item.getName()+ " picked up");
         }
     }
@@ -300,7 +300,7 @@ public class Player extends Entity {
                 dequipItem(wName);
             }
             removeItemFromStorage(itemToDrop);
-            location.addPublicItem(itemToDrop);
+            location.addItem(itemToDrop);
             QueueProvider.offer(item.getName() + " dropped");
         }
     }

@@ -78,7 +78,7 @@ public class LocationManager {
         if (json.has("items")) {
             List<String> items = new Gson().fromJson(json.get("items"), new TypeToken<List<String>>(){}.getType());
             for (String id : items) {
-                location.addPublicItem(itemRepo.getItem(id));
+                location.addItem(itemRepo.getItem(id));
             }
         }
         if (json.has("npcs")) {

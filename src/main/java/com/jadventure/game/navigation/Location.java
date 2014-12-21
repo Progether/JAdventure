@@ -129,11 +129,11 @@ public class Location implements ILocation {
         return monsters;
     }
 
-    public void removePublicItem(Item item) {
+    public void removeItem(Item item) {
         storage.remove(item);
     }
 
-    public void addPublicItem(Item item) {
+    public void addItem(Item item) {
         storage.add(item);
     }
 
