@@ -281,7 +281,7 @@ public abstract class Entity {
     } 
     
     public void addItemToStorage(Item item) {
-        if (!item.equals(itemRepo.getItem("empty"))) {
+        if (!item.equals(itemRepo.getItem("empty")) && !item.equals(itemRepo.getItem("hands"))) {
             storage.addItem(new ItemStack(1, item));
         }
     }

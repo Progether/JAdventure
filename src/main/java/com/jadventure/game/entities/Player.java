@@ -99,13 +99,11 @@ public class Player extends Entity {
 
     public static Player load(String name) {
         player = new Player();
-
         JsonParser parser = new JsonParser();
         String fileName = getProfileFileName(name);
         try {
             Reader reader = new FileReader(fileName);
             JsonObject json = parser.parse(reader).getAsJsonObject();
-
             player.setName(json.get("name").getAsString());
             player.setHealthMax(json.get("healthMax").getAsInt());
             player.setHealth(json.get("health").getAsInt());

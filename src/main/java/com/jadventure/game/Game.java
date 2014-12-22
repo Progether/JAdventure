@@ -27,7 +27,7 @@ public class Game {
                   newGameStart(player);
                   break;
               case "old":
-                  this.player.setLocation(LocationManager.getInstance(player.getName()).getInitialLocation(player.getName()));
+//                  this.player.setLocation(LocationManager.getInstance(player.getName()).getInitialLocation(player.getName()));
                   QueueProvider.offer("Welcome back, " + player.getName() + "!");
                   QueueProvider.offer("");
                   player.getLocation().print();
