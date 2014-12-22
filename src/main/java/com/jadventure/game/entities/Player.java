@@ -271,9 +271,6 @@ public class Player extends Entity {
             gson.toJson(jsonObject, writer);
             writer.close();
             LocationManager.writeLocations(getName());
-//            Path orig = Paths.get("json/locations.json");
-//            Path dest = Paths.get("json/profiles/"+getName()+"/locations.json");
-//            Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
             QueueProvider.offer("\nYour game data was saved.");
         } catch (IOException ex) {
             QueueProvider.offer("\nUnable to save to file '" + fileName + "'.");
