@@ -452,6 +452,7 @@ public class Player extends Entity {
             }
         }
         if (monsterOpponent != null) {
+            monsterOpponent.setName(monsterOpponent.monsterType);
             new BattleMenu(monsterOpponent, this);
         } else if (npcOpponent != null) {
             new BattleMenu(npcOpponent, this);

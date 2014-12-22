@@ -68,8 +68,8 @@ public class BattleMenu extends Menus {
         this.random = new Random();
         this.monsterOpponent = monsterOpponent;
         this.player = player;
-        this.menuItems.add(new MenuItem("Attack", "Attack " + monsterOpponent.monsterType + "."));
-        this.menuItems.add(new MenuItem("Defend", "Defend against " + monsterOpponent.monsterType + "'s attack."));
+        this.menuItems.add(new MenuItem("Attack", "Attack " + monsterOpponent.getName() + "."));
+        this.menuItems.add(new MenuItem("Defend", "Defend against " + monsterOpponent.getName() + "'s attack."));
         this.menuItems.add(new MenuItem("Equip", "Equip an item"));
         this.menuItems.add(new MenuItem("Unequip", "Unequip an item"));
         this.menuItems.add(new MenuItem("View", "View details about your character"));
@@ -100,7 +100,7 @@ public class BattleMenu extends Menus {
             this.player.setLevel(newLevel);
             this.player.getLocation().removeMonster(monsterOpponent);
             this.player.setGold(this.player.getGold() + monsterOpponent.getGold());
-            QueueProvider.offer("You killed a " + monsterOpponent.monsterType + "\nYou have gained " + xp + " XP and " + monsterOpponent.getGold() + " gold");
+            QueueProvider.offer("You killed a " + monsterOpponent.getName() + "\nYou have gained " + xp + " XP and " + monsterOpponent.getGold() + " gold");
             if (oldLevel < newLevel) {
                 QueueProvider.offer("You've are now level " + newLevel + "!");
             }
@@ -126,7 +126,7 @@ public class BattleMenu extends Menus {
             case "defend": {
                 mutateStats(0.5, 1);
                 if (npcOpponent == null) {
-                    QueueProvider.offer("\nYou get ready to defend against the " + monsterOpponent.monsterType + ".");
+                    QueueProvider.offer("\nYou get ready to defend against the " + monsterOpponent.getName() + ".");
                     attack(player, monsterOpponent);
                     attack(monsterOpponent, player);
                 } else {
@@ -172,7 +172,7 @@ public class BattleMenu extends Menus {
         }
         QueueProvider.offer(healthReduction + " damage dealt!");
         if (attacker instanceof Player) {
-            QueueProvider.offer(defender.getName() + "' health is " + defender.getHealth());
+            QueueProvider.offer("The " + defender.getName() + "'s health is " + defender.getHealth());
         } else {
             QueueProvider.offer("Your health is " + defender.getHealth());
         }
