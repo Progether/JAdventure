@@ -1,5 +1,6 @@
 package com.jadventure.game.navigation;
 
+import com.jadventure.game.entities.NPC;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.QueueProvider;
 
@@ -105,11 +106,20 @@ public class LocationManager {
                 JsonArray itemList = new JsonArray();
                 List<Item> items = location.getItems();
                 if (items.size() > 0) {
-                    for (Item item : location.getItems()) {
+                    for (Item item : items) {
                         JsonPrimitive itemJson = new JsonPrimitive(item.getId());
                         itemList.add(itemJson);
                     }
                     locationJsonElement.add("items", itemList);
+                }
+                JsonArray npcList = new JsonArray();
+                List<NPC> npcs = location.getNPCs();
+                if (npcs.size() > 0) {
+                    for (NPC npc : npcs) {
+                        JsonPrimitive npcJson = new JsonPrimitive(npc.getId());
+                        npcList.add(npcJson);
+                    }
+                    locationJsonElement.add("npcs", npcList);
                 }
                 jsonObject.add(location.getCoordinate().toString(), locationJsonElement);
             }
@@ -119,7 +129,7 @@ public class LocationManager {
             writer.close();
             QueueProvider.offer("The game locations were saved.");
         } catch (IOException ex) {
-            QueueProvider.offer("Unable to save to file json/locations.json");
+            QueueProvider.offer("Unable to save to file json/profiles/" + profileName + "/locations.json");
         }
     }
 

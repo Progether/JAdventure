@@ -27,15 +27,12 @@ public class Game {
                   newGameStart(player);
                   break;
               case "old":
-//                  this.player.setLocation(LocationManager.getInstance(player.getName()).getInitialLocation(player.getName()));
                   QueueProvider.offer("Welcome back, " + player.getName() + "!");
                   QueueProvider.offer("");
                   player.getLocation().print();
                   gamePrompt(player);
                   break;
               default:
-                  this.player.setLocation(LocationManager.getInstance(player.getName()).getInitialLocation(player.getName()));
-                  QueueProvider.offer("Welcome back, " + player.getName() + "!");
                   QueueProvider.offer("Invalid player type");
                   break;
           }
