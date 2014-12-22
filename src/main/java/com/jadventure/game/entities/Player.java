@@ -55,8 +55,37 @@ public class Player extends Entity {
     private int xp;
     /** Player type */
     private String type;
-    
+    private static HashMap<String, Integer>characterLevels = new HashMap<String, Integer>();
+
     public Player() {
+    }
+
+    protected static void setUpCharacterLevels() {
+        characterLevels.put("Sewer Rat", 5);
+        characterLevels.put("Recruit", 3);
+        characterLevels.put("Syndicate Member", 4);
+        characterLevels.put("Brotherhood Member", 4);
+    }
+
+    public HashMap<String, Integer> getCharacterLevels() {
+        return characterLevels;
+    }
+
+    public String getCurrentCharacterType() {
+        return this.type;
+    }
+    
+    public void setCurrentCharacterType(String newCharacterType) {
+        this.type = newCharacterType;
+    }
+
+    public void setCharacterLevel(String characterType, int level) {
+        this.characterLevels.put(characterType, level);
+    }
+
+    public int getCharacterLevel(String characterType) {
+        int characterLevel = this.characterLevels.get(characterType);
+        return characterLevel;
     }
 
     protected static String getProfileFileName(String name) {
@@ -106,6 +135,7 @@ public class Player extends Entity {
             Coordinate coordinate = new Coordinate(json.get("location").getAsString());
             player.setLocation(LocationManager.getLocation(coordinate));
             reader.close();
+            setUpCharacterLevels();
         } catch (FileNotFoundException ex) {
             QueueProvider.offer( "Unable to open file '" + fileName + "'.");
         } catch (IOException ex) {
@@ -155,6 +185,7 @@ public class Player extends Entity {
                 QueueProvider.offer("Not a valid class");
             }
             reader.close();
+            setUpCharacterLevels();
         } catch (FileNotFoundException ex) {
             QueueProvider.offer( "Unable to open file '" + fileName + "'.");
         } catch (IOException ex) {
@@ -406,15 +437,25 @@ public class Player extends Entity {
     }
 
     public void attack(String opponentName) throws DeathException {
-        Monster opponent = null;
+        Monster monsterOpponent = null;
+        NPC npcOpponent = null;
         List<Monster> monsters = getLocation().getMonsters();
+        List<NPC> npcs = getLocation().getNPCs();
         for (int i = 0; i < monsters.size(); i++) {
-                 if (monsters.get(i).monsterType.equalsIgnoreCase(opponentName)) {
-                 opponent = monsters.get(i);
+             if (monsters.get(i).monsterType.equalsIgnoreCase(opponentName)) {
+                 monsterOpponent = monsters.get(i);
              }
         }
-        if (opponent != null) {
-             new BattleMenu(opponent, this);
+        for (int i=0; i < npcs.size(); i++) {
+            if (npcs.get(i).getName().equalsIgnoreCase(opponentName)) {
+                npcOpponent = npcs.get(i);
+            }
+        }
+        if (monsterOpponent != null) {
+            monsterOpponent.setName(monsterOpponent.monsterType);
+            new BattleMenu(monsterOpponent, this);
+        } else if (npcOpponent != null) {
+            new BattleMenu(npcOpponent, this);
         } else {
              QueueProvider.offer("Opponent not found");
         }
