@@ -36,7 +36,7 @@ public class ItemRepository {
 		if (id == null || id.trim().length() == 0) {
 			return null;
 		}
-	    if (! itemMap.containsKey(id)) {
+	    if (!itemMap.containsKey(id)) {
 	        throw new RepositoryException("Argument 'id' with value '" + id + "' not found in repository.");
 	    }
 	    return itemMap.get(id);
@@ -48,7 +48,6 @@ public class ItemRepository {
 			JsonReader reader = new JsonReader(new FileReader(repo));
 			load(reader);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }

@@ -11,15 +11,18 @@ public class Line {
     private int id;
     private String playerPrompt;
     private String text;
-    private String condition;
+    private ConditionType condition;
+    private String conditionParameter;
     private List<Line> responses;
     private ActionType action;
 
-    public Line(int id, String playerPrompt, String text, String condition, List<Line> responses, ActionType action) {
+    public Line(int id, String playerPrompt, String text, ConditionType condition, 
+            String conditionParameter, List<Line> responses, ActionType action) {
         this.id = id;
         this.playerPrompt = playerPrompt;
         this.text = text;
         this.condition = condition;
+        this.conditionParameter = conditionParameter;
         this.responses = responses;
         this.action = action;
     }
@@ -36,8 +39,12 @@ public class Line {
         return playerPrompt;
     }
 
-    public String getCondition() {
+    public ConditionType getCondition() {
         return condition;
+    }
+
+    public String getConditionParameter() {
+        return conditionParameter;
     }
 
     public ActionType getAction() {
@@ -45,7 +52,7 @@ public class Line {
     }
 
     public Line display() {
-        QueueProvider.offer("\n" + text + "\n");
+        QueueProvider.offer("\n" + text);
         if (responses.size() == 0) {
             return null;
         }

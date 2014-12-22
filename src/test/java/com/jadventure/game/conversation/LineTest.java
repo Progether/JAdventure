@@ -8,11 +8,11 @@ import org.junit.Test;
 public class LineTest {
     @Test
     public void createTest() {
-        Line line = new Line(1, "Who are you?", "I am your guide.", "none", null, ActionType.NO_ACTION);
+        Line line = new Line(1, "Who are you?", "I am your guide.", ConditionType.NONE, "", null, ActionType.NO_ACTION);
         assertEquals(1, line.getId());
         assertEquals("Who are you?", line.getPlayerPrompt());
         assertEquals("I am your guide.", line.getText());
-        assertEquals("none", line.getCondition());
+        assertEquals(ConditionType.NONE, line.getCondition());
         assertEquals(ActionType.NO_ACTION, line.getAction());
     }
 }
