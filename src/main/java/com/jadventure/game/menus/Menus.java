@@ -12,7 +12,7 @@ import java.util.Map;
  * Add MenuItems to menuItems, call displayMenu and you're happy
  */
 public class Menus {
-    protected List<MenuItem> menuItems = new ArrayList<MenuItem>();
+    protected List<MenuItem> menuItems = new ArrayList<>();
     protected Map<String, MenuItem> commandMap = new HashMap<String, MenuItem>();
 
     public MenuItem displayMenu(List<MenuItem> m) {
@@ -23,7 +23,6 @@ public class Menus {
             for (String command: menuItem.getAltCommands()) {
                 commandMap.put(command.toLowerCase(), menuItem);
             }
-
             i ++;
         }
         MenuItem selectedItem = selectMenu(m);

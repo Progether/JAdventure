@@ -10,7 +10,6 @@ package com.jadventure.game;
 public enum GameModeType {
     /** Stand alone architecture */
     STAND_ALONE,
-    
     /** The Client part of the Client / Server architecture */
     CLIENT,
     /** The Server part of the Client / Server architecture */

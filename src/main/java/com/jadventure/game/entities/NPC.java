@@ -1,23 +1,13 @@
 package com.jadventure.game.entities;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Reader;
-import java.io.Writer;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.reflect.TypeToken;
-
 import com.jadventure.game.QueueProvider;
 
 /**
@@ -28,8 +18,10 @@ import com.jadventure.game.QueueProvider;
  */
 public class NPC extends Entity {
     private int xpGain;
+    String id;
     
     public NPC(String entityID) {
+        this.id = entityID;
         JsonParser parser = new JsonParser();
         String fileName = "json/npcs.json";
 
@@ -63,5 +55,21 @@ public class NPC extends Entity {
 
     public void setXPGain(int xpGain) {
         this.xpGain = xpGain;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof NPC) {
+            NPC npc = (NPC) obj;
+            return npc.getId().equals(id);
+        }
+        return false;
     }
 }

@@ -14,10 +14,23 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.jadventure.game.entities.EquipmentLocation;
 import com.jadventure.game.items.Item;
 
 public class ItemRepository {
-	private Map<String, Item> itemMap = new HashMap<>();
+	private static final Map<String, EquipmentLocation> EQUIPMENT_POSITION_MAP = new HashMap<>();
+    private Map<String, Item> itemMap = new HashMap<>();
+
+    static {
+        EQUIPMENT_POSITION_MAP.put("head", EquipmentLocation.HEAD);
+        EQUIPMENT_POSITION_MAP.put("chest", EquipmentLocation.CHEST);
+        EQUIPMENT_POSITION_MAP.put("leftArm", EquipmentLocation.LEFT_ARM);
+        EQUIPMENT_POSITION_MAP.put("leftHand", EquipmentLocation.LEFT_HAND);
+        EQUIPMENT_POSITION_MAP.put("rightArm", EquipmentLocation.RIGHT_ARM);
+        EQUIPMENT_POSITION_MAP.put("rightHand", EquipmentLocation.RIGHT_HAND);
+        EQUIPMENT_POSITION_MAP.put("legs", EquipmentLocation.LEGS);
+        EQUIPMENT_POSITION_MAP.put("boots", EquipmentLocation.FEET);
+    }
 
 	public Item getItem(String id) {
 		if (id == null || id.trim().length() == 0) {
@@ -59,7 +72,7 @@ public class ItemRepository {
             String type = itemData.get("type").getAsString();
             String name = itemData.get("name").getAsString();
             String description = itemData.get("description").getAsString();
-            String position = itemData.get("position").getAsString();
+            EquipmentLocation position = EQUIPMENT_POSITION_MAP.get(itemData.get("position").getAsString());
             int level = itemData.get("level").getAsInt();
             JsonObject sProps = itemData.get("properties").getAsJsonObject();
             Map<String, Integer> properties = new HashMap<>();
