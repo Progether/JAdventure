@@ -179,7 +179,7 @@ public class Player extends Entity {
             player.setIntro(json.get("intro").getAsString());
             if (player.getName().equals("Recruit")) {
                 player.type = "Recruit";
-            } else if (player.getName().equals("Sewer_Rat")) {
+            } else if (player.getName().equals("Sewer Rat")) {
                 player.type = "Sewer Rat";
             } else {
                 QueueProvider.offer("Not a valid class");
@@ -306,8 +306,7 @@ public class Player extends Entity {
     public List<Item> searchEquipment(String itemName, Map<EquipmentLocation, Item> equipment) {
         List<Item> items = new ArrayList<>();
         for (Item item : equipment.values()) {
-            String testItemName = item.getName();
-            if (testItemName.equals(itemName)) {
+            if (item != null && item.getName().equals(itemName)) {
                 items.add(item);
             }
         }
@@ -327,6 +326,9 @@ public class Player extends Entity {
 
     public void dropItem(String itemName) {
         List<Item> itemMap = searchItem(itemName, getStorage());
+        if (itemMap.isEmpty()) {
+            itemMap = searchEquipment(itemName, getEquipment());
+        }
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             Item itemToDrop = itemRepo.getItem(item.getId());
@@ -459,5 +461,11 @@ public class Player extends Entity {
         } else {
              QueueProvider.offer("Opponent not found");
         }
+    }
+
+    public boolean hasItem(Item item) {
+        List<Item> searchEquipment = searchEquipment(item.getName(), getEquipment());
+        List<Item> searchStorage = searchItem(item.getName(), getStorage());
+        return !(searchEquipment.size() == 0 && searchStorage.size() == 0);
     }
 }
