@@ -30,7 +30,7 @@ public class BattleMenu extends Menus {
         this.menuItems.add(new MenuItem("View", "View details about your character"));
         this.armour = player.getArmour();
         this.damage = player.getDamage();
-        while (opponent.getHealth() > 0 && player.getHealth() > 0) {
+        while (npcOpponent.getHealth() > 0 && player.getHealth() > 0) {
             QueueProvider.offer("\nWhat is your choice?");
             MenuItem selectedItem = displayMenu(this.menuItems);
             testSelected(selectedItem);
@@ -124,12 +124,13 @@ public class BattleMenu extends Menus {
                 break;
             }
             case "defend": {
-                QueueProvider.offer("\nYou get ready to defend against the " + opponent.monsterType + ".");
                 mutateStats(0.5, 1);
                 if (npcOpponent == null) {
+                    QueueProvider.offer("\nYou get ready to defend against the " + monsterOpponent.monsterType + ".");
                     attack(player, monsterOpponent);
                     attack(monsterOpponent, player);
                 } else {
+                    QueueProvider.offer("\nYou get ready to defend against the " + npcOpponent.getName() + ".");
                     attack(player, npcOpponent);
                     attack(npcOpponent, player);
                 }

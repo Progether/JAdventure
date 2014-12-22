@@ -130,7 +130,34 @@
           "rightHand": "hands"
         }
       ],
-      "intro": "Hello. Can I help you with something? A service perhaps? Anything and everything you need I have. For a price of course. . . ",
+      "conversations": [
+ 	{
+	  "condition":"none",
+	  "player":"",
+	  "text":"Hello. Can I help you with something? A service perhaps? Anything and everything you need I have. For a price of course. . . ",
+	  "response":[1, 2],
+	  "action": "no action"
+	},
+	{
+	  "condition": "none",
+	  "player":"How about a potion?",
+          "text": "Of course, I have many at my disposal. Unfortunately, you'd need to be a syndicate member to be able to buy any.",
+	  "response":[2, 3],
+	  "action": "no action"
+	},
+	{
+	  "condition": "None",
+	  "player": "Never mind then",
+	  "text": "*bows*\n Until next time",
+	  "action": "no action"
+	},
+        {
+          "condition": "None",
+          "player": "How do I become a syndicate member?",
+          "text": "Very simple actually. Just kill one of the brotherhood members for me.",
+          "action": "no action"
+        }
+      ],
       "relationships": [
         {
           "recruit": "enemy",
@@ -192,7 +219,7 @@
  	{
 	  "condition": "ally",
 	  "player": "",
-	  "text": "I have a task for you...",
+	  "text": "Hey, I have a task for you...",
 	  "response": [2, 3],
 	  "action": "no action"
 	},
@@ -205,16 +232,22 @@
 	{
 	  "condition": "none",
 	  "player": "What is it?",
-	  "text": "insert quest here",
-	  "response": [3],
+	  "text": "There's a syndicate member hanging out up north near their headquarters. We've been needing some fresh blood around here. Kill him for me and there'll be some valuable perks in it for you",
+	  "response": [3, 4],
 	  "action": "no action"
 	},
 	{
 	  "condition": "none",
 	  "player": "I'm busy",
-	  "text": "See you around",
+	  "text": "Whatever, the offer always stands though",
 	  "action": "no action"
-	}
+	},
+        {
+          "condition": "none",
+          "player": "Sure, why not?",
+          "text": "Thanks! Report back to me when you're one of us and I'll show you around",
+          "action": "no action"
+        }
       ]
     },
     "recruit": {
