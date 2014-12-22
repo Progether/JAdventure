@@ -161,7 +161,6 @@ public class ConversationManager {
                 matches = true;
                 break;
         }
-        System.out.println(switchCase + " - " + matches);
         return matches;
     }
 }
