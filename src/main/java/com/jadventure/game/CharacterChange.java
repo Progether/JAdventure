@@ -38,13 +38,13 @@ public class CharacterChange {
                         characterEffects = events.get(keyword).getAsJsonObject();
                         goAhead = true;
                     } else {
-                        QueueProvider.offer("Warning: The effects for the '" + triggerType + "' event and the '" + currentCharacter + "' character was not found");
+                        //QueueProvider.offer("Warning: The effects for the '" + triggerType + "' event and the '" + currentCharacter + "' character was not found");
                     }
                 } else {
-                    QueueProvider.offer("Warning: The event '" + triggerType + "' for the '" + currentCharacter + "' character was not found");
+                    //QueueProvider.offer("Warning: The event '" + triggerType + "' for the '" + currentCharacter + "' character was not found");
                 }
             } else {
-                QueueProvider.offer("Warning: The character '" + currentCharacter + "' was not found");
+                //QueueProvider.offer("Warning: The character '" + currentCharacter + "' was not found");
             }
 
             if (goAhead == true) {
