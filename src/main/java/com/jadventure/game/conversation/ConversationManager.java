@@ -1,7 +1,10 @@
 package com.jadventure.game.conversation;
 
+import com.jadventure.game.GameBeans;
 import com.jadventure.game.entities.NPC;
 import com.jadventure.game.entities.Player;
+import com.jadventure.game.items.Item;
+import com.jadventure.game.repository.ItemRepository;
 import com.jadventure.game.QueueProvider;
 
 import com.google.gson.JsonArray;
@@ -24,6 +27,7 @@ public class ConversationManager {
     private static ConversationManager instance = null;
     private Map<NPC, List<Line>> lines = new HashMap<NPC, List<Line>>();
     private static final Map<String, ActionType> ACTION_TYPE_MAP = new HashMap<>();
+    private static final Map<String, ConditionType> CONDITION_TYPE_MAP = new HashMap<>();
 
     static {
         ACTION_TYPE_MAP.put("no action", ActionType.NO_ACTION);
@@ -32,6 +36,11 @@ public class ConversationManager {
         ACTION_TYPE_MAP.put("sell", ActionType.SELL);
         ACTION_TYPE_MAP.put("give", ActionType.GIVE);
         ACTION_TYPE_MAP.put("take", ActionType.TAKE);
+        CONDITION_TYPE_MAP.put("none", ConditionType.NONE);
+        CONDITION_TYPE_MAP.put("ally", ConditionType.ALLY);
+        CONDITION_TYPE_MAP.put("enemy", ConditionType.ENEMY);
+        CONDITION_TYPE_MAP.put("level", ConditionType.LEVEL);
+        CONDITION_TYPE_MAP.put("item", ConditionType.ITEM);
     }
 
     public ConversationManager() {
@@ -89,9 +98,11 @@ public class ConversationManager {
         }
         String playerPrompt = line.get("player").getAsString();
         String text = line.get("text").getAsString();
-        String condition = line.get("condition").getAsString();
+        String[] con = line.get("condition").getAsString().split("=");
+        ConditionType condition = CONDITION_TYPE_MAP.get(con[0]);
+        String conditionParameter = (con.length == 1) ? "" : con[1];
         ActionType action = ACTION_TYPE_MAP.get(line.get("action").getAsString());
-        return new Line(index, playerPrompt, text, condition, responses, action);
+        return new Line(index, playerPrompt, text, condition, conditionParameter, responses, action);
     }
 
     public void startConversation(NPC npc, Player player) {
@@ -106,10 +117,51 @@ public class ConversationManager {
             it.remove();
         }
         if (conversation != null) {
-            Line response = conversation.get(0).display();
-            while (response != null) {
-                response = response.display();
+            Line start = null;
+            for (Line l : conversation) {
+                if (matchesConditions(npc, player, l)) {
+                    start = l;
+                    break;
+                }
+            }
+            if (start != null) {
+                Line response = start.display();
+                while (response != null) {
+                    response = response.display();
+                }
             }
         }
+    }
+
+    private boolean matchesConditions(NPC npc, Player player, Line line) {
+        String switchCase = "None";
+        boolean matches = false;
+        switch(line.getCondition()) {
+            case ALLY:
+                switchCase = "ally";
+                matches = npc.getAllies().contains(player.getCurrentCharacterType());
+                break;
+            case ENEMY:
+                switchCase = "enemy";
+                matches = npc.getEnemies().contains(player.getCurrentCharacterType());
+                break;
+            case LEVEL:
+                switchCase = "level";
+                int requiredLevel = Integer.parseInt(line.getConditionParameter());
+                matches = player.getLevel() >= requiredLevel;
+                break;
+            case ITEM:
+                switchCase = "item";
+                ItemRepository itemRepo = GameBeans.getItemRepository();
+                Item requiredItem = itemRepo.getItem(line.getConditionParameter());
+                matches = player.hasItem(requiredItem);
+                break;
+            default: // No condition
+                switchCase = "default";
+                matches = true;
+                break;
+        }
+        System.out.println(switchCase + " - " + matches);
+        return matches;
     }
 }

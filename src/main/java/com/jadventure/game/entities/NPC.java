@@ -3,11 +3,15 @@ package com.jadventure.game.entities;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
 import com.jadventure.game.QueueProvider;
 
 /**
@@ -18,7 +22,9 @@ import com.jadventure.game.QueueProvider;
  */
 public class NPC extends Entity {
     private int xpGain;
-    String id;
+    private String id;
+    private List<String> allies;
+    private List<String> enemies;
     
     public NPC(String entityID) {
         this.id = entityID;
@@ -44,9 +50,27 @@ public class NPC extends Entity {
             setIntelligence(json.get("intelligence").getAsInt());
             setDexterity(json.get("dexterity").getAsInt());
             setStealth(json.get("stealth").getAsInt());
+            allies = new ArrayList<>();
+            JsonArray alliesJson = json.get("allies").getAsJsonArray();
+            for (JsonElement ally : alliesJson) {
+                allies.add(ally.getAsString());
+            }
+            enemies = new ArrayList<>();
+            JsonArray enemiesJson = json.get("enemies").getAsJsonArray();
+            for (JsonElement enemy : enemiesJson) {
+                enemies.add(enemy.getAsString());
+            }
         } catch (FileNotFoundException ex) {
             QueueProvider.offer("Unable to open file '" + fileName + "'.");
         }
+    }
+
+    public List<String> getAllies() {
+        return allies;
+    }
+
+    public List<String> getEnemies() {
+        return enemies;
     }
 
     public int getXPGain() {

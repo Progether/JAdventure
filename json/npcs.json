@@ -13,14 +13,11 @@
       "dexterity": 0,
       "stealth": 0,
 
-      "relationships": [
-        {
-          "recruit": "ally"
-        },
-        {
-          "sewer rat": "ally"
-        }
+      "allies": [
+	"Recruit",
+	"Sewer Rat"
       ],
+      "enemies": [],
       "conversations": [
  	{
 	  "condition":"none",
@@ -45,7 +42,7 @@
       ]
     },
     "sewerrat": {
-      "name": "Sewer_Rat",
+      "name": "Sewer Rat",
       "health": 100,
       "healthMax": 100,
       "damage": 40,
@@ -83,13 +80,11 @@
         }
       ],
       "intro": "Hey, rat. . . you dead??\n*You let out a groan...*\nWhat are you doing?!? Don't you know it's crazy to sleep so close to the recruits' camp? A guard will come down those stairs soon enough and catch you! You'll end up being drafted! You better come back in.\nBy the way, what's your name?",
-      "relationships": [
-        {
-          "recruit": "enemy"
-        },
-        {
-          "sewer rat": "ally"
-        }
+      "allies": [
+      	"Sewer Rat"
+      ],
+      "enemies": [
+      	"Recruit"
       ]
     },
     "syndicatemember": {
@@ -158,14 +153,12 @@
           "action": "no action"
         }
       ],
-      "relationships": [
-        {
-          "recruit": "enemy",
-          "brotherhoodmember": "enemy"
-        },
-        {
-          "sewer rat": "ally"
-        }
+      "allies": [
+      	"Sewer Rat"
+      ],
+      "enemies": [
+      	"Recruit",
+	"Brotherhood Member"
       ]
     },
     "brotherhoodmember": {
@@ -206,14 +199,12 @@
           "rightHand": "hands"
         }
       ],
-      "relationships": [
-        {
-          "recruit": "enemy",
-          "syndicatemember": "enemy"
-        },
-        {
-          "sewer rat": "ally"
-        }
+      "allies": [
+      	"Sewer Rat"
+      ],
+      "enemies": [
+      	"Recruit",
+	"Syndicate Member"
       ],
       "conversations": [
  	{
@@ -289,13 +280,11 @@
         }
       ],
       "intro": "Hey... you alive?\n*You let out a groan...*\nHey, mate, you need to wake up. The guards will be coming 'round soon, and they put a spear through the last guy they found still asleep.\n*Slowly, you sit up.*\nThat's the way! I'm going to head back up. Follow me as soon as you can.\nBy the way, I'm Thorall. What's your name?",
-      "relationships": [
-        {
-          "recruit": "ally"
-        },
-        {
-          "sewer rat": "enemy"
-        }
+      "allies": [
+      	"Recruit"
+      ],
+      "enemies": [
+      	"Sewer Rat"
       ]
     }
   }
