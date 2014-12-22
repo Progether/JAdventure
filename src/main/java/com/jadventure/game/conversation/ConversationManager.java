@@ -101,7 +101,6 @@ public class ConversationManager {
         String[] con = line.get("condition").getAsString().split("=");
         ConditionType condition = CONDITION_TYPE_MAP.get(con[0]);
         String conditionParameter = (con.length == 1) ? "" : con[1];
-//        System.out.println(text + " - " + conditionParameter);
         ActionType action = ACTION_TYPE_MAP.get(line.get("action").getAsString());
         return new Line(index, playerPrompt, text, condition, conditionParameter, responses, action);
     }
