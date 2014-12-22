@@ -438,15 +438,24 @@ public class Player extends Entity {
     }
 
     public void attack(String opponentName) throws DeathException {
-        Monster opponent = null;
+        Monster monsterOpponent = null;
+        NPC npcOpponent = null;
         List<Monster> monsters = getLocation().getMonsters();
+        List<NPC> npcs = getLocation().getNPCs();
         for (int i = 0; i < monsters.size(); i++) {
-                 if (monsters.get(i).monsterType.equalsIgnoreCase(opponentName)) {
-                 opponent = monsters.get(i);
+             if (monsters.get(i).monsterType.equalsIgnoreCase(opponentName)) {
+                 monsterOpponent = monsters.get(i);
              }
         }
-        if (opponent != null) {
-             new BattleMenu(opponent, this);
+        for (int i=0; i < npcs.size(); i++) {
+            if (npcs.get(i).getName().equalsIgnoreCase(opponentName)) {
+                npcOpponent = npcs.get(i);
+            }
+        }
+        if (monsterOpponent != null) {
+            new BattleMenu(monsterOpponent, this);
+        } else if (npcOpponent != null) {
+            new BattleMenu(npcOpponent, this);
         } else {
              QueueProvider.offer("Opponent not found");
         }

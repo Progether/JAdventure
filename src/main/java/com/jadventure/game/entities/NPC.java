@@ -27,6 +27,7 @@ import com.jadventure.game.QueueProvider;
  * with variables not unique to the NPC, place it in the entity class.
  */
 public class NPC extends Entity {
+    private int xpGain;
     
     public NPC(String entityID) {
         JsonParser parser = new JsonParser();
@@ -42,9 +43,25 @@ public class NPC extends Entity {
                 }
             }
             setName(json.get("name").getAsString());
+            setHealth(json.get("health").getAsInt());
+            setDamage(json.get("damage").getAsInt());
+            setArmour(json.get("armour").getAsInt());
+            setHealthMax(json.get("healthMax").getAsInt());
+            setLevel(json.get("level").getAsInt());
+            setStrength(json.get("strength").getAsInt());
+            setIntelligence(json.get("intelligence").getAsInt());
+            setDexterity(json.get("dexterity").getAsInt());
+            setStealth(json.get("stealth").getAsInt());
         } catch (FileNotFoundException ex) {
             QueueProvider.offer("Unable to open file '" + fileName + "'.");
         }
     }
 
+    public int getXPGain() {
+        return xpGain;
+    }
+
+    public void setXPGain(int xpGain) {
+        this.xpGain = xpGain;
+    }
 }

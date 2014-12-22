@@ -2,6 +2,17 @@
   "npcs": {
     "guide": {
       "name": "Guide",
+      "health":100,
+      "healthMax": 100,
+      "damage": 1000,
+      "armour": 0,
+      "level": 1,
+      "xp": 0,
+      "strength": 0,
+      "intelligence": 0,
+      "dexterity": 0,
+      "stealth": 0,
+
       "relationships": [
         {
           "recruit": "ally"
