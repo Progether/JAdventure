@@ -21,6 +21,7 @@ import com.jadventure.game.navigation.Direction;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.navigation.LocationType;
+import com.jadventure.game.DeathException;
 
 /**
  * CommandCollection contains the declaration of the methods mapped to game commands
@@ -284,7 +285,7 @@ public enum CommandCollection {
     }
     
     @Command(command="talk", aliases="t", description="Talks to a character.", debug=false)
-    public void command_talk(String arg) {
+    public void command_talk(String arg) throws DeathException {
         ConversationManager cm = new ConversationManager();
         List<NPC> npcs = player.getLocation().getNPCs();
         NPC npc = null;
