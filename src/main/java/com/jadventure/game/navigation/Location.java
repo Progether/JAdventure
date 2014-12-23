@@ -114,6 +114,10 @@ public class Location implements ILocation {
     }
 
     public ArrayList<NPC> getNPCs() {
+        ArrayList<NPC> npcs = new ArrayList<>();
+        for (NPC npc : this.npcs) {
+            npcs.add(npc);
+        }
         return npcs;
     }
    
