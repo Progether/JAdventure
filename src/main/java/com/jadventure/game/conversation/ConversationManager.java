@@ -6,6 +6,7 @@ import com.jadventure.game.entities.Player;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.repository.ItemRepository;
 import com.jadventure.game.QueueProvider;
+import com.jadventure.game.DeathException;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -105,7 +106,7 @@ public class ConversationManager {
         return new Line(index, playerPrompt, text, condition, conditionParameter, responses, action);
     }
 
-    public void startConversation(NPC npc, Player player) {
+    public void startConversation(NPC npc, Player player) throws DeathException {
         List<Line> conversation = null;
         //Workaround as <code>lines.get(npc)</code> is not working.
         Iterator it = lines.entrySet().iterator();;
@@ -126,6 +127,10 @@ public class ConversationManager {
             }
             if (start != null) {
                 Line response = start.display();
+                if (start.getAction() == ActionType.ATTACK) {
+                    QueueProvider.offer("\n" + npc.getName() + " is now attacking you!\n");
+                    player.attack(npc.getName());
+                }
                 while (response != null) {
                     response = response.display();
                 }
