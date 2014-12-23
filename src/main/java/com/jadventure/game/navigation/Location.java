@@ -27,7 +27,7 @@ public class Location implements ILocation {
     private LocationType locationType;
     private int dangerRating;
     private List<String> items;
-    private List<String> npcs;
+    private List<NPC> npcs;
     private List<Monster> monsters = new ArrayList<>();
 
     public Location() {
@@ -105,13 +105,17 @@ public class Location implements ILocation {
     }
 
     public void setNPCs(ArrayList<String> npcs) {
-        this.npcs = npcs;
+        ArrayList<NPC> npcList = new ArrayList<NPC>();
+        for (String npcID : npcs) {
+            NPC npc = new NPC(npcID);
+            npcList.add(npc);
+        } 
+        this.npcs = npcList;
     }
 
     public ArrayList<NPC> getNPCs() {
         ArrayList<NPC> npcs = new ArrayList<>();
-        for (String npcID : this.npcs) {
-            NPC npc = new NPC(npcID);
+        for (NPC npc : this.npcs) {
             npcs.add(npc);
         }
         return npcs;
