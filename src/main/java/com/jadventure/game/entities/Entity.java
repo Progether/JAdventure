@@ -197,6 +197,7 @@ public abstract class Entity {
         equipment.put(place, item);
         removeItemFromStorage(item);
         Map<String, String> result = new HashMap<String, String>();
+        System.out.println(item.getId().charAt(0));
         switch (item.getId().charAt(0)) {
         case 'w': {
             this.weapon = item.getId();
@@ -213,7 +214,7 @@ public abstract class Entity {
         case 'p': {
             if (item.containsProperty("healthMax")) {
                 this.healthMax += item.getProperty("healthMax");
-                this.health += item.getProperty("healthMax");
+                this.health = (this.health > this.healthMax) ? this.healthMax : this.health;
                 unequipItem(item); // One use only
                 removeItemFromStorage(item);
                 result.put("health",

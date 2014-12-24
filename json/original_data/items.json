@@ -39,6 +39,7 @@
       "position": "mouth",
       "level": 1,
       "properties": {
+        "healthMax": "+0",
         "health": "+5",
         "weight": "1",
         "value": "5"
@@ -51,6 +52,7 @@
       "position": "mouth",
       "level": 2,
       "properties": {
+        "healthMax": "+0",
         "health": "+25",
         "weight": "1",
         "value": "20"
@@ -243,6 +245,7 @@
       "level": 1,
       "properties": {
         "healthMax": "+100",
+        "health": "+0",
         "weight": "1",
         "value": "50"
       }
