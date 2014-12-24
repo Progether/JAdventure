@@ -146,8 +146,8 @@ public class ConversationManager {
             QueueProvider.offer("\n" + npc.getName() + " is now attacking you!\n");
             player.attack(npc.getName());
         } else if (line.getAction() == ActionType.TRADE) {
-            Trading t = new Trading();
-            t.trade(npc,player);
+            Trading t = new Trading(npc, player);
+            t.trade();
         }     
     }
 
