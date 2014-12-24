@@ -13,6 +13,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import com.jadventure.game.QueueProvider;
+import com.jadventure.game.items.Storage;
 
 /**
  * This class deals with Non Player Character (NPC) and all of their properties.
@@ -50,6 +51,13 @@ public class NPC extends Entity {
             setIntelligence(json.get("intelligence").getAsInt());
             setDexterity(json.get("dexterity").getAsInt());
             setStealth(json.get("stealth").getAsInt());
+            setStrength(json.get("strength").getAsInt());
+            float maxWeight = (float)Math.sqrt(getStrength()*300);
+            setStorage(new Storage(maxWeight));
+            JsonArray items = json.get("items").getAsJsonArray();
+            for (JsonElement item : items) {
+                addItemToStorage(itemRepo.getItem(item.getAsString()));
+            }
             allies = new ArrayList<>();
             JsonArray alliesJson = json.get("allies").getAsJsonArray();
             for (JsonElement ally : alliesJson) {

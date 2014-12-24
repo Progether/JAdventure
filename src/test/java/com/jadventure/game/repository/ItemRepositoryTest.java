@@ -68,7 +68,7 @@ public class ItemRepositoryTest {
         String expected = "{\"items\":{"
                 + "\"egg-1\":{\"id\":\"egg-1\",\"type\":\"food\",\"name\":\"egg\",\"description\":\"A nice egg\","
                 + "\"level\":1,\"properties\":{\"weight\":1,\"value\":3,\"health\":2}},"
-                + "\"milk-bottle\":{\"id\":\"milk-bottle\",\"type\":\"food-liquid\",\"name\":\"milk\",\"description\":\"Milk in a bottle\","
+                + "\"milk-bottle\":{\"id\":\"milk-bottle\",\"type\":\"potion\",\"name\":\"milk\",\"description\":\"Milk in a bottle\","
                 + "\"level\":1,\"properties\":{\"weight\":1,\"value\":10,\"health\":5}}"
                 + "}}";
         String gsonMsg = writer.toString();
@@ -81,7 +81,7 @@ public class ItemRepositoryTest {
                 + "\"fegg1\":{\"id\":\"fegg1\",\"type\": \"food\",\"name\":\"egg\",\"description\":\"A nice egg\","
                 + "\"position\":\"mouth\",\"level\":1,"
                 + "\"properties\":{\"weight\":1,\"value\":3,\"health\":2}},"
-                + "\"fmil1\":{\"id\":\"fmil1\",\"type\": \"food-liquid\",\"name\":\"milk\",\"description\":\"Milk in a bottle\","
+                + "\"pmil1\":{\"id\":\"pmil1\",\"type\": \"potion\",\"name\":\"milk\",\"description\":\"Milk in a bottle\","
                 + "\"position\":\"mouth\",\"level\":1,"
                 + "\"properties\":{\"weight\":1,\"value\":10,\"health\":5}}"
                 + "}}";
@@ -95,7 +95,7 @@ public class ItemRepositoryTest {
         Item eggItem = itemRepo.getItem("fegg1");
         assertEquals("A nice egg", eggItem.getDescription());
         
-        Item milkItem = itemRepo.getItem("fmil1");
+        Item milkItem = itemRepo.getItem("pmil1");
         assertEquals("Milk in a bottle", milkItem.getDescription());
     }
 
@@ -107,9 +107,9 @@ public class ItemRepositoryTest {
 		JsonReader reader = new JsonReader(new InputStreamReader(resourceAsStream));
 		itemRepo.load(reader);
         
-    	Item item = itemRepo.getItem("fmil2");
+    	Item item = itemRepo.getItem("pmil2");
     	assertNotNull(item);
-    	assertEquals("food-liquid", item.getType());
+    	assertEquals("potion", item.getType());
 
     	item = itemRepo.getItem("wdag1");
     	assertNotNull(item);
@@ -122,7 +122,7 @@ public class ItemRepositoryTest {
         properties.put("weight", Integer.valueOf(1));
         properties.put("value", Integer.valueOf(10));
         
-        Item item = new Item("milk-bottle", "food-liquid", "milk", "Milk in a bottle", 1, properties);
+        Item item = new Item("milk-bottle", "potion", "milk", "Milk in a bottle", 1, properties);
         return item;
     }
 

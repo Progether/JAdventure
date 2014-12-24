@@ -25,6 +25,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 import com.jadventure.game.DeathException;
@@ -171,6 +172,11 @@ public class Player extends Entity {
             player.setStrength(json.get("strength").getAsInt());
             player.setIntelligence(json.get("intelligence").getAsInt());
             player.setDexterity(json.get("dexterity").getAsInt());
+            setUpVariables(player);
+            JsonArray items = json.get("items").getAsJsonArray();
+            for (JsonElement item : items) {
+                player.addItemToStorage(itemRepo.getItem(item.getAsString()));
+            }
             Random rand = new Random();
             int luck = rand.nextInt(3) + 1;
             player.setLuck(luck);
@@ -191,7 +197,6 @@ public class Player extends Entity {
             ex.printStackTrace();
         }
 
-        setUpVariables(player);
         return player;
     } 
 
@@ -206,7 +211,6 @@ public class Player extends Entity {
     public static void setUpVariables(Player player) {
         float maxWeight = (float)Math.sqrt(player.getStrength()*300);
         player.setStorage(new Storage(maxWeight));
-        player.addItemToStorage(itemRepo.getItem("fmil1"));
     }
 
     public void getStats(){

@@ -8,7 +8,7 @@
       "armour": 0,
       "level": 1,
       "xp": 0,
-      "strength": 0,
+      "strength": 1,
       "intelligence": 0,
       "dexterity": 0,
       "stealth": 0,
@@ -18,21 +18,36 @@
 	"Sewer Rat"
       ],
       "enemies": [],
+      "items":["pmil1", "pmil1", "fbrd1", "fbum1", "fcom1", "phli1"],
       "conversations": [
  	{
 	  "condition":"none",
 	  "player":"",
 	  "text":"Welcome to Syllia!",
-	  "response":[1, 2],
+	  "response":[1,2,3,4],
 	  "action": "no action"
 	},
 	{
 	  "condition": "none",
 	  "player":"What is Syllia?",
 	  "text": "A place of wonder and awe... Well it used to be at least, until these damn monsters invaded. Now it's all about fighting the monsters. There's not fun any more...",
-	  "response":[2],
+	  "response":[2,3,4],
 	  "action": "no action"
 	},
+        {
+          "condition": "none",
+          "player":"What should I do?",
+          "text":"Well that's an interesting question. As a sewer rat, you have a free reign over the underground. Explore and learn as you go. There's some unsavory characters down here but they should not be too mean to you. Watch out for the monsters though. They'll attack you regardless. As a recruit, hurry upstairs! This is no place for you and I'm sure your superiors will be wondering where you are.",
+          "response":[3,4],
+          "action": "no action"
+        },
+        {
+          "condition": "none",
+          "player":"Do you have anything to sell me that can help out?",
+          "text":"Actually now that you mention it, I *have* collected some things in my journeys that may help you out. Here, look through them and see what you like",
+          "response":[4],
+          "action": "trade"
+        },
 	{
 	  "condition": "None",
 	  "player": "Goodbye",
@@ -85,7 +100,8 @@
       ],
       "enemies": [
       	"Recruit"
-      ]
+      ],
+      "items":["pmil1"]
     },
     "syndicatemember": {
       "name": "Syndicate Member",
@@ -159,7 +175,8 @@
       "enemies": [
       	"Recruit",
 	"Brotherhood Member"
-      ]
+      ],
+      "items":[]
     },
     "brotherhoodmember": {
       "name": "Brotherhood Member",
@@ -206,6 +223,7 @@
       	"Recruit",
 	"Syndicate Member"
       ],
+      "items":["phli1", "arhl1", "wdag1"],
       "conversations": [
  	{
 	  "condition": "ally",
@@ -285,7 +303,8 @@
       ],
       "enemies": [
       	"Sewer Rat"
-      ]
+      ],
+      "items":["pmil1"]
     }
   }
 }

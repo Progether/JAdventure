@@ -18,7 +18,7 @@ import com.jadventure.game.entities.EquipmentLocation;
 import com.jadventure.game.items.Item;
 
 public class ItemRepository {
-	private static final Map<String, EquipmentLocation> EQUIPMENT_POSITION_MAP = new HashMap<>();
+    private static final Map<String, EquipmentLocation> EQUIPMENT_POSITION_MAP = new HashMap<>();
     private Map<String, Item> itemMap = new HashMap<>();
 
     static {
@@ -33,9 +33,9 @@ public class ItemRepository {
     }
 
 	public Item getItem(String id) {
-		if (id == null || id.trim().length() == 0) {
-			return null;
-		}
+            if (id == null || id.trim().length() == 0) {
+                return null;
+            }
 	    if (!itemMap.containsKey(id)) {
 	        throw new RepositoryException("Argument 'id' with value '" + id + "' not found in repository.");
 	    }
