@@ -5,6 +5,7 @@ public enum ActionType {
     ATTACK,
     BUY,
     SELL,
+    TRADE,
     GIVE,
     TAKE
 }

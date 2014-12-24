@@ -11,7 +11,7 @@ import com.jadventure.game.QueueProvider;
 public class Storage {
     public final static double WEIGHT_UNLIMITED = -1;
     private double maxWeight;
-	private List<ItemStack> items = null;
+    private List<ItemStack> items = null;
 
     public Storage() {
         this(WEIGHT_UNLIMITED);
@@ -120,6 +120,19 @@ public class Storage {
             String content = "";
             for (ItemStack item : this.items) {
                 content += "- " + item.getItem().getName() + " : " + item.getAmount() + "\n";
+            }
+            return content;
+        }
+    }
+
+    public String displayWithValue() {
+        if (this.items.isEmpty()) {
+            return "--Empty--";
+        } else {
+            String content = "";
+            for (ItemStack item : this.items) {
+                int value = item.getItem().getProperties().get("value");
+                content += "- " + item.getItem().getName() + " : " + item.getAmount() + " at " + value + " gold coins each\n";
             }
             return content;
         }

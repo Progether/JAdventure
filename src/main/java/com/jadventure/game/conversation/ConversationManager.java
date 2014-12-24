@@ -7,6 +7,7 @@ import com.jadventure.game.items.Item;
 import com.jadventure.game.repository.ItemRepository;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.DeathException;
+import com.jadventure.game.Trading;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -35,6 +36,7 @@ public class ConversationManager {
         ACTION_TYPE_MAP.put("attack", ActionType.ATTACK);
         ACTION_TYPE_MAP.put("buy", ActionType.BUY);
         ACTION_TYPE_MAP.put("sell", ActionType.SELL);
+        ACTION_TYPE_MAP.put("trade", ActionType.TRADE);
         ACTION_TYPE_MAP.put("give", ActionType.GIVE);
         ACTION_TYPE_MAP.put("take", ActionType.TAKE);
         CONDITION_TYPE_MAP.put("none", ConditionType.NONE);
@@ -126,16 +128,27 @@ public class ConversationManager {
                 }
             }
             if (start != null) {
+                QueueProvider.offer(start.getText());
                 Line response = start.display();
-                if (start.getAction() == ActionType.ATTACK) {
-                    QueueProvider.offer("\n" + npc.getName() + " is now attacking you!\n");
-                    player.attack(npc.getName());
-                }
-                while (response != null) {
-                    response = response.display();
-                }
+                triggerAction(start, npc, player);
+               while (response != null) {
+                   QueueProvider.offer(response.getText());
+                   triggerAction(response, npc, player);
+                   Line temp_response = response.display();
+                   response = temp_response;
+               }
             }
         }
+    }
+
+    private void triggerAction(Line line, NPC npc, Player player) throws DeathException {
+        if (line.getAction() == ActionType.ATTACK) {
+            QueueProvider.offer("\n" + npc.getName() + " is now attacking you!\n");
+            player.attack(npc.getName());
+        } else if (line.getAction() == ActionType.TRADE) {
+            Trading t = new Trading();
+            t.trade(npc,player);
+        }     
     }
 
     private boolean matchesConditions(NPC npc, Player player, Line line) {

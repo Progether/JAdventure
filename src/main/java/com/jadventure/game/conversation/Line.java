@@ -52,7 +52,6 @@ public class Line {
     }
 
     public Line display() {
-        QueueProvider.offer("\n" + text);
         if (responses.size() == 0) {
             return null;
         }
