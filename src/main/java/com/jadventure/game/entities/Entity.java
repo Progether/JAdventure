@@ -197,7 +197,6 @@ public abstract class Entity {
         equipment.put(place, item);
         removeItemFromStorage(item);
         Map<String, String> result = new HashMap<String, String>();
-        System.out.println(item.getId().charAt(0));
         switch (item.getId().charAt(0)) {
         case 'w': {
             this.weapon = item.getId();

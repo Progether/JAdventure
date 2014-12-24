@@ -147,7 +147,7 @@ public class ConversationManager {
             player.attack(npc.getName());
         } else if (line.getAction() == ActionType.TRADE) {
             Trading t = new Trading(npc, player);
-            t.trade();
+            t.trade(true, true);
         }     
     }
 

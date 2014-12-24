@@ -27,56 +27,28 @@ public class Trading {
         this.player = player;
     }
 
-    public void trade() {
+    public void trade(boolean buy, boolean sell) {
         List<MenuItem> tradeList = new ArrayList<>();
         String buyCommand = "Buy from " + npc.getName();
         String sellCommand = "Sell to " + npc.getName();
-        tradeList.add(new MenuItem(buyCommand, null));
-        tradeList.add(new MenuItem(sellCommand, null));
+        if (buy) {
+            tradeList.add(new MenuItem(buyCommand, null));
+        }
+        if (sell) {
+            tradeList.add(new MenuItem(sellCommand, null));
+        }
         tradeList.add(new MenuItem("exit", null));
         Menus tradeMenu = new Menus();
         MenuItem response = tradeMenu.displayMenu(tradeList);
         String command = response.getCommand();
-        if (command.equals(buyCommand)) {
+        if (command.equals(buyCommand) && buy) {
             playerBuy();
-        } else if (command.equals(sellCommand)) {
+        } else if (command.equals(sellCommand) && sell) {
             playerSell();
         } else if (command.equals("exit")) {
             return;
         }
-        trade();
-    }
-
-    public void buy() {
-        List<MenuItem> tradeList = new ArrayList<>();
-        String buyCommand = "Buy from " + npc.getName();
-        tradeList.add(new MenuItem(buyCommand, null));
-        tradeList.add(new MenuItem("exit", null));
-        Menus tradeMenu = new Menus();
-        MenuItem response = tradeMenu.displayMenu(tradeList);
-        String command = response.getCommand();
-        if (command.equals(buyCommand)) {
-            playerBuy();
-        } else if (command.equals("exit")) {
-            return;
-        }
-        buy();
-    }
-    
-    public void sell() {
-        List<MenuItem> tradeList = new ArrayList<>();
-        String sellCommand = "Sell to " + npc.getName();
-        tradeList.add(new MenuItem(sellCommand, null));
-        tradeList.add(new MenuItem("exit", null));
-        Menus tradeMenu = new Menus();
-        MenuItem response = tradeMenu.displayMenu(tradeList);
-        String command = response.getCommand();
-        if (command.equals(sellCommand)) {
-            playerSell();
-        } else if (command.equals("exit")) {
-            return;
-        }
-        sell();
+        trade(buy, sell);
     }
     
     public void playerBuy() {
