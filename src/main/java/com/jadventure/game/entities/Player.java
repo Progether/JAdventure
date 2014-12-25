@@ -72,6 +72,10 @@ public class Player extends Entity {
         return characterLevels;
     }
 
+    public void setCharacterLevels(HashMap<String, Integer> newCharacterLevels) {
+        this.characterLevels = newCharacterLevels;
+    }
+
     public String getCurrentCharacterType() {
         return this.type;
     }
@@ -117,6 +121,9 @@ public class Player extends Entity {
             player.setDexterity(json.get("dexterity").getAsInt());
             player.setLuck(json.get("luck").getAsInt());
             player.setStealth(json.get("stealth").getAsInt());
+            player.setCurrentCharacterType(json.get("type").getAsString());
+            HashMap<String, Integer> charLevels = new Gson().fromJson(json.get("types"), new TypeToken<HashMap<String, Integer>>(){}.getType());
+            player.setCharacterLevels(charLevels);
             player.equipItem(EquipmentLocation.RIGHT_HAND, itemRepo.getItem((json.get("weapon").getAsString())));
             if (json.has("items")) {
                 HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
@@ -255,6 +262,7 @@ public class Player extends Entity {
         jsonObject.addProperty("luck", getLuck());
         jsonObject.addProperty("stealth", getStealth());
         jsonObject.addProperty("weapon", getWeapon());
+        jsonObject.addProperty("type", getCurrentCharacterType());
         HashMap<String, Integer> items = new HashMap<String, Integer>();
         JsonArray itemList = new JsonArray();
         for (ItemStack item : getStorage().getItems()) {
@@ -264,6 +272,8 @@ public class Player extends Entity {
         }
         JsonElement itemsJsonObj = gson.toJsonTree(items);
         jsonObject.add("items", itemsJsonObj);
+        JsonElement typesJsonObj = gson.toJsonTree(getCharacterLevels());
+        jsonObject.add("types", typesJsonObj);
         Coordinate coordinate = getLocation().getCoordinate();
         String coordinateLocation = coordinate.x+","+coordinate.y+","+coordinate.z;
         jsonObject.addProperty("location", coordinateLocation);
