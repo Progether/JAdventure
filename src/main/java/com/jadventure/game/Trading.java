@@ -108,7 +108,7 @@ public class Trading {
             return;
         }
         
-        List<ItemStack> itemList = npc.getStorage().getItems();
+        List<ItemStack> itemList = player.getStorage().getItems();
         Map<String, String> itemIds = new HashMap<>();
         Map<String, Integer> itemValues = new HashMap<>();
         Map<String, Item> itemIdtoItem = new HashMap<>();
@@ -127,8 +127,8 @@ public class Trading {
             int itemValue = itemValues.get(itemIds.get(itemName));
             Item item = itemIdtoItem.get(itemIds.get(itemName));
             npc.addItemToStorage(item);
-            npc.setGold(playerGold - itemValue);
-            player.setGold(npcGold + itemValue);
+            npc.setGold(npcGold - itemValue);
+            player.setGold(playerGold + itemValue);
             player.removeItemFromStorage(item);
             playerGold = playerGold + itemValue;
             npcGold = npcGold - itemValue;
