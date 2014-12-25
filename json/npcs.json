@@ -20,39 +20,46 @@
       "enemies": [],
       "items":["pmil1", "pmil1", "fbrd1", "fbum1", "fcom1", "phli1"],
       "conversations": [
- 	{
+	{
 	  "condition":"none",
 	  "player":"",
 	  "text":"Welcome to Syllia!",
-	  "response":[1,2,3,4],
-	  "action": "no action"
+	  "response":[1,2,3,4,5],
+	  "action": "none"
 	},
 	{
 	  "condition": "none",
 	  "player":"What is Syllia?",
 	  "text": "A place of wonder and awe... Well it used to be at least, until these damn monsters invaded. Now it's all about fighting the monsters. There's not fun any more...",
-	  "response":[2,3,4],
-	  "action": "no action"
+	  "response":[3,4,5],
+	  "action": "none"
 	},
         {
-          "condition": "none",
+          "condition": "char type=Sewer Rat",
           "player":"What should I do?",
-          "text":"Well that's an interesting question. As a sewer rat, you have a free reign over the underground. Explore and learn as you go. There's some unsavory characters down here but they should not be too mean to you. Watch out for the monsters though. They'll attack you regardless. As a recruit, hurry upstairs! This is no place for you and I'm sure your superiors will be wondering where you are.",
-          "response":[3,4],
-          "action": "no action"
+          "text":"Well that's an interesting question. As a sewer rat, you have a free reign over the underground. Explore and learn as you go. There's some unsavory characters down here but they should not be too mean to you. Watch out for the monsters though. They'll attack you regardless.",
+          "response":[4,5],
+          "action": "none"
+        },        
+	{
+          "condition": "char type=Recruit",
+          "player":"Where should I go?",
+          "text":"Hurry upstairs! This is no place for you and I'm sure your superiors will be wondering where you are.",
+          "response":[4,5],
+          "action": "none"
         },
-        {
+  	{
           "condition": "none",
           "player":"Do you have anything to sell me that can help out?",
           "text":"Actually now that you mention it, I *have* collected some things in my journeys that may help you out. Here, look through them and see what you like",
-          "response":[4],
+          "response":[5],
           "action": "trade"
         },
 	{
-	  "condition": "None",
+	  "condition": "none",
 	  "player": "Goodbye",
 	  "text": "Goodbye my friend!",
-	  "action": "no action"
+	  "action": "none"
 	}
       ]
     },
@@ -147,26 +154,26 @@
 	  "player":"",
 	  "text":"Hello. Can I help you with something? A service perhaps? Anything and everything you need I have. For a price of course. . . ",
 	  "response":[1, 2],
-	  "action": "no action"
+	  "action": "none"
 	},
 	{
 	  "condition": "none",
 	  "player":"How about a potion?",
           "text": "Of course, I have many at my disposal. Unfortunately, you'd need to be a syndicate member to be able to buy any.",
 	  "response":[2, 3],
-	  "action": "no action"
+	  "action": "none"
 	},
 	{
 	  "condition": "None",
 	  "player": "Never mind then",
 	  "text": "*bows*\n Until next time",
-	  "action": "no action"
+	  "action": "none"
 	},
         {
           "condition": "None",
           "player": "How do I become a syndicate member?",
           "text": "Very simple actually. Just kill one of the brotherhood members for me.",
-          "action": "no action"
+          "action": "none"
         }
       ],
       "allies": [
@@ -230,7 +237,7 @@
 	  "player": "",
 	  "text": "Hey, I have a task for you...",
 	  "response": [2, 3],
-	  "action": "no action"
+	  "action": "none"
 	},
 	{
 	  "condition": "enemy",
@@ -243,19 +250,19 @@
 	  "player": "What is it?",
 	  "text": "There's a syndicate member hanging out up north near their headquarters. We've been needing some fresh blood around here. Kill him for me and there'll be some valuable perks in it for you",
 	  "response": [3, 4],
-	  "action": "no action"
+	  "action": "none"
 	},
 	{
 	  "condition": "none",
 	  "player": "I'm busy",
 	  "text": "Whatever, the offer always stands though",
-	  "action": "no action"
+	  "action": "none"
 	},
         {
           "condition": "none",
           "player": "Sure, why not?",
           "text": "Thanks! Report back to me when you're one of us and I'll show you around",
-          "action": "no action"
+          "action": "none"
         }
       ]
     },

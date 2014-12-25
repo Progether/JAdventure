@@ -5,5 +5,6 @@ public enum ConditionType {
     ALLY,
     ENEMY,
     LEVEL,
-    ITEM
+    ITEM,
+    CHAR_TYPE
 }

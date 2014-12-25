@@ -1,7 +1,7 @@
 package com.jadventure.game.conversation;
 
 public enum ActionType {
-    NO_ACTION,
+    NONE,
     ATTACK,
     BUY,
     SELL,

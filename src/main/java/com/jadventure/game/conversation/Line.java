@@ -1,6 +1,8 @@
 package com.jadventure.game.conversation;
 
 import com.jadventure.game.QueueProvider;
+import com.jadventure.game.entities.NPC;
+import com.jadventure.game.entities.Player;
 import com.jadventure.game.menus.Menus;
 import com.jadventure.game.menus.MenuItem;
 
@@ -51,13 +53,15 @@ public class Line {
         return action;
     }
 
-    public Line display() {
+    public Line display(NPC npc, Player player) {
         if (responses.size() == 0) {
             return null;
         }
         List<MenuItem> responseList = new ArrayList<>();
-        for (Line response : responses) {
-            responseList.add(new MenuItem(response.getPlayerPrompt(), null));
+        for (Line response : responses) { 
+            if (ConversationManager.matchesConditions(npc, player, response)) {
+                responseList.add(new MenuItem(response.getPlayerPrompt(), null));
+            }
         }
         Menus responseMenu = new Menus();
         MenuItem response = responseMenu.displayMenu(responseList);

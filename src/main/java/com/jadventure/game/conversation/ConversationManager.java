@@ -32,7 +32,7 @@ public class ConversationManager {
     private static final Map<String, ConditionType> CONDITION_TYPE_MAP = new HashMap<>();
 
     static {
-        ACTION_TYPE_MAP.put("no action", ActionType.NO_ACTION);
+        ACTION_TYPE_MAP.put("none", ActionType.NONE);
         ACTION_TYPE_MAP.put("attack", ActionType.ATTACK);
         ACTION_TYPE_MAP.put("buy", ActionType.BUY);
         ACTION_TYPE_MAP.put("sell", ActionType.SELL);
@@ -44,6 +44,7 @@ public class ConversationManager {
         CONDITION_TYPE_MAP.put("enemy", ConditionType.ENEMY);
         CONDITION_TYPE_MAP.put("level", ConditionType.LEVEL);
         CONDITION_TYPE_MAP.put("item", ConditionType.ITEM);
+        CONDITION_TYPE_MAP.put("char type", ConditionType.CHAR_TYPE);
     }
 
     public ConversationManager() {
@@ -122,19 +123,19 @@ public class ConversationManager {
         if (conversation != null) {
             Line start = null;
             for (Line l : conversation) {
-                if (matchesConditions(npc, player, l)) {
+                if (ConversationManager.matchesConditions(npc, player, l)) {
                     start = l;
                     break;
                 }
             }
             if (start != null) {
                 QueueProvider.offer(start.getText());
-                Line response = start.display();
+                Line response = start.display(npc, player);
                 triggerAction(start, npc, player);
                while (response != null) {
                    QueueProvider.offer(response.getText());
                    triggerAction(response, npc, player);
-                   Line temp_response = response.display();
+                   Line temp_response = response.display(npc, player);
                    response = temp_response;
                }
             }
@@ -142,43 +143,37 @@ public class ConversationManager {
     }
 
     private void triggerAction(Line line, NPC npc, Player player) throws DeathException {
-        if (line.getAction() == ActionType.ATTACK) {
-            QueueProvider.offer("\n" + npc.getName() + " is now attacking you!\n");
-            player.attack(npc.getName());
-        } else if (line.getAction() == ActionType.TRADE) {
-            Trading t = new Trading(npc, player);
-            t.trade(true, true);
+        switch (line.getAction()) {
+            case ATTACK:
+                QueueProvider.offer("\n" + npc.getName() + " is now attacking you!\n");
+                player.attack(npc.getName());
+                break;
+            case TRADE:
+                Trading t = new Trading(npc, player);
+                t.trade(true, true);
+                break;
         }     
     }
 
-    private boolean matchesConditions(NPC npc, Player player, Line line) {
-        String switchCase = "None";
-        boolean matches = false;
+    public static boolean matchesConditions(NPC npc, Player player, Line line) {
         switch(line.getCondition()) {
             case ALLY:
-                switchCase = "ally";
-                matches = npc.getAllies().contains(player.getCurrentCharacterType());
-                break;
+                return npc.getAllies().contains(player.getCurrentCharacterType());
             case ENEMY:
-                switchCase = "enemy";
-                matches = npc.getEnemies().contains(player.getCurrentCharacterType());
-                break;
+                return npc.getEnemies().contains(player.getCurrentCharacterType());
             case LEVEL:
-                switchCase = "level";
                 int requiredLevel = Integer.parseInt(line.getConditionParameter());
-                matches = player.getLevel() >= requiredLevel;
-                break;
+                return player.getLevel() >= requiredLevel;
             case ITEM:
-                switchCase = "item";
                 ItemRepository itemRepo = GameBeans.getItemRepository();
                 Item requiredItem = itemRepo.getItem(line.getConditionParameter());
-                matches = player.hasItem(requiredItem);
-                break;
+                return player.hasItem(requiredItem);
+            case CHAR_TYPE:
+                System.out.println(player.getCurrentCharacterType());
+                String charType = line.getConditionParameter();
+                return charType.equals(player.getCurrentCharacterType());
             default: // No condition
-                switchCase = "default";
-                matches = true;
-                break;
+                return true;
         }
-        return matches;
     }
 }
