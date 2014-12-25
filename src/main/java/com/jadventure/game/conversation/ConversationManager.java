@@ -169,7 +169,6 @@ public class ConversationManager {
                 Item requiredItem = itemRepo.getItem(line.getConditionParameter());
                 return player.hasItem(requiredItem);
             case CHAR_TYPE:
-                System.out.println(player.getCurrentCharacterType());
                 String charType = line.getConditionParameter();
                 return charType.equals(player.getCurrentCharacterType());
             default: // No condition
