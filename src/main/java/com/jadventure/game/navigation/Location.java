@@ -28,7 +28,7 @@ public class Location implements ILocation {
     private LocationType locationType;
     private int dangerRating;
     private Storage storage = new Storage();
-    private List<NPC> npcs;
+    private List<NPC> npcs = new ArrayList<>();
     private List<Monster> monsters = new ArrayList<>();
 
     public Location() {

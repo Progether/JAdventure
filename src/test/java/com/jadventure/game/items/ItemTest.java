@@ -5,8 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.junit.Test;
 
@@ -41,7 +41,7 @@ public class ItemTest {
 	}
 
     private Item createMilk() {
-        Map<String, Integer> properties = new HashMap<>();
+        Map<String, Integer> properties = new TreeMap<>();
         properties.put("health", Integer.valueOf(5));
         properties.put("weight", Integer.valueOf(1));
         properties.put("value", Integer.valueOf(10));
@@ -51,7 +51,7 @@ public class ItemTest {
     }
 
     private Item createEgg() {
-        Map<String, Integer> properties = new HashMap<>();
+        Map<String, Integer> properties = new TreeMap<>();
         properties.put("health", Integer.valueOf(2));
         properties.put("weight", Integer.valueOf(1));
         properties.put("value", Integer.valueOf(3));
