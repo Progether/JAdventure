@@ -144,7 +144,11 @@ public class Location implements ILocation {
     }
 
     public void removePublicItem(String itemID) {
-        items.remove(itemID);
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getId().equals(itemID)) {
+                items.remove(i);
+            }
+        }
     }
 
     public void addPublicItem(String itemID) {
