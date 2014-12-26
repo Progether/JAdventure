@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import com.jadventure.game.DeathException;
 import com.jadventure.game.QueueProvider;
+import com.jadventure.game.conversation.ConversationManager;
 import com.jadventure.game.entities.Player;
+import com.jadventure.game.entities.NPC;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.navigation.Coordinate;
@@ -19,6 +21,7 @@ import com.jadventure.game.navigation.Direction;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.navigation.LocationType;
+import com.jadventure.game.DeathException;
 
 /**
  * CommandCollection contains the declaration of the methods mapped to game commands
@@ -279,5 +282,22 @@ public enum CommandCollection {
     @Command(command="backpack", aliases="", description="Opens the backpack debug menu.", debug=true)
     public void command_backpack(String arg) {
         new BackpackDebugPrompt(player);
+    }
+    
+    @Command(command="talk", aliases="t", description="Talks to a character.", debug=false)
+    public void command_talk(String arg) throws DeathException {
+        ConversationManager cm = new ConversationManager();
+        List<NPC> npcs = player.getLocation().getNPCs();
+        NPC npc = null;
+        for (NPC i : npcs) {
+            if (i.getName().equalsIgnoreCase(arg)) {
+                npc = i;
+            }
+        }
+        if (npc != null) {
+            cm.startConversation(npc, player);
+        } else {
+            QueueProvider.offer("Unable to talk to " + arg);
+        }
     }
 }

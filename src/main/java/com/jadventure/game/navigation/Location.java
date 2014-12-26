@@ -1,6 +1,7 @@
 package com.jadventure.game.navigation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class Location implements ILocation {
     private LocationType locationType;
     private int dangerRating;
     private Storage storage = new Storage();
-    private List<String> npcs = new ArrayList<>();
+    private List<NPC> npcs;
     private List<Monster> monsters = new ArrayList<>();
 
     public Location() {
@@ -104,19 +105,20 @@ public class Location implements ILocation {
         return storage.getItems();
     }
 
-    public void setNPCs(ArrayList<String> npcs) {
-        this.npcs = npcs;
+    public void addNPCs(List<String> npcIds) {
+        for (String npcId : npcIds) {
+            addNpc(npcId);
+        } 
+    }
+    
+    public void addNpc(String npcId) {
+        npcs.add(new NPC(npcId));
     }
 
     public List<NPC> getNPCs() {
-        ArrayList<NPC> npcs = new ArrayList<>();
-        for (String npcID : this.npcs) {
-            NPC npc = new NPC(npcID);
-            npcs.add(npc);
-        }
-        return npcs;
+        return Collections.unmodifiableList(npcs);
     }
-   
+
     public void addMonster(Monster monster) {
         if (monster != null) {
             monsters.add(monster);
@@ -165,10 +167,6 @@ public class Location implements ILocation {
 		QueueProvider.offer(direction.getKey().getDescription() + ": ");
     		QueueProvider.offer("    " + direction.getValue().getDescription());
         }
-    }
-
-    public void addNpc(String npc) {
-        npcs.add(npc);
     }
 
 }

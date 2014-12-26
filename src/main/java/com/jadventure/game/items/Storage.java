@@ -168,4 +168,17 @@ public class Storage {
         return Integer.valueOf(weight);
     }
 
+    public String displayWithValue() {
+        if (itemStacks.isEmpty()) {
+            return "--Empty--";
+        } else {
+            String content = "";
+            for (ItemStack itemStack : itemStacks) {
+                int value = itemStack.getItem().getProperties().get("value");
+                content += "- " + itemStack.getItem().getName() + " : " + itemStack.getAmount() + " at " + value + " gold coins each\n";
+            }
+            return content;
+        }
+    }
+
 }

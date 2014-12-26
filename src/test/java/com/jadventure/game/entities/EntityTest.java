@@ -67,7 +67,7 @@ public class EntityTest {
 
     @Test
     public void testStorage() {
-        String id = "fmil1";
+        String id = "pmil1";
         String type = "food-liquid";
         String name = "milk"; 
         String description = "";

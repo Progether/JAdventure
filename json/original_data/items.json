@@ -21,39 +21,41 @@
         "damage": "1"
       }
     },
-    "bread": {
+    "fbrd1": {
       "type": "food",
       "name": "bread",
       "description": "small piece of bread",
       "position": "mouth",
       "level": 1,
       "properties": {
-        "health": "+5",
+        "health": "+20",
         "value": "10"
       }
     },
-    "fmil1": {
-      "type": "food-liquid",
+    "pmil1": {
+      "type": "potion",
       "name": "milk",
       "description": "some delicious milk",
       "position": "mouth",
       "level": 1,
       "properties": {
+        "healthMax": "+0",
         "health": "+5",
         "weight": "1",
-        "value": "10"
+        "value": "5"
       }
     },
-    "fmil2": {
-      "type": "food-liquid",
+    "pmil2": {
+      "type": "potion",
       "name": "super milk",
       "description": "this milk must have come from a super cow because it is extra delicious milk",
       "position": "mouth",
       "level": 2,
       "properties": {
-        "health": "+15",
+        "healthMax": "+0",
+        "health": "+25",
         "weight": "1",
-        "value": "25"
+        "value": "20"
       }
     },
     "fram1": {
@@ -63,9 +65,9 @@
       "position": "mouth",
       "level": 1,
       "properties": {
-        "health": "+2",
+        "health": "+7",
         "weight": "2",
-        "value": "5"
+        "value": "3"
       }
     },
     "fcom1": {
@@ -75,9 +77,9 @@
       "position": "mouth",
       "level": 1,
       "properties": {
-        "health": "+10",
+        "health": "+13",
         "weight": "2",
-        "value": "15"
+        "value": "10"
       }
     },
     "fbum1": {
@@ -226,7 +228,7 @@
     },
     "tlap1": {
       "type": "tool",
-      "name": "lock-and-pick",
+      "name": "lock and pick",
       "description": "tools to pick locks",
       "position": "rightHand",
       "level": 1,
@@ -236,15 +238,16 @@
       }
     },
     "phli1": {
-      "type": "food",
-      "name": "Potion-of-Health",
+      "type": "potion",
+      "name": "Potion of Health",
       "description": "Magic potion that increases vitality",
-      "position": "rightHand",
+      "position": "mouth",
       "level": 1,
       "properties": {
-        "healthMax": "+5",
+        "healthMax": "+100",
+        "health": "+0",
         "weight": "1",
-        "value": "100"
+        "value": "50"
       }
     }
   }

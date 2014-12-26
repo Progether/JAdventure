@@ -31,7 +31,7 @@
 		"coordinate": "-1,4,0"},
 	"0,-1,-1": {
 		"danger": 0, 
-		"items": ["fmil2"],
+		"items": ["pmil2"],
 		"locationType": "STAIRS",
 		"title": "Stairs",
 		"description": "Stairs up to the outside world.",

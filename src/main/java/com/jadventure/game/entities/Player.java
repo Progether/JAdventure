@@ -25,6 +25,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 import com.jadventure.game.DeathException;
@@ -55,8 +56,41 @@ public class Player extends Entity {
     private int xp;
     /** Player type */
     private String type;
-    
+    private static HashMap<String, Integer>characterLevels = new HashMap<String, Integer>();
+
     public Player() {
+    }
+
+    protected static void setUpCharacterLevels() {
+        characterLevels.put("Sewer Rat", 5);
+        characterLevels.put("Recruit", 3);
+        characterLevels.put("Syndicate Member", 4);
+        characterLevels.put("Brotherhood Member", 4);
+    }
+
+    public HashMap<String, Integer> getCharacterLevels() {
+        return characterLevels;
+    }
+
+    public void setCharacterLevels(HashMap<String, Integer> newCharacterLevels) {
+        this.characterLevels = newCharacterLevels;
+    }
+
+    public String getCurrentCharacterType() {
+        return this.type;
+    }
+    
+    public void setCurrentCharacterType(String newCharacterType) {
+        this.type = newCharacterType;
+    }
+
+    public void setCharacterLevel(String characterType, int level) {
+        this.characterLevels.put(characterType, level);
+    }
+
+    public int getCharacterLevel(String characterType) {
+        int characterLevel = this.characterLevels.get(characterType);
+        return characterLevel;
     }
 
     protected static String getProfileFileName(String name) {
@@ -70,13 +104,11 @@ public class Player extends Entity {
 
     public static Player load(String name) {
         player = new Player();
-
         JsonParser parser = new JsonParser();
         String fileName = getProfileFileName(name);
         try {
             Reader reader = new FileReader(fileName);
             JsonObject json = parser.parse(reader).getAsJsonObject();
-
             player.setName(json.get("name").getAsString());
             player.setHealthMax(json.get("healthMax").getAsInt());
             player.setHealth(json.get("health").getAsInt());
@@ -89,6 +121,9 @@ public class Player extends Entity {
             player.setDexterity(json.get("dexterity").getAsInt());
             player.setLuck(json.get("luck").getAsInt());
             player.setStealth(json.get("stealth").getAsInt());
+            player.setCurrentCharacterType(json.get("type").getAsString());
+            HashMap<String, Integer> charLevels = new Gson().fromJson(json.get("types"), new TypeToken<HashMap<String, Integer>>(){}.getType());
+            player.setCharacterLevels(charLevels);
             player.equipItem(EquipmentLocation.RIGHT_HAND, itemRepo.getItem((json.get("weapon").getAsString())));
             if (json.has("items")) {
                 HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
@@ -104,8 +139,10 @@ public class Player extends Entity {
                 player.setStorage(new Storage(maxWeight, itemList));
             }
             Coordinate coordinate = new Coordinate(json.get("location").getAsString());
+            LocationManager.getInstance(player.getName());
             player.setLocation(LocationManager.getLocation(coordinate));
             reader.close();
+            setUpCharacterLevels();
         } catch (FileNotFoundException ex) {
             QueueProvider.offer( "Unable to open file '" + fileName + "'.");
         } catch (IOException ex) {
@@ -142,6 +179,11 @@ public class Player extends Entity {
             player.setStrength(json.get("strength").getAsInt());
             player.setIntelligence(json.get("intelligence").getAsInt());
             player.setDexterity(json.get("dexterity").getAsInt());
+            setUpVariables(player);
+            JsonArray items = json.get("items").getAsJsonArray();
+            for (JsonElement item : items) {
+                player.addItemToStorage(itemRepo.getItem(item.getAsString()));
+            }
             Random rand = new Random();
             int luck = rand.nextInt(3) + 1;
             player.setLuck(luck);
@@ -149,19 +191,19 @@ public class Player extends Entity {
             player.setIntro(json.get("intro").getAsString());
             if (player.getName().equals("Recruit")) {
                 player.type = "Recruit";
-            } else if (player.getName().equals("Sewer_Rat")) {
+            } else if (player.getName().equals("Sewer Rat")) {
                 player.type = "Sewer Rat";
             } else {
                 QueueProvider.offer("Not a valid class");
             }
             reader.close();
+            setUpCharacterLevels();
         } catch (FileNotFoundException ex) {
             QueueProvider.offer( "Unable to open file '" + fileName + "'.");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
 
-        setUpVariables(player);
         return player;
     } 
 
@@ -174,10 +216,8 @@ public class Player extends Entity {
     }
 
     public static void setUpVariables(Player player) {
-        //player.setLocation(LocationManager.getInitialLocation(player.getName()));
         float maxWeight = (float)Math.sqrt(player.getStrength()*300);
         player.setStorage(new Storage(maxWeight));
-        player.addItemToStorage(itemRepo.getItem("fmil1"));
     }
 
     public void getStats(){
@@ -222,6 +262,7 @@ public class Player extends Entity {
         jsonObject.addProperty("luck", getLuck());
         jsonObject.addProperty("stealth", getStealth());
         jsonObject.addProperty("weapon", getWeapon());
+        jsonObject.addProperty("type", getCurrentCharacterType());
         HashMap<String, Integer> items = new HashMap<String, Integer>();
         JsonArray itemList = new JsonArray();
         for (ItemStack item : getStorage().getItemStack()) {
@@ -231,6 +272,8 @@ public class Player extends Entity {
         }
         JsonElement itemsJsonObj = gson.toJsonTree(items);
         jsonObject.add("items", itemsJsonObj);
+        JsonElement typesJsonObj = gson.toJsonTree(getCharacterLevels());
+        jsonObject.add("types", typesJsonObj);
         Coordinate coordinate = getLocation().getCoordinate();
         String coordinateLocation = coordinate.x+","+coordinate.y+","+coordinate.z;
         jsonObject.addProperty("location", coordinateLocation);
@@ -242,9 +285,6 @@ public class Player extends Entity {
             gson.toJson(jsonObject, writer);
             writer.close();
             LocationManager.writeLocations(getName());
-            Path orig = Paths.get("json/locations.json");
-            Path dest = Paths.get("json/profiles/"+getName()+"/locations.json");
-            Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
             QueueProvider.offer("\nYour game data was saved.");
         } catch (IOException ex) {
             QueueProvider.offer("\nUnable to save to file '" + fileName + "'.");
@@ -255,7 +295,7 @@ public class Player extends Entity {
         List<Item> items = new ArrayList<>();
         for (Item item : itemList) {
             String testItemName = item.getName();
-            if (testItemName.equals(itemName)) {
+            if (testItemName.equalsIgnoreCase(itemName)) {
                 items.add(item);
             }
         }
@@ -269,8 +309,7 @@ public class Player extends Entity {
     public List<Item> searchEquipment(String itemName, Map<EquipmentLocation, Item> equipment) {
         List<Item> items = new ArrayList<>();
         for (Item item : equipment.values()) {
-            String testItemName = item.getName();
-            if (testItemName.equals(itemName)) {
+            if (item != null && item.getName().equals(itemName)) {
                 items.add(item);
             }
         }
@@ -290,6 +329,9 @@ public class Player extends Entity {
 
     public void dropItem(String itemName) {
         List<Item> itemMap = searchItem(itemName, getStorage());
+        if (itemMap.isEmpty()) {
+            itemMap = searchEquipment(itemName, getEquipment());
+        }
         if (!itemMap.isEmpty()) {
             Item item = itemMap.get(0);
             Item itemToDrop = itemRepo.getItem(item.getId());
@@ -400,17 +442,33 @@ public class Player extends Entity {
     }
 
     public void attack(String opponentName) throws DeathException {
-        Monster opponent = null;
+        Monster monsterOpponent = null;
+        NPC npcOpponent = null;
         List<Monster> monsters = getLocation().getMonsters();
+        List<NPC> npcs = getLocation().getNPCs();
         for (int i = 0; i < monsters.size(); i++) {
-                 if (monsters.get(i).monsterType.equalsIgnoreCase(opponentName)) {
-                 opponent = monsters.get(i);
+             if (monsters.get(i).monsterType.equalsIgnoreCase(opponentName)) {
+                 monsterOpponent = monsters.get(i);
              }
         }
-        if (opponent != null) {
-             new BattleMenu(opponent, this);
+        for (int i=0; i < npcs.size(); i++) {
+            if (npcs.get(i).getName().equalsIgnoreCase(opponentName)) {
+                npcOpponent = npcs.get(i);
+            }
+        }
+        if (monsterOpponent != null) {
+            monsterOpponent.setName(monsterOpponent.monsterType);
+            new BattleMenu(monsterOpponent, this);
+        } else if (npcOpponent != null) {
+            new BattleMenu(npcOpponent, this);
         } else {
              QueueProvider.offer("Opponent not found");
         }
+    }
+
+    public boolean hasItem(Item item) {
+        List<Item> searchEquipment = searchEquipment(item.getName(), getEquipment());
+        List<Item> searchStorage = searchItem(item.getName(), getStorage());
+        return !(searchEquipment.size() == 0 && searchStorage.size() == 0);
     }
 }

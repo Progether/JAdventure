@@ -1,0 +1,23 @@
+{
+  "Sewer Rat": {
+    "kill": {
+      "Brotherhood Member": {
+        "Sewer Rat": -1,
+        "Brotherhood Member": -1,
+        "Syndicate Member": 1
+      },
+      "Syndicate Member": {
+        "Sewer Rat": -1,
+        "Brotherhood Member": 1,
+        "Syndicate Member": -1
+      },
+      "Recruit": {
+        "Recruit": -1
+      }
+    }
+  },
+  "Recruit": {
+    "kill": {
+    }
+  }
+}

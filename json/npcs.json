@@ -2,17 +2,69 @@
   "npcs": {
     "guide": {
       "name": "Guide",
-      "relationships": [
+      "health":100,
+      "healthMax": 100,
+      "damage": 1000,
+      "armour": 0,
+      "level": 1,
+      "xp": 0,
+      "strength": 1,
+      "intelligence": 0,
+      "dexterity": 0,
+      "stealth": 0,
+
+      "allies": [
+	"Recruit",
+	"Sewer Rat"
+      ],
+      "enemies": [],
+      "items":["pmil1", "pmil1", "fbrd1", "fbum1", "fcom1", "phli1"],
+      "conversations": [
+	{
+	  "condition":"none",
+	  "player":"",
+	  "text":"Welcome to Syllia!",
+	  "response":[1,2,3,4,5],
+	  "action": "none"
+	},
+	{
+	  "condition": "none",
+	  "player":"What is Syllia?",
+	  "text": "A place of wonder and awe... Well it used to be at least, until these damn monsters invaded. Now it's all about fighting the monsters. There's not fun any more...",
+	  "response":[2,3,4,5],
+	  "action": "none"
+	},
         {
-          "recruit": "ally"
+          "condition": "char type=Sewer Rat",
+          "player":"What should I do?",
+          "text":"Well that's an interesting question. As a sewer rat, you have a free reign over the underground. Explore and learn as you go. There's some unsavory characters down here but they should not be too mean to you. Watch out for the monsters though. They'll attack you regardless.",
+          "response":[4,5],
+          "action": "none"
+        },        
+	{
+          "condition": "char type=Recruit",
+          "player":"Where should I go?",
+          "text":"Hurry upstairs! This is no place for you and I'm sure your superiors will be wondering where you are.",
+          "response":[4,5],
+          "action": "none"
         },
-        {
-          "sewer rat": "ally"
-        }
+  	{
+          "condition": "none",
+          "player":"Do you have anything to sell me that can help out?",
+          "text":"Actually now that you mention it, I *have* collected some things in my journeys that may help you out. Here, look through them and see what you like",
+          "response":[5],
+          "action": "trade"
+        },
+	{
+	  "condition": "none",
+	  "player": "Goodbye",
+	  "text": "Goodbye my friend!",
+	  "action": "none"
+	}
       ]
     },
     "sewerrat": {
-      "name": "Sewer_Rat",
+      "name": "Sewer Rat",
       "health": 100,
       "healthMax": 100,
       "damage": 40,
@@ -50,14 +102,13 @@
         }
       ],
       "intro": "Hey, rat. . . you dead??\n*You let out a groan...*\nWhat are you doing?!? Don't you know it's crazy to sleep so close to the recruits' camp? A guard will come down those stairs soon enough and catch you! You'll end up being drafted! You better come back in.\nBy the way, what's your name?",
-      "relationships": [
-        {
-          "recruit": "enemy"
-        },
-        {
-          "sewer rat": "ally"
-        }
-      ]
+      "allies": [
+      	"Sewer Rat"
+      ],
+      "enemies": [
+      	"Recruit"
+      ],
+      "items":["pmil1"]
     },
     "syndicatemember": {
       "name": "Syndicate Member",
@@ -97,16 +148,42 @@
           "rightHand": "hands"
         }
       ],
-      "intro": "Hello. Can I help you with something? A service perhaps? Anything and everything you need I have. For a price of course. . . ",
-      "relationships": [
+      "conversations": [
+ 	{
+	  "condition":"none",
+	  "player":"",
+	  "text":"Hello. Can I help you with something? A service perhaps? Anything and everything you need I have. For a price of course. . . ",
+	  "response":[1, 2],
+	  "action": "none"
+	},
+	{
+	  "condition": "none",
+	  "player":"How about a potion?",
+          "text": "Of course, I have many at my disposal. Unfortunately, you'd need to be a syndicate member to be able to buy any.",
+	  "response":[2, 3],
+	  "action": "none"
+	},
+	{
+	  "condition": "None",
+	  "player": "Never mind then",
+	  "text": "*bows*\n Until next time",
+	  "action": "none"
+	},
         {
-          "recruit": "enemy",
-          "brotherhoodmember": "enemy"
-        },
-        {
-          "sewer rat": "ally"
+          "condition": "None",
+          "player": "How do I become a syndicate member?",
+          "text": "Very simple actually. Just kill one of the brotherhood members for me.",
+          "action": "none"
         }
-      ]
+      ],
+      "allies": [
+      	"Sewer Rat"
+      ],
+      "enemies": [
+      	"Recruit",
+	"Brotherhood Member"
+      ],
+      "items":[]
     },
     "brotherhoodmember": {
       "name": "Brotherhood Member",
@@ -146,14 +223,46 @@
           "rightHand": "hands"
         }
       ],
-      "intro": "You looking at me?! What do you want? If you aren't here for a good reason, get outta here. . . or get a beating.   ",
-      "relationships": [
+      "allies": [
+      	"Sewer Rat"
+      ],
+      "enemies": [
+      	"Recruit",
+	"Syndicate Member"
+      ],
+      "items":["phli1", "arhl1", "wdag1"],
+      "conversations": [
+ 	{
+	  "condition": "ally",
+	  "player": "",
+	  "text": "Hey, I have a task for you...",
+	  "response": [2, 3],
+	  "action": "none"
+	},
+	{
+	  "condition": "enemy",
+	  "player": "",
+	  "text": "You looking at me?",
+	  "action": "attack"
+	},
+	{
+	  "condition": "none",
+	  "player": "What is it?",
+	  "text": "There's a syndicate member hanging out up north near their headquarters. We've been needing some fresh blood around here. Kill him for me and there'll be some valuable perks in it for you",
+	  "response": [3, 4],
+	  "action": "none"
+	},
+	{
+	  "condition": "none",
+	  "player": "I'm busy",
+	  "text": "Whatever, the offer always stands though",
+	  "action": "none"
+	},
         {
-          "recruit": "enemy",
-          "syndicatemember": "enemy"
-        },
-        {
-          "sewer rat": "ally"
+          "condition": "none",
+          "player": "Sure, why not?",
+          "text": "Thanks! Report back to me when you're one of us and I'll show you around",
+          "action": "none"
         }
       ]
     },
@@ -196,14 +305,13 @@
         }
       ],
       "intro": "Hey... you alive?\n*You let out a groan...*\nHey, mate, you need to wake up. The guards will be coming 'round soon, and they put a spear through the last guy they found still asleep.\n*Slowly, you sit up.*\nThat's the way! I'm going to head back up. Follow me as soon as you can.\nBy the way, I'm Thorall. What's your name?",
-      "relationships": [
-        {
-          "recruit": "ally"
-        },
-        {
-          "sewer rat": "enemy"
-        }
-      ]
+      "allies": [
+      	"Recruit"
+      ],
+      "enemies": [
+      	"Sewer Rat"
+      ],
+      "items":["pmil1"]
     }
   }
 }
