@@ -26,7 +26,7 @@ public class Location implements ILocation {
     private String description;
     private LocationType locationType;
     private int dangerRating;
-    private List<String> items;
+    private List<Item> items;
     private List<NPC> npcs;
     private List<Monster> monsters = new ArrayList<>();
 
@@ -92,14 +92,18 @@ public class Location implements ILocation {
     }
 
     public void setItems(ArrayList<String> items) {
-        this.items = items;
+        ArrayList<Item> itemsList = new ArrayList<>();
+        for (String itemId : items) {
+            Item itemName = itemRepo.getItem(itemId);
+            itemsList.add(itemName);
+        }
+        this.items = itemsList;
     }
 
     public ArrayList<Item> getItems() {
         ArrayList<Item> items = new ArrayList<>();
-        for (String itemId : this.items) {
-            Item itemName = itemRepo.getItem(itemId);
-            items.add(itemName);
+        for (Item item : this.items) {
+            items.add(item);
         }
         return items;
     }
@@ -144,13 +148,13 @@ public class Location implements ILocation {
     }
 
     public void addPublicItem(String itemID) {
-        items.add(itemID);
+        items.add(itemRepo.getItem(itemID));
     }
 
     public void addPublicItems(ArrayList<ItemStack> items) {
         for (int i = 0; i < items.size(); i++) {
-            String itemID = items.get(i).getItem().getId();
-            addPublicItem(itemID);
+            String itemId = items.get(i).getItem().getId();
+            addPublicItem(itemId);
         }
     }
 

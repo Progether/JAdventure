@@ -21,7 +21,9 @@ import com.jadventure.game.navigation.Direction;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.navigation.LocationType;
+import com.jadventure.game.repository.ItemRepository;
 import com.jadventure.game.DeathException;
+import com.jadventure.game.GameBeans;
 
 /**
  * CommandCollection contains the declaration of the methods mapped to game commands
@@ -139,6 +141,12 @@ public enum CommandCollection {
                         for (int i = 0; i < upperBound; i++) {
                             Monster monster = monsterFactory.generateMonster(player);
                             player.getLocation().addMonster(monster);
+                        }
+                    }
+                    if (player.getLocation().getItems().size() == 0) {
+                        int chance = random.nextInt(100);
+                        if (chance < 60) {
+                            addItemToLocation();
                         }
                     }
                     if (random.nextDouble() < 0.5) {
@@ -298,6 +306,30 @@ public enum CommandCollection {
             cm.startConversation(npc, player);
         } else {
             QueueProvider.offer("Unable to talk to " + arg);
+        }
+    }
+
+    private void addItemToLocation() {
+        ItemRepository itemRepo = GameBeans.getItemRepository();
+        if (player.getHealth() < player.getHealthMax()/3) {
+            player.getLocation().addPublicItem(itemRepo.getRandomFood(player.getLevel()).getId());
+        } else {
+            Random rand = new Random();
+            int startIndex = rand.nextInt(3);
+            switch (startIndex) {
+                case 0:
+                    player.getLocation().addPublicItem(itemRepo.getRandomWeapon(player.getLevel()).getId());
+                    break;
+                case 1:
+                    player.getLocation().addPublicItem(itemRepo.getRandomFood(player.getLevel()).getId());
+                    break;
+                case 2:
+                    player.getLocation().addPublicItem(itemRepo.getRandomArmour(player.getLevel()).getId());
+                    break;
+                case 3:
+                    player.getLocation().addPublicItem(itemRepo.getRandomPotion(player.getLevel()).getId());
+                    break;
+             }
         }
     }
 }
