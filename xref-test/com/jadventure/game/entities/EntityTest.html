@@ -15,8 +15,8 @@
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.junit.Before;
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.junit.Test;
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   
-<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> com.jadventure.game.items.Backpack;
-<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> com.jadventure.game.items.Item;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> com.jadventure.game.items.Item;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> com.jadventure.game.items.Storage;
 <a class="jxr_linenumber" name="L12" href="#L12">12</a>  
 <a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/jadventure/game/entities/EntityTest.html">EntityTest</a> {
 <a class="jxr_linenumber" name="L14" href="#L14">14</a>      <strong class="jxr_keyword">private</strong> Entity entity;
@@ -75,12 +75,12 @@
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>  
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>      @Test
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testStorage() {
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>          String id = <span class="jxr_string">"fmil1"</span>;
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>          String id = <span class="jxr_string">"pmil1"</span>;
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>          String type = <span class="jxr_string">"food-liquid"</span>;
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>          String name = <span class="jxr_string">"milk"</span>; 
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>          String description = <span class="jxr_string">""</span>;
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>          Item item = <strong class="jxr_keyword">new</strong> Item(id, type, name, description, <strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>          entity.setStorage(<strong class="jxr_keyword">new</strong> Backpack(300));
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>          Item item = <strong class="jxr_keyword">new</strong> Item(id, type, name, description, 1, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>          entity.setStorage(<strong class="jxr_keyword">new</strong> Storage(300));
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>          entity.addItemToStorage(item);
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>          Assert.assertEquals(entity.getStorage().getItems().get(0).getItem(), item);
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>      }

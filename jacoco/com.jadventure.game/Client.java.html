@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Client.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java Text Adventure</a> &gt; <a href="index.source.html" class="el_package">com.jadventure.game</a> &gt; <span class="el_source">Client.java</span></div><h1>Client.java</h1><pre class="source lang-java linenums">package com.jadventure.game;
+
+import java.net.*;
+import java.io.*;
+import java.util.Scanner;
+
+public class Client {
+
+    DataInputStream in;
+    DataOutputStream out;
+
+<span class="nc" id="L12">    public Client() {</span>
+<span class="nc" id="L13">        String serverName = &quot;localhost&quot;;</span>
+        
+<span class="nc" id="L15">        int port = 4044;</span>
+<span class="nc" id="L16">        Socket client = null;</span>
+        try {
+<span class="nc" id="L18">            client = new Socket(serverName, port);</span>
+            
+<span class="nc" id="L20">            in = new DataInputStream(client.getInputStream());</span>
+<span class="nc" id="L21">            out = new DataOutputStream(client.getOutputStream());</span>
+
+            while(true) {
+<span class="nc" id="L24">                String serverMessage = in.readUTF();</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">                if (serverMessage.endsWith(&quot;END&quot;)) {</span>
+<span class="nc" id="L26">                    serverMessage = serverMessage.substring(0, serverMessage.length() - 3);</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">                    if (serverMessage.equals(&quot;QUERY&quot;)) {</span>
+<span class="nc" id="L28">                        getInput();</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">                    } else if (serverMessage.equals(&quot;EXIT&quot;)) {</span>
+<span class="nc" id="L30">                        break;</span>
+                    } else {
+<span class="nc" id="L32">                        System.out.println(serverMessage);</span>
+                    }
+                } else {
+<span class="nc" id="L35">                    String message = &quot;&quot;;</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">                    while(!serverMessage.endsWith(&quot;END&quot;)) {</span>
+<span class="nc" id="L37">                        message += serverMessage;</span>
+<span class="nc" id="L38">                        serverMessage = in.readUTF();</span>
+                    }
+<span class="nc" id="L40">                    message = serverMessage.substring(0, serverMessage.length() - 3);</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">                    if (message.equals(&quot;QUERY&quot;)) {</span>
+<span class="nc" id="L42">                        getInput();</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">                    } else if (serverMessage.equals(&quot;EXIT&quot;)) {</span>
+<span class="nc" id="L44">                        break;</span>
+                    } else {
+<span class="nc" id="L46">                        System.out.println(serverMessage);</span>
+                    }
+                }
+<span class="nc" id="L49">            }</span>
+<span class="nc" id="L50">        } catch(IOException e) {</span>
+<span class="nc" id="L51">            e.printStackTrace();</span>
+        } finally {
+<span class="nc" id="L53">        	try {</span>
+<span class="nc" id="L54">				client.close();</span>
+<span class="nc" id="L55">			} catch (IOException e) {</span>
+<span class="nc" id="L56">				e.printStackTrace();</span>
+<span class="nc" id="L57">			}</span>
+<span class="nc" id="L58">        }</span>
+<span class="nc" id="L59">    }</span>
+
+    public void getInput() {
+         Scanner input;
+         try {
+<span class="nc" id="L64">             input = new Scanner(System.in);</span>
+<span class="nc" id="L65">             String userInput = input.nextLine();</span>
+<span class="nc" id="L66">             out.writeUTF(userInput);</span>
+<span class="nc" id="L67">         } catch (IOException e) {</span>
+<span class="nc" id="L68">             e.printStackTrace(); </span>
+<span class="nc" id="L69">         } </span>
+<span class="nc" id="L70">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

@@ -22,105 +22,117 @@
 <a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> com.google.gson.JsonParser;
 <a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> com.google.gson.stream.JsonReader;
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> com.google.gson.stream.JsonWriter;
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> com.jadventure.game.items.Item;
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>  
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/jadventure/game/repository/ItemRepository.html">ItemRepository</a> {
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>  	<strong class="jxr_keyword">private</strong> Map&lt;String, Item&gt; itemMap = <strong class="jxr_keyword">new</strong> HashMap&lt;&gt;();
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  	<strong class="jxr_keyword">public</strong> <a href="../../../../com/jadventure/game/items/Item.html">Item</a> getItem(String id) {
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>  		<strong class="jxr_keyword">if</strong> (id == <strong class="jxr_keyword">null</strong> || id.trim().length() == 0) {
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  			<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  		}
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  	    <strong class="jxr_keyword">if</strong> (! itemMap.containsKey(id)) {
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  	        <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> RepositoryException(<span class="jxr_string">"Argument 'id' with value '"</span> + id + <span class="jxr_string">"' not found in repository."</span>);
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  	    }
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>  	    <strong class="jxr_keyword">return</strong> itemMap.get(id);
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  	}
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>  	
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>      <em class="jxr_comment">// Load all items, from the given file</em>
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> load(File repo) {
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>          <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  			JsonReader reader = <strong class="jxr_keyword">new</strong> JsonReader(<strong class="jxr_keyword">new</strong> FileReader(repo));
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  			load(reader);
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>  		} <strong class="jxr_keyword">catch</strong> (FileNotFoundException e) {
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  			<em class="jxr_comment">// TODO Auto-generated catch block</em>
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>  			e.printStackTrace();
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>  		}
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>      }
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>      <em class="jxr_comment">// Load all items, from the given file</em>
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> load(JsonReader reader) {
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>          JsonObject jsonItems = <strong class="jxr_keyword">new</strong> JsonObject();
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>          <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>              JsonParser parser = <strong class="jxr_keyword">new</strong> JsonParser();
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>              JsonObject json = parser.parse(reader).getAsJsonObject();
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>              jsonItems = json.get(<span class="jxr_string">"items"</span>).getAsJsonObject();
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>              reader.close();
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>          } <strong class="jxr_keyword">catch</strong> (FileNotFoundException ex) {
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>              ex.printStackTrace();
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>          } <strong class="jxr_keyword">catch</strong> (IOException ex) {
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>              ex.printStackTrace();
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>          }
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>          
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>          <strong class="jxr_keyword">for</strong> (Map.Entry&lt;String, JsonElement&gt; entry : jsonItems.entrySet()) {
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>              String id = entry.getKey();
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>              JsonObject itemData = entry.getValue().getAsJsonObject();
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>              String type = itemData.get(<span class="jxr_string">"type"</span>).getAsString();
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>              String name = itemData.get(<span class="jxr_string">"name"</span>).getAsString();
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>              String description = itemData.get(<span class="jxr_string">"description"</span>).getAsString();
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>              String position = itemData.get(<span class="jxr_string">"position"</span>).getAsString();
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>              JsonObject sProps = itemData.get(<span class="jxr_string">"properties"</span>).getAsJsonObject();
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>              Map&lt;String, Integer&gt; properties = <strong class="jxr_keyword">new</strong> HashMap&lt;&gt;();
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>              <strong class="jxr_keyword">for</strong> (Map.Entry&lt;String, JsonElement&gt; entry2 : sProps.entrySet()) {
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>                  Integer propValue = entry2.getValue().getAsInt();
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>                  properties.put(entry2.getKey(), propValue);
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>              }
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>  
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>              addItem(<strong class="jxr_keyword">new</strong> <a href="../../../../com/jadventure/game/items/Item.html">Item</a>(id, type, name, description, position, properties));
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>              
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>          }
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>      }
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>  
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>  
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>      <strong class="jxr_keyword">void</strong> addItem(<a href="../../../../com/jadventure/game/items/Item.html">Item</a> item) {
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>          itemMap.put(item.getId(), item);
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>      }
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>  
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>  
-<a class="jxr_linenumber" name="L81" href="#L81">81</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../com/jadventure/game/repository/ItemRepository.html">ItemRepository</a> itemRepository = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../com/jadventure/game/repository/ItemRepository.html">ItemRepository</a> createRepo() {
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>          <strong class="jxr_keyword">if</strong> (itemRepository == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L84" href="#L84">84</a>              File file = <strong class="jxr_keyword">new</strong> File(<strong class="jxr_keyword">new</strong> File(System.getProperty(<span class="jxr_string">"user.dir"</span>)), <span class="jxr_string">"json"</span>);
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>  
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>              File dataFile = <strong class="jxr_keyword">new</strong> File(<strong class="jxr_keyword">new</strong> File(file, <span class="jxr_string">"original_data"</span>), <span class="jxr_string">"items.json"</span>);
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>              <strong class="jxr_keyword">if</strong> (! dataFile.exists()) {
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>              	<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> RuntimeException(<span class="jxr_string">"File '"</span> + dataFile + <span class="jxr_string">"' does not exist."</span>);
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>              }
-<a class="jxr_linenumber" name="L90" href="#L90">90</a>  
-<a class="jxr_linenumber" name="L91" href="#L91">91</a>              itemRepository = <strong class="jxr_keyword">new</strong> <a href="../../../../com/jadventure/game/repository/ItemRepository.html">ItemRepository</a>();
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>              itemRepository.load(dataFile);
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>          }
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>          <strong class="jxr_keyword">return</strong> itemRepository;
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>      }
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>  
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> com.jadventure.game.entities.EquipmentLocation;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> com.jadventure.game.items.Item;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/jadventure/game/repository/ItemRepository.html">ItemRepository</a> {
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Map&lt;String, EquipmentLocation&gt; EQUIPMENT_POSITION_MAP = <strong class="jxr_keyword">new</strong> HashMap&lt;&gt;();
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>      <strong class="jxr_keyword">private</strong> Map&lt;String, Item&gt; itemMap = <strong class="jxr_keyword">new</strong> HashMap&lt;&gt;();
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>      <strong class="jxr_keyword">static</strong> {
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>          EQUIPMENT_POSITION_MAP.put(<span class="jxr_string">"head"</span>, EquipmentLocation.HEAD);
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>          EQUIPMENT_POSITION_MAP.put(<span class="jxr_string">"chest"</span>, EquipmentLocation.CHEST);
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>          EQUIPMENT_POSITION_MAP.put(<span class="jxr_string">"leftArm"</span>, EquipmentLocation.LEFT_ARM);
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>          EQUIPMENT_POSITION_MAP.put(<span class="jxr_string">"leftHand"</span>, EquipmentLocation.LEFT_HAND);
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>          EQUIPMENT_POSITION_MAP.put(<span class="jxr_string">"rightArm"</span>, EquipmentLocation.RIGHT_ARM);
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>          EQUIPMENT_POSITION_MAP.put(<span class="jxr_string">"rightHand"</span>, EquipmentLocation.RIGHT_HAND);
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>          EQUIPMENT_POSITION_MAP.put(<span class="jxr_string">"legs"</span>, EquipmentLocation.LEGS);
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>          EQUIPMENT_POSITION_MAP.put(<span class="jxr_string">"boots"</span>, EquipmentLocation.FEET);
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>      }
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  	<strong class="jxr_keyword">public</strong> <a href="../../../../com/jadventure/game/items/Item.html">Item</a> getItem(String id) {
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>              <strong class="jxr_keyword">if</strong> (id == <strong class="jxr_keyword">null</strong> || id.trim().length() == 0) {
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>                  <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>              }
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  	    <strong class="jxr_keyword">if</strong> (!itemMap.containsKey(id)) {
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  	        <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> RepositoryException(<span class="jxr_string">"Argument 'id' with value '"</span> + id + <span class="jxr_string">"' not found in repository."</span>);
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  	    }
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  	    <strong class="jxr_keyword">return</strong> itemMap.get(id);
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  	}
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  	
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>      <em class="jxr_comment">// Load all items, from the given file</em>
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> load(File repo) {
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>          <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  			JsonReader reader = <strong class="jxr_keyword">new</strong> JsonReader(<strong class="jxr_keyword">new</strong> FileReader(repo));
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  			load(reader);
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  		} <strong class="jxr_keyword">catch</strong> (FileNotFoundException e) {
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  			e.printStackTrace();
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  		}
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>      }
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>      <em class="jxr_comment">// Load all items, from the given file</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> load(JsonReader reader) {
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>          JsonObject jsonItems = <strong class="jxr_keyword">new</strong> JsonObject();
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>          <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>              JsonParser parser = <strong class="jxr_keyword">new</strong> JsonParser();
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>              JsonObject json = parser.parse(reader).getAsJsonObject();
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>              jsonItems = json.get(<span class="jxr_string">"items"</span>).getAsJsonObject();
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>              reader.close();
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>          } <strong class="jxr_keyword">catch</strong> (FileNotFoundException ex) {
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>              ex.printStackTrace();
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>          } <strong class="jxr_keyword">catch</strong> (IOException ex) {
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>              ex.printStackTrace();
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>          }
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>          
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>          <strong class="jxr_keyword">for</strong> (Map.Entry&lt;String, JsonElement&gt; entry : jsonItems.entrySet()) {
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>              String id = entry.getKey();
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>              JsonObject itemData = entry.getValue().getAsJsonObject();
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>              String type = itemData.get(<span class="jxr_string">"type"</span>).getAsString();
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>              String name = itemData.get(<span class="jxr_string">"name"</span>).getAsString();
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>              String description = itemData.get(<span class="jxr_string">"description"</span>).getAsString();
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>              <a href="../../../../com/jadventure/game/entities/EquipmentLocation.html">EquipmentLocation</a> position = EQUIPMENT_POSITION_MAP.get(itemData.get(<span class="jxr_string">"position"</span>).getAsString());
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>              <strong class="jxr_keyword">int</strong> level = itemData.get(<span class="jxr_string">"level"</span>).getAsInt();
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>              JsonObject sProps = itemData.get(<span class="jxr_string">"properties"</span>).getAsJsonObject();
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>              Map&lt;String, Integer&gt; properties = <strong class="jxr_keyword">new</strong> HashMap&lt;&gt;();
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>              <strong class="jxr_keyword">for</strong> (Map.Entry&lt;String, JsonElement&gt; entry2 : sProps.entrySet()) {
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>                  Integer propValue = entry2.getValue().getAsInt();
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>                  properties.put(entry2.getKey(), propValue);
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>              }
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>  
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>              addItem(<strong class="jxr_keyword">new</strong> <a href="../../../../com/jadventure/game/items/Item.html">Item</a>(id, type, name, description, position, level, properties));
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>              
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>          }
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>      }
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>  
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>  
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>      <strong class="jxr_keyword">void</strong> addItem(<a href="../../../../com/jadventure/game/items/Item.html">Item</a> item) {
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>          itemMap.put(item.getId(), item);
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>      }
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../com/jadventure/game/repository/ItemRepository.html">ItemRepository</a> itemRepository = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../com/jadventure/game/repository/ItemRepository.html">ItemRepository</a> createRepo() {
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>          <strong class="jxr_keyword">if</strong> (itemRepository == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>              File file = <strong class="jxr_keyword">new</strong> File(<strong class="jxr_keyword">new</strong> File(System.getProperty(<span class="jxr_string">"user.dir"</span>)), <span class="jxr_string">"json"</span>);
 <a class="jxr_linenumber" name="L97" href="#L97">97</a>  
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> retrieve(JsonReader jsonReader) {
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>          load(jsonReader);
-<a class="jxr_linenumber" name="L100" href="#L100">100</a>         
-<a class="jxr_linenumber" name="L101" href="#L101">101</a> <em class="jxr_comment">//        throw new RuntimeException("The method " + ItemRepository.class.getSimpleName() </em>
-<a class="jxr_linenumber" name="L102" href="#L102">102</a> <em class="jxr_comment">//                + ".retrieve(JsonReader jsonReader), has not yet been implemented.");</em>
-<a class="jxr_linenumber" name="L103" href="#L103">103</a> <em class="jxr_comment">//        Gson gson = new Gson();</em>
-<a class="jxr_linenumber" name="L104" href="#L104">104</a> <em class="jxr_comment">//        gson.fromJson(jsonReader, );</em>
-<a class="jxr_linenumber" name="L105" href="#L105">105</a>     }
-<a class="jxr_linenumber" name="L106" href="#L106">106</a> 
-<a class="jxr_linenumber" name="L107" href="#L107">107</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> store(JsonWriter writer) {
-<a class="jxr_linenumber" name="L108" href="#L108">108</a>         GsonBuilder bldr = <strong class="jxr_keyword">new</strong> GsonBuilder().setPrettyPrinting();
-<a class="jxr_linenumber" name="L109" href="#L109">109</a>         Gson gson = bldr.create();
-<a class="jxr_linenumber" name="L110" href="#L110">110</a>         Map&lt;String, Map&lt;String, Item&gt;&gt; root = <strong class="jxr_keyword">new</strong> HashMap&lt;&gt;();
-<a class="jxr_linenumber" name="L111" href="#L111">111</a>         root.put(<span class="jxr_string">"items"</span>, itemMap);
-<a class="jxr_linenumber" name="L112" href="#L112">112</a>         gson.toJson(root, Map.<strong class="jxr_keyword">class</strong>, writer);
-<a class="jxr_linenumber" name="L113" href="#L113">113</a>     }
-<a class="jxr_linenumber" name="L114" href="#L114">114</a> 
-<a class="jxr_linenumber" name="L115" href="#L115">115</a> }
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>              File dataFile = <strong class="jxr_keyword">new</strong> File(<strong class="jxr_keyword">new</strong> File(file, <span class="jxr_string">"original_data"</span>), <span class="jxr_string">"items.json"</span>);
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>              <strong class="jxr_keyword">if</strong> (! dataFile.exists()) {
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>             	<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> RuntimeException(<span class="jxr_string">"File '"</span> + dataFile + <span class="jxr_string">"' does not exist."</span>);
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>             }
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> 
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>             itemRepository = <strong class="jxr_keyword">new</strong> <a href="../../../../com/jadventure/game/repository/ItemRepository.html">ItemRepository</a>();
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>             itemRepository.load(dataFile);
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>         }
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>         <strong class="jxr_keyword">return</strong> itemRepository;
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>     }
+<a class="jxr_linenumber" name="L108" href="#L108">108</a> 
+<a class="jxr_linenumber" name="L109" href="#L109">109</a> 
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> retrieve(JsonReader jsonReader) {
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>         load(jsonReader);
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>         
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> <em class="jxr_comment">//        throw new RuntimeException("The method " + ItemRepository.class.getSimpleName() </em>
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> <em class="jxr_comment">//                + ".retrieve(JsonReader jsonReader), has not yet been implemented.");</em>
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> <em class="jxr_comment">//        Gson gson = new Gson();</em>
+<a class="jxr_linenumber" name="L116" href="#L116">116</a> <em class="jxr_comment">//        gson.fromJson(jsonReader, );</em>
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>     }
+<a class="jxr_linenumber" name="L118" href="#L118">118</a> 
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> store(JsonWriter writer) {
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>         GsonBuilder bldr = <strong class="jxr_keyword">new</strong> GsonBuilder().setPrettyPrinting();
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>         Gson gson = bldr.create();
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>         Map&lt;String, Map&lt;String, Item&gt;&gt; root = <strong class="jxr_keyword">new</strong> HashMap&lt;&gt;();
+<a class="jxr_linenumber" name="L123" href="#L123">123</a>         root.put(<span class="jxr_string">"items"</span>, itemMap);
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>         gson.toJson(root, Map.<strong class="jxr_keyword">class</strong>, writer);
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>     }
+<a class="jxr_linenumber" name="L126" href="#L126">126</a> 
+<a class="jxr_linenumber" name="L127" href="#L127">127</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2014. All rights reserved.</div>

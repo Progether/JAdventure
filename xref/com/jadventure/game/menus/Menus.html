@@ -20,7 +20,7 @@
 <a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment"> * Add MenuItems to menuItems, call displayMenu and you're happy</em>
 <a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/jadventure/game/menus/Menus.html">Menus</a> {
-<a class="jxr_linenumber" name="L15" href="#L15">15</a>      <strong class="jxr_keyword">protected</strong> List&lt;MenuItem&gt; menuItems = <strong class="jxr_keyword">new</strong> ArrayList&lt;MenuItem&gt;();
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>      <strong class="jxr_keyword">protected</strong> List&lt;MenuItem&gt; menuItems = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>      <strong class="jxr_keyword">protected</strong> Map&lt;String, MenuItem&gt; commandMap = <strong class="jxr_keyword">new</strong> HashMap&lt;String, MenuItem&gt;();
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../com/jadventure/game/menus/MenuItem.html">MenuItem</a> displayMenu(List&lt;MenuItem&gt; m) {
@@ -31,38 +31,37 @@
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>              <strong class="jxr_keyword">for</strong> (String command: menuItem.getAltCommands()) {
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>                  commandMap.put(command.toLowerCase(), menuItem);
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>              }
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>              i ++;
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>          }
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>          <a href="../../../../com/jadventure/game/menus/MenuItem.html">MenuItem</a> selectedItem = selectMenu(m);
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>          <strong class="jxr_keyword">return</strong> selectedItem;
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>      }
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>      <em class="jxr_comment">// calls for user input from command line</em>
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>      <strong class="jxr_keyword">protected</strong> <a href="../../../../com/jadventure/game/menus/MenuItem.html">MenuItem</a> selectMenu(List&lt;MenuItem&gt; m) {
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>          <strong class="jxr_keyword">this</strong>.printMenuItems(m);
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>          String command = QueueProvider.take();
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>          <strong class="jxr_keyword">if</strong> (commandMap.containsKey(command.toLowerCase())) {
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>              <strong class="jxr_keyword">return</strong> commandMap.get(command.toLowerCase());
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>          } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>              QueueProvider.offer(<span class="jxr_string">"I don't know what '"</span> + command + <span class="jxr_string">"' means."</span>);
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.displayMenu(m);
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>          }
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>      }
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>  
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> printMenuItems(List&lt;MenuItem&gt; m) {
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>          <strong class="jxr_keyword">int</strong> i = 1;
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>          <strong class="jxr_keyword">for</strong> (MenuItem menuItem: m) {
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>              <strong class="jxr_keyword">if</strong> (menuItem.getDescription() != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>                  QueueProvider.offer(<span class="jxr_string">"["</span> + i + <span class="jxr_string">"] "</span> + menuItem.getCommand() + <span class="jxr_string">" - "</span> + menuItem.getDescription());
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>              } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>                  QueueProvider.offer(<span class="jxr_string">"["</span> + i + <span class="jxr_string">"] "</span> + menuItem.getCommand());
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>              }
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>              i++;
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>          }
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>      }
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>  }
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>  
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>              i ++;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>          }
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>          <a href="../../../../com/jadventure/game/menus/MenuItem.html">MenuItem</a> selectedItem = selectMenu(m);
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>          <strong class="jxr_keyword">return</strong> selectedItem;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>      }
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>      <em class="jxr_comment">// calls for user input from command line</em>
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>      <strong class="jxr_keyword">protected</strong> <a href="../../../../com/jadventure/game/menus/MenuItem.html">MenuItem</a> selectMenu(List&lt;MenuItem&gt; m) {
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>          <strong class="jxr_keyword">this</strong>.printMenuItems(m);
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>          String command = QueueProvider.take();
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>          <strong class="jxr_keyword">if</strong> (commandMap.containsKey(command.toLowerCase())) {
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>              <strong class="jxr_keyword">return</strong> commandMap.get(command.toLowerCase());
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>          } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>              QueueProvider.offer(<span class="jxr_string">"I don't know what '"</span> + command + <span class="jxr_string">"' means."</span>);
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.displayMenu(m);
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>          }
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>      }
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> printMenuItems(List&lt;MenuItem&gt; m) {
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>          <strong class="jxr_keyword">int</strong> i = 1;
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>          <strong class="jxr_keyword">for</strong> (MenuItem menuItem: m) {
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>              <strong class="jxr_keyword">if</strong> (menuItem.getDescription() != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>                  QueueProvider.offer(<span class="jxr_string">"["</span> + i + <span class="jxr_string">"] "</span> + menuItem.getCommand() + <span class="jxr_string">" - "</span> + menuItem.getDescription());
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>              } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>                  QueueProvider.offer(<span class="jxr_string">"["</span> + i + <span class="jxr_string">"] "</span> + menuItem.getCommand());
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>              }
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>              i++;
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>          }
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>      }
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  }
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2014. All rights reserved.</div>

@@ -72,29 +72,30 @@
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>              <strong class="jxr_keyword">return</strong> GameModeType.valueOf(args[0].toUpperCase());
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>          }
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>          <strong class="jxr_keyword">catch</strong> (IllegalArgumentException iae) {
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>              logger.warn(<span class="jxr_string">"No game mode '"</span> + args[0].toUpperCase() + <span class="jxr_string">"' known."</span>
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>                      + <span class="jxr_string">"Starting in default mode '"</span> + GameModeType.STAND_ALONE + <span class="jxr_string">"'"</span>);
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>          }
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>          <strong class="jxr_keyword">return</strong> GameModeType.STAND_ALONE;
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>      }
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>  
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> String toString(String[] args) {
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>          <strong class="jxr_keyword">if</strong> (args.length == 0) {
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>              <strong class="jxr_keyword">return</strong> <span class="jxr_string">""</span>;
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>          }
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>  
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>          <strong class="jxr_keyword">final</strong> StringBuilder bldr = <strong class="jxr_keyword">new</strong> StringBuilder();
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>          bldr.append(<span class="jxr_string">"[ "</span>);
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>          <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> index = 0; index &lt; args.length; index++) {
-<a class="jxr_linenumber" name="L81" href="#L81">81</a>              <strong class="jxr_keyword">if</strong> (index &gt; 0) {
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>                  bldr.append(<span class="jxr_string">", "</span>);
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>              }
-<a class="jxr_linenumber" name="L84" href="#L84">84</a>              bldr.append(args[index]);
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>          }
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>          bldr.append(<span class="jxr_string">" ]"</span>);
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>          <strong class="jxr_keyword">return</strong> bldr.toString();
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>      }
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>  }
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>              logger.warn(<span class="jxr_string">"No game mode '"</span> + args[0].toUpperCase() + <span class="jxr_string">"' known."</span> +
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>                      <span class="jxr_string">"Terminating application."</span>);
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>              System.exit(-1);
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>          }
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>          <strong class="jxr_keyword">return</strong> GameModeType.STAND_ALONE;
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>      }
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> String toString(String[] args) {
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>          <strong class="jxr_keyword">if</strong> (args.length == 0) {
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>              <strong class="jxr_keyword">return</strong> <span class="jxr_string">""</span>;
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>          }
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>          <strong class="jxr_keyword">final</strong> StringBuilder bldr = <strong class="jxr_keyword">new</strong> StringBuilder();
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>          bldr.append(<span class="jxr_string">"[ "</span>);
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>          <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> index = 0; index &lt; args.length; index++) {
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>              <strong class="jxr_keyword">if</strong> (index &gt; 0) {
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>                  bldr.append(<span class="jxr_string">", "</span>);
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>              }
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>              bldr.append(args[index]);
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>          }
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>          bldr.append(<span class="jxr_string">" ]"</span>);
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>          <strong class="jxr_keyword">return</strong> bldr.toString();
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>      }
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2014. All rights reserved.</div>

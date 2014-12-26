@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Storage.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java Text Adventure</a> &gt; <a href="index.source.html" class="el_package">com.jadventure.game.items</a> &gt; <span class="el_source">Storage.java</span></div><h1>Storage.java</h1><pre class="source lang-java linenums">package com.jadventure.game.items;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.jadventure.game.QueueProvider;
+
+/**
+ * Defines an interface for any type of storage in this game.
+ */
+public class Storage {
+    public final static double WEIGHT_UNLIMITED = -1;
+    private double maxWeight;
+<span class="fc" id="L14">    private List&lt;ItemStack&gt; items = null;</span>
+
+    public Storage() {
+<span class="nc" id="L17">        this(WEIGHT_UNLIMITED);</span>
+<span class="nc" id="L18">    }</span>
+	public Storage(double maxWeight) {
+<span class="fc" id="L20">        this(maxWeight, new ArrayList&lt;ItemStack&gt;());</span>
+<span class="fc" id="L21">	}</span>
+<span class="fc" id="L22">    public Storage(double maxWeight, List&lt;ItemStack&gt; items) {</span>
+<span class="fc" id="L23">        this.maxWeight = maxWeight;</span>
+<span class="fc" id="L24">        this.items = items;</span>
+<span class="fc" id="L25">    }</span>
+
+	public double getMaxWeight() {
+<span class="nc" id="L28">		return maxWeight;</span>
+	}
+
+    /**
+     * Checks if the current Storage contains an ItemStack with the
+     * same type of item as the argument.
+     */
+    private boolean contains(ItemStack item) {
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        for (ItemStack itemStack : this.items) {</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">            if (itemStack.getItem().equals(item.getItem())) {</span>
+<span class="fc" id="L38">                return true;</span>
+            }
+<span class="fc" id="L40">        }</span>
+<span class="fc" id="L41">        return false;</span>
+    }
+
+    /**
+     * Finds the only item of the same type as the input,
+     * and returns that ItemStack.
+     * This prevents duplicate items in your backpack.
+     */
+    private ItemStack getSameType(ItemStack item) {
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        for (ItemStack itemStack : this.items) {</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">            if (itemStack.getItem().equals(item.getItem())) {</span>
+<span class="fc" id="L52">                return itemStack;</span>
+            }
+<span class="nc" id="L54">        }</span>
+<span class="nc" id="L55">        return null;</span>
+    }
+
+    /**
+     * Adds an ItemStack to the items list.
+     */
+    public void addItem(ItemStack itemStack) {
+<span class="fc" id="L62">        double totalWeight = itemStack.getItem().getWeight() * itemStack.getAmount();</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        if (totalWeight &lt; this.maxWeight) {</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">            if (contains(itemStack)) {</span>
+<span class="fc" id="L65">                ItemStack sameType = this.getSameType(itemStack);</span>
+<span class="fc" id="L66">                this.items.remove(sameType);</span>
+<span class="fc" id="L67">                this.items.add(new ItemStack(sameType.getAmount()+1, sameType.getItem()));</span>
+<span class="fc" id="L68">            } else {</span>
+<span class="fc" id="L69">                this.items.add(itemStack);</span>
+            }
+        }
+<span class="fc" id="L72">    }</span>
+
+    /**
+     * Removes one Item from the ItemStack and replaces the old ItemStack
+     * in this.items with the new one.
+     */
+    public void removeItem(ItemStack item) {
+<span class="nc" id="L79">        this.removeItem(item, 1);</span>
+<span class="nc" id="L80">    }</span>
+
+    /**
+     * Removes amount of Item's from the ItemStack and replaces the old ItemStack
+     * in this.items with the new one.
+     */
+    public void removeItem(ItemStack item, int amount) {
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (this.contains(item)) {</span>
+<span class="nc" id="L88">            ItemStack sameType = this.getSameType(item);</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (sameType.getAmount()-amount &lt;= 0) {</span>
+<span class="nc" id="L90">                this.items.remove(sameType);</span>
+            } else {
+<span class="nc" id="L92">                this.items.remove(sameType);</span>
+<span class="nc" id="L93">                this.items.add(new ItemStack(sameType.getAmount()-amount, sameType.getItem()));</span>
+            }
+        }
+<span class="nc" id="L96">    }</span>
+
+    /**
+     * Prints out the content of the backpack to the console.
+     */
+    public void display() {
+<span class="nc" id="L102">            QueueProvider.offer(&quot;\n--------------------------------------------------------------------&quot;);</span>
+<span class="nc" id="L103">            QueueProvider.offer(&quot;Backpack: &quot;);</span>
+<span class="nc" id="L104">            QueueProvider.offer(this.toString());</span>
+<span class="nc" id="L105">            QueueProvider.offer(&quot;--------------------------------------------------------------------&quot;);</span>
+<span class="nc" id="L106">    }</span>
+
+    public boolean isEmpty() {
+<span class="nc" id="L109">        return this.items.isEmpty();</span>
+    }
+
+    public List&lt;ItemStack&gt; getItems() {
+<span class="fc" id="L113">        return this.items;</span>
+    }
+
+    public String toString() {
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        if (this.items.isEmpty()) {</span>
+<span class="nc" id="L118">            return &quot;--Empty--&quot;;</span>
+        } else {
+<span class="nc" id="L120">            String content = &quot;&quot;;</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">            for (ItemStack item : this.items) {</span>
+<span class="nc" id="L122">                content += &quot;- &quot; + item.getItem().getName() + &quot; : &quot; + item.getAmount() + &quot;\n&quot;;</span>
+<span class="nc" id="L123">            }</span>
+<span class="nc" id="L124">            return content;</span>
+        }
+    }
+
+    public String displayWithValue() {
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (this.items.isEmpty()) {</span>
+<span class="nc" id="L130">            return &quot;--Empty--&quot;;</span>
+        } else {
+<span class="nc" id="L132">            String content = &quot;&quot;;</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">            for (ItemStack item : this.items) {</span>
+<span class="nc" id="L134">                int value = item.getItem().getProperties().get(&quot;value&quot;);</span>
+<span class="nc" id="L135">                content += &quot;- &quot; + item.getItem().getName() + &quot; : &quot; + item.getAmount() + &quot; at &quot; + value + &quot; gold coins each\n&quot;;</span>
+<span class="nc" id="L136">            }</span>
+<span class="nc" id="L137">            return content;</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

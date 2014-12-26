@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Coordinate.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java Text Adventure</a> &gt; <a href="index.source.html" class="el_package">com.jadventure.game.navigation</a> &gt; <span class="el_source">Coordinate.java</span></div><h1>Coordinate.java</h1><pre class="source lang-java linenums">package com.jadventure.game.navigation;
+
+/**
+ * This class takes two possible constructions: either a string or three integers.
+ * Either way, it is parsed into a Coordinate.
+ */
+public class Coordinate {
+    public final int x;
+    public final int y;
+    public final int z;
+
+    /**
+     * Create an 3D coordinate based on a String.
+     *
+     * @param rawCoordinate - A String containing three numbers, separated by a comma,
+     * like {@code 'x, y, z'}
+     */
+<span class="fc" id="L18">    public Coordinate(String rawCoordinate) {</span>
+<span class="fc" id="L19">        String[] parts = rawCoordinate.split(&quot;,&quot;);</span>
+<span class="fc" id="L20">        this.x = Integer.parseInt(parts[0]);</span>
+<span class="fc" id="L21">        this.y = Integer.parseInt(parts[1]);</span>
+<span class="fc" id="L22">        this.z = Integer.parseInt(parts[2]);</span>
+<span class="fc" id="L23">    }</span>
+
+    /**
+     * Create an 3D coordinate based on a String.
+     * 
+     * @param x - The X position
+     * @param y - The Y position
+     * @param z - The Z position
+     */
+<span class="nc" id="L32">    public Coordinate(int x, int y, int z) {</span>
+<span class="nc" id="L33">        this.x = x;</span>
+<span class="nc" id="L34">        this.y = y;</span>
+<span class="nc" id="L35">        this.z = z;</span>
+<span class="nc" id="L36">    }</span>
+
+    public Coordinate getBorderingCoordinate(Direction direction) {
+<span class="nc" id="L39">        return new Coordinate(x + direction.getDx(), y + direction.getDy(), z + direction.getDz());</span>
+    }
+
+    public int getX() {
+<span class="nc" id="L43">        return x;</span>
+    }
+
+    public int getY() {
+<span class="nc" id="L47">        return y;</span>
+    } 
+
+    public int getZ() {
+<span class="nc" id="L51">        return z;</span>
+    }
+
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L57" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+
+<span class="fc" id="L59">        Coordinate that = (Coordinate) o;</span>
+
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        if (x != that.x) return false;</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        if (y != that.y) return false;</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        if (z != that.z) return false;</span>
+
+<span class="fc" id="L65">        return true;</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L70">        int result = x;</span>
+<span class="fc" id="L71">        result = 31 * result + y;</span>
+<span class="fc" id="L72">        result = 31 * result + z;</span>
+<span class="fc" id="L73">        return result;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L78">        return x + &quot;,&quot; + y + &quot;,&quot; + z;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

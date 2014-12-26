@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Item.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java Text Adventure</a> &gt; <a href="index.source.html" class="el_package">com.jadventure.game.items</a> &gt; <span class="el_source">Item.java</span></div><h1>Item.java</h1><pre class="source lang-java linenums">package com.jadventure.game.items;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.jadventure.game.QueueProvider;
+import com.jadventure.game.entities.EquipmentLocation;
+
+/**
+ * Items lay around in the game world and can be taken with you.
+ */
+public class Item {
+	private final String id;
+    private final String type;
+    private final String name;
+    private final String description;
+    private final EquipmentLocation position;
+    private final int level;
+    private final Map&lt;String, Integer&gt; properties;
+
+    public Item(String id, String type, String name, String description, int level, Map&lt;String, Integer&gt; properties) {
+<span class="fc" id="L23">        this(id, type, name, description, null, level, properties);</span>
+<span class="fc" id="L24">    }</span>
+<span class="fc" id="L25">    public Item(String id, String type, String name, String description, EquipmentLocation position, int level, Map&lt;String, Integer&gt; properties) {</span>
+<span class="fc" id="L26">        this.id = id;</span>
+<span class="fc" id="L27">        this.type = type;</span>
+<span class="fc" id="L28">        this.name = name;</span>
+<span class="fc" id="L29">        this.description = description;</span>
+<span class="fc" id="L30">        this.position = position;</span>
+<span class="fc" id="L31">        this.level = level;</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (properties != null) {</span>
+<span class="fc" id="L33">            this.properties = properties;</span>
+        }
+        else {
+<span class="fc" id="L36">            this.properties = new HashMap&lt;&gt;();</span>
+        }
+<span class="fc" id="L38">    }</span>
+
+    public String getName() {
+<span class="fc" id="L41">        return name;</span>
+    }
+
+    public String getId() {
+<span class="fc" id="L45">        return id;</span>
+    }
+
+    public String getType() {
+<span class="fc" id="L49">        return type;</span>
+    }
+
+    public Integer getWeight() {
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (properties.containsKey(&quot;weight&quot;)) {</span>
+<span class="fc" id="L54">            return properties.get(&quot;weight&quot;);</span>
+        }
+<span class="fc" id="L56">        return Integer.valueOf(0);</span>
+    }
+
+    public EquipmentLocation getPosition() {
+<span class="nc" id="L60">    	return position;</span>
+    }
+
+    public int getLevel() {
+<span class="fc" id="L64">        return level;</span>
+    }
+
+    public String getDescription() {
+<span class="fc" id="L68">        return description;</span>
+    }
+
+    public int getProperty(String property) {
+<span class="nc" id="L72">        return properties.get(property);</span>
+    }
+
+    public Map&lt;String, Integer&gt; getProperties() {
+<span class="fc" id="L76">        return Collections.unmodifiableMap(properties);</span>
+    }
+
+    public boolean containsProperty(String key) {
+<span class="nc" id="L80">        return properties.containsKey(key);</span>
+    }
+
+    public boolean equals(Object obj) {
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">        if (obj == null) {</span>
+<span class="nc" id="L85">            return false;</span>
+        }
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        if (obj instanceof Item) {</span>
+<span class="fc" id="L88">            Item i = (Item) obj;</span>
+<span class="fc" id="L89">            return name.equals(i.name);</span>
+        }
+<span class="nc" id="L91">        return false;</span>
+    }
+
+    public void display() {
+<span class="nc" id="L95">        QueueProvider.offer(&quot;Name: &quot; + name +</span>
+                &quot;\nDescription: &quot; + description);
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        for (Map.Entry&lt;String, Integer&gt; entry : properties.entrySet()) {</span>
+<span class="nc" id="L98">            QueueProvider.offer(entry.getKey() + &quot;: &quot; + entry.getValue());</span>
+<span class="nc" id="L99">        }</span>
+<span class="nc" id="L100">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

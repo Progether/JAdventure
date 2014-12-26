@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Player.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java Text Adventure</a> &gt; <a href="index.source.html" class="el_package">com.jadventure.game.entities</a> &gt; <span class="el_source">Player.java</span></div><h1>Player.java</h1><pre class="source lang-java linenums">package com.jadventure.game.entities;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.Set;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.reflect.TypeToken;
+import com.jadventure.game.DeathException;
+import com.jadventure.game.GameBeans;
+import com.jadventure.game.QueueProvider;
+import com.jadventure.game.items.Item;
+import com.jadventure.game.items.ItemStack;
+import com.jadventure.game.items.Storage;
+import com.jadventure.game.menus.BattleMenu;
+import com.jadventure.game.monsters.Monster;
+import com.jadventure.game.navigation.Coordinate;
+import com.jadventure.game.navigation.ILocation;
+import com.jadventure.game.navigation.LocationManager;
+import com.jadventure.game.navigation.LocationType;
+import com.jadventure.game.repository.ItemRepository;
+
+/**
+ * This class deals with the player and all of its properties.
+ * Any method that changes a character or interacts with it should
+ * be placed within this class. If a method deals with entities in general or
+ * with variables not unique to the player, place it in the entity class.
+ */
+public class Player extends Entity {
+    // @Resource
+<span class="fc" id="L53">    protected static ItemRepository itemRepo = GameBeans.getItemRepository();</span>
+
+    private ILocation location;
+    private int xp;
+    /** Player type */
+    private String type;
+<span class="fc" id="L59">    private static HashMap&lt;String, Integer&gt;characterLevels = new HashMap&lt;String, Integer&gt;();</span>
+
+<span class="fc" id="L61">    public Player() {</span>
+<span class="fc" id="L62">    }</span>
+
+    protected static void setUpCharacterLevels() {
+<span class="fc" id="L65">        characterLevels.put(&quot;Sewer Rat&quot;, 5);</span>
+<span class="fc" id="L66">        characterLevels.put(&quot;Recruit&quot;, 3);</span>
+<span class="fc" id="L67">        characterLevels.put(&quot;Syndicate Member&quot;, 4);</span>
+<span class="fc" id="L68">        characterLevels.put(&quot;Brotherhood Member&quot;, 4);</span>
+<span class="fc" id="L69">    }</span>
+
+    public HashMap&lt;String, Integer&gt; getCharacterLevels() {
+<span class="nc" id="L72">        return characterLevels;</span>
+    }
+
+    public void setCharacterLevels(HashMap&lt;String, Integer&gt; newCharacterLevels) {
+<span class="fc" id="L76">        this.characterLevels = newCharacterLevels;</span>
+<span class="fc" id="L77">    }</span>
+
+    public String getCurrentCharacterType() {
+<span class="nc" id="L80">        return this.type;</span>
+    }
+    
+    public void setCurrentCharacterType(String newCharacterType) {
+<span class="fc" id="L84">        this.type = newCharacterType;</span>
+<span class="fc" id="L85">    }</span>
+
+    public void setCharacterLevel(String characterType, int level) {
+<span class="nc" id="L88">        this.characterLevels.put(characterType, level);</span>
+<span class="nc" id="L89">    }</span>
+
+    public int getCharacterLevel(String characterType) {
+<span class="nc" id="L92">        int characterLevel = this.characterLevels.get(characterType);</span>
+<span class="nc" id="L93">        return characterLevel;</span>
+    }
+
+    protected static String getProfileFileName(String name) {
+<span class="fc" id="L97">        return &quot;json/profiles/&quot; + name + &quot;/&quot; + name + &quot;_profile.json&quot;;</span>
+    }
+
+    public static boolean profileExists(String name) {
+<span class="nc" id="L101">        File file = new File(getProfileFileName(name));</span>
+<span class="nc" id="L102">        return file.exists();</span>
+    }
+
+    public static Player load(String name) {
+<span class="fc" id="L106">        player = new Player();</span>
+<span class="fc" id="L107">        JsonParser parser = new JsonParser();</span>
+<span class="fc" id="L108">        String fileName = getProfileFileName(name);</span>
+        try {
+<span class="fc" id="L110">            Reader reader = new FileReader(fileName);</span>
+<span class="fc" id="L111">            JsonObject json = parser.parse(reader).getAsJsonObject();</span>
+<span class="fc" id="L112">            player.setName(json.get(&quot;name&quot;).getAsString());</span>
+<span class="fc" id="L113">            player.setHealthMax(json.get(&quot;healthMax&quot;).getAsInt());</span>
+<span class="fc" id="L114">            player.setHealth(json.get(&quot;health&quot;).getAsInt());</span>
+<span class="fc" id="L115">            player.setArmour(json.get(&quot;armour&quot;).getAsInt());</span>
+<span class="fc" id="L116">            player.setDamage(json.get(&quot;damage&quot;).getAsInt());</span>
+<span class="fc" id="L117">            player.setLevel(json.get(&quot;level&quot;).getAsInt());</span>
+<span class="fc" id="L118">            player.setXP(json.get(&quot;xp&quot;).getAsInt());</span>
+<span class="fc" id="L119">            player.setStrength(json.get(&quot;strength&quot;).getAsInt());</span>
+<span class="fc" id="L120">            player.setIntelligence(json.get(&quot;intelligence&quot;).getAsInt());</span>
+<span class="fc" id="L121">            player.setDexterity(json.get(&quot;dexterity&quot;).getAsInt());</span>
+<span class="fc" id="L122">            player.setLuck(json.get(&quot;luck&quot;).getAsInt());</span>
+<span class="fc" id="L123">            player.setStealth(json.get(&quot;stealth&quot;).getAsInt());</span>
+<span class="fc" id="L124">            player.setCurrentCharacterType(json.get(&quot;type&quot;).getAsString());</span>
+<span class="fc" id="L125">            HashMap&lt;String, Integer&gt; charLevels = new Gson().fromJson(json.get(&quot;types&quot;), new TypeToken&lt;HashMap&lt;String, Integer&gt;&gt;(){}.getType());</span>
+<span class="fc" id="L126">            player.setCharacterLevels(charLevels);</span>
+<span class="fc" id="L127">            player.equipItem(EquipmentLocation.RIGHT_HAND, itemRepo.getItem((json.get(&quot;weapon&quot;).getAsString())));</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">            if (json.has(&quot;items&quot;)) {</span>
+<span class="fc" id="L129">                HashMap&lt;String, Integer&gt; items = new Gson().fromJson(json.get(&quot;items&quot;), new TypeToken&lt;HashMap&lt;String, Integer&gt;&gt;(){}.getType());</span>
+<span class="fc" id="L130">                ArrayList&lt;ItemStack&gt; itemList = new ArrayList&lt;ItemStack&gt;();</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">                for (Map.Entry&lt;String, Integer&gt; entry : items.entrySet()) {</span>
+<span class="fc" id="L132">                    String itemID = entry.getKey();</span>
+<span class="fc" id="L133">                    int amount = entry.getValue();</span>
+<span class="fc" id="L134">                    Item item = itemRepo.getItem(itemID);</span>
+<span class="fc" id="L135">                    ItemStack itemStack = new ItemStack(amount, item);</span>
+<span class="fc" id="L136">                    itemList.add(itemStack);</span>
+<span class="fc" id="L137">                }</span>
+<span class="fc" id="L138">                float maxWeight = (float)Math.sqrt(player.getStrength()*300);</span>
+<span class="fc" id="L139">                player.setStorage(new Storage(maxWeight, itemList));</span>
+            }
+<span class="fc" id="L141">            Coordinate coordinate = new Coordinate(json.get(&quot;location&quot;).getAsString());</span>
+<span class="fc" id="L142">            LocationManager.getInstance(player.getName());</span>
+<span class="fc" id="L143">            player.setLocation(LocationManager.getLocation(coordinate));</span>
+<span class="fc" id="L144">            reader.close();</span>
+<span class="fc" id="L145">            setUpCharacterLevels();</span>
+<span class="nc" id="L146">        } catch (FileNotFoundException ex) {</span>
+<span class="nc" id="L147">            QueueProvider.offer( &quot;Unable to open file '&quot; + fileName + &quot;'.&quot;);</span>
+<span class="nc" id="L148">        } catch (IOException ex) {</span>
+<span class="nc" id="L149">            ex.printStackTrace();</span>
+<span class="pc" id="L150">        }</span>
+
+<span class="fc" id="L152">        return player;</span>
+    }
+
+    // This is known as the singleton pattern. It allows for only 1 instance of a player.
+    private static Player player;
+    
+    public static Player getInstance(String playerClass){
+<span class="fc" id="L159">        player = new Player();</span>
+<span class="fc" id="L160">        JsonParser parser = new JsonParser();</span>
+<span class="fc" id="L161">        String fileName = &quot;json/npcs.json&quot;;</span>
+        try {
+<span class="fc" id="L163">            Reader reader = new FileReader(fileName);</span>
+<span class="fc" id="L164">            JsonObject npcs = parser.parse(reader).getAsJsonObject().get(&quot;npcs&quot;).getAsJsonObject();</span>
+<span class="fc" id="L165">            JsonObject json = new JsonObject();</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">            for (Map.Entry&lt;String, JsonElement&gt; entry : npcs.entrySet()) {</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">                if (entry.getKey().equals(playerClass)) {</span>
+<span class="fc" id="L168">                    json = entry.getValue().getAsJsonObject();</span>
+                }
+<span class="fc" id="L170">            }</span>
+
+<span class="fc" id="L172">            player.setName(json.get(&quot;name&quot;).getAsString());</span>
+<span class="fc" id="L173">            player.setHealthMax(json.get(&quot;healthMax&quot;).getAsInt());</span>
+<span class="fc" id="L174">            player.setHealth(json.get(&quot;health&quot;).getAsInt());</span>
+<span class="fc" id="L175">            player.setArmour(json.get(&quot;armour&quot;).getAsInt());</span>
+<span class="fc" id="L176">            player.setDamage(json.get(&quot;damage&quot;).getAsInt());</span>
+<span class="fc" id="L177">            player.setLevel(json.get(&quot;level&quot;).getAsInt());</span>
+<span class="fc" id="L178">            player.setXP(json.get(&quot;xp&quot;).getAsInt());</span>
+<span class="fc" id="L179">            player.setStrength(json.get(&quot;strength&quot;).getAsInt());</span>
+<span class="fc" id="L180">            player.setIntelligence(json.get(&quot;intelligence&quot;).getAsInt());</span>
+<span class="fc" id="L181">            player.setDexterity(json.get(&quot;dexterity&quot;).getAsInt());</span>
+<span class="fc" id="L182">            setUpVariables(player);</span>
+<span class="fc" id="L183">            JsonArray items = json.get(&quot;items&quot;).getAsJsonArray();</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">            for (JsonElement item : items) {</span>
+<span class="fc" id="L185">                player.addItemToStorage(itemRepo.getItem(item.getAsString()));</span>
+<span class="fc" id="L186">            }</span>
+<span class="fc" id="L187">            Random rand = new Random();</span>
+<span class="fc" id="L188">            int luck = rand.nextInt(3) + 1;</span>
+<span class="fc" id="L189">            player.setLuck(luck);</span>
+<span class="fc" id="L190">            player.setStealth(json.get(&quot;stealth&quot;).getAsInt());</span>
+<span class="fc" id="L191">            player.setIntro(json.get(&quot;intro&quot;).getAsString());</span>
+<span class="fc bfc" id="L192" title="All 2 branches covered.">            if (player.getName().equals(&quot;Recruit&quot;)) {</span>
+<span class="fc" id="L193">                player.type = &quot;Recruit&quot;;</span>
+<span class="pc bpc" id="L194" title="1 of 2 branches missed.">            } else if (player.getName().equals(&quot;Sewer Rat&quot;)) {</span>
+<span class="fc" id="L195">                player.type = &quot;Sewer Rat&quot;;</span>
+            } else {
+<span class="nc" id="L197">                QueueProvider.offer(&quot;Not a valid class&quot;);</span>
+            }
+<span class="fc" id="L199">            reader.close();</span>
+<span class="fc" id="L200">            setUpCharacterLevels();</span>
+<span class="nc" id="L201">        } catch (FileNotFoundException ex) {</span>
+<span class="nc" id="L202">            QueueProvider.offer( &quot;Unable to open file '&quot; + fileName + &quot;'.&quot;);</span>
+<span class="nc" id="L203">        } catch (IOException ex) {</span>
+<span class="nc" id="L204">            ex.printStackTrace();</span>
+<span class="pc" id="L205">        }</span>
+
+<span class="fc" id="L207">        return player;</span>
+    } 
+
+    public int getXP() {
+<span class="nc" id="L211">        return xp;</span>
+    }
+
+    public void setXP(int xp) {
+<span class="fc" id="L215">        this.xp = xp;</span>
+<span class="fc" id="L216">    }</span>
+
+    public static void setUpVariables(Player player) {
+<span class="fc" id="L219">        float maxWeight = (float)Math.sqrt(player.getStrength()*300);</span>
+<span class="fc" id="L220">        player.setStorage(new Storage(maxWeight));</span>
+<span class="fc" id="L221">    }</span>
+
+    public void getStats(){
+<span class="nc" id="L224">        Item weapon = itemRepo.getItem(getWeapon());</span>
+<span class="nc" id="L225">        String weaponName = weapon.getName();</span>
+<span class="nc bnc" id="L226" title="All 4 branches missed.">        if (weaponName.equals(null) || weaponName.equals(&quot;empty&quot;)){</span>
+<span class="nc" id="L227">            weaponName = &quot;hands&quot;;</span>
+        }
+<span class="nc" id="L229">        String message = &quot;\nPlayer name: &quot; + getName();</span>
+<span class="nc" id="L230">              message += &quot;\nType: &quot; + type;</span>
+<span class="nc" id="L231">              message += &quot;\nCurrent weapon: &quot; + weaponName;</span>
+<span class="nc" id="L232">              message += &quot;\nGold: &quot; + getGold();</span>
+<span class="nc" id="L233">              message += &quot;\nHealth/Max: &quot; + getHealth() + &quot;/&quot; + getHealthMax();</span>
+<span class="nc" id="L234">              message += &quot;\nDamage/Armour: &quot; + getDamage() + &quot;/&quot; + getArmour();</span>
+<span class="nc" id="L235">              message += &quot;\nStrength: &quot; + getStrength();</span>
+<span class="nc" id="L236">              message += &quot;\nIntelligence: &quot; + getIntelligence();</span>
+<span class="nc" id="L237">              message += &quot;\nDexterity: &quot; + getDexterity();</span>
+<span class="nc" id="L238">              message += &quot;\nLuck: &quot; + getLuck();</span>
+<span class="nc" id="L239">              message += &quot;\nStealth: &quot; + getStealth();</span>
+<span class="nc" id="L240">              message += &quot;\nXP: &quot; + getXP();</span>
+<span class="nc" id="L241">              message += &quot;\n&quot; + getName() + &quot;'s level: &quot; + getLevel();</span>
+<span class="nc" id="L242">        QueueProvider.offer(message);</span>
+<span class="nc" id="L243">    }</span>
+
+    public void printBackPack() {
+<span class="nc" id="L246">        this.storage.display();</span>
+<span class="nc" id="L247">    }</span>
+
+    public void save() {
+<span class="nc" id="L250">        Gson gson = new Gson();</span>
+<span class="nc" id="L251">        JsonObject jsonObject = new JsonObject();</span>
+<span class="nc" id="L252">        jsonObject.addProperty(&quot;name&quot;, getName());</span>
+<span class="nc" id="L253">        jsonObject.addProperty(&quot;healthMax&quot;, getHealthMax());</span>
+<span class="nc" id="L254">        jsonObject.addProperty(&quot;health&quot;, getHealthMax());</span>
+<span class="nc" id="L255">        jsonObject.addProperty(&quot;armour&quot;, getArmour());</span>
+<span class="nc" id="L256">        jsonObject.addProperty(&quot;damage&quot;, getDamage());</span>
+<span class="nc" id="L257">        jsonObject.addProperty(&quot;level&quot;, getLevel());</span>
+<span class="nc" id="L258">        jsonObject.addProperty(&quot;xp&quot;, getXP());</span>
+<span class="nc" id="L259">        jsonObject.addProperty(&quot;strength&quot;, getStrength());</span>
+<span class="nc" id="L260">        jsonObject.addProperty(&quot;intelligence&quot;, getIntelligence());</span>
+<span class="nc" id="L261">        jsonObject.addProperty(&quot;dexterity&quot;, getDexterity());</span>
+<span class="nc" id="L262">        jsonObject.addProperty(&quot;luck&quot;, getLuck());</span>
+<span class="nc" id="L263">        jsonObject.addProperty(&quot;stealth&quot;, getStealth());</span>
+<span class="nc" id="L264">        jsonObject.addProperty(&quot;weapon&quot;, getWeapon());</span>
+<span class="nc" id="L265">        jsonObject.addProperty(&quot;type&quot;, getCurrentCharacterType());</span>
+<span class="nc" id="L266">        HashMap&lt;String, Integer&gt; items = new HashMap&lt;String, Integer&gt;();</span>
+<span class="nc" id="L267">        JsonArray itemList = new JsonArray();</span>
+<span class="nc bnc" id="L268" title="All 2 branches missed.">        for (ItemStack item : getStorage().getItems()) {</span>
+<span class="nc" id="L269">            items.put(item.getItem().getId(), item.getAmount());</span>
+<span class="nc" id="L270">            JsonPrimitive itemJson = new JsonPrimitive(item.getItem().getId());</span>
+<span class="nc" id="L271">            itemList.add(itemJson);</span>
+<span class="nc" id="L272">        }</span>
+<span class="nc" id="L273">        JsonElement itemsJsonObj = gson.toJsonTree(items);</span>
+<span class="nc" id="L274">        jsonObject.add(&quot;items&quot;, itemsJsonObj);</span>
+<span class="nc" id="L275">        JsonElement typesJsonObj = gson.toJsonTree(getCharacterLevels());</span>
+<span class="nc" id="L276">        jsonObject.add(&quot;types&quot;, typesJsonObj);</span>
+<span class="nc" id="L277">        Coordinate coordinate = getLocation().getCoordinate();</span>
+<span class="nc" id="L278">        String coordinateLocation = coordinate.x+&quot;,&quot;+coordinate.y+&quot;,&quot;+coordinate.z;</span>
+<span class="nc" id="L279">        jsonObject.addProperty(&quot;location&quot;, coordinateLocation);</span>
+
+<span class="nc" id="L281">        String fileName = getProfileFileName(getName());</span>
+<span class="nc" id="L282">        new File(fileName).getParentFile().mkdirs();</span>
+        try {
+<span class="nc" id="L284">            Writer writer = new FileWriter(fileName);</span>
+<span class="nc" id="L285">            gson.toJson(jsonObject, writer);</span>
+<span class="nc" id="L286">            writer.close();</span>
+<span class="nc" id="L287">            LocationManager.writeLocations(getName());</span>
+<span class="nc" id="L288">            QueueProvider.offer(&quot;\nYour game data was saved.&quot;);</span>
+<span class="nc" id="L289">        } catch (IOException ex) {</span>
+<span class="nc" id="L290">            QueueProvider.offer(&quot;\nUnable to save to file '&quot; + fileName + &quot;'.&quot;);</span>
+<span class="nc" id="L291">        }</span>
+<span class="nc" id="L292">    }</span>
+
+    public List&lt;Item&gt; searchItem(String itemName, List&lt;Item&gt; itemList) {
+<span class="nc" id="L295">        List&lt;Item&gt; itemMap = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L296" title="All 2 branches missed.">        for (Item item : itemList) {</span>
+<span class="nc" id="L297">            String testItemName = item.getName();</span>
+<span class="nc bnc" id="L298" title="All 2 branches missed.">            if (testItemName.equalsIgnoreCase(itemName)) {</span>
+<span class="nc" id="L299">                itemMap.add(item);</span>
+            }
+<span class="nc" id="L301">        }</span>
+<span class="nc" id="L302">        return itemMap;</span>
+    }
+
+    public List&lt;Item&gt; searchItem(String itemName, Storage storage) {
+<span class="nc" id="L306">        List&lt;Item&gt; itemMap = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L307" title="All 2 branches missed.">        for (ItemStack item : storage.getItems()) {</span>
+<span class="nc" id="L308">            String testItemName = item.getItem().getName();</span>
+<span class="nc bnc" id="L309" title="All 2 branches missed.">            if (testItemName.equalsIgnoreCase(itemName)) {</span>
+<span class="nc" id="L310">                itemMap.add(item.getItem());</span>
+            }
+<span class="nc" id="L312">        }</span>
+<span class="nc" id="L313">        return itemMap;</span>
+    }
+    
+    public List&lt;Item&gt; searchEquipment(String itemName, Map&lt;EquipmentLocation, Item&gt; equipment) {
+<span class="nc" id="L317">        List&lt;Item&gt; items = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L318" title="All 2 branches missed.">        for (Item item : equipment.values()) {</span>
+<span class="nc bnc" id="L319" title="All 4 branches missed.">            if (item != null &amp;&amp; item.getName().equals(itemName)) {</span>
+<span class="nc" id="L320">                items.add(item);</span>
+            }
+<span class="nc" id="L322">        }</span>
+<span class="nc" id="L323">        return items;</span>
+    }
+
+    public void pickUpItem(String itemName) {
+<span class="nc" id="L327">        List&lt;Item&gt; itemMap = searchItem(itemName, getLocation().getItems());</span>
+<span class="nc bnc" id="L328" title="All 2 branches missed.">        if (!itemMap.isEmpty()) {</span>
+<span class="nc" id="L329">            Item item = itemMap.get(0);</span>
+<span class="nc" id="L330">            Item itemToPickUp = itemRepo.getItem(item.getId());</span>
+<span class="nc" id="L331">            addItemToStorage(itemToPickUp);</span>
+<span class="nc" id="L332">            location.removePublicItem(itemToPickUp.getId());</span>
+<span class="nc" id="L333">            QueueProvider.offer(item.getName()+ &quot; picked up&quot;);</span>
+        }
+<span class="nc" id="L335">    }</span>
+
+    public void dropItem(String itemName) {
+<span class="nc" id="L338">        List&lt;Item&gt; itemMap = searchItem(itemName, getStorage());</span>
+<span class="nc bnc" id="L339" title="All 2 branches missed.">        if (itemMap.isEmpty()) {</span>
+<span class="nc" id="L340">            itemMap = searchEquipment(itemName, getEquipment());</span>
+        }
+<span class="nc bnc" id="L342" title="All 2 branches missed.">        if (!itemMap.isEmpty()) {</span>
+<span class="nc" id="L343">            Item item = itemMap.get(0);</span>
+<span class="nc" id="L344">            Item itemToDrop = itemRepo.getItem(item.getId());</span>
+<span class="nc" id="L345">            Item weapon = itemRepo.getItem(getWeapon());</span>
+<span class="nc" id="L346">            String wName = weapon.getName();</span>
+
+<span class="nc bnc" id="L348" title="All 2 branches missed.">            if (itemName.equals(wName)) {</span>
+<span class="nc" id="L349">                dequipItem(wName);</span>
+            }
+<span class="nc" id="L351">            removeItemFromStorage(itemToDrop);</span>
+<span class="nc" id="L352">            location.addPublicItem(itemToDrop.getId());</span>
+<span class="nc" id="L353">            QueueProvider.offer(item.getName() + &quot; dropped&quot;);</span>
+        }
+<span class="nc" id="L355">    }</span>
+
+    public void equipItem(String itemName) {
+<span class="nc" id="L358">        List&lt;Item&gt; itemMap = searchItem(itemName, getStorage());</span>
+<span class="nc bnc" id="L359" title="All 2 branches missed.">        if (!itemMap.isEmpty()) {</span>
+<span class="nc" id="L360">            Item item = itemMap.get(0);</span>
+<span class="nc bnc" id="L361" title="All 2 branches missed.">            if (getLevel() &gt;= item.getLevel()) {</span>
+<span class="nc" id="L362">                Map&lt;String, String&gt; change = equipItem(item.getPosition(), item);</span>
+<span class="nc" id="L363">                QueueProvider.offer(item.getName()+ &quot; equipped&quot;);</span>
+<span class="nc" id="L364">                printStatChange(change);</span>
+<span class="nc" id="L365">            } else {</span>
+<span class="nc" id="L366">                QueueProvider.offer(&quot;You do not have the required level to use this item&quot;);</span>
+            }
+<span class="nc" id="L368">        } else {</span>
+<span class="nc" id="L369">            QueueProvider.offer(&quot;You do not have that item&quot;);</span>
+        }
+<span class="nc" id="L371">    }</span>
+
+    public void dequipItem(String itemName) {
+<span class="nc" id="L374">         List&lt;Item&gt; itemMap = searchEquipment(itemName, getEquipment());</span>
+<span class="nc bnc" id="L375" title="All 2 branches missed.">         if (!itemMap.isEmpty()) {</span>
+<span class="nc" id="L376">            Item item = itemMap.get(0);</span>
+<span class="nc" id="L377">            Map&lt;String, String&gt; change = unequipItem(item);</span>
+<span class="nc" id="L378">            QueueProvider.offer(item.getName()+&quot; unequipped&quot;);</span>
+<span class="nc" id="L379">	        printStatChange(change);</span>
+         }
+<span class="nc" id="L381">    }</span>
+
+    private void printStatChange(Map&lt;String, String&gt; stats) {
+<span class="nc" id="L384">         Set&lt;Entry&lt;String, String&gt;&gt; set = stats.entrySet();</span>
+<span class="nc" id="L385">         Iterator&lt;Entry&lt;String, String&gt;&gt; i = set.iterator();</span>
+<span class="nc bnc" id="L386" title="All 2 branches missed.">         while (i.hasNext()) {</span>
+<span class="nc" id="L387">              Entry&lt;String, String&gt; me = i.next();</span>
+<span class="nc" id="L388">              double value = Double.parseDouble((String) me.getValue());</span>
+<span class="nc bnc" id="L389" title="All 18 branches missed.">              switch ((String) me.getKey()) {</span>
+                  case &quot;damage&quot;: {
+<span class="nc bnc" id="L391" title="All 2 branches missed.">                          if (value &gt;= 0.0) {</span>
+<span class="nc" id="L392">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getDamage() + &quot; (+&quot; + me.getValue() + &quot;)&quot;);</span>
+                          } else {
+<span class="nc" id="L394">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getDamage() + &quot; (&quot; + me.getValue() + &quot;)&quot;);</span>
+                          }
+<span class="nc" id="L396">                          break;</span>
+                    }
+                    case &quot;health&quot;: {
+<span class="nc bnc" id="L399" title="All 2 branches missed.">                          if (value &gt;= 0) {</span>
+<span class="nc" id="L400">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getHealth() + &quot; (+&quot; + me.getValue() + &quot;)&quot;);</span>
+                          } else {
+<span class="nc" id="L402">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getHealth() + &quot; (&quot; + me.getValue() + &quot;)&quot;);</span>
+                          }
+<span class="nc" id="L404">                          break;</span>
+                    }
+                    case &quot;armour&quot;: {
+<span class="nc bnc" id="L407" title="All 2 branches missed.">                          if (value &gt;= 0) {</span>
+<span class="nc" id="L408">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getArmour() + &quot; (+&quot; + me.getValue() + &quot;)&quot;);</span>
+                          } else {
+<span class="nc" id="L410">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getArmour() + &quot; (&quot; + me.getValue() + &quot;)&quot;);</span>
+                          }
+<span class="nc" id="L412">                          break;</span>
+                    }
+                    case &quot;maxHealth&quot;: {
+<span class="nc bnc" id="L415" title="All 2 branches missed.">                          if (value  &gt;= 0) {</span>
+<span class="nc" id="L416">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getHealthMax() + &quot; (+&quot; + me.getValue() + &quot;)&quot;);</span>
+                          } else {
+<span class="nc" id="L418">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getHealthMax() + &quot; (&quot; + me.getValue() + &quot;)&quot;);</span>
+                          }
+                          break;
+                    }
+              }
+<span class="nc" id="L423">         }</span>
+<span class="nc" id="L424">    }</span>
+
+    public void inspectItem(String itemName) {
+<span class="nc" id="L427">        List&lt;Item&gt; itemMap = searchItem(itemName, getStorage());</span>
+<span class="nc bnc" id="L428" title="All 2 branches missed.">        if (itemMap.isEmpty()) {</span>
+<span class="nc" id="L429">            itemMap = searchItem(itemName, getLocation().getItems());</span>
+        }
+<span class="nc bnc" id="L431" title="All 2 branches missed.">        if (!itemMap.isEmpty()) {</span>
+<span class="nc" id="L432">            Item item = itemMap.get(0);</span>
+<span class="nc" id="L433">            item.display();</span>
+<span class="nc" id="L434">        } else {</span>
+<span class="nc" id="L435">            QueueProvider.offer(&quot;Item doesn't exist within your view.&quot;);</span>
+        }
+<span class="nc" id="L437">    }</span>
+
+    public ILocation getLocation() {
+<span class="nc" id="L440">        return location;</span>
+    }
+
+    public void setLocation(ILocation location) {
+<span class="fc" id="L444">        this.location = location;</span>
+<span class="fc" id="L445">    }</span>
+
+    public LocationType getLocationType(){
+<span class="nc" id="L448">    	return getLocation().getLocationType();</span>
+    }
+
+    public void attack(String opponentName) throws DeathException {
+<span class="nc" id="L452">        Monster monsterOpponent = null;</span>
+<span class="nc" id="L453">        NPC npcOpponent = null;</span>
+<span class="nc" id="L454">        List&lt;Monster&gt; monsters = getLocation().getMonsters();</span>
+<span class="nc" id="L455">        List&lt;NPC&gt; npcs = getLocation().getNPCs();</span>
+<span class="nc bnc" id="L456" title="All 2 branches missed.">        for (int i = 0; i &lt; monsters.size(); i++) {</span>
+<span class="nc bnc" id="L457" title="All 2 branches missed.">             if (monsters.get(i).monsterType.equalsIgnoreCase(opponentName)) {</span>
+<span class="nc" id="L458">                 monsterOpponent = monsters.get(i);</span>
+             }
+        }
+<span class="nc bnc" id="L461" title="All 2 branches missed.">        for (int i=0; i &lt; npcs.size(); i++) {</span>
+<span class="nc bnc" id="L462" title="All 2 branches missed.">            if (npcs.get(i).getName().equalsIgnoreCase(opponentName)) {</span>
+<span class="nc" id="L463">                npcOpponent = npcs.get(i);</span>
+            }
+        }
+<span class="nc bnc" id="L466" title="All 2 branches missed.">        if (monsterOpponent != null) {</span>
+<span class="nc" id="L467">            monsterOpponent.setName(monsterOpponent.monsterType);</span>
+<span class="nc" id="L468">            new BattleMenu(monsterOpponent, this);</span>
+<span class="nc bnc" id="L469" title="All 2 branches missed.">        } else if (npcOpponent != null) {</span>
+<span class="nc" id="L470">            new BattleMenu(npcOpponent, this);</span>
+        } else {
+<span class="nc" id="L472">             QueueProvider.offer(&quot;Opponent not found&quot;);</span>
+        }
+<span class="nc" id="L474">    }</span>
+
+    public boolean hasItem(Item item) {
+<span class="nc" id="L477">        List&lt;Item&gt; searchEquipment = searchEquipment(item.getName(), getEquipment());</span>
+<span class="nc" id="L478">        List&lt;Item&gt; searchStorage = searchItem(item.getName(), getStorage());</span>
+<span class="nc bnc" id="L479" title="All 4 branches missed.">        return !(searchEquipment.size() == 0 &amp;&amp; searchStorage.size() == 0);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

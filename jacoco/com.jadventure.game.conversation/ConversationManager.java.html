@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ConversationManager.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java Text Adventure</a> &gt; <a href="index.source.html" class="el_package">com.jadventure.game.conversation</a> &gt; <span class="el_source">ConversationManager.java</span></div><h1>ConversationManager.java</h1><pre class="source lang-java linenums">package com.jadventure.game.conversation;
+
+import com.jadventure.game.GameBeans;
+import com.jadventure.game.entities.NPC;
+import com.jadventure.game.entities.Player;
+import com.jadventure.game.items.Item;
+import com.jadventure.game.repository.ItemRepository;
+import com.jadventure.game.QueueProvider;
+import com.jadventure.game.DeathException;
+import com.jadventure.game.Trading;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class ConversationManager {
+<span class="fc" id="L29">    private static ConversationManager instance = null;</span>
+<span class="fc" id="L30">    private Map&lt;NPC, List&lt;Line&gt;&gt; lines = new HashMap&lt;NPC, List&lt;Line&gt;&gt;();</span>
+<span class="fc" id="L31">    private static final Map&lt;String, ActionType&gt; ACTION_TYPE_MAP = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L32">    private static final Map&lt;String, ConditionType&gt; CONDITION_TYPE_MAP = new HashMap&lt;&gt;();</span>
+
+    static {
+<span class="fc" id="L35">        ACTION_TYPE_MAP.put(&quot;none&quot;, ActionType.NONE);</span>
+<span class="fc" id="L36">        ACTION_TYPE_MAP.put(&quot;attack&quot;, ActionType.ATTACK);</span>
+<span class="fc" id="L37">        ACTION_TYPE_MAP.put(&quot;buy&quot;, ActionType.BUY);</span>
+<span class="fc" id="L38">        ACTION_TYPE_MAP.put(&quot;sell&quot;, ActionType.SELL);</span>
+<span class="fc" id="L39">        ACTION_TYPE_MAP.put(&quot;trade&quot;, ActionType.TRADE);</span>
+<span class="fc" id="L40">        ACTION_TYPE_MAP.put(&quot;give&quot;, ActionType.GIVE);</span>
+<span class="fc" id="L41">        ACTION_TYPE_MAP.put(&quot;take&quot;, ActionType.TAKE);</span>
+<span class="fc" id="L42">        CONDITION_TYPE_MAP.put(&quot;none&quot;, ConditionType.NONE);</span>
+<span class="fc" id="L43">        CONDITION_TYPE_MAP.put(&quot;ally&quot;, ConditionType.ALLY);</span>
+<span class="fc" id="L44">        CONDITION_TYPE_MAP.put(&quot;enemy&quot;, ConditionType.ENEMY);</span>
+<span class="fc" id="L45">        CONDITION_TYPE_MAP.put(&quot;level&quot;, ConditionType.LEVEL);</span>
+<span class="fc" id="L46">        CONDITION_TYPE_MAP.put(&quot;item&quot;, ConditionType.ITEM);</span>
+<span class="fc" id="L47">        CONDITION_TYPE_MAP.put(&quot;char type&quot;, ConditionType.CHAR_TYPE);</span>
+<span class="fc" id="L48">    }</span>
+
+<span class="fc" id="L50">    public ConversationManager() {</span>
+<span class="fc" id="L51">       load(); </span>
+<span class="fc" id="L52">    } </span>
+
+    public static ConversationManager getInstance() {
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">        if (instance == null) {</span>
+<span class="fc" id="L56">            instance = new ConversationManager();</span>
+        }
+<span class="fc" id="L58">        return instance;</span>
+    }
+
+    private void load() {
+<span class="fc" id="L62">        String fileName = &quot;json/npcs.json&quot;;</span>
+<span class="fc" id="L63">        JsonParser parser = new JsonParser();</span>
+<span class="fc" id="L64">        File f = new File(fileName);</span>
+        try {
+<span class="fc" id="L66">            Reader reader = new FileReader(fileName);</span>
+<span class="fc" id="L67">            JsonObject json = parser.parse(reader).getAsJsonObject();</span>
+<span class="fc" id="L68">            json = json.get(&quot;npcs&quot;).getAsJsonObject();</span>
+<span class="fc" id="L69">            Set&lt;Map.Entry&lt;String, JsonElement&gt;&gt; entries = json.entrySet();</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            for (Map.Entry&lt;String, JsonElement&gt; entry : entries) {</span>
+<span class="fc" id="L71">                NPC npc = new NPC(entry.getKey());</span>
+<span class="fc" id="L72">                JsonObject details = entry.getValue().getAsJsonObject();</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">                if (details.get(&quot;conversations&quot;) != null) {</span>
+<span class="fc" id="L74">                    JsonArray conversation = details.get(&quot;conversations&quot;).getAsJsonArray();</span>
+<span class="fc" id="L75">                    addConversation(npc, conversation);</span>
+                }
+<span class="fc" id="L77">            }</span>
+<span class="nc" id="L78">        } catch (IOException ex) {</span>
+<span class="nc" id="L79">            ex.printStackTrace();</span>
+<span class="fc" id="L80">        }</span>
+<span class="fc" id="L81">    }</span>
+
+    private void addConversation(NPC npc, JsonArray conversation) {
+<span class="fc" id="L84">        List&lt;Line&gt; start = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L85">        int i = 0;</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        for (JsonElement entry : conversation) {</span>
+<span class="fc" id="L87">            JsonObject details = entry.getAsJsonObject();</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">            if (&quot;&quot;.equals(details.get(&quot;player&quot;).getAsString())) {</span>
+<span class="fc" id="L89">                start.add(getLine(i++, conversation));</span>
+            }
+<span class="fc" id="L91">        }</span>
+<span class="fc" id="L92">        lines.put(npc, start);</span>
+<span class="fc" id="L93">    }</span>
+
+    private Line getLine(int index, JsonArray conversation) {
+<span class="fc" id="L96">        JsonObject line = conversation.get(index).getAsJsonObject();</span>
+<span class="fc" id="L97">        List&lt;Line&gt; responses = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        if (line.get(&quot;response&quot;) != null) {</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">            for (JsonElement i : line.get(&quot;response&quot;).getAsJsonArray()) {</span>
+<span class="fc" id="L100">                responses.add(getLine(i.getAsInt(), conversation));</span>
+<span class="fc" id="L101">            }</span>
+        }
+<span class="fc" id="L103">        String playerPrompt = line.get(&quot;player&quot;).getAsString();</span>
+<span class="fc" id="L104">        String text = line.get(&quot;text&quot;).getAsString();</span>
+<span class="fc" id="L105">        String[] con = line.get(&quot;condition&quot;).getAsString().split(&quot;=&quot;);</span>
+<span class="fc" id="L106">        ConditionType condition = CONDITION_TYPE_MAP.get(con[0]);</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        String conditionParameter = (con.length == 1) ? &quot;&quot; : con[1];</span>
+<span class="fc" id="L108">        ActionType action = ACTION_TYPE_MAP.get(line.get(&quot;action&quot;).getAsString());</span>
+<span class="fc" id="L109">        return new Line(index, playerPrompt, text, condition, conditionParameter, responses, action);</span>
+    }
+
+    public void startConversation(NPC npc, Player player) throws DeathException {
+<span class="nc" id="L113">        List&lt;Line&gt; conversation = null;</span>
+        //Workaround as &lt;code&gt;lines.get(npc)&lt;/code&gt; is not working.
+<span class="nc" id="L115">        Iterator it = lines.entrySet().iterator();;</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        while (it.hasNext()) {</span>
+<span class="nc" id="L117">            Map.Entry&lt;NPC, List&lt;Line&gt;&gt; entry = (Map.Entry) it.next();</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">            if (entry.getKey().equals(npc)) {</span>
+<span class="nc" id="L119">                conversation = entry.getValue();</span>
+            }
+<span class="nc" id="L121">            it.remove();</span>
+<span class="nc" id="L122">        }</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">        if (conversation != null) {</span>
+<span class="nc" id="L124">            Line start = null;</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">            for (Line l : conversation) {</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">                if (ConversationManager.matchesConditions(npc, player, l)) {</span>
+<span class="nc" id="L127">                    start = l;</span>
+<span class="nc" id="L128">                    break;</span>
+                }
+<span class="nc" id="L130">            }</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">            if (start != null) {</span>
+<span class="nc" id="L132">                QueueProvider.offer(start.getText());</span>
+<span class="nc" id="L133">                Line response = start.display(npc, player);</span>
+<span class="nc" id="L134">                triggerAction(start, npc, player);</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">               while (response != null) {</span>
+<span class="nc" id="L136">                   QueueProvider.offer(response.getText());</span>
+<span class="nc" id="L137">                   triggerAction(response, npc, player);</span>
+<span class="nc" id="L138">                   Line temp_response = response.display(npc, player);</span>
+<span class="nc" id="L139">                   response = temp_response;</span>
+<span class="nc" id="L140">               }</span>
+            }
+        }
+<span class="nc" id="L143">    }</span>
+
+    private void triggerAction(Line line, NPC npc, Player player) throws DeathException {
+<span class="nc bnc" id="L146" title="All 3 branches missed.">        switch (line.getAction()) {</span>
+            case ATTACK:
+<span class="nc" id="L148">                QueueProvider.offer(&quot;\n&quot; + npc.getName() + &quot; is now attacking you!\n&quot;);</span>
+<span class="nc" id="L149">                player.attack(npc.getName());</span>
+<span class="nc" id="L150">                break;</span>
+            case TRADE:
+<span class="nc" id="L152">                Trading t = new Trading(npc, player);</span>
+<span class="nc" id="L153">                t.trade(true, true);</span>
+                break;
+        }     
+<span class="nc" id="L156">    }</span>
+
+    public static boolean matchesConditions(NPC npc, Player player, Line line) {
+<span class="nc bnc" id="L159" title="All 6 branches missed.">        switch(line.getCondition()) {</span>
+            case ALLY:
+<span class="nc" id="L161">                return npc.getAllies().contains(player.getCurrentCharacterType());</span>
+            case ENEMY:
+<span class="nc" id="L163">                return npc.getEnemies().contains(player.getCurrentCharacterType());</span>
+            case LEVEL:
+<span class="nc" id="L165">                int requiredLevel = Integer.parseInt(line.getConditionParameter());</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">                return player.getLevel() &gt;= requiredLevel;</span>
+            case ITEM:
+<span class="nc" id="L168">                ItemRepository itemRepo = GameBeans.getItemRepository();</span>
+<span class="nc" id="L169">                Item requiredItem = itemRepo.getItem(line.getConditionParameter());</span>
+<span class="nc" id="L170">                return player.hasItem(requiredItem);</span>
+            case CHAR_TYPE:
+<span class="nc" id="L172">                String charType = line.getConditionParameter();</span>
+<span class="nc" id="L173">                return charType.equals(player.getCurrentCharacterType());</span>
+            default: // No condition
+<span class="nc" id="L175">                return true;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

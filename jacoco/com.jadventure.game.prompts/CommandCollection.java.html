@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CommandCollection.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java Text Adventure</a> &gt; <a href="index.source.html" class="el_package">com.jadventure.game.prompts</a> &gt; <span class="el_source">CommandCollection.java</span></div><h1>CommandCollection.java</h1><pre class="source lang-java linenums">package com.jadventure.game.prompts;
+
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.jadventure.game.DeathException;
+import com.jadventure.game.QueueProvider;
+import com.jadventure.game.conversation.ConversationManager;
+import com.jadventure.game.entities.Player;
+import com.jadventure.game.entities.NPC;
+import com.jadventure.game.monsters.Monster;
+import com.jadventure.game.monsters.MonsterFactory;
+import com.jadventure.game.navigation.Coordinate;
+import com.jadventure.game.navigation.Direction;
+import com.jadventure.game.navigation.ILocation;
+import com.jadventure.game.navigation.LocationManager;
+import com.jadventure.game.navigation.LocationType;
+import com.jadventure.game.DeathException;
+
+/**
+ * CommandCollection contains the declaration of the methods mapped to game commands
+ *
+ * The declared command methods are accessed only by reflection.
+ * To declare a new command, add an appropriate method to this class and Annotate it with
+ * Command(command, aliases, description)
+ */
+<span class="nc" id="L33">public enum CommandCollection {</span>
+<span class="nc" id="L34">    INSTANCE;</span>
+
+<span class="nc" id="L36">    private Logger logger = LoggerFactory.getLogger(CommandCollection.class);</span>
+
+    public Player player;
+
+<span class="nc" id="L40">    private final static Map&lt;String, String&gt; DIRECTION_LINKS = new HashMap&lt;String,String&gt;();</span>
+    static {
+<span class="nc" id="L42">        DIRECTION_LINKS.put(&quot;n&quot;, &quot;north&quot;);</span>
+<span class="nc" id="L43">        DIRECTION_LINKS.put(&quot;s&quot;, &quot;south&quot;);</span>
+<span class="nc" id="L44">        DIRECTION_LINKS.put(&quot;e&quot;, &quot;east&quot;);</span>
+<span class="nc" id="L45">        DIRECTION_LINKS.put(&quot;w&quot;, &quot;west&quot;);</span>
+<span class="nc" id="L46">        DIRECTION_LINKS.put(&quot;u&quot;, &quot;up&quot;);</span>
+<span class="nc" id="L47">        DIRECTION_LINKS.put(&quot;d&quot;, &quot;down&quot;);</span>
+<span class="nc" id="L48">    }</span>
+
+    public static CommandCollection getInstance() {
+<span class="nc" id="L51">        return INSTANCE;</span>
+    }
+
+    public void initPlayer(Player player) {
+<span class="nc" id="L55">        this.player = player;</span>
+<span class="nc" id="L56">    }</span>
+
+    // command methods here
+
+    @Command(command=&quot;help&quot;, aliases=&quot;h&quot;, description=&quot;Prints help&quot;, debug=false)
+    public void command_help() {
+<span class="nc" id="L62">        Method[] methods = CommandCollection.class.getMethods();</span>
+<span class="nc" id="L63">        int commandWidth = 0;</span>
+<span class="nc" id="L64">        int descriptionWidth = 0;</span>
+<span class="nc" id="L65">        QueueProvider.offer(&quot;&quot;);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        for (Method method : methods) {</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">            if (!method.isAnnotationPresent(Command.class)) {</span>
+<span class="nc" id="L68">                continue;</span>
+            }
+<span class="nc" id="L70">            Command annotation = method.getAnnotation(Command.class);</span>
+<span class="nc" id="L71">            String command = annotation.command() + &quot;( &quot; + annotation.aliases() + &quot;):&quot;;</span>
+<span class="nc" id="L72">            String description = annotation.description();</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">            if (command.length() &gt; commandWidth) {</span>
+<span class="nc" id="L74">                commandWidth = command.length();</span>
+            }
+<span class="nc bnc" id="L76" title="All 2 branches missed.">            if (description.length() &gt; descriptionWidth) {</span>
+<span class="nc" id="L77">                descriptionWidth = description.length();</span>
+            }
+        }
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        for (Method method : methods) {</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">            if (!method.isAnnotationPresent(Command.class)) {</span>
+<span class="nc" id="L82">                continue;</span>
+            }
+<span class="nc" id="L84">            Command annotation = method.getAnnotation(Command.class);</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            String command = (annotation.aliases().length() == 0) ? </span>
+<span class="nc" id="L86">                annotation.command() : annotation.command() + &quot; (&quot; + annotation.aliases() + &quot;):&quot;; </span>
+<span class="nc" id="L87">            String message = String.format(&quot;%-&quot; +commandWidth + &quot;s %-&quot; + descriptionWidth + &quot;s&quot;, </span>
+                    command, 
+<span class="nc" id="L89">                    annotation.description());</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">            if (annotation.debug()) {</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">                if (&quot;test&quot;.equals(player.getName())) {</span>
+<span class="nc" id="L92">                    QueueProvider.offer(message);</span>
+                }
+            } else {
+<span class="nc" id="L95">                QueueProvider.offer(message);</span>
+                
+            }
+        }
+<span class="nc" id="L99">    }</span>
+
+    @Command(command=&quot;save&quot;, aliases=&quot;s&quot;, description=&quot;Save the game&quot;, debug=false)
+    public void command_save() {
+<span class="nc" id="L103">        logger.info(&quot;Command 'save' is running&quot;);</span>
+<span class="nc" id="L104">        player.save();</span>
+<span class="nc" id="L105">    }</span>
+
+    @Command(command=&quot;monster&quot;, aliases=&quot;m&quot;, description=&quot;Monsters around you&quot;, debug=false)
+    public void command_m() {
+<span class="nc" id="L109">        List&lt;Monster&gt; monsterList = player.getLocation().getMonsters();</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        if (monsterList.size() &gt; 0) {</span>
+<span class="nc" id="L111">            QueueProvider.offer(&quot;Monsters around you:&quot;);</span>
+<span class="nc" id="L112">            QueueProvider.offer(&quot;----------------------------&quot;);</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">            for (Monster monster : monsterList) {</span>
+<span class="nc" id="L114">                QueueProvider.offer(monster.monsterType);</span>
+<span class="nc" id="L115">            }</span>
+<span class="nc" id="L116">            QueueProvider.offer(&quot;----------------------------&quot;);</span>
+        } else {
+<span class="nc" id="L118">            QueueProvider.offer(&quot;There are no monsters around you'n&quot;);</span>
+        }
+<span class="nc" id="L120">    }</span>
+
+    @Command(command=&quot;goto&quot;, aliases=&quot;g&quot;, description=&quot;Goto a direction&quot;, debug=false)
+    public void command_g(String arg) throws DeathException {
+<span class="nc" id="L124">        ILocation location = player.getLocation();</span>
+
+        try {
+<span class="nc" id="L127">            arg = DIRECTION_LINKS.get(arg);</span>
+<span class="nc" id="L128">            Direction direction = Direction.valueOf(arg.toUpperCase());</span>
+<span class="nc" id="L129">            Map&lt;Direction, ILocation&gt; exits = location.getExits();</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">            if (exits.containsKey(direction)) {</span>
+<span class="nc" id="L131">                ILocation newLocation = exits.get(Direction.valueOf(arg.toUpperCase()));</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">                if (!newLocation.getLocationType().equals(LocationType.WALL)) {</span>
+<span class="nc" id="L133">                    player.setLocation(newLocation);</span>
+<span class="nc" id="L134">                    player.getLocation().print();</span>
+<span class="nc" id="L135">                    Random random = new Random();</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">                    if (player.getLocation().getMonsters().size() == 0) {</span>
+<span class="nc" id="L137">                        MonsterFactory monsterFactory = new MonsterFactory();</span>
+<span class="nc" id="L138">                        int upperBound = random.nextInt(player.getLocation().getDangerRating() + 1);</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">                        for (int i = 0; i &lt; upperBound; i++) {</span>
+<span class="nc" id="L140">                            Monster monster = monsterFactory.generateMonster(player);</span>
+<span class="nc" id="L141">                            player.getLocation().addMonster(monster);</span>
+                        }
+                    }
+<span class="nc bnc" id="L144" title="All 2 branches missed.">                    if (random.nextDouble() &lt; 0.5) {</span>
+<span class="nc" id="L145">                        List&lt;Monster&gt; monsters = player.getLocation().getMonsters();</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">                        if (monsters.size() &gt; 0) {</span>
+<span class="nc" id="L147">                            int posMonster = random.nextInt(monsters.size());</span>
+<span class="nc" id="L148">                            String monster = monsters.get(posMonster).monsterType;</span>
+<span class="nc" id="L149">                            QueueProvider.offer(&quot;A &quot; + monster + &quot; is attacking you!&quot;);</span>
+<span class="nc" id="L150">                            player.attack(monster);</span>
+                        }
+                    }
+<span class="nc" id="L153">                } else {</span>
+<span class="nc" id="L154">                    QueueProvider.offer(&quot;You cannot walk through walls.&quot;);</span>
+                }
+<span class="nc" id="L156">            } else {</span>
+<span class="nc" id="L157">                QueueProvider.offer(&quot;The is no exit that way.&quot;);</span>
+            }
+<span class="nc" id="L159">        } catch (IllegalArgumentException ex) {</span>
+<span class="nc" id="L160">            QueueProvider.offer(&quot;That direction doesn't exist&quot;);</span>
+<span class="nc" id="L161">        } catch (NullPointerException ex) {</span>
+<span class="nc" id="L162">            QueueProvider.offer(&quot;That direction doesn't exist&quot;);</span>
+<span class="nc" id="L163">        }</span>
+<span class="nc" id="L164">    }</span>
+
+    @Command(command=&quot;inspect&quot;, aliases=&quot;i&quot;, description=&quot;Inspect an item&quot;, debug=false)
+    public void command_i(String arg) {
+<span class="nc" id="L168">        player.inspectItem(arg.trim());</span>
+<span class="nc" id="L169">    }</span>
+
+    @Command(command=&quot;equip&quot;, aliases=&quot;e&quot;, description=&quot;Equip an item&quot;, debug=false)
+    public void command_e(String arg) {
+<span class="nc" id="L173">        player.equipItem(arg.trim());</span>
+<span class="nc" id="L174">    }</span>
+
+    @Command(command=&quot;unequip&quot;, aliases=&quot;ue&quot;, description=&quot;Unequip an item&quot;, debug=false)
+    public void command_ue(String arg) {
+<span class="nc" id="L178">        player.dequipItem(arg.trim());</span>
+<span class="nc" id="L179">    }</span>
+
+    @Command(command=&quot;view&quot;, aliases=&quot;v&quot;, description=&quot;View details&quot;, debug=false)
+    public void command_v(String arg) {
+<span class="nc" id="L183">        arg = arg.trim();</span>
+<span class="nc bnc" id="L184" title="All 23 branches missed.">        switch (arg) {</span>
+            case &quot;s&quot;:
+            case &quot;stats&quot;:
+<span class="nc" id="L187">                player.getStats();</span>
+<span class="nc" id="L188">                break;</span>
+            case &quot;e&quot;:
+            case &quot;equipped&quot;:
+<span class="nc" id="L191">                player.printEquipment();</span>
+<span class="nc" id="L192">                break;</span>
+            case &quot;b&quot;:
+            case &quot;backpack&quot;:
+<span class="nc" id="L195">                player.printStorage();</span>
+<span class="nc" id="L196">                break;</span>
+            default:
+<span class="nc" id="L198">                QueueProvider.offer(&quot;That is not a valid display&quot;);</span>
+                break;
+        }
+<span class="nc" id="L201">    }</span>
+
+    @Command(command=&quot;pick&quot;, aliases=&quot;p&quot;, description=&quot;Pick up an item&quot;, debug=false)
+    public void command_p(String arg) {
+<span class="nc" id="L205">        player.pickUpItem(arg.trim());</span>
+<span class="nc" id="L206">    }</span>
+
+    @Command(command=&quot;drop&quot;, aliases=&quot;d&quot;, description=&quot;Drop an item&quot;, debug=false)
+    public void command_d(String arg) {
+<span class="nc" id="L210">        player.dropItem(arg.trim());</span>
+<span class="nc" id="L211">    }</span>
+
+    @Command(command=&quot;attack&quot;, aliases=&quot;a&quot;, description=&quot;Attacks an entity&quot;, debug=false)
+    public void command_a(String arg) throws DeathException {
+<span class="nc" id="L215">       player.attack(arg.trim());</span>
+<span class="nc" id="L216">    }</span>
+
+    @Command(command=&quot;lookaround&quot;, aliases=&quot;la&quot;, description=&quot;Displays the description of the room you are in.&quot;, debug=false)
+    public void command_la() {
+<span class="nc" id="L220">       player.getLocation().print(); </span>
+<span class="nc" id="L221">    }</span>
+
+    // Debug methods here
+
+    @Command(command=&quot;attack&quot;, aliases=&quot;&quot;, description=&quot;Adjusts the damage level the player has&quot;, debug=true)
+    public void command_attack(String arg) {
+<span class="nc" id="L227">        double damage = Double.parseDouble(arg);</span>
+<span class="nc" id="L228">        player.setDamage(damage);</span>
+<span class="nc" id="L229">    }</span>
+
+    @Command(command=&quot;maxhealth&quot;, aliases=&quot;&quot;, description=&quot;Adjusts the maximum health of the player&quot;, debug=true)
+    public void command_maxhealth(String arg) {
+<span class="nc" id="L233">        int healthMax = Integer.parseInt(arg);</span>
+<span class="nc bnc" id="L234" title="All 2 branches missed.">        if (healthMax &gt; 0) {</span>
+<span class="nc" id="L235">            player.setHealthMax(healthMax);</span>
+        } else {
+<span class="nc" id="L237">            QueueProvider.offer(&quot;Maximum health must be possitive&quot;);</span>
+        }
+<span class="nc" id="L239">    }</span>
+
+    @Command(command=&quot;health&quot;, aliases=&quot;&quot;, description=&quot;Adjusts the amount of gold the player has&quot;, debug=true)
+    public void command_health(String arg) {
+<span class="nc" id="L243">        int health = Integer.parseInt(arg);</span>
+<span class="nc bnc" id="L244" title="All 2 branches missed.">        if (health &gt; 0) {</span>
+<span class="nc" id="L245">            player.setHealth(health);</span>
+        } else {
+<span class="nc" id="L247">            QueueProvider.offer(&quot;Health must be possitive&quot;);</span>
+        }
+<span class="nc" id="L249">    }</span>
+
+    @Command(command=&quot;armour&quot;, aliases=&quot;&quot;, description=&quot;Adjusts the amount of armour the player has&quot;, debug=true)
+    public void command_armour(String arg) {
+<span class="nc" id="L253">        int armour = Integer.parseInt(arg);</span>
+<span class="nc" id="L254">        player.setArmour(armour);</span>
+<span class="nc" id="L255">    }</span>
+
+    @Command(command=&quot;level&quot;, aliases=&quot;&quot;, description=&quot;Adjusts the level of the player&quot;, debug=true)
+    public void command_level(String arg) {
+<span class="nc" id="L259">        int level = Integer.parseInt(arg);</span>
+<span class="nc" id="L260">        player.setLevel(level);</span>
+<span class="nc" id="L261">    }</span>
+
+    @Command(command=&quot;gold&quot;, aliases=&quot;&quot;, description=&quot;Adjusts the amount of gold the player has&quot;, debug=true)
+    public void command_gold(String arg) {
+<span class="nc" id="L265">        int gold = Integer.parseInt(arg);</span>
+<span class="nc" id="L266">        player.setGold(gold);</span>
+<span class="nc" id="L267">    }</span>
+
+    @Command(command=&quot;teleport&quot;, aliases=&quot;&quot;, description=&quot;Moves the player to specified coordinates&quot;, debug=true)
+    public void command_teleport(String arg) {
+<span class="nc" id="L271">        ILocation newLocation = LocationManager.getLocation(new Coordinate(arg));</span>
+<span class="nc" id="L272">        ILocation oldLocation = player.getLocation();</span>
+        try {
+<span class="nc" id="L274">            player.setLocation(newLocation);</span>
+<span class="nc" id="L275">            player.getLocation().print();</span>
+<span class="nc" id="L276">        } catch (NullPointerException e) {</span>
+<span class="nc" id="L277">            player.setLocation(oldLocation);</span>
+<span class="nc" id="L278">            QueueProvider.offer(&quot;There is no such location&quot;);</span>
+<span class="nc" id="L279">        }</span>
+<span class="nc" id="L280">    }</span>
+
+    @Command(command=&quot;backpack&quot;, aliases=&quot;&quot;, description=&quot;Opens the backpack debug menu.&quot;, debug=true)
+    public void command_backpack(String arg) {
+<span class="nc" id="L284">        new BackpackDebugPrompt(player);</span>
+<span class="nc" id="L285">    }</span>
+    
+    @Command(command=&quot;talk&quot;, aliases=&quot;t&quot;, description=&quot;Talks to a character.&quot;, debug=false)
+    public void command_talk(String arg) throws DeathException {
+<span class="nc" id="L289">        ConversationManager cm = new ConversationManager();</span>
+<span class="nc" id="L290">        List&lt;NPC&gt; npcs = player.getLocation().getNPCs();</span>
+<span class="nc" id="L291">        NPC npc = null;</span>
+<span class="nc bnc" id="L292" title="All 2 branches missed.">        for (NPC i : npcs) {</span>
+<span class="nc bnc" id="L293" title="All 2 branches missed.">            if (i.getName().equalsIgnoreCase(arg)) {</span>
+<span class="nc" id="L294">                npc = i;</span>
+            }
+<span class="nc" id="L296">        }</span>
+<span class="nc bnc" id="L297" title="All 2 branches missed.">        if (npc != null) {</span>
+<span class="nc" id="L298">            cm.startConversation(npc, player);</span>
+        } else {
+<span class="nc" id="L300">            QueueProvider.offer(&quot;Unable to talk to &quot; + arg);</span>
+        }
+<span class="nc" id="L302">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

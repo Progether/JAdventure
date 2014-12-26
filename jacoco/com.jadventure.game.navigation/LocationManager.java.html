@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>LocationManager.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java Text Adventure</a> &gt; <a href="index.source.html" class="el_package">com.jadventure.game.navigation</a> &gt; <span class="el_source">LocationManager.java</span></div><h1>LocationManager.java</h1><pre class="source lang-java linenums">package com.jadventure.game.navigation;
+
+import com.jadventure.game.entities.NPC;
+import com.jadventure.game.items.Item;
+import com.jadventure.game.QueueProvider;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.Gson;
+
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.io.FileWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+
+/**
+ * This class loads the locations from the locations.json file on start.
+ * It also provides methods for getting the initial location and the current location.
+ */
+public class LocationManager {
+<span class="fc" id="L34">    private static LocationManager instance = null;</span>
+    private String fileName;
+
+<span class="nc" id="L37">    private static class Locations {</span>
+<span class="fc" id="L38">        private static Map&lt;Coordinate, ILocation&gt; locations = new HashMap&lt;Coordinate, ILocation&gt;();</span>
+    }
+
+<span class="fc" id="L41">    private LocationManager(String profileName) {</span>
+<span class="fc" id="L42">        fileName = &quot;json/profiles/&quot; + profileName + &quot;/locations.json&quot;;</span>
+<span class="fc" id="L43">        JsonParser parser = new JsonParser();</span>
+<span class="fc" id="L44">        File f = new File(fileName);</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">        if (!f.exists()) {</span>
+<span class="nc" id="L46">            copyLocationsFile();</span>
+        }
+        try {
+<span class="fc" id="L49">            Reader reader = new FileReader(fileName);</span>
+<span class="fc" id="L50">            JsonObject json = parser.parse(reader).getAsJsonObject();</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">            for(Map.Entry&lt;String, JsonElement&gt; entry: json.entrySet()) {</span>
+<span class="fc" id="L52">                Locations.locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));</span>
+<span class="fc" id="L53">            }</span>
+<span class="fc" id="L54">            reader.close();</span>
+<span class="nc" id="L55">        } catch (FileNotFoundException ex) {</span>
+<span class="nc" id="L56">            ex.printStackTrace();</span>
+<span class="nc" id="L57">            System.exit(-1);</span>
+<span class="nc" id="L58">        } catch (IOException e) {</span>
+<span class="nc" id="L59">            e.printStackTrace();</span>
+<span class="pc" id="L60">        }</span>
+<span class="fc" id="L61">    }</span>
+
+    public static LocationManager getInstance(String profileName) {
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">        if (instance == null) {</span>
+<span class="fc" id="L65">            instance = new LocationManager(profileName);</span>
+        }
+<span class="fc" id="L67">        return instance;</span>
+    }
+
+    private Location loadLocation(JsonObject json) {
+<span class="fc" id="L71">        Location location = new Location();</span>
+<span class="fc" id="L72">        Coordinate coordinate = new Coordinate(json.get(&quot;coordinate&quot;).getAsString());</span>
+<span class="fc" id="L73">        location.setCoordinate(coordinate);</span>
+<span class="fc" id="L74">        location.setTitle(json.get(&quot;title&quot;).getAsString());</span>
+<span class="fc" id="L75">        location.setDescription(json.get(&quot;description&quot;).getAsString());</span>
+<span class="fc" id="L76">        location.setLocationType(LocationType.valueOf(json.get(&quot;locationType&quot;).getAsString()));</span>
+<span class="fc" id="L77">        location.setDangerRating(json.get(&quot;danger&quot;).getAsInt());</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        if (json.has(&quot;items&quot;)) {</span>
+<span class="fc" id="L79">            ArrayList&lt;String&gt; items = new Gson().fromJson(json.get(&quot;items&quot;), new TypeToken&lt;List&lt;String&gt;&gt;(){}.getType());</span>
+<span class="fc" id="L80">            location.setItems(items);</span>
+<span class="fc" id="L81">        } else {</span>
+<span class="fc" id="L82">            ArrayList&lt;String&gt; items = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L83">            location.setItems(items);</span>
+        }
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        if (json.has(&quot;npcs&quot;)) {</span>
+<span class="fc" id="L86">            ArrayList&lt;String&gt; npcs = new Gson().fromJson(json.get(&quot;npcs&quot;), new TypeToken&lt;List&lt;String&gt;&gt;(){}.getType());</span>
+<span class="fc" id="L87">            location.setNPCs(npcs);</span>
+<span class="fc" id="L88">        } else {</span>
+<span class="fc" id="L89">            ArrayList&lt;String&gt; npcs = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L90">            location.setNPCs(npcs);</span>
+        }
+<span class="fc" id="L92">        return location;</span>
+    }
+
+    public static void writeLocations(String profileName) {
+        try {
+<span class="nc" id="L97">            JsonObject jsonObject = new JsonObject();</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">            for (Map.Entry&lt;Coordinate,ILocation&gt; entry : Locations.locations.entrySet()) {</span>
+<span class="nc" id="L99">                ILocation location = entry.getValue();</span>
+<span class="nc" id="L100">                JsonObject locationJsonElement = new JsonObject();</span>
+<span class="nc" id="L101">                locationJsonElement.addProperty(&quot;title&quot;, location.getTitle());</span>
+<span class="nc" id="L102">                locationJsonElement.addProperty(&quot;coordinate&quot;, location.getCoordinate().toString());</span>
+<span class="nc" id="L103">                locationJsonElement.addProperty(&quot;description&quot;, location.getDescription());</span>
+<span class="nc" id="L104">                locationJsonElement.addProperty(&quot;locationType&quot;, location.getLocationType().toString());</span>
+<span class="nc" id="L105">                locationJsonElement.addProperty(&quot;danger&quot;, String.valueOf(location.getDangerRating()));</span>
+<span class="nc" id="L106">                JsonArray itemList = new JsonArray();</span>
+<span class="nc" id="L107">                List&lt;Item&gt; items = location.getItems();</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">                if (items.size() &gt; 0) {</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">                    for (Item item : items) {</span>
+<span class="nc" id="L110">                        JsonPrimitive itemJson = new JsonPrimitive(item.getId());</span>
+<span class="nc" id="L111">                        itemList.add(itemJson);</span>
+<span class="nc" id="L112">                    }</span>
+<span class="nc" id="L113">                    locationJsonElement.add(&quot;items&quot;, itemList);</span>
+                }
+<span class="nc" id="L115">                JsonArray npcList = new JsonArray();</span>
+<span class="nc" id="L116">                List&lt;NPC&gt; npcs = location.getNPCs();</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">                if (npcs.size() &gt; 0) {</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">                    for (NPC npc : npcs) {</span>
+<span class="nc" id="L119">                        JsonPrimitive npcJson = new JsonPrimitive(npc.getId());</span>
+<span class="nc" id="L120">                        npcList.add(npcJson);</span>
+<span class="nc" id="L121">                    }</span>
+<span class="nc" id="L122">                    locationJsonElement.add(&quot;npcs&quot;, npcList);</span>
+                }
+<span class="nc" id="L124">                jsonObject.add(location.getCoordinate().toString(), locationJsonElement);</span>
+<span class="nc" id="L125">            }</span>
+<span class="nc" id="L126">            Writer writer = new FileWriter(&quot;json/profiles/&quot; + profileName + &quot;/locations.json&quot;);</span>
+<span class="nc" id="L127">            Gson gson = new Gson();</span>
+<span class="nc" id="L128">            gson.toJson(jsonObject, writer);</span>
+<span class="nc" id="L129">            writer.close();</span>
+<span class="nc" id="L130">            QueueProvider.offer(&quot;The game locations were saved.&quot;);</span>
+<span class="nc" id="L131">        } catch (IOException ex) {</span>
+<span class="nc" id="L132">            QueueProvider.offer(&quot;Unable to save to file json/profiles/&quot; + profileName + &quot;/locations.json&quot;);</span>
+<span class="nc" id="L133">        }</span>
+<span class="nc" id="L134">    }</span>
+
+    public static ILocation getInitialLocation(String profileName) {
+<span class="nc" id="L137">        getInstance(profileName);</span>
+<span class="nc" id="L138">        instance.reload();</span>
+<span class="nc" id="L139">        Coordinate coordinate = new Coordinate(0, 0, -1);</span>
+<span class="nc" id="L140">        return getLocation(coordinate);</span>
+    }
+
+    public static ILocation getLocation(Coordinate coordinate) {
+<span class="fc" id="L144">        return Locations.locations.get(coordinate);</span>
+    }
+
+    private void reload() {
+<span class="nc" id="L148">        JsonParser parser = new JsonParser();</span>
+<span class="nc" id="L149">        File f = new File(fileName);</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">        if (!f.exists()) {</span>
+<span class="nc" id="L151">            copyLocationsFile();</span>
+        }
+        try {
+<span class="nc" id="L154">            Reader reader = new FileReader(fileName);</span>
+<span class="nc" id="L155">            JsonObject json = parser.parse(reader).getAsJsonObject();</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">            for(Map.Entry&lt;String, JsonElement&gt; entry: json.entrySet()) {</span>
+<span class="nc" id="L157">                Locations.locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));</span>
+<span class="nc" id="L158">            }</span>
+<span class="nc" id="L159">            reader.close();</span>
+<span class="nc" id="L160">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L161">            e.printStackTrace();</span>
+<span class="nc" id="L162">            System.exit(-1);</span>
+<span class="nc" id="L163">        } catch (IOException e) {</span>
+<span class="nc" id="L164">            e.printStackTrace();</span>
+<span class="nc" id="L165">        }</span>
+<span class="nc" id="L166">    }</span>
+
+    private void copyLocationsFile() {
+<span class="nc" id="L169">        File source = new File(&quot;json/locations.json&quot;);</span>
+<span class="nc" id="L170">        File dest = new File(fileName);</span>
+<span class="nc" id="L171">        dest.mkdirs();</span>
+        try {
+<span class="nc" id="L173">        Files.copy(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);</span>
+<span class="nc" id="L174">        } catch (IOException e) {</span>
+<span class="nc" id="L175">            e.printStackTrace();</span>
+<span class="nc" id="L176">        }</span>
+<span class="nc" id="L177">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
