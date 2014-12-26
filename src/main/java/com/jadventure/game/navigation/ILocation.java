@@ -1,12 +1,11 @@
 package com.jadventure.game.navigation;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import com.jadventure.game.entities.NPC;
 import com.jadventure.game.items.Item;
-import com.jadventure.game.items.ItemStack;
+import com.jadventure.game.items.Storage;
 import com.jadventure.game.monsters.Monster;
 
 /**
@@ -22,10 +21,9 @@ public interface ILocation {
     Map<Direction, ILocation> getExits();
 
     List<Item> getItems();
-    void removePublicItem(String itemID);
-    void addPublicItem(String itemID);
-
-    void addPublicItems(ArrayList<ItemStack> items);
+    Storage getStorage();
+    Item removeItem(Item item);
+    void addItem(Item item);
 
     List<NPC> getNPCs();
 

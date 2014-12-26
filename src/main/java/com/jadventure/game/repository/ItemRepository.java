@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -74,7 +75,7 @@ public class ItemRepository {
             EquipmentLocation position = EQUIPMENT_POSITION_MAP.get(itemData.get("position").getAsString());
             int level = itemData.get("level").getAsInt();
             JsonObject sProps = itemData.get("properties").getAsJsonObject();
-            Map<String, Integer> properties = new HashMap<>();
+            Map<String, Integer> properties = new TreeMap<>();
             for (Map.Entry<String, JsonElement> entry2 : sProps.entrySet()) {
                 Integer propValue = entry2.getValue().getAsInt();
                 properties.put(entry2.getKey(), propValue);
@@ -119,7 +120,7 @@ public class ItemRepository {
     public void store(JsonWriter writer) {
         GsonBuilder bldr = new GsonBuilder().setPrettyPrinting();
         Gson gson = bldr.create();
-        Map<String, Map<String, Item>> root = new HashMap<>();
+        Map<String, Map<String, Item>> root = new TreeMap<>();
         root.put("items", itemMap);
         gson.toJson(root, Map.class, writer);
     }

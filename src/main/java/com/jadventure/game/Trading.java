@@ -1,17 +1,16 @@
 package com.jadventure.game;
 
-import com.jadventure.game.entities.NPC;
-import com.jadventure.game.entities.Player;
-import com.jadventure.game.items.ItemStack;
-import com.jadventure.game.items.Item;
-import com.jadventure.game.menus.Menus;
-import com.jadventure.game.menus.MenuItem;
-import com.jadventure.game.repository.ItemRepository;
-
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
+
+import com.jadventure.game.entities.NPC;
+import com.jadventure.game.entities.Player;
+import com.jadventure.game.items.Item;
+import com.jadventure.game.menus.MenuItem;
+import com.jadventure.game.menus.Menus;
+import com.jadventure.game.repository.ItemRepository;
 
 public class Trading {
     int npcGold;
@@ -62,13 +61,13 @@ public class Trading {
             return;
         }
         
-        List<ItemStack> itemList = npc.getStorage().getItems();
+        // [Clean Code]  Code Copy
+        List<Item> itemList = npc.getStorage().getItems();
         Map<String, String> itemIds = new HashMap<>();
         Map<String, Integer> itemValues = new HashMap<>();
         Map<String, Item> itemIdtoItem = new HashMap<>();
 
-        for (ItemStack itemStack : itemList) {
-            Item item = itemStack.getItem();
+        for (Item item : itemList) {
             String name = item.getName();
             String id = item.getId();
             int value = item.getProperties().get("value");
@@ -107,14 +106,14 @@ public class Trading {
         if (itemName.equals("exit")) {
             return;
         }
-        
-        List<ItemStack> itemList = player.getStorage().getItems();
+
+        // [Clean Code]  Code Copy
+        List<Item> itemList = player.getStorage().getItems();
         Map<String, String> itemIds = new HashMap<>();
         Map<String, Integer> itemValues = new HashMap<>();
         Map<String, Item> itemIdtoItem = new HashMap<>();
 
-        for (ItemStack itemStack : itemList) {
-            Item item = itemStack.getItem();
+        for (Item item : itemList) {
             String name = item.getName();
             String id = item.getId();
             int value = item.getProperties().get("value");
