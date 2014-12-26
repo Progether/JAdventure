@@ -1,17 +1,16 @@
 package com.jadventure.game;
 
-import com.jadventure.game.entities.NPC;
-import com.jadventure.game.entities.Player;
-import com.jadventure.game.items.ItemStack;
-import com.jadventure.game.items.Item;
-import com.jadventure.game.menus.Menus;
-import com.jadventure.game.menus.MenuItem;
-import com.jadventure.game.repository.ItemRepository;
-
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
+
+import com.jadventure.game.entities.NPC;
+import com.jadventure.game.entities.Player;
+import com.jadventure.game.items.Item;
+import com.jadventure.game.menus.MenuItem;
+import com.jadventure.game.menus.Menus;
+import com.jadventure.game.repository.ItemRepository;
 
 public class Trading {
     int npcGold;
