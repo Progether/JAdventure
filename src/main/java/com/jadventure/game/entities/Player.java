@@ -264,11 +264,8 @@ public class Player extends Entity {
         jsonObject.addProperty("weapon", getWeapon());
         jsonObject.addProperty("type", getCurrentCharacterType());
         HashMap<String, Integer> items = new HashMap<String, Integer>();
-        JsonArray itemList = new JsonArray();
         for (ItemStack item : getStorage().getItems()) {
             items.put(item.getItem().getId(), item.getAmount());
-            JsonPrimitive itemJson = new JsonPrimitive(item.getItem().getId());
-            itemList.add(itemJson);
         }
         JsonElement itemsJsonObj = gson.toJsonTree(items);
         jsonObject.add("items", itemsJsonObj);
