@@ -21,7 +21,6 @@ import com.jadventure.game.navigation.Direction;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.navigation.LocationType;
-import com.jadventure.game.DeathException;
 
 /**
  * CommandCollection contains the declaration of the methods mapped to game commands
