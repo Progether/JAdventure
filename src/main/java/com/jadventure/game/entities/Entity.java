@@ -212,12 +212,18 @@ public abstract class Entity {
         }
         case 'p': {
             if (item.containsProperty("healthMax")) {
+                int healthOld = this.getHealth();
                 this.healthMax += item.getProperty("healthMax");
+                this.health += item.getProperty("health");
                 this.health = (this.health > this.healthMax) ? this.healthMax : this.health;
+                int healthNew = this.health;
                 unequipItem(item); // One use only
                 removeItemFromStorage(item);
-                result.put("health",
-                        String.valueOf(item.getProperty("healthMax")));
+                if (healthNew != healthOld) {
+                    result.put("health", String.valueOf(health - healthOld));
+                } else {
+                    result.put("health", String.valueOf(item.getProperty("healthMax")));
+                }
             }
             break;
         }

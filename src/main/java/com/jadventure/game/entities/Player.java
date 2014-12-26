@@ -295,7 +295,7 @@ public class Player extends Entity {
         List<Item> itemMap = new ArrayList<>();
         for (Item item : itemList) {
             String testItemName = item.getName();
-            if (testItemName.equals(itemName)) {
+            if (testItemName.equalsIgnoreCase(itemName)) {
                 itemMap.add(item);
             }
         }
@@ -306,7 +306,7 @@ public class Player extends Entity {
         List<Item> itemMap = new ArrayList<>();
         for (ItemStack item : storage.getItems()) {
             String testItemName = item.getItem().getName();
-            if (testItemName.equals(itemName)) {
+            if (testItemName.equalsIgnoreCase(itemName)) {
                 itemMap.add(item.getItem());
             }
         }

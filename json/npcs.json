@@ -31,7 +31,7 @@
 	  "condition": "none",
 	  "player":"What is Syllia?",
 	  "text": "A place of wonder and awe... Well it used to be at least, until these damn monsters invaded. Now it's all about fighting the monsters. There's not fun any more...",
-	  "response":[3,4,5],
+	  "response":[2,3,4,5],
 	  "action": "none"
 	},
         {

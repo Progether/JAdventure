@@ -241,7 +241,7 @@
       "type": "potion",
       "name": "Potion of Health",
       "description": "Magic potion that increases vitality",
-      "position": "rightHand",
+      "position": "mouth",
       "level": 1,
       "properties": {
         "healthMax": "+100",
