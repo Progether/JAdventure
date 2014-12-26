@@ -54,7 +54,7 @@ public class ItemRepositoryTest {
         assertEquals("Milk in a bottle", milkItem.getDescription());
     }
 
-    //@Test
+    @Test
     public void storeItems() throws IOException {
         ItemRepository itemRepo = new ItemRepository();
         
