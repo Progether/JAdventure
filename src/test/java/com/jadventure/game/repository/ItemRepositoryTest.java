@@ -11,6 +11,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.junit.Test;
 
@@ -67,9 +68,9 @@ public class ItemRepositoryTest {
         
         String expected = "{\"items\":{"
                 + "\"egg-1\":{\"id\":\"egg-1\",\"type\":\"food\",\"name\":\"egg\",\"description\":\"A nice egg\","
-                + "\"level\":1,\"properties\":{\"weight\":1,\"value\":3,\"health\":2}},"
+                + "\"level\":1,\"properties\":{\"health\":2,\"value\":3,\"weight\":1}},"
                 + "\"milk-bottle\":{\"id\":\"milk-bottle\",\"type\":\"potion\",\"name\":\"milk\",\"description\":\"Milk in a bottle\","
-                + "\"level\":1,\"properties\":{\"weight\":1,\"value\":10,\"health\":5}}"
+                + "\"level\":1,\"properties\":{\"health\":5,\"value\":10,\"weight\":1}}"
                 + "}}";
         String gsonMsg = writer.toString();
         assertEquals(expected, gsonMsg);
@@ -117,7 +118,7 @@ public class ItemRepositoryTest {
     }
     
     private Item createMilk() {
-        Map<String, Integer> properties = new HashMap<>();
+        Map<String, Integer> properties = new TreeMap<>();
         properties.put("health", Integer.valueOf(5));
         properties.put("weight", Integer.valueOf(1));
         properties.put("value", Integer.valueOf(10));
@@ -127,7 +128,7 @@ public class ItemRepositoryTest {
     }
 
     private Item createEgg() {
-        Map<String, Integer> properties = new HashMap<>();
+        Map<String, Integer> properties = new TreeMap<>();
         properties.put("health", Integer.valueOf(2));
         properties.put("weight", Integer.valueOf(1));
         properties.put("value", Integer.valueOf(3));

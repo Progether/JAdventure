@@ -1,8 +1,8 @@
 package com.jadventure.game.items;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.entities.EquipmentLocation;
@@ -33,7 +33,7 @@ public class Item {
             this.properties = properties;
         }
         else {
-            this.properties = new HashMap<>();
+            this.properties = new TreeMap<>();
         }
     }
 
