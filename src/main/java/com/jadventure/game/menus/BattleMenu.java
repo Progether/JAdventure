@@ -18,6 +18,7 @@ public class BattleMenu extends Menus {
     private Random random;
     private int armour;
     private double damage;
+    private boolean escapeSuccessful = false;
 
     public BattleMenu(NPC npcOpponent, Player player) throws DeathException {
         this.random = new Random();
@@ -25,12 +26,13 @@ public class BattleMenu extends Menus {
         this.player = player;
         this.menuItems.add(new MenuItem("Attack", "Attack " + npcOpponent.getName() + "."));
         this.menuItems.add(new MenuItem("Defend", "Defend against " + npcOpponent.getName() + "'s attack."));
+        this.menuItems.add(new MenuItem("Escape", "Try and escape from " + npcOpponent.getName()));
         this.menuItems.add(new MenuItem("Equip", "Equip an item"));
         this.menuItems.add(new MenuItem("Unequip", "Unequip an item"));
         this.menuItems.add(new MenuItem("View", "View details about your character"));
         this.armour = player.getArmour();
         this.damage = player.getDamage();
-        while (npcOpponent.getHealth() > 0 && player.getHealth() > 0) {
+        while (npcOpponent.getHealth() > 0 && player.getHealth() > 0 && !escapeSuccessful) {
             QueueProvider.offer("\nWhat is your choice?");
             MenuItem selectedItem = displayMenu(this.menuItems);
             testSelected(selectedItem);
@@ -70,12 +72,13 @@ public class BattleMenu extends Menus {
         this.player = player;
         this.menuItems.add(new MenuItem("Attack", "Attack " + monsterOpponent.getName() + "."));
         this.menuItems.add(new MenuItem("Defend", "Defend against " + monsterOpponent.getName() + "'s attack."));
+        this.menuItems.add(new MenuItem("Escape", "Try and escape from " + monsterOpponent.getName()));
         this.menuItems.add(new MenuItem("Equip", "Equip an item"));
         this.menuItems.add(new MenuItem("Unequip", "Unequip an item"));
         this.menuItems.add(new MenuItem("View", "View details about your character"));
         this.armour = player.getArmour();
         this.damage = player.getDamage();
-        while (monsterOpponent.getHealth() > 0 && player.getHealth() > 0) {
+        while (monsterOpponent.getHealth() > 0 && player.getHealth() > 0 && !escapeSuccessful) {
             QueueProvider.offer("\nWhat is your choice?");
             MenuItem selectedItem = displayMenu(this.menuItems);
             testSelected(selectedItem);
@@ -137,6 +140,14 @@ public class BattleMenu extends Menus {
                 resetStats();
                 break;
             }
+            case "escape": {
+                if (npcOpponent == null) {
+                    escapeSuccessful = escapeAttempt(player, monsterOpponent);
+                } else {
+                    escapeSuccessful = escapeAttempt(player, npcOpponent);
+                }
+                break;
+            }
             case "equip": {
                 equip();
                 break;
@@ -152,6 +163,27 @@ public class BattleMenu extends Menus {
             default: {
                 break;
             }
+        }
+    }
+
+    private boolean escapeAttempt(Player player, Entity attacker) {
+        double playerEscapeLevel = player.getIntelligence() + player.getStealth() + player.getDexterity();
+        double attackerEscapeLevel = attacker.getIntelligence() + attacker.getStealth() + attacker.getDexterity() + 
+            (attacker.getDamage() / playerEscapeLevel);
+        double escapeLevel = playerEscapeLevel / attackerEscapeLevel;
+
+        Random rand = new Random();
+        int rawLuck = rand.nextInt(player.getLuck()*2) + 1;
+        int lowerBound = 60 - rawLuck;
+        int upperBound = 80 - rawLuck;
+        double minEscapeLevel = (rand.nextInt((upperBound - lowerBound) + 1) + lowerBound) / 100.0;
+      
+        if (escapeLevel > minEscapeLevel) {
+            QueueProvider.offer("You have managed to escape the: " + attacker.getName());
+            return true;
+        } else {
+            QueueProvider.offer("You failed to escape the: " + attacker.getName());
+            return false;
         }
     }
 
