@@ -266,7 +266,7 @@ public abstract class Entity {
             QueueProvider.offer("--Empty--");
         } else {
             for (Map.Entry<EquipmentLocation, Item> item : equipment.entrySet()) {
-                if (item.getKey() != null) {
+                if (item.getKey() != null && item.getValue() != null) {
                     QueueProvider.offer(item.getKey() + " - " + item.getValue().getName());
                 }
             }
