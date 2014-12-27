@@ -93,7 +93,7 @@ public class Item {
 
     public void display() {
         QueueProvider.offer("Name: " + name +
-                "\nDescription: " + description);
+                "\nDescription: " + description + "\nLevel: " + level);
         for (Map.Entry<String, Integer> entry : properties.entrySet()) {
             QueueProvider.offer(entry.getKey() + ": " + entry.getValue());
         }
