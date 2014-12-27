@@ -9,10 +9,7 @@ public class Client {
     DataInputStream in;
     DataOutputStream out;
 
-    public Client() {
-        String serverName = "localhost";
-        
-        int port = 4044;
+    public Client(String serverName, int port) {
         Socket client = null;
         try {
             client = new Socket(serverName, port);

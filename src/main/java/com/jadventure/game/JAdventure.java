@@ -25,13 +25,21 @@ public class JAdventure {
         logger.info("Starting JAdventure " + toString(args));
         GameModeType mode = getGameMode(args);
         logger.debug("Starting in mode " + mode.name());
+        String serverName = "localhost";
+        int port = 4044;
+        if (mode == GameModeType.SERVER) {
+            port = Integer.parseInt(args[1]);
+        } else if (mode == GameModeType.CLIENT) {
+            serverName = args[2];
+            port = Integer.parseInt(args[1]);
+        }
         if (GameModeType.CLIENT == mode) {
-            new Client();
+            new Client(serverName, port);
         } else if (GameModeType.SERVER == mode) {
             while (true) {
             	ServerSocket listener = null;
                 try {
-                    listener = new ServerSocket(4044);
+                    listener = new ServerSocket(port);
                     while (true) {
                         Socket server = listener.accept();
                         Runnable r = new MainMenu(server, mode);

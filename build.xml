@@ -94,6 +94,10 @@
     <java fork="true" classname="${main-class}">
       <arg value="${arg0}">
       </arg>
+      <arg value="${arg1}">
+      </arg>
+      <arg value="${arg2}">
+      </arg>
       <classpath>
         <path refid="classpath"/>
         <path refid="application"/>
