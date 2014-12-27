@@ -1,6 +1,7 @@
 package com.jadventure.game.repository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
@@ -115,6 +116,21 @@ public class ItemRepositoryTest {
     	item = itemRepo.getItem("wdag1");
     	assertNotNull(item);
     	assertEquals("weapon", item.getType());
+    }
+    
+    @Test
+    public void getRandomItemTest() {
+        ItemRepository itemRepo = ItemRepository.createRepo();
+
+        Item food = itemRepo.getRandomFood(1);
+        Item weapon = itemRepo.getRandomWeapon(1);
+        Item armour = itemRepo.getRandomArmour(1);
+        Item potion = itemRepo.getRandomPotion(1);
+
+        assertTrue(food instanceof Item);
+        assertTrue(weapon instanceof Item);
+        assertTrue(armour instanceof Item);
+        assertTrue(potion instanceof Item);
     }
     
     private Item createMilk() {

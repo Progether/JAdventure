@@ -4,9 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Random;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -110,11 +113,6 @@ public class ItemRepository {
 
     public void retrieve(JsonReader jsonReader) {
         load(jsonReader);
-        
-//        throw new RuntimeException("The method " + ItemRepository.class.getSimpleName() 
-//                + ".retrieve(JsonReader jsonReader), has not yet been implemented.");
-//        Gson gson = new Gson();
-//        gson.fromJson(jsonReader, );
     }
 
     public void store(JsonWriter writer) {
@@ -125,4 +123,44 @@ public class ItemRepository {
         gson.toJson(root, Map.class, writer);
     }
 
+    public Item getRandomFood(int level) {
+        return getRandomItem("f", level);
+    }
+
+    public Item getRandomWeapon(int level) {
+        return getRandomItem("w", level);
+    }
+
+    public Item getRandomArmour(int level) {
+        return getRandomItem("a", level);
+    }
+
+    public Item getRandomPotion(int level) {
+        return getRandomItem("p", level);
+    }
+
+    public Item getRandomItem(String start, int level) {
+        Random rand = new Random();
+        int chance = rand.nextInt(100);
+        if (chance < 70) {
+            Item item = null;
+            do {
+                item = getRandom(start);
+            } while (item.getLevel() > level);
+            return item;
+        } else {
+            return getRandom(start);
+        }
+    }
+
+    private Item getRandom(String start) {
+        Random rand = new Random();
+        Item item = null;
+        do {
+            int itemIndex = rand.nextInt(itemMap.size() - 2);
+            List<Item> items = new ArrayList<>(itemMap.values());
+            item = items.get(itemIndex + 2); // avoids empty and hands items
+        } while (!item.getId().startsWith(start));
+        return item;
+    }
 }
