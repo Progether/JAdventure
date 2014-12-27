@@ -209,7 +209,7 @@ public class BattleMenu extends Menus {
     }
 
     private void viewStats() {
-        QueueProvider.offer("\nWhat is your command?");
+        QueueProvider.offer("\nWhat is your command? ex. View stats(vs), View Backpack(vb), View Equipment(ve) ");
         String input = QueueProvider.take();
         switch (input) {
             case "vs":
