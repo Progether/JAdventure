@@ -107,7 +107,7 @@ To get a list of monsters around you:
 
 To view details about your player:
 
-    v<s,e,b> - view status, equipped items, backpack
+    v <s,e,b> - view status, equipped items, backpack
 
 To quit the game:
 
@@ -115,31 +115,35 @@ To quit the game:
 
 To move:
 
-    gn - go north
-    gs - go south
-    ge - go east
-    gw - go west
+    g n - go north
+    g s - go south
+    g e - go east
+    g w - go west
 
 To pick up an item:
 
-    p<itemName>
+    p <itemName>
 
 To drop an item:
 
-    d<itemName>
+    d <itemName>
 
 To equip/unequip item:
 
-    e<itemName>
-    ue<itemName>
+    e <itemName>
+    ue <itemName>
 
 To attack:
     
-    a<monster>
+    a <monster>
 
 To look around:
  
     la
+
+To talk to a Non-player Character:
+
+    t <npc>
 
 Coding Standard/Convention/Style
 -------------------
