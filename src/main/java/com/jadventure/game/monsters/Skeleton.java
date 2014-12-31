@@ -16,5 +16,6 @@ public class Skeleton extends Monster {
                 this.setDexterity(3);        
                 this.setXPGain(10 + playerLevel * 3);
 		this.setGold(playerLevel * 3);
+                addRandomItems(playerLevel, "arhl1");
 	}
 }

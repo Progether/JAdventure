@@ -1,6 +1,13 @@
 package com.jadventure.game.monsters;
 
 import com.jadventure.game.entities.Entity;
+import com.jadventure.game.items.Item;
+import com.jadventure.game.GameBeans;
+import com.jadventure.game.repository.ItemRepository;
+
+import java.util.List;
+import java.util.Arrays;
+import java.util.Random;
 
 /*
  * This class just holds a type of monster that is 
@@ -8,8 +15,9 @@ import com.jadventure.game.entities.Entity;
  * just holds the monster's name.
  */
 public abstract class Monster extends Entity {
-	public String monsterType;
+    public String monsterType;
     private int xpGain;
+    private ItemRepository itemRepo = GameBeans.getItemRepository();
 
     public int getXPGain() {
         return xpGain;
@@ -29,5 +37,27 @@ public abstract class Monster extends Entity {
             return m.monsterType.equals(this.monsterType);
         }
         return false;
+    }
+
+    public void addRandomItems(int playerLevel, String... children) {
+        List<String> itemList = Arrays.asList(children);
+        Random rand = new Random();
+
+        int numItems = 1;
+        int i = 0;
+        while (i != numItems) {
+            for (String itemName : itemList) {
+                if (i == numItems) {
+                    break;
+                }
+
+                int j = rand.nextInt(5) + 1;
+                if (j == 1) {
+                    Item item = itemRepo.getItem(itemName);
+                    addItemToStorage(item);
+                    i++;
+                }
+            }
+        }
     }
 }

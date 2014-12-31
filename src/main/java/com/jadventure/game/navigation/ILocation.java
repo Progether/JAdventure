@@ -32,6 +32,7 @@ public interface ILocation {
     List<Monster> getMonsters();
     void addMonster(Monster monster);
     void removeMonster(Monster monster);
+    void removeNPC(NPC npc);
 
     void print();
     int getDangerRating();

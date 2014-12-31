@@ -7,8 +7,13 @@ import com.jadventure.game.entities.NPC;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.CharacterChange;
+import com.jadventure.game.items.ItemStack;
+import com.jadventure.game.items.Item;
+import com.jadventure.game.GameBeans;
 
 import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
 
 public class BattleMenu extends Menus {
 
@@ -55,7 +60,24 @@ public class BattleMenu extends Menus {
             int oldLevel = this.player.getLevel();
             int newLevel = (int) (0.075 * Math.sqrt(this.player.getXP()) + 1);
             this.player.setLevel(newLevel);
-            //this.player.getLocation().removeMonster(npcOpponent);
+
+            // Iterates over the npc's items and if there are any, drops them. 
+            // There are two loops due to a ConcurrentModification Exception that occurs
+            // if you try to remove the item while looping through the npc's items.
+            List<ItemStack> itemStacks = npcOpponent.getStorage().getItems();
+            List<String> itemIds = new ArrayList<>();
+            for (ItemStack itemStack : itemStacks) {
+                String itemId = itemStack.getItem().getId();
+                itemIds.add(itemId);
+            }
+            for (String itemId : itemIds) {
+                Item item = GameBeans.getItemRepository().getItem(itemId);
+                npcOpponent.removeItemFromStorage(item);
+                this.player.getLocation().addPublicItem(item.getId());
+                QueueProvider.offer("Your opponent dropped a " + item.getName());
+            }
+
+            this.player.getLocation().removeNPC(npcOpponent);
             this.player.setGold(this.player.getGold() + npcOpponent.getGold());
             QueueProvider.offer("You killed a " + npcOpponent.getName() + "\nYou have gained " + xp + " XP and " + npcOpponent.getGold() + " gold");
             if (oldLevel < newLevel) {
@@ -101,6 +123,23 @@ public class BattleMenu extends Menus {
             int oldLevel = this.player.getLevel();
             int newLevel = (int) (0.075 * Math.sqrt(this.player.getXP()) + 1);
             this.player.setLevel(newLevel);
+
+            // Iterates over monster's items and if there are any, drops them. 
+            // There are two loops due to a ConcurrentModification Exception that occurs
+            // if you try to remove the item while looping through the monster's items.
+            List<ItemStack> itemStacks = monsterOpponent.getStorage().getItems();
+            List<String> itemIds = new ArrayList<>();
+            for (ItemStack itemStack : itemStacks) {
+                String itemId = itemStack.getItem().getId();
+                itemIds.add(itemId);
+            }
+            for (String itemId : itemIds) {
+                Item item = GameBeans.getItemRepository().getItem(itemId);
+                monsterOpponent.removeItemFromStorage(item);
+                this.player.getLocation().addPublicItem(item.getId());
+                QueueProvider.offer("Your opponent dropped a " + item.getName());
+            }
+
             this.player.getLocation().removeMonster(monsterOpponent);
             this.player.setGold(this.player.getGold() + monsterOpponent.getGold());
             QueueProvider.offer("You killed a " + monsterOpponent.getName() + "\nYou have gained " + xp + " XP and " + monsterOpponent.getGold() + " gold");

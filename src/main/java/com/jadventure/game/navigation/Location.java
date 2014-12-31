@@ -138,6 +138,14 @@ public class Location implements ILocation {
             }
         }
     }
+    
+    public void removeNPC(NPC npc) {
+        for (int i = 0; i < npcs.size(); i++) {
+            if (npcs.get(i).equals(npc)) {
+                npcs.remove(i);
+            }
+        }
+    }
 
     public List<Monster> getMonsters() {
         return monsters;
