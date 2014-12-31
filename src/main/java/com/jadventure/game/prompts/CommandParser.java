@@ -75,7 +75,10 @@ public class CommandParser {
                         }
                     }
                 } else if (method.getParameterTypes()[0] == String.class) {
-                    String arg = command.substring(key.length() + 1);
+                    String arg = command.substring(key.length());
+                    if (arg.charAt(0) == ' ') {
+                        arg = command.substring(key.length() + 1);
+                    }
                     try {
                         if (method.getAnnotation(Command.class).debug()) {
                             if ("test".equals(player.getName())) {
