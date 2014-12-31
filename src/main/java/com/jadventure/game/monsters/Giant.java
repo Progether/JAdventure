@@ -14,7 +14,8 @@ public class Giant extends Monster {
                 this.setStealth(1);
                 this.setDexterity(1);
 		this.setCritChance(0.03);
-        this.setXPGain(50 + playerLevel * 3);
+                this.setXPGain(50 + playerLevel * 3);
 		this.setGold(15 + playerLevel * 11);
+                addRandomItems(playerLevel, "wrbd1");
 	}
 }
