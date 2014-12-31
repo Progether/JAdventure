@@ -1,6 +1,7 @@
 package com.jadventure.game.navigation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,7 @@ import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.entities.NPC;
 import com.jadventure.game.items.Item;
-import com.jadventure.game.items.ItemStack;
+import com.jadventure.game.items.Storage;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.repository.ItemRepository;
 
@@ -26,12 +27,18 @@ public class Location implements ILocation {
     private String description;
     private LocationType locationType;
     private int dangerRating;
-    private List<Item> items;
-    private List<NPC> npcs;
+    private Storage storage = new Storage();
+    private List<NPC> npcs = new ArrayList<>();
     private List<Monster> monsters = new ArrayList<>();
 
     public Location() {
 
+    }
+    public Location(Coordinate coordinate, String title, String description, LocationType locationType) {
+        this.coordinate = coordinate;
+        this.title = title;
+        this.description = description;
+        this.locationType = locationType;
     }
 
     public Coordinate getCoordinate() {
@@ -91,40 +98,27 @@ public class Location implements ILocation {
         return exits;
     }
 
-    public void setItems(ArrayList<String> items) {
-        ArrayList<Item> itemsList = new ArrayList<>();
-        for (String itemId : items) {
-            Item itemName = itemRepo.getItem(itemId);
-            itemsList.add(itemName);
-        }
-        this.items = itemsList;
+    public Storage getStorage() {
+        return storage;
+    }
+    public List<Item> getItems() {
+        return storage.getItems();
     }
 
-    public ArrayList<Item> getItems() {
-        ArrayList<Item> items = new ArrayList<>();
-        for (Item item : this.items) {
-            items.add(item);
-        }
-        return items;
-    }
-
-    public void setNPCs(ArrayList<String> npcs) {
-        ArrayList<NPC> npcList = new ArrayList<NPC>();
-        for (String npcID : npcs) {
-            NPC npc = new NPC(npcID);
-            npcList.add(npc);
+    public void addNPCs(List<String> npcIds) {
+        for (String npcId : npcIds) {
+            addNpc(npcId);
         } 
-        this.npcs = npcList;
+    }
+    
+    public void addNpc(String npcId) {
+        npcs.add(new NPC(npcId));
     }
 
-    public ArrayList<NPC> getNPCs() {
-        ArrayList<NPC> npcs = new ArrayList<>();
-        for (NPC npc : this.npcs) {
-            npcs.add(npc);
-        }
-        return npcs;
+    public List<NPC> getNPCs() {
+        return Collections.unmodifiableList(npcs);
     }
-   
+
     public void addMonster(Monster monster) {
         if (monster != null) {
             monsters.add(monster);
@@ -151,36 +145,25 @@ public class Location implements ILocation {
         return monsters;
     }
 
-    public void removePublicItem(String itemID) {
-        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).getId().equals(itemID)) {
-                items.remove(i);
-            }
-        }
+    public Item removeItem(Item item) {
+        return storage.remove(item);
     }
 
-    public void addPublicItem(String itemID) {
-        items.add(itemRepo.getItem(itemID));
-    }
-
-    public void addPublicItems(ArrayList<ItemStack> items) {
-        for (int i = 0; i < items.size(); i++) {
-            String itemId = items.get(i).getItem().getId();
-            addPublicItem(itemId);
-        }
+    public void addItem(Item item) {
+        storage.add(item);
     }
 
     public void print() {
         QueueProvider.offer("\n" + getTitle() + ":");
         QueueProvider.offer("    " + getDescription());
-        ArrayList<Item> publicItems = getItems();
-        if (!publicItems.isEmpty()) {
+        List<Item> items = getItems();
+        if (!items.isEmpty()) {
             QueueProvider.offer("Items:");
-            for (Item item : publicItems) {
+            for (Item item : items) {
                 QueueProvider.offer("    " + item.getName());
             }
         }
-        ArrayList<NPC> npcs = getNPCs();
+        List<NPC> npcs = getNPCs();
         if (!npcs.isEmpty()) {
             QueueProvider.offer("NPCs:");
             for (NPC npc : npcs) {

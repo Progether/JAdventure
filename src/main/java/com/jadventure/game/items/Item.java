@@ -69,6 +69,10 @@ public class Item {
     }
 
     public int getProperty(String property) {
+        if (! properties.containsKey(property)) {
+            return 0;
+        }
+
         return properties.get(property);
     }
 

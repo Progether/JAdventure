@@ -64,7 +64,7 @@ public class BattleMenu extends Menus {
             // Iterates over the npc's items and if there are any, drops them. 
             // There are two loops due to a ConcurrentModification Exception that occurs
             // if you try to remove the item while looping through the npc's items.
-            List<ItemStack> itemStacks = npcOpponent.getStorage().getItems();
+            List<ItemStack> itemStacks = npcOpponent.getStorage().getItemStack();
             List<String> itemIds = new ArrayList<>();
             for (ItemStack itemStack : itemStacks) {
                 String itemId = itemStack.getItem().getId();
@@ -73,7 +73,7 @@ public class BattleMenu extends Menus {
             for (String itemId : itemIds) {
                 Item item = GameBeans.getItemRepository().getItem(itemId);
                 npcOpponent.removeItemFromStorage(item);
-                this.player.getLocation().addPublicItem(item.getId());
+                this.player.getLocation().addItem(item);
                 QueueProvider.offer("Your opponent dropped a " + item.getName());
             }
 
@@ -127,7 +127,7 @@ public class BattleMenu extends Menus {
             // Iterates over monster's items and if there are any, drops them. 
             // There are two loops due to a ConcurrentModification Exception that occurs
             // if you try to remove the item while looping through the monster's items.
-            List<ItemStack> itemStacks = monsterOpponent.getStorage().getItems();
+            List<ItemStack> itemStacks = monsterOpponent.getStorage().getItemStack();
             List<String> itemIds = new ArrayList<>();
             for (ItemStack itemStack : itemStacks) {
                 String itemId = itemStack.getItem().getId();
@@ -136,7 +136,7 @@ public class BattleMenu extends Menus {
             for (String itemId : itemIds) {
                 Item item = GameBeans.getItemRepository().getItem(itemId);
                 monsterOpponent.removeItemFromStorage(item);
-                this.player.getLocation().addPublicItem(item.getId());
+                this.player.getLocation().addItem(item);
                 QueueProvider.offer("Your opponent dropped a " + item.getName());
             }
 

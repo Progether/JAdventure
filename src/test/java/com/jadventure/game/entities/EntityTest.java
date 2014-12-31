@@ -74,7 +74,7 @@ public class EntityTest {
         Item item = new Item(id, type, name, description, 1, null);
         entity.setStorage(new Storage(300));
         entity.addItemToStorage(item);
-        Assert.assertEquals(entity.getStorage().getItems().get(0).getItem(), item);
+        Assert.assertEquals(entity.getStorage().getItems().get(0), item);
     }
 
     private void testInt(Object test) {
