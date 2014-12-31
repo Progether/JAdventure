@@ -6,6 +6,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -54,9 +55,10 @@ public class NPC extends Entity {
             setStrength(json.get("strength").getAsInt());
             float maxWeight = (float)Math.sqrt(getStrength()*300);
             setStorage(new Storage(maxWeight));
-            JsonArray items = json.get("items").getAsJsonArray();
-            for (JsonElement item : items) {
-                addItemToStorage(itemRepo.getItem(item.getAsString()));
+            if (json.has("sellLimit") && json.has("items")) {
+                int itemLimit = json.get("sellLimit").getAsInt();
+                int i = 0;
+                setItems(json, itemLimit, i);
             }
             allies = new ArrayList<>();
             JsonArray alliesJson = json.get("allies").getAsJsonArray();
@@ -70,6 +72,42 @@ public class NPC extends Entity {
             }
         } catch (FileNotFoundException ex) {
             QueueProvider.offer("Unable to open file '" + fileName + "'.");
+        }
+    }
+
+    public void setItems(JsonObject json, int itemLimit, int i) {
+        JsonArray items = json.get("items").getAsJsonArray();
+        JsonArray itemTypes = json.get("tradingEmphasis").getAsJsonArray();
+        boolean cont;
+        for (JsonElement item : items) {
+            if (i == itemLimit) {
+                break;
+            }
+
+            cont = false;
+            char itemType = item.getAsString().charAt(0);
+            for (JsonElement type : itemTypes) {
+                if (itemType == type.getAsString().charAt(0)) {
+                    cont = true;
+                }
+            }
+
+            Random rand = new Random();
+            int j = rand.nextInt(100) + 1;
+            if (cont) {
+                if ((j > 0) && (j <= 95)) {
+                    addItemToStorage(itemRepo.getItem(item.getAsString()));
+                    i++;
+                }
+            } else {
+                if ((j > 95) && (j <= 100)) {
+                    addItemToStorage(itemRepo.getItem(item.getAsString()));
+                    i++;
+                }
+            }
+        }
+        if (i != itemLimit) {
+            setItems(json, itemLimit, i);
         }
     }
 

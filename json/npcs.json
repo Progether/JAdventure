@@ -18,7 +18,9 @@
 	"Sewer Rat"
       ],
       "enemies": [],
-      "items":["pmil1", "pmil1", "fbrd1", "fbum1", "fcom1", "phli1"],
+      "tradingEmphasis": [ "f" ],
+      "sellLimit": 15,
+      "items":["pmil1", "fbrd1", "fcom1", "phli1", "ashi1"],
       "conversations": [
 	{
 	  "condition":"none",
@@ -183,7 +185,9 @@
       	"Recruit",
 	"Brotherhood Member"
       ],
-      "items":[]
+      "tradingEmphasis": [ "a", "p" ],
+      "sellLimit": 10,
+      "items":[ "pmil2", "pmil1", "wspe1", "agre1", "albt1", "tlap1"]
     },
     "brotherhoodmember": {
       "name": "Brotherhood Member",
@@ -230,7 +234,9 @@
       	"Recruit",
 	"Syndicate Member"
       ],
-      "items":["phli1", "arhl1", "wdag1"],
+      "tradingEmphasis": [ "w", "f" ],
+      "sellLimit": 6,
+      "items":["phli1", "arhl1", "wdag1", "fcom1", "fbum1", "wshs1", "wbrd1", "ashi1"],
       "conversations": [
  	{
 	  "condition": "ally",
