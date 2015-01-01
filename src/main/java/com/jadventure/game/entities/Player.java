@@ -243,7 +243,7 @@ public class Player extends Entity {
     }
 
     public void printBackPack() {
-        this.storage.display();
+        storage.display();
     }
 
     public void save() {
@@ -264,7 +264,7 @@ public class Player extends Entity {
         jsonObject.addProperty("weapon", getWeapon());
         jsonObject.addProperty("type", getCurrentCharacterType());
         HashMap<String, Integer> items = new HashMap<String, Integer>();
-        for (ItemStack item : getStorage().getItems()) {
+        for (ItemStack item : getStorage().getItemStack()) {
             items.put(item.getItem().getId(), item.getAmount());
         }
         JsonElement itemsJsonObj = gson.toJsonTree(items);
@@ -289,25 +289,18 @@ public class Player extends Entity {
     }
 
     public List<Item> searchItem(String itemName, List<Item> itemList) {
-        List<Item> itemMap = new ArrayList<>();
+        List<Item> items = new ArrayList<>();
         for (Item item : itemList) {
             String testItemName = item.getName();
             if (testItemName.equalsIgnoreCase(itemName)) {
-                itemMap.add(item);
+                items.add(item);
             }
         }
-        return itemMap;
+        return items;
     }
 
     public List<Item> searchItem(String itemName, Storage storage) {
-        List<Item> itemMap = new ArrayList<>();
-        for (ItemStack item : storage.getItems()) {
-            String testItemName = item.getItem().getName();
-            if (testItemName.equalsIgnoreCase(itemName)) {
-                itemMap.add(item.getItem());
-            }
-        }
-        return itemMap;
+        return storage.search(itemName);
     }
     
     public List<Item> searchEquipment(String itemName, Map<EquipmentLocation, Item> equipment) {
@@ -321,12 +314,11 @@ public class Player extends Entity {
     }
 
     public void pickUpItem(String itemName) {
-        List<Item> itemMap = searchItem(itemName, getLocation().getItems());
-        if (!itemMap.isEmpty()) {
-            Item item = itemMap.get(0);
-            Item itemToPickUp = itemRepo.getItem(item.getId());
-            addItemToStorage(itemToPickUp);
-            location.removePublicItem(itemToPickUp.getId());
+        List<Item> items = searchItem(itemName, getLocation().getItems());
+        if (! items.isEmpty()) {
+            Item item = items.get(0);
+            addItemToStorage(item);
+            location.removeItem(item);
             QueueProvider.offer(item.getName()+ " picked up");
         }
     }
@@ -346,15 +338,15 @@ public class Player extends Entity {
                 dequipItem(wName);
             }
             removeItemFromStorage(itemToDrop);
-            location.addPublicItem(itemToDrop.getId());
+            location.addItem(itemToDrop);
             QueueProvider.offer(item.getName() + " dropped");
         }
     }
 
     public void equipItem(String itemName) {
-        List<Item> itemMap = searchItem(itemName, getStorage());
-        if (!itemMap.isEmpty()) {
-            Item item = itemMap.get(0);
+        List<Item> items = searchItem(itemName, getStorage());
+        if (!items.isEmpty()) {
+            Item item = items.get(0);
             if (getLevel() >= item.getLevel()) {
                 Map<String, String> change = equipItem(item.getPosition(), item);
                 QueueProvider.offer(item.getName()+ " equipped");
@@ -368,9 +360,9 @@ public class Player extends Entity {
     }
 
     public void dequipItem(String itemName) {
-         List<Item> itemMap = searchEquipment(itemName, getEquipment());
-         if (!itemMap.isEmpty()) {
-            Item item = itemMap.get(0);
+         List<Item> items = searchEquipment(itemName, getEquipment());
+         if (!items.isEmpty()) {
+            Item item = items.get(0);
             Map<String, String> change = unequipItem(item);
             QueueProvider.offer(item.getName()+" unequipped");
 	        printStatChange(change);
@@ -379,9 +371,9 @@ public class Player extends Entity {
 
     private void printStatChange(Map<String, String> stats) {
          Set<Entry<String, String>> set = stats.entrySet();
-         Iterator<Entry<String, String>> i = set.iterator();
-         while (i.hasNext()) {
-              Entry<String, String> me = i.next();
+         Iterator<Entry<String, String>> iter = set.iterator();
+         while (iter.hasNext()) {
+              Entry<String, String> me = iter.next();
               double value = Double.parseDouble((String) me.getValue());
               switch ((String) me.getKey()) {
                   case "damage": {
@@ -441,7 +433,7 @@ public class Player extends Entity {
         this.location = location;
     }
 
-    public LocationType getLocationType(){
+    public LocationType getLocationType() {
     	return getLocation().getLocationType();
     }
 

@@ -1,20 +1,16 @@
 package com.jadventure.game;
 
-import com.jadventure.game.entities.Player;
-import com.jadventure.game.QueueProvider;
-
-import com.google.gson.JsonObject;
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonElement;
-
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.jadventure.game.entities.Player;
 
 public class CharacterChange {
     public void trigger(Player player, String triggerType, String keyword) {

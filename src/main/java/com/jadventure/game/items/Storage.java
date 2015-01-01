@@ -11,7 +11,7 @@ import com.jadventure.game.QueueProvider;
 public class Storage {
     public final static double WEIGHT_UNLIMITED = -1;
     private double maxWeight;
-    private List<ItemStack> items = null;
+	private List<ItemStack> itemStacks = null;
 
     public Storage() {
         this(WEIGHT_UNLIMITED);
@@ -21,7 +21,7 @@ public class Storage {
 	}
     public Storage(double maxWeight, List<ItemStack> items) {
         this.maxWeight = maxWeight;
-        this.items = items;
+        this.itemStacks = items;
     }
 
 	public double getMaxWeight() {
@@ -33,7 +33,7 @@ public class Storage {
      * same type of item as the argument.
      */
     private boolean contains(ItemStack item) {
-        for (ItemStack itemStack : this.items) {
+        for (ItemStack itemStack : this.itemStacks) {
             if (itemStack.getItem().equals(item.getItem())) {
                 return true;
             }
@@ -47,7 +47,7 @@ public class Storage {
      * This prevents duplicate items in your backpack.
      */
     private ItemStack getSameType(ItemStack item) {
-        for (ItemStack itemStack : this.items) {
+        for (ItemStack itemStack : this.itemStacks) {
             if (itemStack.getItem().equals(item.getItem())) {
                 return itemStack;
             }
@@ -55,44 +55,63 @@ public class Storage {
         return null;
     }
 
+    public void add(Item item) {
+        addItem(new ItemStack(1, item));
+    }
+
     /**
      * Adds an ItemStack to the items list.
      */
     public void addItem(ItemStack itemStack) {
-        double totalWeight = itemStack.getItem().getWeight() * itemStack.getAmount();
-        if (totalWeight < this.maxWeight) {
-            if (contains(itemStack)) {
-                ItemStack sameType = this.getSameType(itemStack);
-                this.items.remove(sameType);
-                this.items.add(new ItemStack(sameType.getAmount()+1, sameType.getItem()));
-            } else {
-                this.items.add(itemStack);
+        boolean canBeAdded = true;
+        if (hasMaxWeight()) {
+            double totalWeight = itemStack.getItem().getWeight() * itemStack.getAmount();
+            if (totalWeight > maxWeight) {
+                canBeAdded = false;
             }
         }
+        if (canBeAdded) {
+            if (contains(itemStack)) {
+                ItemStack sameType = this.getSameType(itemStack);
+                this.itemStacks.remove(sameType);
+                this.itemStacks.add(new ItemStack(sameType.getAmount()+1, sameType.getItem()));
+            } else {
+                this.itemStacks.add(itemStack);
+            }
+        }
+    }
+
+    private boolean hasMaxWeight() {
+        return (maxWeight == -1) ? false : true;
     }
 
     /**
      * Removes one Item from the ItemStack and replaces the old ItemStack
      * in this.items with the new one.
      */
-    public void removeItem(ItemStack item) {
-        this.removeItem(item, 1);
+    public Item removeItem(ItemStack item) {
+        return removeItem(item, 1);
+    }
+    public Item remove(Item item) {
+        return removeItem(new ItemStack(0, item), 1);
     }
 
     /**
-     * Removes amount of Item's from the ItemStack and replaces the old ItemStack
+     * Removes amount of Items from the ItemStack and replaces the old ItemStack
      * in this.items with the new one.
      */
-    public void removeItem(ItemStack item, int amount) {
-        if (this.contains(item)) {
-            ItemStack sameType = this.getSameType(item);
-            if (sameType.getAmount()-amount <= 0) {
-                this.items.remove(sameType);
+    public Item removeItem(ItemStack itemStack, int amount) {
+        if (contains(itemStack)) {
+            ItemStack sameType = getSameType(itemStack);
+            if (sameType.getAmount() - amount <= 0) {
+                itemStacks.remove(sameType);
             } else {
-                this.items.remove(sameType);
-                this.items.add(new ItemStack(sameType.getAmount()-amount, sameType.getItem()));
+                itemStacks.remove(sameType);
+                itemStacks.add(new ItemStack(sameType.getAmount() - amount, sameType.getItem()));
             }
+            return itemStack.getItem();
         }
+        return null;
     }
 
     /**
@@ -106,33 +125,57 @@ public class Storage {
     }
 
     public boolean isEmpty() {
-        return this.items.isEmpty();
+        return this.itemStacks.isEmpty();
     }
 
-    public List<ItemStack> getItems() {
-        return this.items;
+    public List<Item> search(String name) {
+        List<Item> items = new ArrayList<>();
+        for (ItemStack itemStack : itemStacks) {
+            if (itemStack.getItem().getName().equalsIgnoreCase(name)) {
+                items.add(itemStack.getItem());
+            }
+        }
+        return items;
+    }
+    
+    public List<Item> getItems() {
+        List<Item> items = new ArrayList<>();
+        for (ItemStack itemStack : itemStacks) {
+            items.add(itemStack.getItem());
+        }
+        return items;
     }
 
     public String toString() {
-        if (this.items.isEmpty()) {
+        if (this.itemStacks.isEmpty()) {
             return "--Empty--";
         } else {
             String content = "";
-            for (ItemStack item : this.items) {
+            for (ItemStack item : this.itemStacks) {
                 content += "- " + item.getItem().getName() + " : " + item.getAmount() + "\n";
             }
             return content;
         }
     }
+    public List<ItemStack> getItemStack() {
+        return itemStacks;
+    }
+    public Integer calculateWeight() {
+        int weight = 0;
+        for (ItemStack itemStask : itemStacks) {
+            weight += itemStask.getAmount() * itemStask.getItem().getProperty("weight");
+        }
+        return Integer.valueOf(weight);
+    }
 
     public String displayWithValue() {
-        if (this.items.isEmpty()) {
+        if (itemStacks.isEmpty()) {
             return "--Empty--";
         } else {
             String content = "";
-            for (ItemStack item : this.items) {
-                int value = item.getItem().getProperties().get("value");
-                content += "- " + item.getItem().getName() + " : " + item.getAmount() + " at " + value + " gold coins each\n";
+            for (ItemStack itemStack : itemStacks) {
+                int value = itemStack.getItem().getProperties().get("value");
+                content += "- " + itemStack.getItem().getName() + " : " + itemStack.getAmount() + " at " + value + " gold coins each\n";
             }
             return content;
         }
