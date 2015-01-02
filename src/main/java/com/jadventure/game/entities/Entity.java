@@ -194,6 +194,16 @@ public abstract class Entity {
                 unequipItem(equipment.get(place));
             }
         }
+        if (place == EquipmentLocation.BOTH_HANDS) {
+            Item leftHand = equipment.get(EquipmentLocation.LEFT_HAND);
+            Item rightHand = equipment.get(EquipmentLocation.RIGHT_HAND);
+            if (leftHand != null && !empty.equals(leftHand)) {
+                unequipItem(leftHand);
+            }
+            if (rightHand != null && !empty.equals(rightHand)) {
+                unequipItem(rightHand);
+            }
+        }
         equipment.put(place, item);
         removeItemFromStorage(item);
         Map<String, String> result = new HashMap<String, String>();

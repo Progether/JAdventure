@@ -95,8 +95,8 @@ public class EntityTest {
         assertTrue("wshi1".equals(entity.getWeapon()));
         assertEquals(diffDamage, newDamage - oldDamage, 0.2);
 
-        Map<EquipmentLocation, Item> equipment = entitiy.getEquipment();
-        assertEquals(equipment.get(EquipmentLocation.RIGHT_HAND), item);
+        Map<EquipmentLocation, Item> equipment = entity.getEquipment();
+        assertEquals(item, equipment.get(EquipmentLocation.RIGHT_HAND));
     }
 
     @Test
@@ -112,8 +112,8 @@ public class EntityTest {
         assertTrue("hands".equals(entity.getWeapon()));
         assertEquals(diffDamage, newDamage - oldDamage, 0.2);
 
-        Map<EquipmentLocation, Item> equipment = entitiy.getEquipment();
-        assertEquals(equipment.get(EquipmentLocation.RIGHT_HAND), null);
+        Map<EquipmentLocation, Item> equipment = entity.getEquipment();
+        assertEquals(null, equipment.get(EquipmentLocation.RIGHT_HAND));
     }
 
     @Test
@@ -121,7 +121,7 @@ public class EntityTest {
         ItemRepository itemRepo = GameBeans.getItemRepository();
         double oldDamage = entity.getDamage();
         Item item = itemRepo.getItem("wbrd1");
-        Map<String, String> result = entity.equipItem(item);
+        Map<String, String> result = entity.equipItem(item.getPosition(), item);
         assertFalse(result.get("damage") == null);
         double newDamage = entity.getDamage();
         double diffDamage = Double.parseDouble(result.get("damage"));
@@ -129,8 +129,13 @@ public class EntityTest {
         assertTrue("wbrd1".equals(entity.getWeapon()));
         assertEquals(diffDamage, newDamage - oldDamage, 0.2);
 
-        Map<EquipmentLocation, Item> equipment = entitiy.getEquipment();
-        assertEquals(equipment.get(EquipmentLocation.RIGHT_HAND), null);
+        Item empty = itemRepo.getItem("empty");
+        Map<EquipmentLocation, Item> equipment = entity.getEquipment();
+        assertEquals(item, equipment.get(EquipmentLocation.BOTH_HANDS));
+        Item leftHand = equipment.get(EquipmentLocation.LEFT_HAND);
+        Item rightHand = equipment.get(EquipmentLocation.RIGHT_HAND);
+        assertTrue(leftHand == null || empty.equals(leftHand));
+        assertTrue(rightHand == null || empty.equals(rightHand));
     }
 
     private void testInt(Object test) {
