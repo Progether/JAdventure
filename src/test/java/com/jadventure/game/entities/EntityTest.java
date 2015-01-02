@@ -138,6 +138,47 @@ public class EntityTest {
         assertTrue(rightHand == null || empty.equals(rightHand));
     }
 
+    @Test
+    public void testUnequipItem_TwoHanded() {
+        ItemRepository itemRepo = GameBeans.getItemRepository();
+        double oldDamage = entity.getDamage();
+        Item item = itemRepo.getItem("wbrd1");
+        Map<String, String> result = entity.unequipItem(item);
+        assertFalse(result.get("damage") == null);
+        double newDamage = entity.getDamage();
+        double diffDamage = Double.parseDouble(result.get("damage"));
+
+        assertTrue("hands".equals(entity.getWeapon()));
+        assertEquals(diffDamage, newDamage - oldDamage, 0.2);
+
+        Item empty = itemRepo.getItem("empty");
+        Map<EquipmentLocation, Item> equipment = entity.getEquipment();
+        Item bothHands = equipment.get(EquipmentLocation.BOTH_HANDS);
+        assertTrue(bothHands == null || empty.equals(bothHands));
+    }
+
+    @Test
+    public void testEquipItem_OneHandedWithTwoHandedEquip() {
+        ItemRepository itemRepo = GameBeans.getItemRepository();
+        entity.equipItem(itemRepo.getItem("wbrd1").getPosition(), itemRepo.getItem("wbrd1"));
+        double oldDamage = entity.getDamage();
+        Item item = itemRepo.getItem("wshi1");
+        Map<String, String> result = entity.equipItem(item.getPosition(), item);
+        assertFalse(result.get("damage") == null);
+        double newDamage = entity.getDamage();
+        double diffDamage = Double.parseDouble(result.get("damage"));
+
+        assertTrue("wshi1".equals(entity.getWeapon()));
+        assertEquals(diffDamage, newDamage - oldDamage, 0.2);
+
+        Map<EquipmentLocation, Item> equipment = entity.getEquipment();
+        assertEquals(item, equipment.get(EquipmentLocation.RIGHT_HAND));
+        Item empty = itemRepo.getItem("empty");
+
+        Item bothHands = equipment.get(EquipmentLocation.BOTH_HANDS);
+        assertTrue(bothHands == null || empty.equals(bothHands));
+    }
+
     private void testInt(Object test) {
         assertTrue(test instanceof Integer);
     }

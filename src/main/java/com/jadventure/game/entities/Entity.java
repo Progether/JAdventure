@@ -204,6 +204,10 @@ public abstract class Entity {
                 unequipItem(rightHand);
             }
         }
+        Item bothHands = equipment.get(EquipmentLocation.BOTH_HANDS);
+        if (bothHands != null && !empty.equals(bothHands)) {
+            unequipItem(bothHands);
+        }
         equipment.put(place, item);
         removeItemFromStorage(item);
         Map<String, String> result = new HashMap<String, String>();
