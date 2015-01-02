@@ -129,13 +129,10 @@ public class EntityTest {
         assertTrue("wbrd1".equals(entity.getWeapon()));
         assertEquals(diffDamage, newDamage - oldDamage, 0.2);
 
-        Item empty = itemRepo.getItem("empty");
         Map<EquipmentLocation, Item> equipment = entity.getEquipment();
         assertEquals(item, equipment.get(EquipmentLocation.BOTH_HANDS));
-        Item leftHand = equipment.get(EquipmentLocation.LEFT_HAND);
-        Item rightHand = equipment.get(EquipmentLocation.RIGHT_HAND);
-        assertTrue(leftHand == null || empty.equals(leftHand));
-        assertTrue(rightHand == null || empty.equals(rightHand));
+        assertEquals(null, equipment.get(EquipmentLocation.LEFT_HAND));
+        assertEquals(null, equipment.get(EquipmentLocation.RIGHT_HAND));
     }
 
     @Test
@@ -151,10 +148,8 @@ public class EntityTest {
         assertTrue("hands".equals(entity.getWeapon()));
         assertEquals(diffDamage, newDamage - oldDamage, 0.2);
 
-        Item empty = itemRepo.getItem("empty");
         Map<EquipmentLocation, Item> equipment = entity.getEquipment();
-        Item bothHands = equipment.get(EquipmentLocation.BOTH_HANDS);
-        assertTrue(bothHands == null || empty.equals(bothHands));
+        assertEquals(null, equipment.get(EquipmentLocation.BOTH_HANDS));
     }
 
     @Test
@@ -173,10 +168,7 @@ public class EntityTest {
 
         Map<EquipmentLocation, Item> equipment = entity.getEquipment();
         assertEquals(item, equipment.get(EquipmentLocation.RIGHT_HAND));
-        Item empty = itemRepo.getItem("empty");
-
-        Item bothHands = equipment.get(EquipmentLocation.BOTH_HANDS);
-        assertTrue(bothHands == null || empty.equals(bothHands));
+        assertEquals(null, equipment.get(EquipmentLocation.BOTH_HANDS));
     }
 
     private void testInt(Object test) {
