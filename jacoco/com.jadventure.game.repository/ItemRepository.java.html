@@ -4,8 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.Random;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -17,112 +21,148 @@ import com.google.gson.stream.JsonWriter;
 import com.jadventure.game.entities.EquipmentLocation;
 import com.jadventure.game.items.Item;
 
-<span class="fc" id="L20">public class ItemRepository {</span>
-<span class="fc" id="L21">    private static final Map&lt;String, EquipmentLocation&gt; EQUIPMENT_POSITION_MAP = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L22">    private Map&lt;String, Item&gt; itemMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L24">public class ItemRepository {</span>
+<span class="fc" id="L25">    private static final Map&lt;String, EquipmentLocation&gt; EQUIPMENT_POSITION_MAP = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L26">    private Map&lt;String, Item&gt; itemMap = new HashMap&lt;&gt;();</span>
 
     static {
-<span class="fc" id="L25">        EQUIPMENT_POSITION_MAP.put(&quot;head&quot;, EquipmentLocation.HEAD);</span>
-<span class="fc" id="L26">        EQUIPMENT_POSITION_MAP.put(&quot;chest&quot;, EquipmentLocation.CHEST);</span>
-<span class="fc" id="L27">        EQUIPMENT_POSITION_MAP.put(&quot;leftArm&quot;, EquipmentLocation.LEFT_ARM);</span>
-<span class="fc" id="L28">        EQUIPMENT_POSITION_MAP.put(&quot;leftHand&quot;, EquipmentLocation.LEFT_HAND);</span>
-<span class="fc" id="L29">        EQUIPMENT_POSITION_MAP.put(&quot;rightArm&quot;, EquipmentLocation.RIGHT_ARM);</span>
-<span class="fc" id="L30">        EQUIPMENT_POSITION_MAP.put(&quot;rightHand&quot;, EquipmentLocation.RIGHT_HAND);</span>
-<span class="fc" id="L31">        EQUIPMENT_POSITION_MAP.put(&quot;legs&quot;, EquipmentLocation.LEGS);</span>
-<span class="fc" id="L32">        EQUIPMENT_POSITION_MAP.put(&quot;boots&quot;, EquipmentLocation.FEET);</span>
+<span class="fc" id="L29">        EQUIPMENT_POSITION_MAP.put(&quot;head&quot;, EquipmentLocation.HEAD);</span>
+<span class="fc" id="L30">        EQUIPMENT_POSITION_MAP.put(&quot;chest&quot;, EquipmentLocation.CHEST);</span>
+<span class="fc" id="L31">        EQUIPMENT_POSITION_MAP.put(&quot;leftArm&quot;, EquipmentLocation.LEFT_ARM);</span>
+<span class="fc" id="L32">        EQUIPMENT_POSITION_MAP.put(&quot;leftHand&quot;, EquipmentLocation.LEFT_HAND);</span>
+<span class="fc" id="L33">        EQUIPMENT_POSITION_MAP.put(&quot;rightArm&quot;, EquipmentLocation.RIGHT_ARM);</span>
+<span class="fc" id="L34">        EQUIPMENT_POSITION_MAP.put(&quot;rightHand&quot;, EquipmentLocation.RIGHT_HAND);</span>
+<span class="fc" id="L35">        EQUIPMENT_POSITION_MAP.put(&quot;bothHands&quot;, EquipmentLocation.BOTH_HANDS);</span>
+<span class="fc" id="L36">        EQUIPMENT_POSITION_MAP.put(&quot;legs&quot;, EquipmentLocation.LEGS);</span>
+<span class="fc" id="L37">        EQUIPMENT_POSITION_MAP.put(&quot;boots&quot;, EquipmentLocation.FEET);</span>
     }
 
 	public Item getItem(String id) {
-<span class="pc bpc" id="L36" title="2 of 4 branches missed.">            if (id == null || id.trim().length() == 0) {</span>
-<span class="nc" id="L37">                return null;</span>
+<span class="pc bpc" id="L41" title="2 of 4 branches missed.">            if (id == null || id.trim().length() == 0) {</span>
+<span class="nc" id="L42">                return null;</span>
             }
-<span class="pc bpc" id="L39" title="1 of 2 branches missed.">	    if (!itemMap.containsKey(id)) {</span>
-<span class="nc" id="L40">	        throw new RepositoryException(&quot;Argument 'id' with value '&quot; + id + &quot;' not found in repository.&quot;);</span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">	    if (!itemMap.containsKey(id)) {</span>
+<span class="nc" id="L45">	        throw new RepositoryException(&quot;Argument 'id' with value '&quot; + id + &quot;' not found in repository.&quot;);</span>
 	    }
-<span class="fc" id="L42">	    return itemMap.get(id);</span>
+<span class="fc" id="L47">	    return itemMap.get(id);</span>
 	}
 	
     // Load all items, from the given file
     protected void load(File repo) {
         try {
-<span class="fc" id="L48">			JsonReader reader = new JsonReader(new FileReader(repo));</span>
-<span class="fc" id="L49">			load(reader);</span>
-<span class="nc" id="L50">		} catch (FileNotFoundException e) {</span>
-<span class="nc" id="L51">			e.printStackTrace();</span>
-<span class="fc" id="L52">		}</span>
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L53">			JsonReader reader = new JsonReader(new FileReader(repo));</span>
+<span class="fc" id="L54">			load(reader);</span>
+<span class="nc" id="L55">		} catch (FileNotFoundException e) {</span>
+<span class="nc" id="L56">			e.printStackTrace();</span>
+<span class="fc" id="L57">		}</span>
+<span class="fc" id="L58">    }</span>
     // Load all items, from the given file
     protected void load(JsonReader reader) {
-<span class="fc" id="L56">        JsonObject jsonItems = new JsonObject();</span>
+<span class="fc" id="L61">        JsonObject jsonItems = new JsonObject();</span>
         try {
-<span class="fc" id="L58">            JsonParser parser = new JsonParser();</span>
-<span class="fc" id="L59">            JsonObject json = parser.parse(reader).getAsJsonObject();</span>
-<span class="fc" id="L60">            jsonItems = json.get(&quot;items&quot;).getAsJsonObject();</span>
-<span class="fc" id="L61">            reader.close();</span>
-<span class="nc" id="L62">        } catch (FileNotFoundException ex) {</span>
-<span class="nc" id="L63">            ex.printStackTrace();</span>
-<span class="nc" id="L64">        } catch (IOException ex) {</span>
-<span class="nc" id="L65">            ex.printStackTrace();</span>
-<span class="pc" id="L66">        }</span>
+<span class="fc" id="L63">            JsonParser parser = new JsonParser();</span>
+<span class="fc" id="L64">            JsonObject json = parser.parse(reader).getAsJsonObject();</span>
+<span class="fc" id="L65">            jsonItems = json.get(&quot;items&quot;).getAsJsonObject();</span>
+<span class="fc" id="L66">            reader.close();</span>
+<span class="nc" id="L67">        } catch (FileNotFoundException ex) {</span>
+<span class="nc" id="L68">            ex.printStackTrace();</span>
+<span class="nc" id="L69">        } catch (IOException ex) {</span>
+<span class="nc" id="L70">            ex.printStackTrace();</span>
+<span class="pc" id="L71">        }</span>
         
-<span class="fc bfc" id="L68" title="All 2 branches covered.">        for (Map.Entry&lt;String, JsonElement&gt; entry : jsonItems.entrySet()) {</span>
-<span class="fc" id="L69">            String id = entry.getKey();</span>
-<span class="fc" id="L70">            JsonObject itemData = entry.getValue().getAsJsonObject();</span>
-<span class="fc" id="L71">            String type = itemData.get(&quot;type&quot;).getAsString();</span>
-<span class="fc" id="L72">            String name = itemData.get(&quot;name&quot;).getAsString();</span>
-<span class="fc" id="L73">            String description = itemData.get(&quot;description&quot;).getAsString();</span>
-<span class="fc" id="L74">            EquipmentLocation position = EQUIPMENT_POSITION_MAP.get(itemData.get(&quot;position&quot;).getAsString());</span>
-<span class="fc" id="L75">            int level = itemData.get(&quot;level&quot;).getAsInt();</span>
-<span class="fc" id="L76">            JsonObject sProps = itemData.get(&quot;properties&quot;).getAsJsonObject();</span>
-<span class="fc" id="L77">            Map&lt;String, Integer&gt; properties = new HashMap&lt;&gt;();</span>
-<span class="fc bfc" id="L78" title="All 2 branches covered.">            for (Map.Entry&lt;String, JsonElement&gt; entry2 : sProps.entrySet()) {</span>
-<span class="fc" id="L79">                Integer propValue = entry2.getValue().getAsInt();</span>
-<span class="fc" id="L80">                properties.put(entry2.getKey(), propValue);</span>
-<span class="fc" id="L81">            }</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        for (Map.Entry&lt;String, JsonElement&gt; entry : jsonItems.entrySet()) {</span>
+<span class="fc" id="L74">            String id = entry.getKey();</span>
+<span class="fc" id="L75">            JsonObject itemData = entry.getValue().getAsJsonObject();</span>
+<span class="fc" id="L76">            String type = itemData.get(&quot;type&quot;).getAsString();</span>
+<span class="fc" id="L77">            String name = itemData.get(&quot;name&quot;).getAsString();</span>
+<span class="fc" id="L78">            String description = itemData.get(&quot;description&quot;).getAsString();</span>
+<span class="fc" id="L79">            EquipmentLocation position = EQUIPMENT_POSITION_MAP.get(itemData.get(&quot;position&quot;).getAsString());</span>
+<span class="fc" id="L80">            int level = itemData.get(&quot;level&quot;).getAsInt();</span>
+<span class="fc" id="L81">            JsonObject sProps = itemData.get(&quot;properties&quot;).getAsJsonObject();</span>
+<span class="fc" id="L82">            Map&lt;String, Integer&gt; properties = new TreeMap&lt;&gt;();</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">            for (Map.Entry&lt;String, JsonElement&gt; entry2 : sProps.entrySet()) {</span>
+<span class="fc" id="L84">                Integer propValue = entry2.getValue().getAsInt();</span>
+<span class="fc" id="L85">                properties.put(entry2.getKey(), propValue);</span>
+<span class="fc" id="L86">            }</span>
 
-<span class="fc" id="L83">            addItem(new Item(id, type, name, description, position, level, properties));</span>
+<span class="fc" id="L88">            addItem(new Item(id, type, name, description, position, level, properties));</span>
             
-<span class="fc" id="L85">        }</span>
-<span class="fc" id="L86">    }</span>
+<span class="fc" id="L90">        }</span>
+<span class="fc" id="L91">    }</span>
 
 
     void addItem(Item item) {
-<span class="fc" id="L90">        itemMap.put(item.getId(), item);</span>
-<span class="fc" id="L91">    }</span>
+<span class="fc" id="L95">        itemMap.put(item.getId(), item);</span>
+<span class="fc" id="L96">    }</span>
 
-<span class="fc" id="L93">    private static ItemRepository itemRepository = null;</span>
+<span class="fc" id="L98">    private static ItemRepository itemRepository = null;</span>
     public static ItemRepository createRepo() {
-<span class="fc bfc" id="L95" title="All 2 branches covered.">        if (itemRepository == null) {</span>
-<span class="fc" id="L96">            File file = new File(new File(System.getProperty(&quot;user.dir&quot;)), &quot;json&quot;);</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        if (itemRepository == null) {</span>
+<span class="fc" id="L101">            File file = new File(new File(System.getProperty(&quot;user.dir&quot;)), &quot;json&quot;);</span>
 
-<span class="fc" id="L98">            File dataFile = new File(new File(file, &quot;original_data&quot;), &quot;items.json&quot;);</span>
-<span class="pc bpc" id="L99" title="1 of 2 branches missed.">            if (! dataFile.exists()) {</span>
-<span class="nc" id="L100">            	throw new RuntimeException(&quot;File '&quot; + dataFile + &quot;' does not exist.&quot;);</span>
+<span class="fc" id="L103">            File dataFile = new File(new File(file, &quot;original_data&quot;), &quot;items.json&quot;);</span>
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">            if (! dataFile.exists()) {</span>
+<span class="nc" id="L105">            	throw new RuntimeException(&quot;File '&quot; + dataFile + &quot;' does not exist.&quot;);</span>
             }
 
-<span class="fc" id="L103">            itemRepository = new ItemRepository();</span>
-<span class="fc" id="L104">            itemRepository.load(dataFile);</span>
+<span class="fc" id="L108">            itemRepository = new ItemRepository();</span>
+<span class="fc" id="L109">            itemRepository.load(dataFile);</span>
         }
-<span class="fc" id="L106">        return itemRepository;</span>
+<span class="fc" id="L111">        return itemRepository;</span>
     }
 
 
     public void retrieve(JsonReader jsonReader) {
-<span class="fc" id="L111">        load(jsonReader);</span>
-        
-//        throw new RuntimeException(&quot;The method &quot; + ItemRepository.class.getSimpleName() 
-//                + &quot;.retrieve(JsonReader jsonReader), has not yet been implemented.&quot;);
-//        Gson gson = new Gson();
-//        gson.fromJson(jsonReader, );
+<span class="fc" id="L116">        load(jsonReader);</span>
 <span class="fc" id="L117">    }</span>
 
     public void store(JsonWriter writer) {
 <span class="fc" id="L120">        GsonBuilder bldr = new GsonBuilder().setPrettyPrinting();</span>
 <span class="fc" id="L121">        Gson gson = bldr.create();</span>
-<span class="fc" id="L122">        Map&lt;String, Map&lt;String, Item&gt;&gt; root = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L122">        Map&lt;String, Map&lt;String, Item&gt;&gt; root = new TreeMap&lt;&gt;();</span>
 <span class="fc" id="L123">        root.put(&quot;items&quot;, itemMap);</span>
 <span class="fc" id="L124">        gson.toJson(root, Map.class, writer);</span>
 <span class="fc" id="L125">    }</span>
 
+    public Item getRandomFood(int level) {
+<span class="fc" id="L128">        return getRandomItem(&quot;f&quot;, level);</span>
+    }
+
+    public Item getRandomWeapon(int level) {
+<span class="fc" id="L132">        return getRandomItem(&quot;w&quot;, level);</span>
+    }
+
+    public Item getRandomArmour(int level) {
+<span class="fc" id="L136">        return getRandomItem(&quot;a&quot;, level);</span>
+    }
+
+    public Item getRandomPotion(int level) {
+<span class="fc" id="L140">        return getRandomItem(&quot;p&quot;, level);</span>
+    }
+
+    public Item getRandomItem(String start, int level) {
+<span class="fc" id="L144">        Random rand = new Random();</span>
+<span class="fc" id="L145">        int chance = rand.nextInt(100);</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        if (chance &lt; 70) {</span>
+<span class="fc" id="L147">            Item item = null;</span>
+            do {
+<span class="fc" id="L149">                item = getRandom(start);</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">            } while (item.getLevel() &gt; level);</span>
+<span class="fc" id="L151">            return item;</span>
+        } else {
+<span class="fc" id="L153">            return getRandom(start);</span>
+        }
+    }
+
+    private Item getRandom(String start) {
+<span class="fc" id="L158">        Random rand = new Random();</span>
+<span class="fc" id="L159">        Item item = null;</span>
+        do {
+<span class="fc" id="L161">            int itemIndex = rand.nextInt(itemMap.size() - 2);</span>
+<span class="fc" id="L162">            List&lt;Item&gt; items = new ArrayList&lt;&gt;(itemMap.values());</span>
+<span class="fc" id="L163">            item = items.get(itemIndex + 2); // avoids empty and hands items</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        } while (!item.getId().startsWith(start));</span>
+<span class="fc" id="L165">        return item;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

@@ -243,7 +243,7 @@ public class Player extends Entity {
 <span class="nc" id="L243">    }</span>
 
     public void printBackPack() {
-<span class="nc" id="L246">        this.storage.display();</span>
+<span class="nc" id="L246">        storage.display();</span>
 <span class="nc" id="L247">    }</span>
 
     public void save() {
@@ -264,219 +264,208 @@ public class Player extends Entity {
 <span class="nc" id="L264">        jsonObject.addProperty(&quot;weapon&quot;, getWeapon());</span>
 <span class="nc" id="L265">        jsonObject.addProperty(&quot;type&quot;, getCurrentCharacterType());</span>
 <span class="nc" id="L266">        HashMap&lt;String, Integer&gt; items = new HashMap&lt;String, Integer&gt;();</span>
-<span class="nc" id="L267">        JsonArray itemList = new JsonArray();</span>
-<span class="nc bnc" id="L268" title="All 2 branches missed.">        for (ItemStack item : getStorage().getItems()) {</span>
-<span class="nc" id="L269">            items.put(item.getItem().getId(), item.getAmount());</span>
-<span class="nc" id="L270">            JsonPrimitive itemJson = new JsonPrimitive(item.getItem().getId());</span>
-<span class="nc" id="L271">            itemList.add(itemJson);</span>
-<span class="nc" id="L272">        }</span>
-<span class="nc" id="L273">        JsonElement itemsJsonObj = gson.toJsonTree(items);</span>
-<span class="nc" id="L274">        jsonObject.add(&quot;items&quot;, itemsJsonObj);</span>
-<span class="nc" id="L275">        JsonElement typesJsonObj = gson.toJsonTree(getCharacterLevels());</span>
-<span class="nc" id="L276">        jsonObject.add(&quot;types&quot;, typesJsonObj);</span>
-<span class="nc" id="L277">        Coordinate coordinate = getLocation().getCoordinate();</span>
-<span class="nc" id="L278">        String coordinateLocation = coordinate.x+&quot;,&quot;+coordinate.y+&quot;,&quot;+coordinate.z;</span>
-<span class="nc" id="L279">        jsonObject.addProperty(&quot;location&quot;, coordinateLocation);</span>
+<span class="nc bnc" id="L267" title="All 2 branches missed.">        for (ItemStack item : getStorage().getItemStack()) {</span>
+<span class="nc" id="L268">            items.put(item.getItem().getId(), item.getAmount());</span>
+<span class="nc" id="L269">        }</span>
+<span class="nc" id="L270">        JsonElement itemsJsonObj = gson.toJsonTree(items);</span>
+<span class="nc" id="L271">        jsonObject.add(&quot;items&quot;, itemsJsonObj);</span>
+<span class="nc" id="L272">        JsonElement typesJsonObj = gson.toJsonTree(getCharacterLevels());</span>
+<span class="nc" id="L273">        jsonObject.add(&quot;types&quot;, typesJsonObj);</span>
+<span class="nc" id="L274">        Coordinate coordinate = getLocation().getCoordinate();</span>
+<span class="nc" id="L275">        String coordinateLocation = coordinate.x+&quot;,&quot;+coordinate.y+&quot;,&quot;+coordinate.z;</span>
+<span class="nc" id="L276">        jsonObject.addProperty(&quot;location&quot;, coordinateLocation);</span>
 
-<span class="nc" id="L281">        String fileName = getProfileFileName(getName());</span>
-<span class="nc" id="L282">        new File(fileName).getParentFile().mkdirs();</span>
+<span class="nc" id="L278">        String fileName = getProfileFileName(getName());</span>
+<span class="nc" id="L279">        new File(fileName).getParentFile().mkdirs();</span>
         try {
-<span class="nc" id="L284">            Writer writer = new FileWriter(fileName);</span>
-<span class="nc" id="L285">            gson.toJson(jsonObject, writer);</span>
-<span class="nc" id="L286">            writer.close();</span>
-<span class="nc" id="L287">            LocationManager.writeLocations(getName());</span>
-<span class="nc" id="L288">            QueueProvider.offer(&quot;\nYour game data was saved.&quot;);</span>
-<span class="nc" id="L289">        } catch (IOException ex) {</span>
-<span class="nc" id="L290">            QueueProvider.offer(&quot;\nUnable to save to file '&quot; + fileName + &quot;'.&quot;);</span>
-<span class="nc" id="L291">        }</span>
-<span class="nc" id="L292">    }</span>
+<span class="nc" id="L281">            Writer writer = new FileWriter(fileName);</span>
+<span class="nc" id="L282">            gson.toJson(jsonObject, writer);</span>
+<span class="nc" id="L283">            writer.close();</span>
+<span class="nc" id="L284">            LocationManager.writeLocations(getName());</span>
+<span class="nc" id="L285">            QueueProvider.offer(&quot;\nYour game data was saved.&quot;);</span>
+<span class="nc" id="L286">        } catch (IOException ex) {</span>
+<span class="nc" id="L287">            QueueProvider.offer(&quot;\nUnable to save to file '&quot; + fileName + &quot;'.&quot;);</span>
+<span class="nc" id="L288">        }</span>
+<span class="nc" id="L289">    }</span>
 
     public List&lt;Item&gt; searchItem(String itemName, List&lt;Item&gt; itemList) {
-<span class="nc" id="L295">        List&lt;Item&gt; itemMap = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L296" title="All 2 branches missed.">        for (Item item : itemList) {</span>
-<span class="nc" id="L297">            String testItemName = item.getName();</span>
-<span class="nc bnc" id="L298" title="All 2 branches missed.">            if (testItemName.equalsIgnoreCase(itemName)) {</span>
-<span class="nc" id="L299">                itemMap.add(item);</span>
+<span class="nc" id="L292">        List&lt;Item&gt; items = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L293" title="All 2 branches missed.">        for (Item item : itemList) {</span>
+<span class="nc" id="L294">            String testItemName = item.getName();</span>
+<span class="nc bnc" id="L295" title="All 2 branches missed.">            if (testItemName.equalsIgnoreCase(itemName)) {</span>
+<span class="nc" id="L296">                items.add(item);</span>
             }
-<span class="nc" id="L301">        }</span>
-<span class="nc" id="L302">        return itemMap;</span>
+<span class="nc" id="L298">        }</span>
+<span class="nc" id="L299">        return items;</span>
     }
 
     public List&lt;Item&gt; searchItem(String itemName, Storage storage) {
-<span class="nc" id="L306">        List&lt;Item&gt; itemMap = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L307" title="All 2 branches missed.">        for (ItemStack item : storage.getItems()) {</span>
-<span class="nc" id="L308">            String testItemName = item.getItem().getName();</span>
-<span class="nc bnc" id="L309" title="All 2 branches missed.">            if (testItemName.equalsIgnoreCase(itemName)) {</span>
-<span class="nc" id="L310">                itemMap.add(item.getItem());</span>
-            }
-<span class="nc" id="L312">        }</span>
-<span class="nc" id="L313">        return itemMap;</span>
+<span class="nc" id="L303">        return storage.search(itemName);</span>
     }
     
     public List&lt;Item&gt; searchEquipment(String itemName, Map&lt;EquipmentLocation, Item&gt; equipment) {
-<span class="nc" id="L317">        List&lt;Item&gt; items = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L318" title="All 2 branches missed.">        for (Item item : equipment.values()) {</span>
-<span class="nc bnc" id="L319" title="All 4 branches missed.">            if (item != null &amp;&amp; item.getName().equals(itemName)) {</span>
-<span class="nc" id="L320">                items.add(item);</span>
+<span class="nc" id="L307">        List&lt;Item&gt; items = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L308" title="All 2 branches missed.">        for (Item item : equipment.values()) {</span>
+<span class="nc bnc" id="L309" title="All 4 branches missed.">            if (item != null &amp;&amp; item.getName().equals(itemName)) {</span>
+<span class="nc" id="L310">                items.add(item);</span>
             }
-<span class="nc" id="L322">        }</span>
-<span class="nc" id="L323">        return items;</span>
+<span class="nc" id="L312">        }</span>
+<span class="nc" id="L313">        return items;</span>
     }
 
     public void pickUpItem(String itemName) {
-<span class="nc" id="L327">        List&lt;Item&gt; itemMap = searchItem(itemName, getLocation().getItems());</span>
-<span class="nc bnc" id="L328" title="All 2 branches missed.">        if (!itemMap.isEmpty()) {</span>
-<span class="nc" id="L329">            Item item = itemMap.get(0);</span>
-<span class="nc" id="L330">            Item itemToPickUp = itemRepo.getItem(item.getId());</span>
-<span class="nc" id="L331">            addItemToStorage(itemToPickUp);</span>
-<span class="nc" id="L332">            location.removePublicItem(itemToPickUp.getId());</span>
-<span class="nc" id="L333">            QueueProvider.offer(item.getName()+ &quot; picked up&quot;);</span>
+<span class="nc" id="L317">        List&lt;Item&gt; items = searchItem(itemName, getLocation().getItems());</span>
+<span class="nc bnc" id="L318" title="All 2 branches missed.">        if (! items.isEmpty()) {</span>
+<span class="nc" id="L319">            Item item = items.get(0);</span>
+<span class="nc" id="L320">            addItemToStorage(item);</span>
+<span class="nc" id="L321">            location.removeItem(item);</span>
+<span class="nc" id="L322">            QueueProvider.offer(item.getName()+ &quot; picked up&quot;);</span>
         }
-<span class="nc" id="L335">    }</span>
+<span class="nc" id="L324">    }</span>
 
     public void dropItem(String itemName) {
-<span class="nc" id="L338">        List&lt;Item&gt; itemMap = searchItem(itemName, getStorage());</span>
-<span class="nc bnc" id="L339" title="All 2 branches missed.">        if (itemMap.isEmpty()) {</span>
-<span class="nc" id="L340">            itemMap = searchEquipment(itemName, getEquipment());</span>
+<span class="nc" id="L327">        List&lt;Item&gt; itemMap = searchItem(itemName, getStorage());</span>
+<span class="nc bnc" id="L328" title="All 2 branches missed.">        if (itemMap.isEmpty()) {</span>
+<span class="nc" id="L329">            itemMap = searchEquipment(itemName, getEquipment());</span>
         }
-<span class="nc bnc" id="L342" title="All 2 branches missed.">        if (!itemMap.isEmpty()) {</span>
-<span class="nc" id="L343">            Item item = itemMap.get(0);</span>
-<span class="nc" id="L344">            Item itemToDrop = itemRepo.getItem(item.getId());</span>
-<span class="nc" id="L345">            Item weapon = itemRepo.getItem(getWeapon());</span>
-<span class="nc" id="L346">            String wName = weapon.getName();</span>
+<span class="nc bnc" id="L331" title="All 2 branches missed.">        if (!itemMap.isEmpty()) {</span>
+<span class="nc" id="L332">            Item item = itemMap.get(0);</span>
+<span class="nc" id="L333">            Item itemToDrop = itemRepo.getItem(item.getId());</span>
+<span class="nc" id="L334">            Item weapon = itemRepo.getItem(getWeapon());</span>
+<span class="nc" id="L335">            String wName = weapon.getName();</span>
 
-<span class="nc bnc" id="L348" title="All 2 branches missed.">            if (itemName.equals(wName)) {</span>
-<span class="nc" id="L349">                dequipItem(wName);</span>
+<span class="nc bnc" id="L337" title="All 2 branches missed.">            if (itemName.equals(wName)) {</span>
+<span class="nc" id="L338">                dequipItem(wName);</span>
             }
-<span class="nc" id="L351">            removeItemFromStorage(itemToDrop);</span>
-<span class="nc" id="L352">            location.addPublicItem(itemToDrop.getId());</span>
-<span class="nc" id="L353">            QueueProvider.offer(item.getName() + &quot; dropped&quot;);</span>
+<span class="nc" id="L340">            removeItemFromStorage(itemToDrop);</span>
+<span class="nc" id="L341">            location.addItem(itemToDrop);</span>
+<span class="nc" id="L342">            QueueProvider.offer(item.getName() + &quot; dropped&quot;);</span>
         }
-<span class="nc" id="L355">    }</span>
+<span class="nc" id="L344">    }</span>
 
     public void equipItem(String itemName) {
-<span class="nc" id="L358">        List&lt;Item&gt; itemMap = searchItem(itemName, getStorage());</span>
-<span class="nc bnc" id="L359" title="All 2 branches missed.">        if (!itemMap.isEmpty()) {</span>
-<span class="nc" id="L360">            Item item = itemMap.get(0);</span>
-<span class="nc bnc" id="L361" title="All 2 branches missed.">            if (getLevel() &gt;= item.getLevel()) {</span>
-<span class="nc" id="L362">                Map&lt;String, String&gt; change = equipItem(item.getPosition(), item);</span>
-<span class="nc" id="L363">                QueueProvider.offer(item.getName()+ &quot; equipped&quot;);</span>
-<span class="nc" id="L364">                printStatChange(change);</span>
-<span class="nc" id="L365">            } else {</span>
-<span class="nc" id="L366">                QueueProvider.offer(&quot;You do not have the required level to use this item&quot;);</span>
+<span class="nc" id="L347">        List&lt;Item&gt; items = searchItem(itemName, getStorage());</span>
+<span class="nc bnc" id="L348" title="All 2 branches missed.">        if (!items.isEmpty()) {</span>
+<span class="nc" id="L349">            Item item = items.get(0);</span>
+<span class="nc bnc" id="L350" title="All 2 branches missed.">            if (getLevel() &gt;= item.getLevel()) {</span>
+<span class="nc" id="L351">                Map&lt;String, String&gt; change = equipItem(item.getPosition(), item);</span>
+<span class="nc" id="L352">                QueueProvider.offer(item.getName()+ &quot; equipped&quot;);</span>
+<span class="nc" id="L353">                printStatChange(change);</span>
+<span class="nc" id="L354">            } else {</span>
+<span class="nc" id="L355">                QueueProvider.offer(&quot;You do not have the required level to use this item&quot;);</span>
             }
-<span class="nc" id="L368">        } else {</span>
-<span class="nc" id="L369">            QueueProvider.offer(&quot;You do not have that item&quot;);</span>
+<span class="nc" id="L357">        } else {</span>
+<span class="nc" id="L358">            QueueProvider.offer(&quot;You do not have that item&quot;);</span>
         }
-<span class="nc" id="L371">    }</span>
+<span class="nc" id="L360">    }</span>
 
     public void dequipItem(String itemName) {
-<span class="nc" id="L374">         List&lt;Item&gt; itemMap = searchEquipment(itemName, getEquipment());</span>
-<span class="nc bnc" id="L375" title="All 2 branches missed.">         if (!itemMap.isEmpty()) {</span>
-<span class="nc" id="L376">            Item item = itemMap.get(0);</span>
-<span class="nc" id="L377">            Map&lt;String, String&gt; change = unequipItem(item);</span>
-<span class="nc" id="L378">            QueueProvider.offer(item.getName()+&quot; unequipped&quot;);</span>
-<span class="nc" id="L379">	        printStatChange(change);</span>
+<span class="nc" id="L363">         List&lt;Item&gt; items = searchEquipment(itemName, getEquipment());</span>
+<span class="nc bnc" id="L364" title="All 2 branches missed.">         if (!items.isEmpty()) {</span>
+<span class="nc" id="L365">            Item item = items.get(0);</span>
+<span class="nc" id="L366">            Map&lt;String, String&gt; change = unequipItem(item);</span>
+<span class="nc" id="L367">            QueueProvider.offer(item.getName()+&quot; unequipped&quot;);</span>
+<span class="nc" id="L368">	        printStatChange(change);</span>
          }
-<span class="nc" id="L381">    }</span>
+<span class="nc" id="L370">    }</span>
 
     private void printStatChange(Map&lt;String, String&gt; stats) {
-<span class="nc" id="L384">         Set&lt;Entry&lt;String, String&gt;&gt; set = stats.entrySet();</span>
-<span class="nc" id="L385">         Iterator&lt;Entry&lt;String, String&gt;&gt; i = set.iterator();</span>
-<span class="nc bnc" id="L386" title="All 2 branches missed.">         while (i.hasNext()) {</span>
-<span class="nc" id="L387">              Entry&lt;String, String&gt; me = i.next();</span>
-<span class="nc" id="L388">              double value = Double.parseDouble((String) me.getValue());</span>
-<span class="nc bnc" id="L389" title="All 18 branches missed.">              switch ((String) me.getKey()) {</span>
+<span class="nc" id="L373">         Set&lt;Entry&lt;String, String&gt;&gt; set = stats.entrySet();</span>
+<span class="nc" id="L374">         Iterator&lt;Entry&lt;String, String&gt;&gt; iter = set.iterator();</span>
+<span class="nc bnc" id="L375" title="All 2 branches missed.">         while (iter.hasNext()) {</span>
+<span class="nc" id="L376">              Entry&lt;String, String&gt; me = iter.next();</span>
+<span class="nc" id="L377">              double value = Double.parseDouble((String) me.getValue());</span>
+<span class="nc bnc" id="L378" title="All 18 branches missed.">              switch ((String) me.getKey()) {</span>
                   case &quot;damage&quot;: {
-<span class="nc bnc" id="L391" title="All 2 branches missed.">                          if (value &gt;= 0.0) {</span>
-<span class="nc" id="L392">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getDamage() + &quot; (+&quot; + me.getValue() + &quot;)&quot;);</span>
+<span class="nc bnc" id="L380" title="All 2 branches missed.">                          if (value &gt;= 0.0) {</span>
+<span class="nc" id="L381">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getDamage() + &quot; (+&quot; + me.getValue() + &quot;)&quot;);</span>
                           } else {
-<span class="nc" id="L394">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getDamage() + &quot; (&quot; + me.getValue() + &quot;)&quot;);</span>
+<span class="nc" id="L383">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getDamage() + &quot; (&quot; + me.getValue() + &quot;)&quot;);</span>
                           }
-<span class="nc" id="L396">                          break;</span>
+<span class="nc" id="L385">                          break;</span>
                     }
                     case &quot;health&quot;: {
-<span class="nc bnc" id="L399" title="All 2 branches missed.">                          if (value &gt;= 0) {</span>
-<span class="nc" id="L400">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getHealth() + &quot; (+&quot; + me.getValue() + &quot;)&quot;);</span>
+<span class="nc bnc" id="L388" title="All 2 branches missed.">                          if (value &gt;= 0) {</span>
+<span class="nc" id="L389">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getHealth() + &quot; (+&quot; + me.getValue() + &quot;)&quot;);</span>
                           } else {
-<span class="nc" id="L402">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getHealth() + &quot; (&quot; + me.getValue() + &quot;)&quot;);</span>
+<span class="nc" id="L391">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getHealth() + &quot; (&quot; + me.getValue() + &quot;)&quot;);</span>
                           }
-<span class="nc" id="L404">                          break;</span>
+<span class="nc" id="L393">                          break;</span>
                     }
                     case &quot;armour&quot;: {
-<span class="nc bnc" id="L407" title="All 2 branches missed.">                          if (value &gt;= 0) {</span>
-<span class="nc" id="L408">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getArmour() + &quot; (+&quot; + me.getValue() + &quot;)&quot;);</span>
+<span class="nc bnc" id="L396" title="All 2 branches missed.">                          if (value &gt;= 0) {</span>
+<span class="nc" id="L397">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getArmour() + &quot; (+&quot; + me.getValue() + &quot;)&quot;);</span>
                           } else {
-<span class="nc" id="L410">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getArmour() + &quot; (&quot; + me.getValue() + &quot;)&quot;);</span>
+<span class="nc" id="L399">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getArmour() + &quot; (&quot; + me.getValue() + &quot;)&quot;);</span>
                           }
-<span class="nc" id="L412">                          break;</span>
+<span class="nc" id="L401">                          break;</span>
                     }
                     case &quot;maxHealth&quot;: {
-<span class="nc bnc" id="L415" title="All 2 branches missed.">                          if (value  &gt;= 0) {</span>
-<span class="nc" id="L416">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getHealthMax() + &quot; (+&quot; + me.getValue() + &quot;)&quot;);</span>
+<span class="nc bnc" id="L404" title="All 2 branches missed.">                          if (value  &gt;= 0) {</span>
+<span class="nc" id="L405">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getHealthMax() + &quot; (+&quot; + me.getValue() + &quot;)&quot;);</span>
                           } else {
-<span class="nc" id="L418">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getHealthMax() + &quot; (&quot; + me.getValue() + &quot;)&quot;);</span>
+<span class="nc" id="L407">                              QueueProvider.offer(me.getKey() + &quot;: &quot; + this.getHealthMax() + &quot; (&quot; + me.getValue() + &quot;)&quot;);</span>
                           }
                           break;
                     }
               }
-<span class="nc" id="L423">         }</span>
-<span class="nc" id="L424">    }</span>
+<span class="nc" id="L412">         }</span>
+<span class="nc" id="L413">    }</span>
 
     public void inspectItem(String itemName) {
-<span class="nc" id="L427">        List&lt;Item&gt; itemMap = searchItem(itemName, getStorage());</span>
-<span class="nc bnc" id="L428" title="All 2 branches missed.">        if (itemMap.isEmpty()) {</span>
-<span class="nc" id="L429">            itemMap = searchItem(itemName, getLocation().getItems());</span>
+<span class="nc" id="L416">        List&lt;Item&gt; itemMap = searchItem(itemName, getStorage());</span>
+<span class="nc bnc" id="L417" title="All 2 branches missed.">        if (itemMap.isEmpty()) {</span>
+<span class="nc" id="L418">            itemMap = searchItem(itemName, getLocation().getItems());</span>
         }
-<span class="nc bnc" id="L431" title="All 2 branches missed.">        if (!itemMap.isEmpty()) {</span>
-<span class="nc" id="L432">            Item item = itemMap.get(0);</span>
-<span class="nc" id="L433">            item.display();</span>
-<span class="nc" id="L434">        } else {</span>
-<span class="nc" id="L435">            QueueProvider.offer(&quot;Item doesn't exist within your view.&quot;);</span>
+<span class="nc bnc" id="L420" title="All 2 branches missed.">        if (!itemMap.isEmpty()) {</span>
+<span class="nc" id="L421">            Item item = itemMap.get(0);</span>
+<span class="nc" id="L422">            item.display();</span>
+<span class="nc" id="L423">        } else {</span>
+<span class="nc" id="L424">            QueueProvider.offer(&quot;Item doesn't exist within your view.&quot;);</span>
         }
-<span class="nc" id="L437">    }</span>
+<span class="nc" id="L426">    }</span>
 
     public ILocation getLocation() {
-<span class="nc" id="L440">        return location;</span>
+<span class="nc" id="L429">        return location;</span>
     }
 
     public void setLocation(ILocation location) {
-<span class="fc" id="L444">        this.location = location;</span>
-<span class="fc" id="L445">    }</span>
+<span class="fc" id="L433">        this.location = location;</span>
+<span class="fc" id="L434">    }</span>
 
-    public LocationType getLocationType(){
-<span class="nc" id="L448">    	return getLocation().getLocationType();</span>
+    public LocationType getLocationType() {
+<span class="nc" id="L437">    	return getLocation().getLocationType();</span>
     }
 
     public void attack(String opponentName) throws DeathException {
-<span class="nc" id="L452">        Monster monsterOpponent = null;</span>
-<span class="nc" id="L453">        NPC npcOpponent = null;</span>
-<span class="nc" id="L454">        List&lt;Monster&gt; monsters = getLocation().getMonsters();</span>
-<span class="nc" id="L455">        List&lt;NPC&gt; npcs = getLocation().getNPCs();</span>
-<span class="nc bnc" id="L456" title="All 2 branches missed.">        for (int i = 0; i &lt; monsters.size(); i++) {</span>
-<span class="nc bnc" id="L457" title="All 2 branches missed.">             if (monsters.get(i).monsterType.equalsIgnoreCase(opponentName)) {</span>
-<span class="nc" id="L458">                 monsterOpponent = monsters.get(i);</span>
+<span class="nc" id="L441">        Monster monsterOpponent = null;</span>
+<span class="nc" id="L442">        NPC npcOpponent = null;</span>
+<span class="nc" id="L443">        List&lt;Monster&gt; monsters = getLocation().getMonsters();</span>
+<span class="nc" id="L444">        List&lt;NPC&gt; npcs = getLocation().getNPCs();</span>
+<span class="nc bnc" id="L445" title="All 2 branches missed.">        for (int i = 0; i &lt; monsters.size(); i++) {</span>
+<span class="nc bnc" id="L446" title="All 2 branches missed.">             if (monsters.get(i).monsterType.equalsIgnoreCase(opponentName)) {</span>
+<span class="nc" id="L447">                 monsterOpponent = monsters.get(i);</span>
              }
         }
-<span class="nc bnc" id="L461" title="All 2 branches missed.">        for (int i=0; i &lt; npcs.size(); i++) {</span>
-<span class="nc bnc" id="L462" title="All 2 branches missed.">            if (npcs.get(i).getName().equalsIgnoreCase(opponentName)) {</span>
-<span class="nc" id="L463">                npcOpponent = npcs.get(i);</span>
+<span class="nc bnc" id="L450" title="All 2 branches missed.">        for (int i=0; i &lt; npcs.size(); i++) {</span>
+<span class="nc bnc" id="L451" title="All 2 branches missed.">            if (npcs.get(i).getName().equalsIgnoreCase(opponentName)) {</span>
+<span class="nc" id="L452">                npcOpponent = npcs.get(i);</span>
             }
         }
-<span class="nc bnc" id="L466" title="All 2 branches missed.">        if (monsterOpponent != null) {</span>
-<span class="nc" id="L467">            monsterOpponent.setName(monsterOpponent.monsterType);</span>
-<span class="nc" id="L468">            new BattleMenu(monsterOpponent, this);</span>
-<span class="nc bnc" id="L469" title="All 2 branches missed.">        } else if (npcOpponent != null) {</span>
-<span class="nc" id="L470">            new BattleMenu(npcOpponent, this);</span>
+<span class="nc bnc" id="L455" title="All 2 branches missed.">        if (monsterOpponent != null) {</span>
+<span class="nc" id="L456">            monsterOpponent.setName(monsterOpponent.monsterType);</span>
+<span class="nc" id="L457">            new BattleMenu(monsterOpponent, this);</span>
+<span class="nc bnc" id="L458" title="All 2 branches missed.">        } else if (npcOpponent != null) {</span>
+<span class="nc" id="L459">            new BattleMenu(npcOpponent, this);</span>
         } else {
-<span class="nc" id="L472">             QueueProvider.offer(&quot;Opponent not found&quot;);</span>
+<span class="nc" id="L461">             QueueProvider.offer(&quot;Opponent not found&quot;);</span>
         }
-<span class="nc" id="L474">    }</span>
+<span class="nc" id="L463">    }</span>
 
     public boolean hasItem(Item item) {
-<span class="nc" id="L477">        List&lt;Item&gt; searchEquipment = searchEquipment(item.getName(), getEquipment());</span>
-<span class="nc" id="L478">        List&lt;Item&gt; searchStorage = searchItem(item.getName(), getStorage());</span>
-<span class="nc bnc" id="L479" title="All 4 branches missed.">        return !(searchEquipment.size() == 0 &amp;&amp; searchStorage.size() == 0);</span>
+<span class="nc" id="L466">        List&lt;Item&gt; searchEquipment = searchEquipment(item.getName(), getEquipment());</span>
+<span class="nc" id="L467">        List&lt;Item&gt; searchStorage = searchItem(item.getName(), getStorage());</span>
+<span class="nc bnc" id="L468" title="All 4 branches missed.">        return !(searchEquipment.size() == 0 &amp;&amp; searchStorage.size() == 0);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

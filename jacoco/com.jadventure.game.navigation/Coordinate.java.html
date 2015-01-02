@@ -29,11 +29,11 @@ public class Coordinate {
      * @param y - The Y position
      * @param z - The Z position
      */
-<span class="nc" id="L32">    public Coordinate(int x, int y, int z) {</span>
-<span class="nc" id="L33">        this.x = x;</span>
-<span class="nc" id="L34">        this.y = y;</span>
-<span class="nc" id="L35">        this.z = z;</span>
-<span class="nc" id="L36">    }</span>
+<span class="fc" id="L32">    public Coordinate(int x, int y, int z) {</span>
+<span class="fc" id="L33">        this.x = x;</span>
+<span class="fc" id="L34">        this.y = y;</span>
+<span class="fc" id="L35">        this.z = z;</span>
+<span class="fc" id="L36">    }</span>
 
     public Coordinate getBorderingCoordinate(Direction direction) {
 <span class="nc" id="L39">        return new Coordinate(x + direction.getDx(), y + direction.getDy(), z + direction.getDz());</span>
@@ -53,7 +53,7 @@ public class Coordinate {
 
     @Override
     public boolean equals(Object o) {
-<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        if (this == o) return true;</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (this == o) return true;</span>
 <span class="pc bpc" id="L57" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
 
 <span class="fc" id="L59">        Coordinate that = (Coordinate) o;</span>

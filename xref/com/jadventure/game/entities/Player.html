@@ -251,7 +251,7 @@
 <a class="jxr_linenumber" name="L243" href="#L243">243</a>     }
 <a class="jxr_linenumber" name="L244" href="#L244">244</a> 
 <a class="jxr_linenumber" name="L245" href="#L245">245</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> printBackPack() {
-<a class="jxr_linenumber" name="L246" href="#L246">246</a>         <strong class="jxr_keyword">this</strong>.storage.display();
+<a class="jxr_linenumber" name="L246" href="#L246">246</a>         storage.display();
 <a class="jxr_linenumber" name="L247" href="#L247">247</a>     }
 <a class="jxr_linenumber" name="L248" href="#L248">248</a> 
 <a class="jxr_linenumber" name="L249" href="#L249">249</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> save() {
@@ -272,223 +272,212 @@
 <a class="jxr_linenumber" name="L264" href="#L264">264</a>         jsonObject.addProperty(<span class="jxr_string">"weapon"</span>, getWeapon());
 <a class="jxr_linenumber" name="L265" href="#L265">265</a>         jsonObject.addProperty(<span class="jxr_string">"type"</span>, getCurrentCharacterType());
 <a class="jxr_linenumber" name="L266" href="#L266">266</a>         HashMap&lt;String, Integer&gt; items = <strong class="jxr_keyword">new</strong> HashMap&lt;String, Integer&gt;();
-<a class="jxr_linenumber" name="L267" href="#L267">267</a>         JsonArray itemList = <strong class="jxr_keyword">new</strong> JsonArray();
-<a class="jxr_linenumber" name="L268" href="#L268">268</a>         <strong class="jxr_keyword">for</strong> (ItemStack item : getStorage().getItems()) {
-<a class="jxr_linenumber" name="L269" href="#L269">269</a>             items.put(item.getItem().getId(), item.getAmount());
-<a class="jxr_linenumber" name="L270" href="#L270">270</a>             JsonPrimitive itemJson = <strong class="jxr_keyword">new</strong> JsonPrimitive(item.getItem().getId());
-<a class="jxr_linenumber" name="L271" href="#L271">271</a>             itemList.add(itemJson);
-<a class="jxr_linenumber" name="L272" href="#L272">272</a>         }
-<a class="jxr_linenumber" name="L273" href="#L273">273</a>         JsonElement itemsJsonObj = gson.toJsonTree(items);
-<a class="jxr_linenumber" name="L274" href="#L274">274</a>         jsonObject.add(<span class="jxr_string">"items"</span>, itemsJsonObj);
-<a class="jxr_linenumber" name="L275" href="#L275">275</a>         JsonElement typesJsonObj = gson.toJsonTree(getCharacterLevels());
-<a class="jxr_linenumber" name="L276" href="#L276">276</a>         jsonObject.add(<span class="jxr_string">"types"</span>, typesJsonObj);
-<a class="jxr_linenumber" name="L277" href="#L277">277</a>         <a href="../../../../com/jadventure/game/navigation/Coordinate.html">Coordinate</a> coordinate = getLocation().getCoordinate();
-<a class="jxr_linenumber" name="L278" href="#L278">278</a>         String coordinateLocation = coordinate.x+<span class="jxr_string">","</span>+coordinate.y+<span class="jxr_string">","</span>+coordinate.z;
-<a class="jxr_linenumber" name="L279" href="#L279">279</a>         jsonObject.addProperty(<span class="jxr_string">"location"</span>, coordinateLocation);
-<a class="jxr_linenumber" name="L280" href="#L280">280</a> 
-<a class="jxr_linenumber" name="L281" href="#L281">281</a>         String fileName = getProfileFileName(getName());
-<a class="jxr_linenumber" name="L282" href="#L282">282</a>         <strong class="jxr_keyword">new</strong> File(fileName).getParentFile().mkdirs();
-<a class="jxr_linenumber" name="L283" href="#L283">283</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L284" href="#L284">284</a>             Writer writer = <strong class="jxr_keyword">new</strong> FileWriter(fileName);
-<a class="jxr_linenumber" name="L285" href="#L285">285</a>             gson.toJson(jsonObject, writer);
-<a class="jxr_linenumber" name="L286" href="#L286">286</a>             writer.close();
-<a class="jxr_linenumber" name="L287" href="#L287">287</a>             LocationManager.writeLocations(getName());
-<a class="jxr_linenumber" name="L288" href="#L288">288</a>             QueueProvider.offer(<span class="jxr_string">"\nYour game data was saved."</span>);
-<a class="jxr_linenumber" name="L289" href="#L289">289</a>         } <strong class="jxr_keyword">catch</strong> (IOException ex) {
-<a class="jxr_linenumber" name="L290" href="#L290">290</a>             QueueProvider.offer(<span class="jxr_string">"\nUnable to save to file '"</span> + fileName + <span class="jxr_string">"'."</span>);
-<a class="jxr_linenumber" name="L291" href="#L291">291</a>         }
-<a class="jxr_linenumber" name="L292" href="#L292">292</a>     }
-<a class="jxr_linenumber" name="L293" href="#L293">293</a> 
-<a class="jxr_linenumber" name="L294" href="#L294">294</a>     <strong class="jxr_keyword">public</strong> List&lt;Item&gt; searchItem(String itemName, List&lt;Item&gt; itemList) {
-<a class="jxr_linenumber" name="L295" href="#L295">295</a>         List&lt;Item&gt; itemMap = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
-<a class="jxr_linenumber" name="L296" href="#L296">296</a>         <strong class="jxr_keyword">for</strong> (Item item : itemList) {
-<a class="jxr_linenumber" name="L297" href="#L297">297</a>             String testItemName = item.getName();
-<a class="jxr_linenumber" name="L298" href="#L298">298</a>             <strong class="jxr_keyword">if</strong> (testItemName.equalsIgnoreCase(itemName)) {
-<a class="jxr_linenumber" name="L299" href="#L299">299</a>                 itemMap.add(item);
-<a class="jxr_linenumber" name="L300" href="#L300">300</a>             }
-<a class="jxr_linenumber" name="L301" href="#L301">301</a>         }
-<a class="jxr_linenumber" name="L302" href="#L302">302</a>         <strong class="jxr_keyword">return</strong> itemMap;
-<a class="jxr_linenumber" name="L303" href="#L303">303</a>     }
-<a class="jxr_linenumber" name="L304" href="#L304">304</a> 
-<a class="jxr_linenumber" name="L305" href="#L305">305</a>     <strong class="jxr_keyword">public</strong> List&lt;Item&gt; searchItem(String itemName, <a href="../../../../com/jadventure/game/items/Storage.html">Storage</a> storage) {
-<a class="jxr_linenumber" name="L306" href="#L306">306</a>         List&lt;Item&gt; itemMap = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
-<a class="jxr_linenumber" name="L307" href="#L307">307</a>         <strong class="jxr_keyword">for</strong> (ItemStack item : storage.getItems()) {
-<a class="jxr_linenumber" name="L308" href="#L308">308</a>             String testItemName = item.getItem().getName();
-<a class="jxr_linenumber" name="L309" href="#L309">309</a>             <strong class="jxr_keyword">if</strong> (testItemName.equalsIgnoreCase(itemName)) {
-<a class="jxr_linenumber" name="L310" href="#L310">310</a>                 itemMap.add(item.getItem());
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>         <strong class="jxr_keyword">for</strong> (ItemStack item : getStorage().getItemStack()) {
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>             items.put(item.getItem().getId(), item.getAmount());
+<a class="jxr_linenumber" name="L269" href="#L269">269</a>         }
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>         JsonElement itemsJsonObj = gson.toJsonTree(items);
+<a class="jxr_linenumber" name="L271" href="#L271">271</a>         jsonObject.add(<span class="jxr_string">"items"</span>, itemsJsonObj);
+<a class="jxr_linenumber" name="L272" href="#L272">272</a>         JsonElement typesJsonObj = gson.toJsonTree(getCharacterLevels());
+<a class="jxr_linenumber" name="L273" href="#L273">273</a>         jsonObject.add(<span class="jxr_string">"types"</span>, typesJsonObj);
+<a class="jxr_linenumber" name="L274" href="#L274">274</a>         <a href="../../../../com/jadventure/game/navigation/Coordinate.html">Coordinate</a> coordinate = getLocation().getCoordinate();
+<a class="jxr_linenumber" name="L275" href="#L275">275</a>         String coordinateLocation = coordinate.x+<span class="jxr_string">","</span>+coordinate.y+<span class="jxr_string">","</span>+coordinate.z;
+<a class="jxr_linenumber" name="L276" href="#L276">276</a>         jsonObject.addProperty(<span class="jxr_string">"location"</span>, coordinateLocation);
+<a class="jxr_linenumber" name="L277" href="#L277">277</a> 
+<a class="jxr_linenumber" name="L278" href="#L278">278</a>         String fileName = getProfileFileName(getName());
+<a class="jxr_linenumber" name="L279" href="#L279">279</a>         <strong class="jxr_keyword">new</strong> File(fileName).getParentFile().mkdirs();
+<a class="jxr_linenumber" name="L280" href="#L280">280</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L281" href="#L281">281</a>             Writer writer = <strong class="jxr_keyword">new</strong> FileWriter(fileName);
+<a class="jxr_linenumber" name="L282" href="#L282">282</a>             gson.toJson(jsonObject, writer);
+<a class="jxr_linenumber" name="L283" href="#L283">283</a>             writer.close();
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>             LocationManager.writeLocations(getName());
+<a class="jxr_linenumber" name="L285" href="#L285">285</a>             QueueProvider.offer(<span class="jxr_string">"\nYour game data was saved."</span>);
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>         } <strong class="jxr_keyword">catch</strong> (IOException ex) {
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>             QueueProvider.offer(<span class="jxr_string">"\nUnable to save to file '"</span> + fileName + <span class="jxr_string">"'."</span>);
+<a class="jxr_linenumber" name="L288" href="#L288">288</a>         }
+<a class="jxr_linenumber" name="L289" href="#L289">289</a>     }
+<a class="jxr_linenumber" name="L290" href="#L290">290</a> 
+<a class="jxr_linenumber" name="L291" href="#L291">291</a>     <strong class="jxr_keyword">public</strong> List&lt;Item&gt; searchItem(String itemName, List&lt;Item&gt; itemList) {
+<a class="jxr_linenumber" name="L292" href="#L292">292</a>         List&lt;Item&gt; items = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
+<a class="jxr_linenumber" name="L293" href="#L293">293</a>         <strong class="jxr_keyword">for</strong> (Item item : itemList) {
+<a class="jxr_linenumber" name="L294" href="#L294">294</a>             String testItemName = item.getName();
+<a class="jxr_linenumber" name="L295" href="#L295">295</a>             <strong class="jxr_keyword">if</strong> (testItemName.equalsIgnoreCase(itemName)) {
+<a class="jxr_linenumber" name="L296" href="#L296">296</a>                 items.add(item);
+<a class="jxr_linenumber" name="L297" href="#L297">297</a>             }
+<a class="jxr_linenumber" name="L298" href="#L298">298</a>         }
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>         <strong class="jxr_keyword">return</strong> items;
+<a class="jxr_linenumber" name="L300" href="#L300">300</a>     }
+<a class="jxr_linenumber" name="L301" href="#L301">301</a> 
+<a class="jxr_linenumber" name="L302" href="#L302">302</a>     <strong class="jxr_keyword">public</strong> List&lt;Item&gt; searchItem(String itemName, <a href="../../../../com/jadventure/game/items/Storage.html">Storage</a> storage) {
+<a class="jxr_linenumber" name="L303" href="#L303">303</a>         <strong class="jxr_keyword">return</strong> storage.search(itemName);
+<a class="jxr_linenumber" name="L304" href="#L304">304</a>     }
+<a class="jxr_linenumber" name="L305" href="#L305">305</a>     
+<a class="jxr_linenumber" name="L306" href="#L306">306</a>     <strong class="jxr_keyword">public</strong> List&lt;Item&gt; searchEquipment(String itemName, Map&lt;EquipmentLocation, Item&gt; equipment) {
+<a class="jxr_linenumber" name="L307" href="#L307">307</a>         List&lt;Item&gt; items = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
+<a class="jxr_linenumber" name="L308" href="#L308">308</a>         <strong class="jxr_keyword">for</strong> (Item item : equipment.values()) {
+<a class="jxr_linenumber" name="L309" href="#L309">309</a>             <strong class="jxr_keyword">if</strong> (item != <strong class="jxr_keyword">null</strong> &amp;&amp; item.getName().equals(itemName)) {
+<a class="jxr_linenumber" name="L310" href="#L310">310</a>                 items.add(item);
 <a class="jxr_linenumber" name="L311" href="#L311">311</a>             }
 <a class="jxr_linenumber" name="L312" href="#L312">312</a>         }
-<a class="jxr_linenumber" name="L313" href="#L313">313</a>         <strong class="jxr_keyword">return</strong> itemMap;
+<a class="jxr_linenumber" name="L313" href="#L313">313</a>         <strong class="jxr_keyword">return</strong> items;
 <a class="jxr_linenumber" name="L314" href="#L314">314</a>     }
-<a class="jxr_linenumber" name="L315" href="#L315">315</a>     
-<a class="jxr_linenumber" name="L316" href="#L316">316</a>     <strong class="jxr_keyword">public</strong> List&lt;Item&gt; searchEquipment(String itemName, Map&lt;EquipmentLocation, Item&gt; equipment) {
-<a class="jxr_linenumber" name="L317" href="#L317">317</a>         List&lt;Item&gt; items = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
-<a class="jxr_linenumber" name="L318" href="#L318">318</a>         <strong class="jxr_keyword">for</strong> (Item item : equipment.values()) {
-<a class="jxr_linenumber" name="L319" href="#L319">319</a>             <strong class="jxr_keyword">if</strong> (item != <strong class="jxr_keyword">null</strong> &amp;&amp; item.getName().equals(itemName)) {
-<a class="jxr_linenumber" name="L320" href="#L320">320</a>                 items.add(item);
-<a class="jxr_linenumber" name="L321" href="#L321">321</a>             }
-<a class="jxr_linenumber" name="L322" href="#L322">322</a>         }
-<a class="jxr_linenumber" name="L323" href="#L323">323</a>         <strong class="jxr_keyword">return</strong> items;
+<a class="jxr_linenumber" name="L315" href="#L315">315</a> 
+<a class="jxr_linenumber" name="L316" href="#L316">316</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> pickUpItem(String itemName) {
+<a class="jxr_linenumber" name="L317" href="#L317">317</a>         List&lt;Item&gt; items = searchItem(itemName, getLocation().getItems());
+<a class="jxr_linenumber" name="L318" href="#L318">318</a>         <strong class="jxr_keyword">if</strong> (! items.isEmpty()) {
+<a class="jxr_linenumber" name="L319" href="#L319">319</a>             <a href="../../../../com/jadventure/game/items/Item.html">Item</a> item = items.get(0);
+<a class="jxr_linenumber" name="L320" href="#L320">320</a>             addItemToStorage(item);
+<a class="jxr_linenumber" name="L321" href="#L321">321</a>             location.removeItem(item);
+<a class="jxr_linenumber" name="L322" href="#L322">322</a>             QueueProvider.offer(item.getName()+ <span class="jxr_string">" picked up"</span>);
+<a class="jxr_linenumber" name="L323" href="#L323">323</a>         }
 <a class="jxr_linenumber" name="L324" href="#L324">324</a>     }
 <a class="jxr_linenumber" name="L325" href="#L325">325</a> 
-<a class="jxr_linenumber" name="L326" href="#L326">326</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> pickUpItem(String itemName) {
-<a class="jxr_linenumber" name="L327" href="#L327">327</a>         List&lt;Item&gt; itemMap = searchItem(itemName, getLocation().getItems());
-<a class="jxr_linenumber" name="L328" href="#L328">328</a>         <strong class="jxr_keyword">if</strong> (!itemMap.isEmpty()) {
-<a class="jxr_linenumber" name="L329" href="#L329">329</a>             <a href="../../../../com/jadventure/game/items/Item.html">Item</a> item = itemMap.get(0);
-<a class="jxr_linenumber" name="L330" href="#L330">330</a>             <a href="../../../../com/jadventure/game/items/Item.html">Item</a> itemToPickUp = itemRepo.getItem(item.getId());
-<a class="jxr_linenumber" name="L331" href="#L331">331</a>             addItemToStorage(itemToPickUp);
-<a class="jxr_linenumber" name="L332" href="#L332">332</a>             location.removePublicItem(itemToPickUp.getId());
-<a class="jxr_linenumber" name="L333" href="#L333">333</a>             QueueProvider.offer(item.getName()+ <span class="jxr_string">" picked up"</span>);
-<a class="jxr_linenumber" name="L334" href="#L334">334</a>         }
-<a class="jxr_linenumber" name="L335" href="#L335">335</a>     }
+<a class="jxr_linenumber" name="L326" href="#L326">326</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> dropItem(String itemName) {
+<a class="jxr_linenumber" name="L327" href="#L327">327</a>         List&lt;Item&gt; itemMap = searchItem(itemName, getStorage());
+<a class="jxr_linenumber" name="L328" href="#L328">328</a>         <strong class="jxr_keyword">if</strong> (itemMap.isEmpty()) {
+<a class="jxr_linenumber" name="L329" href="#L329">329</a>             itemMap = searchEquipment(itemName, getEquipment());
+<a class="jxr_linenumber" name="L330" href="#L330">330</a>         }
+<a class="jxr_linenumber" name="L331" href="#L331">331</a>         <strong class="jxr_keyword">if</strong> (!itemMap.isEmpty()) {
+<a class="jxr_linenumber" name="L332" href="#L332">332</a>             <a href="../../../../com/jadventure/game/items/Item.html">Item</a> item = itemMap.get(0);
+<a class="jxr_linenumber" name="L333" href="#L333">333</a>             <a href="../../../../com/jadventure/game/items/Item.html">Item</a> itemToDrop = itemRepo.getItem(item.getId());
+<a class="jxr_linenumber" name="L334" href="#L334">334</a>             <a href="../../../../com/jadventure/game/items/Item.html">Item</a> weapon = itemRepo.getItem(getWeapon());
+<a class="jxr_linenumber" name="L335" href="#L335">335</a>             String wName = weapon.getName();
 <a class="jxr_linenumber" name="L336" href="#L336">336</a> 
-<a class="jxr_linenumber" name="L337" href="#L337">337</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> dropItem(String itemName) {
-<a class="jxr_linenumber" name="L338" href="#L338">338</a>         List&lt;Item&gt; itemMap = searchItem(itemName, getStorage());
-<a class="jxr_linenumber" name="L339" href="#L339">339</a>         <strong class="jxr_keyword">if</strong> (itemMap.isEmpty()) {
-<a class="jxr_linenumber" name="L340" href="#L340">340</a>             itemMap = searchEquipment(itemName, getEquipment());
-<a class="jxr_linenumber" name="L341" href="#L341">341</a>         }
-<a class="jxr_linenumber" name="L342" href="#L342">342</a>         <strong class="jxr_keyword">if</strong> (!itemMap.isEmpty()) {
-<a class="jxr_linenumber" name="L343" href="#L343">343</a>             <a href="../../../../com/jadventure/game/items/Item.html">Item</a> item = itemMap.get(0);
-<a class="jxr_linenumber" name="L344" href="#L344">344</a>             <a href="../../../../com/jadventure/game/items/Item.html">Item</a> itemToDrop = itemRepo.getItem(item.getId());
-<a class="jxr_linenumber" name="L345" href="#L345">345</a>             <a href="../../../../com/jadventure/game/items/Item.html">Item</a> weapon = itemRepo.getItem(getWeapon());
-<a class="jxr_linenumber" name="L346" href="#L346">346</a>             String wName = weapon.getName();
-<a class="jxr_linenumber" name="L347" href="#L347">347</a> 
-<a class="jxr_linenumber" name="L348" href="#L348">348</a>             <strong class="jxr_keyword">if</strong> (itemName.equals(wName)) {
-<a class="jxr_linenumber" name="L349" href="#L349">349</a>                 dequipItem(wName);
-<a class="jxr_linenumber" name="L350" href="#L350">350</a>             }
-<a class="jxr_linenumber" name="L351" href="#L351">351</a>             removeItemFromStorage(itemToDrop);
-<a class="jxr_linenumber" name="L352" href="#L352">352</a>             location.addPublicItem(itemToDrop.getId());
-<a class="jxr_linenumber" name="L353" href="#L353">353</a>             QueueProvider.offer(item.getName() + <span class="jxr_string">" dropped"</span>);
-<a class="jxr_linenumber" name="L354" href="#L354">354</a>         }
-<a class="jxr_linenumber" name="L355" href="#L355">355</a>     }
-<a class="jxr_linenumber" name="L356" href="#L356">356</a> 
-<a class="jxr_linenumber" name="L357" href="#L357">357</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> equipItem(String itemName) {
-<a class="jxr_linenumber" name="L358" href="#L358">358</a>         List&lt;Item&gt; itemMap = searchItem(itemName, getStorage());
-<a class="jxr_linenumber" name="L359" href="#L359">359</a>         <strong class="jxr_keyword">if</strong> (!itemMap.isEmpty()) {
-<a class="jxr_linenumber" name="L360" href="#L360">360</a>             <a href="../../../../com/jadventure/game/items/Item.html">Item</a> item = itemMap.get(0);
-<a class="jxr_linenumber" name="L361" href="#L361">361</a>             <strong class="jxr_keyword">if</strong> (getLevel() &gt;= item.getLevel()) {
-<a class="jxr_linenumber" name="L362" href="#L362">362</a>                 Map&lt;String, String&gt; change = equipItem(item.getPosition(), item);
-<a class="jxr_linenumber" name="L363" href="#L363">363</a>                 QueueProvider.offer(item.getName()+ <span class="jxr_string">" equipped"</span>);
-<a class="jxr_linenumber" name="L364" href="#L364">364</a>                 printStatChange(change);
-<a class="jxr_linenumber" name="L365" href="#L365">365</a>             } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L366" href="#L366">366</a>                 QueueProvider.offer(<span class="jxr_string">"You do not have the required level to use this item"</span>);
-<a class="jxr_linenumber" name="L367" href="#L367">367</a>             }
-<a class="jxr_linenumber" name="L368" href="#L368">368</a>         } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L369" href="#L369">369</a>             QueueProvider.offer(<span class="jxr_string">"You do not have that item"</span>);
-<a class="jxr_linenumber" name="L370" href="#L370">370</a>         }
-<a class="jxr_linenumber" name="L371" href="#L371">371</a>     }
-<a class="jxr_linenumber" name="L372" href="#L372">372</a> 
-<a class="jxr_linenumber" name="L373" href="#L373">373</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> dequipItem(String itemName) {
-<a class="jxr_linenumber" name="L374" href="#L374">374</a>          List&lt;Item&gt; itemMap = searchEquipment(itemName, getEquipment());
-<a class="jxr_linenumber" name="L375" href="#L375">375</a>          <strong class="jxr_keyword">if</strong> (!itemMap.isEmpty()) {
-<a class="jxr_linenumber" name="L376" href="#L376">376</a>             <a href="../../../../com/jadventure/game/items/Item.html">Item</a> item = itemMap.get(0);
-<a class="jxr_linenumber" name="L377" href="#L377">377</a>             Map&lt;String, String&gt; change = unequipItem(item);
-<a class="jxr_linenumber" name="L378" href="#L378">378</a>             QueueProvider.offer(item.getName()+<span class="jxr_string">" unequipped"</span>);
-<a class="jxr_linenumber" name="L379" href="#L379">379</a> 	        printStatChange(change);
-<a class="jxr_linenumber" name="L380" href="#L380">380</a>          }
-<a class="jxr_linenumber" name="L381" href="#L381">381</a>     }
-<a class="jxr_linenumber" name="L382" href="#L382">382</a> 
-<a class="jxr_linenumber" name="L383" href="#L383">383</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> printStatChange(Map&lt;String, String&gt; stats) {
-<a class="jxr_linenumber" name="L384" href="#L384">384</a>          Set&lt;Entry&lt;String, String&gt;&gt; set = stats.entrySet();
-<a class="jxr_linenumber" name="L385" href="#L385">385</a>          Iterator&lt;Entry&lt;String, String&gt;&gt; i = set.iterator();
-<a class="jxr_linenumber" name="L386" href="#L386">386</a>          <strong class="jxr_keyword">while</strong> (i.hasNext()) {
-<a class="jxr_linenumber" name="L387" href="#L387">387</a>               Entry&lt;String, String&gt; me = i.next();
-<a class="jxr_linenumber" name="L388" href="#L388">388</a>               <strong class="jxr_keyword">double</strong> value = Double.parseDouble((String) me.getValue());
-<a class="jxr_linenumber" name="L389" href="#L389">389</a>               <strong class="jxr_keyword">switch</strong> ((String) me.getKey()) {
-<a class="jxr_linenumber" name="L390" href="#L390">390</a>                   <strong class="jxr_keyword">case</strong> <span class="jxr_string">"damage"</span>: {
-<a class="jxr_linenumber" name="L391" href="#L391">391</a>                           <strong class="jxr_keyword">if</strong> (value &gt;= 0.0) {
-<a class="jxr_linenumber" name="L392" href="#L392">392</a>                               QueueProvider.offer(me.getKey() + <span class="jxr_string">": "</span> + <strong class="jxr_keyword">this</strong>.getDamage() + <span class="jxr_string">" (+"</span> + me.getValue() + <span class="jxr_string">")"</span>);
-<a class="jxr_linenumber" name="L393" href="#L393">393</a>                           } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L394" href="#L394">394</a>                               QueueProvider.offer(me.getKey() + <span class="jxr_string">": "</span> + <strong class="jxr_keyword">this</strong>.getDamage() + <span class="jxr_string">" ("</span> + me.getValue() + <span class="jxr_string">")"</span>);
-<a class="jxr_linenumber" name="L395" href="#L395">395</a>                           }
-<a class="jxr_linenumber" name="L396" href="#L396">396</a>                           <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="L397" href="#L397">397</a>                     }
-<a class="jxr_linenumber" name="L398" href="#L398">398</a>                     <strong class="jxr_keyword">case</strong> <span class="jxr_string">"health"</span>: {
-<a class="jxr_linenumber" name="L399" href="#L399">399</a>                           <strong class="jxr_keyword">if</strong> (value &gt;= 0) {
-<a class="jxr_linenumber" name="L400" href="#L400">400</a>                               QueueProvider.offer(me.getKey() + <span class="jxr_string">": "</span> + <strong class="jxr_keyword">this</strong>.getHealth() + <span class="jxr_string">" (+"</span> + me.getValue() + <span class="jxr_string">")"</span>);
-<a class="jxr_linenumber" name="L401" href="#L401">401</a>                           } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L402" href="#L402">402</a>                               QueueProvider.offer(me.getKey() + <span class="jxr_string">": "</span> + <strong class="jxr_keyword">this</strong>.getHealth() + <span class="jxr_string">" ("</span> + me.getValue() + <span class="jxr_string">")"</span>);
-<a class="jxr_linenumber" name="L403" href="#L403">403</a>                           }
-<a class="jxr_linenumber" name="L404" href="#L404">404</a>                           <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="L405" href="#L405">405</a>                     }
-<a class="jxr_linenumber" name="L406" href="#L406">406</a>                     <strong class="jxr_keyword">case</strong> <span class="jxr_string">"armour"</span>: {
-<a class="jxr_linenumber" name="L407" href="#L407">407</a>                           <strong class="jxr_keyword">if</strong> (value &gt;= 0) {
-<a class="jxr_linenumber" name="L408" href="#L408">408</a>                               QueueProvider.offer(me.getKey() + <span class="jxr_string">": "</span> + <strong class="jxr_keyword">this</strong>.getArmour() + <span class="jxr_string">" (+"</span> + me.getValue() + <span class="jxr_string">")"</span>);
-<a class="jxr_linenumber" name="L409" href="#L409">409</a>                           } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L410" href="#L410">410</a>                               QueueProvider.offer(me.getKey() + <span class="jxr_string">": "</span> + <strong class="jxr_keyword">this</strong>.getArmour() + <span class="jxr_string">" ("</span> + me.getValue() + <span class="jxr_string">")"</span>);
-<a class="jxr_linenumber" name="L411" href="#L411">411</a>                           }
-<a class="jxr_linenumber" name="L412" href="#L412">412</a>                           <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="L413" href="#L413">413</a>                     }
-<a class="jxr_linenumber" name="L414" href="#L414">414</a>                     <strong class="jxr_keyword">case</strong> <span class="jxr_string">"maxHealth"</span>: {
-<a class="jxr_linenumber" name="L415" href="#L415">415</a>                           <strong class="jxr_keyword">if</strong> (value  &gt;= 0) {
-<a class="jxr_linenumber" name="L416" href="#L416">416</a>                               QueueProvider.offer(me.getKey() + <span class="jxr_string">": "</span> + <strong class="jxr_keyword">this</strong>.getHealthMax() + <span class="jxr_string">" (+"</span> + me.getValue() + <span class="jxr_string">")"</span>);
-<a class="jxr_linenumber" name="L417" href="#L417">417</a>                           } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L418" href="#L418">418</a>                               QueueProvider.offer(me.getKey() + <span class="jxr_string">": "</span> + <strong class="jxr_keyword">this</strong>.getHealthMax() + <span class="jxr_string">" ("</span> + me.getValue() + <span class="jxr_string">")"</span>);
-<a class="jxr_linenumber" name="L419" href="#L419">419</a>                           }
-<a class="jxr_linenumber" name="L420" href="#L420">420</a>                           <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="L421" href="#L421">421</a>                     }
-<a class="jxr_linenumber" name="L422" href="#L422">422</a>               }
-<a class="jxr_linenumber" name="L423" href="#L423">423</a>          }
-<a class="jxr_linenumber" name="L424" href="#L424">424</a>     }
-<a class="jxr_linenumber" name="L425" href="#L425">425</a> 
-<a class="jxr_linenumber" name="L426" href="#L426">426</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> inspectItem(String itemName) {
-<a class="jxr_linenumber" name="L427" href="#L427">427</a>         List&lt;Item&gt; itemMap = searchItem(itemName, getStorage());
-<a class="jxr_linenumber" name="L428" href="#L428">428</a>         <strong class="jxr_keyword">if</strong> (itemMap.isEmpty()) {
-<a class="jxr_linenumber" name="L429" href="#L429">429</a>             itemMap = searchItem(itemName, getLocation().getItems());
-<a class="jxr_linenumber" name="L430" href="#L430">430</a>         }
-<a class="jxr_linenumber" name="L431" href="#L431">431</a>         <strong class="jxr_keyword">if</strong> (!itemMap.isEmpty()) {
-<a class="jxr_linenumber" name="L432" href="#L432">432</a>             <a href="../../../../com/jadventure/game/items/Item.html">Item</a> item = itemMap.get(0);
-<a class="jxr_linenumber" name="L433" href="#L433">433</a>             item.display();
-<a class="jxr_linenumber" name="L434" href="#L434">434</a>         } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L435" href="#L435">435</a>             QueueProvider.offer(<span class="jxr_string">"Item doesn't exist within your view."</span>);
-<a class="jxr_linenumber" name="L436" href="#L436">436</a>         }
-<a class="jxr_linenumber" name="L437" href="#L437">437</a>     }
-<a class="jxr_linenumber" name="L438" href="#L438">438</a> 
-<a class="jxr_linenumber" name="L439" href="#L439">439</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../com/jadventure/game/navigation/ILocation.html">ILocation</a> getLocation() {
-<a class="jxr_linenumber" name="L440" href="#L440">440</a>         <strong class="jxr_keyword">return</strong> location;
-<a class="jxr_linenumber" name="L441" href="#L441">441</a>     }
-<a class="jxr_linenumber" name="L442" href="#L442">442</a> 
-<a class="jxr_linenumber" name="L443" href="#L443">443</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setLocation(<a href="../../../../com/jadventure/game/navigation/ILocation.html">ILocation</a> location) {
-<a class="jxr_linenumber" name="L444" href="#L444">444</a>         <strong class="jxr_keyword">this</strong>.location = location;
-<a class="jxr_linenumber" name="L445" href="#L445">445</a>     }
-<a class="jxr_linenumber" name="L446" href="#L446">446</a> 
-<a class="jxr_linenumber" name="L447" href="#L447">447</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../com/jadventure/game/navigation/LocationType.html">LocationType</a> getLocationType(){
-<a class="jxr_linenumber" name="L448" href="#L448">448</a>     	<strong class="jxr_keyword">return</strong> getLocation().getLocationType();
-<a class="jxr_linenumber" name="L449" href="#L449">449</a>     }
-<a class="jxr_linenumber" name="L450" href="#L450">450</a> 
-<a class="jxr_linenumber" name="L451" href="#L451">451</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> attack(String opponentName) <strong class="jxr_keyword">throws</strong> DeathException {
-<a class="jxr_linenumber" name="L452" href="#L452">452</a>         <a href="../../../../com/jadventure/game/monsters/Monster.html">Monster</a> monsterOpponent = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L453" href="#L453">453</a>         <a href="../../../../com/jadventure/game/entities/NPC.html">NPC</a> npcOpponent = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L454" href="#L454">454</a>         List&lt;Monster&gt; monsters = getLocation().getMonsters();
-<a class="jxr_linenumber" name="L455" href="#L455">455</a>         List&lt;NPC&gt; npcs = getLocation().getNPCs();
-<a class="jxr_linenumber" name="L456" href="#L456">456</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; monsters.size(); i++) {
-<a class="jxr_linenumber" name="L457" href="#L457">457</a>              <strong class="jxr_keyword">if</strong> (monsters.get(i).monsterType.equalsIgnoreCase(opponentName)) {
-<a class="jxr_linenumber" name="L458" href="#L458">458</a>                  monsterOpponent = monsters.get(i);
-<a class="jxr_linenumber" name="L459" href="#L459">459</a>              }
-<a class="jxr_linenumber" name="L460" href="#L460">460</a>         }
-<a class="jxr_linenumber" name="L461" href="#L461">461</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i=0; i &lt; npcs.size(); i++) {
-<a class="jxr_linenumber" name="L462" href="#L462">462</a>             <strong class="jxr_keyword">if</strong> (npcs.get(i).getName().equalsIgnoreCase(opponentName)) {
-<a class="jxr_linenumber" name="L463" href="#L463">463</a>                 npcOpponent = npcs.get(i);
-<a class="jxr_linenumber" name="L464" href="#L464">464</a>             }
-<a class="jxr_linenumber" name="L465" href="#L465">465</a>         }
-<a class="jxr_linenumber" name="L466" href="#L466">466</a>         <strong class="jxr_keyword">if</strong> (monsterOpponent != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L467" href="#L467">467</a>             monsterOpponent.setName(monsterOpponent.monsterType);
-<a class="jxr_linenumber" name="L468" href="#L468">468</a>             <strong class="jxr_keyword">new</strong> <a href="../../../../com/jadventure/game/menus/BattleMenu.html">BattleMenu</a>(monsterOpponent, <strong class="jxr_keyword">this</strong>);
-<a class="jxr_linenumber" name="L469" href="#L469">469</a>         } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (npcOpponent != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L470" href="#L470">470</a>             <strong class="jxr_keyword">new</strong> <a href="../../../../com/jadventure/game/menus/BattleMenu.html">BattleMenu</a>(npcOpponent, <strong class="jxr_keyword">this</strong>);
-<a class="jxr_linenumber" name="L471" href="#L471">471</a>         } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L472" href="#L472">472</a>              QueueProvider.offer(<span class="jxr_string">"Opponent not found"</span>);
-<a class="jxr_linenumber" name="L473" href="#L473">473</a>         }
-<a class="jxr_linenumber" name="L474" href="#L474">474</a>     }
-<a class="jxr_linenumber" name="L475" href="#L475">475</a> 
-<a class="jxr_linenumber" name="L476" href="#L476">476</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> hasItem(<a href="../../../../com/jadventure/game/items/Item.html">Item</a> item) {
-<a class="jxr_linenumber" name="L477" href="#L477">477</a>         List&lt;Item&gt; searchEquipment = searchEquipment(item.getName(), getEquipment());
-<a class="jxr_linenumber" name="L478" href="#L478">478</a>         List&lt;Item&gt; searchStorage = searchItem(item.getName(), getStorage());
-<a class="jxr_linenumber" name="L479" href="#L479">479</a>         <strong class="jxr_keyword">return</strong> !(searchEquipment.size() == 0 &amp;&amp; searchStorage.size() == 0);
-<a class="jxr_linenumber" name="L480" href="#L480">480</a>     }
-<a class="jxr_linenumber" name="L481" href="#L481">481</a> }
+<a class="jxr_linenumber" name="L337" href="#L337">337</a>             <strong class="jxr_keyword">if</strong> (itemName.equals(wName)) {
+<a class="jxr_linenumber" name="L338" href="#L338">338</a>                 dequipItem(wName);
+<a class="jxr_linenumber" name="L339" href="#L339">339</a>             }
+<a class="jxr_linenumber" name="L340" href="#L340">340</a>             removeItemFromStorage(itemToDrop);
+<a class="jxr_linenumber" name="L341" href="#L341">341</a>             location.addItem(itemToDrop);
+<a class="jxr_linenumber" name="L342" href="#L342">342</a>             QueueProvider.offer(item.getName() + <span class="jxr_string">" dropped"</span>);
+<a class="jxr_linenumber" name="L343" href="#L343">343</a>         }
+<a class="jxr_linenumber" name="L344" href="#L344">344</a>     }
+<a class="jxr_linenumber" name="L345" href="#L345">345</a> 
+<a class="jxr_linenumber" name="L346" href="#L346">346</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> equipItem(String itemName) {
+<a class="jxr_linenumber" name="L347" href="#L347">347</a>         List&lt;Item&gt; items = searchItem(itemName, getStorage());
+<a class="jxr_linenumber" name="L348" href="#L348">348</a>         <strong class="jxr_keyword">if</strong> (!items.isEmpty()) {
+<a class="jxr_linenumber" name="L349" href="#L349">349</a>             <a href="../../../../com/jadventure/game/items/Item.html">Item</a> item = items.get(0);
+<a class="jxr_linenumber" name="L350" href="#L350">350</a>             <strong class="jxr_keyword">if</strong> (getLevel() &gt;= item.getLevel()) {
+<a class="jxr_linenumber" name="L351" href="#L351">351</a>                 Map&lt;String, String&gt; change = equipItem(item.getPosition(), item);
+<a class="jxr_linenumber" name="L352" href="#L352">352</a>                 QueueProvider.offer(item.getName()+ <span class="jxr_string">" equipped"</span>);
+<a class="jxr_linenumber" name="L353" href="#L353">353</a>                 printStatChange(change);
+<a class="jxr_linenumber" name="L354" href="#L354">354</a>             } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L355" href="#L355">355</a>                 QueueProvider.offer(<span class="jxr_string">"You do not have the required level to use this item"</span>);
+<a class="jxr_linenumber" name="L356" href="#L356">356</a>             }
+<a class="jxr_linenumber" name="L357" href="#L357">357</a>         } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L358" href="#L358">358</a>             QueueProvider.offer(<span class="jxr_string">"You do not have that item"</span>);
+<a class="jxr_linenumber" name="L359" href="#L359">359</a>         }
+<a class="jxr_linenumber" name="L360" href="#L360">360</a>     }
+<a class="jxr_linenumber" name="L361" href="#L361">361</a> 
+<a class="jxr_linenumber" name="L362" href="#L362">362</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> dequipItem(String itemName) {
+<a class="jxr_linenumber" name="L363" href="#L363">363</a>          List&lt;Item&gt; items = searchEquipment(itemName, getEquipment());
+<a class="jxr_linenumber" name="L364" href="#L364">364</a>          <strong class="jxr_keyword">if</strong> (!items.isEmpty()) {
+<a class="jxr_linenumber" name="L365" href="#L365">365</a>             <a href="../../../../com/jadventure/game/items/Item.html">Item</a> item = items.get(0);
+<a class="jxr_linenumber" name="L366" href="#L366">366</a>             Map&lt;String, String&gt; change = unequipItem(item);
+<a class="jxr_linenumber" name="L367" href="#L367">367</a>             QueueProvider.offer(item.getName()+<span class="jxr_string">" unequipped"</span>);
+<a class="jxr_linenumber" name="L368" href="#L368">368</a> 	        printStatChange(change);
+<a class="jxr_linenumber" name="L369" href="#L369">369</a>          }
+<a class="jxr_linenumber" name="L370" href="#L370">370</a>     }
+<a class="jxr_linenumber" name="L371" href="#L371">371</a> 
+<a class="jxr_linenumber" name="L372" href="#L372">372</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> printStatChange(Map&lt;String, String&gt; stats) {
+<a class="jxr_linenumber" name="L373" href="#L373">373</a>          Set&lt;Entry&lt;String, String&gt;&gt; set = stats.entrySet();
+<a class="jxr_linenumber" name="L374" href="#L374">374</a>          Iterator&lt;Entry&lt;String, String&gt;&gt; iter = set.iterator();
+<a class="jxr_linenumber" name="L375" href="#L375">375</a>          <strong class="jxr_keyword">while</strong> (iter.hasNext()) {
+<a class="jxr_linenumber" name="L376" href="#L376">376</a>               Entry&lt;String, String&gt; me = iter.next();
+<a class="jxr_linenumber" name="L377" href="#L377">377</a>               <strong class="jxr_keyword">double</strong> value = Double.parseDouble((String) me.getValue());
+<a class="jxr_linenumber" name="L378" href="#L378">378</a>               <strong class="jxr_keyword">switch</strong> ((String) me.getKey()) {
+<a class="jxr_linenumber" name="L379" href="#L379">379</a>                   <strong class="jxr_keyword">case</strong> <span class="jxr_string">"damage"</span>: {
+<a class="jxr_linenumber" name="L380" href="#L380">380</a>                           <strong class="jxr_keyword">if</strong> (value &gt;= 0.0) {
+<a class="jxr_linenumber" name="L381" href="#L381">381</a>                               QueueProvider.offer(me.getKey() + <span class="jxr_string">": "</span> + <strong class="jxr_keyword">this</strong>.getDamage() + <span class="jxr_string">" (+"</span> + me.getValue() + <span class="jxr_string">")"</span>);
+<a class="jxr_linenumber" name="L382" href="#L382">382</a>                           } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L383" href="#L383">383</a>                               QueueProvider.offer(me.getKey() + <span class="jxr_string">": "</span> + <strong class="jxr_keyword">this</strong>.getDamage() + <span class="jxr_string">" ("</span> + me.getValue() + <span class="jxr_string">")"</span>);
+<a class="jxr_linenumber" name="L384" href="#L384">384</a>                           }
+<a class="jxr_linenumber" name="L385" href="#L385">385</a>                           <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L386" href="#L386">386</a>                     }
+<a class="jxr_linenumber" name="L387" href="#L387">387</a>                     <strong class="jxr_keyword">case</strong> <span class="jxr_string">"health"</span>: {
+<a class="jxr_linenumber" name="L388" href="#L388">388</a>                           <strong class="jxr_keyword">if</strong> (value &gt;= 0) {
+<a class="jxr_linenumber" name="L389" href="#L389">389</a>                               QueueProvider.offer(me.getKey() + <span class="jxr_string">": "</span> + <strong class="jxr_keyword">this</strong>.getHealth() + <span class="jxr_string">" (+"</span> + me.getValue() + <span class="jxr_string">")"</span>);
+<a class="jxr_linenumber" name="L390" href="#L390">390</a>                           } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L391" href="#L391">391</a>                               QueueProvider.offer(me.getKey() + <span class="jxr_string">": "</span> + <strong class="jxr_keyword">this</strong>.getHealth() + <span class="jxr_string">" ("</span> + me.getValue() + <span class="jxr_string">")"</span>);
+<a class="jxr_linenumber" name="L392" href="#L392">392</a>                           }
+<a class="jxr_linenumber" name="L393" href="#L393">393</a>                           <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L394" href="#L394">394</a>                     }
+<a class="jxr_linenumber" name="L395" href="#L395">395</a>                     <strong class="jxr_keyword">case</strong> <span class="jxr_string">"armour"</span>: {
+<a class="jxr_linenumber" name="L396" href="#L396">396</a>                           <strong class="jxr_keyword">if</strong> (value &gt;= 0) {
+<a class="jxr_linenumber" name="L397" href="#L397">397</a>                               QueueProvider.offer(me.getKey() + <span class="jxr_string">": "</span> + <strong class="jxr_keyword">this</strong>.getArmour() + <span class="jxr_string">" (+"</span> + me.getValue() + <span class="jxr_string">")"</span>);
+<a class="jxr_linenumber" name="L398" href="#L398">398</a>                           } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L399" href="#L399">399</a>                               QueueProvider.offer(me.getKey() + <span class="jxr_string">": "</span> + <strong class="jxr_keyword">this</strong>.getArmour() + <span class="jxr_string">" ("</span> + me.getValue() + <span class="jxr_string">")"</span>);
+<a class="jxr_linenumber" name="L400" href="#L400">400</a>                           }
+<a class="jxr_linenumber" name="L401" href="#L401">401</a>                           <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L402" href="#L402">402</a>                     }
+<a class="jxr_linenumber" name="L403" href="#L403">403</a>                     <strong class="jxr_keyword">case</strong> <span class="jxr_string">"maxHealth"</span>: {
+<a class="jxr_linenumber" name="L404" href="#L404">404</a>                           <strong class="jxr_keyword">if</strong> (value  &gt;= 0) {
+<a class="jxr_linenumber" name="L405" href="#L405">405</a>                               QueueProvider.offer(me.getKey() + <span class="jxr_string">": "</span> + <strong class="jxr_keyword">this</strong>.getHealthMax() + <span class="jxr_string">" (+"</span> + me.getValue() + <span class="jxr_string">")"</span>);
+<a class="jxr_linenumber" name="L406" href="#L406">406</a>                           } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L407" href="#L407">407</a>                               QueueProvider.offer(me.getKey() + <span class="jxr_string">": "</span> + <strong class="jxr_keyword">this</strong>.getHealthMax() + <span class="jxr_string">" ("</span> + me.getValue() + <span class="jxr_string">")"</span>);
+<a class="jxr_linenumber" name="L408" href="#L408">408</a>                           }
+<a class="jxr_linenumber" name="L409" href="#L409">409</a>                           <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L410" href="#L410">410</a>                     }
+<a class="jxr_linenumber" name="L411" href="#L411">411</a>               }
+<a class="jxr_linenumber" name="L412" href="#L412">412</a>          }
+<a class="jxr_linenumber" name="L413" href="#L413">413</a>     }
+<a class="jxr_linenumber" name="L414" href="#L414">414</a> 
+<a class="jxr_linenumber" name="L415" href="#L415">415</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> inspectItem(String itemName) {
+<a class="jxr_linenumber" name="L416" href="#L416">416</a>         List&lt;Item&gt; itemMap = searchItem(itemName, getStorage());
+<a class="jxr_linenumber" name="L417" href="#L417">417</a>         <strong class="jxr_keyword">if</strong> (itemMap.isEmpty()) {
+<a class="jxr_linenumber" name="L418" href="#L418">418</a>             itemMap = searchItem(itemName, getLocation().getItems());
+<a class="jxr_linenumber" name="L419" href="#L419">419</a>         }
+<a class="jxr_linenumber" name="L420" href="#L420">420</a>         <strong class="jxr_keyword">if</strong> (!itemMap.isEmpty()) {
+<a class="jxr_linenumber" name="L421" href="#L421">421</a>             <a href="../../../../com/jadventure/game/items/Item.html">Item</a> item = itemMap.get(0);
+<a class="jxr_linenumber" name="L422" href="#L422">422</a>             item.display();
+<a class="jxr_linenumber" name="L423" href="#L423">423</a>         } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L424" href="#L424">424</a>             QueueProvider.offer(<span class="jxr_string">"Item doesn't exist within your view."</span>);
+<a class="jxr_linenumber" name="L425" href="#L425">425</a>         }
+<a class="jxr_linenumber" name="L426" href="#L426">426</a>     }
+<a class="jxr_linenumber" name="L427" href="#L427">427</a> 
+<a class="jxr_linenumber" name="L428" href="#L428">428</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../com/jadventure/game/navigation/ILocation.html">ILocation</a> getLocation() {
+<a class="jxr_linenumber" name="L429" href="#L429">429</a>         <strong class="jxr_keyword">return</strong> location;
+<a class="jxr_linenumber" name="L430" href="#L430">430</a>     }
+<a class="jxr_linenumber" name="L431" href="#L431">431</a> 
+<a class="jxr_linenumber" name="L432" href="#L432">432</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setLocation(<a href="../../../../com/jadventure/game/navigation/ILocation.html">ILocation</a> location) {
+<a class="jxr_linenumber" name="L433" href="#L433">433</a>         <strong class="jxr_keyword">this</strong>.location = location;
+<a class="jxr_linenumber" name="L434" href="#L434">434</a>     }
+<a class="jxr_linenumber" name="L435" href="#L435">435</a> 
+<a class="jxr_linenumber" name="L436" href="#L436">436</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../com/jadventure/game/navigation/LocationType.html">LocationType</a> getLocationType() {
+<a class="jxr_linenumber" name="L437" href="#L437">437</a>     	<strong class="jxr_keyword">return</strong> getLocation().getLocationType();
+<a class="jxr_linenumber" name="L438" href="#L438">438</a>     }
+<a class="jxr_linenumber" name="L439" href="#L439">439</a> 
+<a class="jxr_linenumber" name="L440" href="#L440">440</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> attack(String opponentName) <strong class="jxr_keyword">throws</strong> DeathException {
+<a class="jxr_linenumber" name="L441" href="#L441">441</a>         <a href="../../../../com/jadventure/game/monsters/Monster.html">Monster</a> monsterOpponent = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L442" href="#L442">442</a>         <a href="../../../../com/jadventure/game/entities/NPC.html">NPC</a> npcOpponent = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L443" href="#L443">443</a>         List&lt;Monster&gt; monsters = getLocation().getMonsters();
+<a class="jxr_linenumber" name="L444" href="#L444">444</a>         List&lt;NPC&gt; npcs = getLocation().getNPCs();
+<a class="jxr_linenumber" name="L445" href="#L445">445</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; monsters.size(); i++) {
+<a class="jxr_linenumber" name="L446" href="#L446">446</a>              <strong class="jxr_keyword">if</strong> (monsters.get(i).monsterType.equalsIgnoreCase(opponentName)) {
+<a class="jxr_linenumber" name="L447" href="#L447">447</a>                  monsterOpponent = monsters.get(i);
+<a class="jxr_linenumber" name="L448" href="#L448">448</a>              }
+<a class="jxr_linenumber" name="L449" href="#L449">449</a>         }
+<a class="jxr_linenumber" name="L450" href="#L450">450</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i=0; i &lt; npcs.size(); i++) {
+<a class="jxr_linenumber" name="L451" href="#L451">451</a>             <strong class="jxr_keyword">if</strong> (npcs.get(i).getName().equalsIgnoreCase(opponentName)) {
+<a class="jxr_linenumber" name="L452" href="#L452">452</a>                 npcOpponent = npcs.get(i);
+<a class="jxr_linenumber" name="L453" href="#L453">453</a>             }
+<a class="jxr_linenumber" name="L454" href="#L454">454</a>         }
+<a class="jxr_linenumber" name="L455" href="#L455">455</a>         <strong class="jxr_keyword">if</strong> (monsterOpponent != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L456" href="#L456">456</a>             monsterOpponent.setName(monsterOpponent.monsterType);
+<a class="jxr_linenumber" name="L457" href="#L457">457</a>             <strong class="jxr_keyword">new</strong> <a href="../../../../com/jadventure/game/menus/BattleMenu.html">BattleMenu</a>(monsterOpponent, <strong class="jxr_keyword">this</strong>);
+<a class="jxr_linenumber" name="L458" href="#L458">458</a>         } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (npcOpponent != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L459" href="#L459">459</a>             <strong class="jxr_keyword">new</strong> <a href="../../../../com/jadventure/game/menus/BattleMenu.html">BattleMenu</a>(npcOpponent, <strong class="jxr_keyword">this</strong>);
+<a class="jxr_linenumber" name="L460" href="#L460">460</a>         } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L461" href="#L461">461</a>              QueueProvider.offer(<span class="jxr_string">"Opponent not found"</span>);
+<a class="jxr_linenumber" name="L462" href="#L462">462</a>         }
+<a class="jxr_linenumber" name="L463" href="#L463">463</a>     }
+<a class="jxr_linenumber" name="L464" href="#L464">464</a> 
+<a class="jxr_linenumber" name="L465" href="#L465">465</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> hasItem(<a href="../../../../com/jadventure/game/items/Item.html">Item</a> item) {
+<a class="jxr_linenumber" name="L466" href="#L466">466</a>         List&lt;Item&gt; searchEquipment = searchEquipment(item.getName(), getEquipment());
+<a class="jxr_linenumber" name="L467" href="#L467">467</a>         List&lt;Item&gt; searchStorage = searchItem(item.getName(), getStorage());
+<a class="jxr_linenumber" name="L468" href="#L468">468</a>         <strong class="jxr_keyword">return</strong> !(searchEquipment.size() == 0 &amp;&amp; searchStorage.size() == 0);
+<a class="jxr_linenumber" name="L469" href="#L469">469</a>     }
+<a class="jxr_linenumber" name="L470" href="#L470">470</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2014. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2015. All rights reserved.</div>
 </body>
 </html>

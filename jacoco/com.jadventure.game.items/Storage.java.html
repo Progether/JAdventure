@@ -11,17 +11,17 @@ import com.jadventure.game.QueueProvider;
 public class Storage {
     public final static double WEIGHT_UNLIMITED = -1;
     private double maxWeight;
-<span class="fc" id="L14">    private List&lt;ItemStack&gt; items = null;</span>
+<span class="fc" id="L14">	private List&lt;ItemStack&gt; itemStacks = null;</span>
 
     public Storage() {
-<span class="nc" id="L17">        this(WEIGHT_UNLIMITED);</span>
-<span class="nc" id="L18">    }</span>
+<span class="fc" id="L17">        this(WEIGHT_UNLIMITED);</span>
+<span class="fc" id="L18">    }</span>
 	public Storage(double maxWeight) {
 <span class="fc" id="L20">        this(maxWeight, new ArrayList&lt;ItemStack&gt;());</span>
 <span class="fc" id="L21">	}</span>
 <span class="fc" id="L22">    public Storage(double maxWeight, List&lt;ItemStack&gt; items) {</span>
 <span class="fc" id="L23">        this.maxWeight = maxWeight;</span>
-<span class="fc" id="L24">        this.items = items;</span>
+<span class="fc" id="L24">        this.itemStacks = items;</span>
 <span class="fc" id="L25">    }</span>
 
 	public double getMaxWeight() {
@@ -33,7 +33,7 @@ public class Storage {
      * same type of item as the argument.
      */
     private boolean contains(ItemStack item) {
-<span class="fc bfc" id="L36" title="All 2 branches covered.">        for (ItemStack itemStack : this.items) {</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        for (ItemStack itemStack : this.itemStacks) {</span>
 <span class="fc bfc" id="L37" title="All 2 branches covered.">            if (itemStack.getItem().equals(item.getItem())) {</span>
 <span class="fc" id="L38">                return true;</span>
             }
@@ -47,94 +47,137 @@ public class Storage {
      * This prevents duplicate items in your backpack.
      */
     private ItemStack getSameType(ItemStack item) {
-<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        for (ItemStack itemStack : this.items) {</span>
-<span class="pc bpc" id="L51" title="1 of 2 branches missed.">            if (itemStack.getItem().equals(item.getItem())) {</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        for (ItemStack itemStack : this.itemStacks) {</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">            if (itemStack.getItem().equals(item.getItem())) {</span>
 <span class="fc" id="L52">                return itemStack;</span>
             }
-<span class="nc" id="L54">        }</span>
+<span class="fc" id="L54">        }</span>
 <span class="nc" id="L55">        return null;</span>
     }
+
+    public void add(Item item) {
+<span class="fc" id="L59">        addItem(new ItemStack(1, item));</span>
+<span class="fc" id="L60">    }</span>
 
     /**
      * Adds an ItemStack to the items list.
      */
     public void addItem(ItemStack itemStack) {
-<span class="fc" id="L62">        double totalWeight = itemStack.getItem().getWeight() * itemStack.getAmount();</span>
-<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        if (totalWeight &lt; this.maxWeight) {</span>
-<span class="fc bfc" id="L64" title="All 2 branches covered.">            if (contains(itemStack)) {</span>
-<span class="fc" id="L65">                ItemStack sameType = this.getSameType(itemStack);</span>
-<span class="fc" id="L66">                this.items.remove(sameType);</span>
-<span class="fc" id="L67">                this.items.add(new ItemStack(sameType.getAmount()+1, sameType.getItem()));</span>
-<span class="fc" id="L68">            } else {</span>
-<span class="fc" id="L69">                this.items.add(itemStack);</span>
+<span class="fc" id="L66">        boolean canBeAdded = true;</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        if (hasMaxWeight()) {</span>
+<span class="fc" id="L68">            double totalWeight = itemStack.getItem().getWeight() * itemStack.getAmount();</span>
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">            if (totalWeight &gt; maxWeight) {</span>
+<span class="nc" id="L70">                canBeAdded = false;</span>
             }
         }
-<span class="fc" id="L72">    }</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        if (canBeAdded) {</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">            if (contains(itemStack)) {</span>
+<span class="fc" id="L75">                ItemStack sameType = this.getSameType(itemStack);</span>
+<span class="fc" id="L76">                this.itemStacks.remove(sameType);</span>
+<span class="fc" id="L77">                this.itemStacks.add(new ItemStack(sameType.getAmount()+1, sameType.getItem()));</span>
+<span class="fc" id="L78">            } else {</span>
+<span class="fc" id="L79">                this.itemStacks.add(itemStack);</span>
+            }
+        }
+<span class="fc" id="L82">    }</span>
+
+    private boolean hasMaxWeight() {
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        return (maxWeight == -1) ? false : true;</span>
+    }
 
     /**
      * Removes one Item from the ItemStack and replaces the old ItemStack
      * in this.items with the new one.
      */
-    public void removeItem(ItemStack item) {
-<span class="nc" id="L79">        this.removeItem(item, 1);</span>
-<span class="nc" id="L80">    }</span>
+    public Item removeItem(ItemStack item) {
+<span class="fc" id="L93">        return removeItem(item, 1);</span>
+    }
+    public Item remove(Item item) {
+<span class="fc" id="L96">        return removeItem(new ItemStack(0, item), 1);</span>
+    }
 
     /**
-     * Removes amount of Item's from the ItemStack and replaces the old ItemStack
+     * Removes amount of Items from the ItemStack and replaces the old ItemStack
      * in this.items with the new one.
      */
-    public void removeItem(ItemStack item, int amount) {
-<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (this.contains(item)) {</span>
-<span class="nc" id="L88">            ItemStack sameType = this.getSameType(item);</span>
-<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (sameType.getAmount()-amount &lt;= 0) {</span>
-<span class="nc" id="L90">                this.items.remove(sameType);</span>
+    public Item removeItem(ItemStack itemStack, int amount) {
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        if (contains(itemStack)) {</span>
+<span class="fc" id="L105">            ItemStack sameType = getSameType(itemStack);</span>
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">            if (sameType.getAmount() - amount &lt;= 0) {</span>
+<span class="fc" id="L107">                itemStacks.remove(sameType);</span>
             } else {
-<span class="nc" id="L92">                this.items.remove(sameType);</span>
-<span class="nc" id="L93">                this.items.add(new ItemStack(sameType.getAmount()-amount, sameType.getItem()));</span>
+<span class="nc" id="L109">                itemStacks.remove(sameType);</span>
+<span class="nc" id="L110">                itemStacks.add(new ItemStack(sameType.getAmount() - amount, sameType.getItem()));</span>
             }
+<span class="fc" id="L112">            return itemStack.getItem();</span>
         }
-<span class="nc" id="L96">    }</span>
+<span class="fc" id="L114">        return null;</span>
+    }
 
     /**
      * Prints out the content of the backpack to the console.
      */
     public void display() {
-<span class="nc" id="L102">            QueueProvider.offer(&quot;\n--------------------------------------------------------------------&quot;);</span>
-<span class="nc" id="L103">            QueueProvider.offer(&quot;Backpack: &quot;);</span>
-<span class="nc" id="L104">            QueueProvider.offer(this.toString());</span>
-<span class="nc" id="L105">            QueueProvider.offer(&quot;--------------------------------------------------------------------&quot;);</span>
-<span class="nc" id="L106">    }</span>
+<span class="nc" id="L121">            QueueProvider.offer(&quot;\n--------------------------------------------------------------------&quot;);</span>
+<span class="nc" id="L122">            QueueProvider.offer(&quot;Backpack: &quot;);</span>
+<span class="nc" id="L123">            QueueProvider.offer(this.toString());</span>
+<span class="nc" id="L124">            QueueProvider.offer(&quot;--------------------------------------------------------------------&quot;);</span>
+<span class="nc" id="L125">    }</span>
 
     public boolean isEmpty() {
-<span class="nc" id="L109">        return this.items.isEmpty();</span>
+<span class="nc" id="L128">        return this.itemStacks.isEmpty();</span>
     }
 
-    public List&lt;ItemStack&gt; getItems() {
-<span class="fc" id="L113">        return this.items;</span>
+    public List&lt;Item&gt; search(String name) {
+<span class="fc" id="L132">        List&lt;Item&gt; items = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        for (ItemStack itemStack : itemStacks) {</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">            if (itemStack.getItem().getName().equalsIgnoreCase(name)) {</span>
+<span class="fc" id="L135">                items.add(itemStack.getItem());</span>
+            }
+<span class="fc" id="L137">        }</span>
+<span class="fc" id="L138">        return items;</span>
+    }
+    
+    public List&lt;Item&gt; getItems() {
+<span class="fc" id="L142">        List&lt;Item&gt; items = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        for (ItemStack itemStack : itemStacks) {</span>
+<span class="fc" id="L144">            items.add(itemStack.getItem());</span>
+<span class="fc" id="L145">        }</span>
+<span class="fc" id="L146">        return items;</span>
     }
 
     public String toString() {
-<span class="nc bnc" id="L117" title="All 2 branches missed.">        if (this.items.isEmpty()) {</span>
-<span class="nc" id="L118">            return &quot;--Empty--&quot;;</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">        if (this.itemStacks.isEmpty()) {</span>
+<span class="nc" id="L151">            return &quot;--Empty--&quot;;</span>
         } else {
-<span class="nc" id="L120">            String content = &quot;&quot;;</span>
-<span class="nc bnc" id="L121" title="All 2 branches missed.">            for (ItemStack item : this.items) {</span>
-<span class="nc" id="L122">                content += &quot;- &quot; + item.getItem().getName() + &quot; : &quot; + item.getAmount() + &quot;\n&quot;;</span>
-<span class="nc" id="L123">            }</span>
-<span class="nc" id="L124">            return content;</span>
+<span class="nc" id="L153">            String content = &quot;&quot;;</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">            for (ItemStack item : this.itemStacks) {</span>
+<span class="nc" id="L155">                content += &quot;- &quot; + item.getItem().getName() + &quot; : &quot; + item.getAmount() + &quot;\n&quot;;</span>
+<span class="nc" id="L156">            }</span>
+<span class="nc" id="L157">            return content;</span>
         }
+    }
+    public List&lt;ItemStack&gt; getItemStack() {
+<span class="nc" id="L161">        return itemStacks;</span>
+    }
+    public Integer calculateWeight() {
+<span class="fc" id="L164">        int weight = 0;</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        for (ItemStack itemStask : itemStacks) {</span>
+<span class="fc" id="L166">            weight += itemStask.getAmount() * itemStask.getItem().getProperty(&quot;weight&quot;);</span>
+<span class="fc" id="L167">        }</span>
+<span class="fc" id="L168">        return Integer.valueOf(weight);</span>
     }
 
     public String displayWithValue() {
-<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (this.items.isEmpty()) {</span>
-<span class="nc" id="L130">            return &quot;--Empty--&quot;;</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">        if (itemStacks.isEmpty()) {</span>
+<span class="nc" id="L173">            return &quot;--Empty--&quot;;</span>
         } else {
-<span class="nc" id="L132">            String content = &quot;&quot;;</span>
-<span class="nc bnc" id="L133" title="All 2 branches missed.">            for (ItemStack item : this.items) {</span>
-<span class="nc" id="L134">                int value = item.getItem().getProperties().get(&quot;value&quot;);</span>
-<span class="nc" id="L135">                content += &quot;- &quot; + item.getItem().getName() + &quot; : &quot; + item.getAmount() + &quot; at &quot; + value + &quot; gold coins each\n&quot;;</span>
-<span class="nc" id="L136">            }</span>
-<span class="nc" id="L137">            return content;</span>
+<span class="nc" id="L175">            String content = &quot;&quot;;</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">            for (ItemStack itemStack : itemStacks) {</span>
+<span class="nc" id="L177">                int value = itemStack.getItem().getProperties().get(&quot;value&quot;);</span>
+<span class="nc" id="L178">                content += &quot;- &quot; + itemStack.getItem().getName() + &quot; : &quot; + itemStack.getAmount() + &quot; at &quot; + value + &quot; gold coins each\n&quot;;</span>
+<span class="nc" id="L179">            }</span>
+<span class="nc" id="L180">            return content;</span>
         }
     }
 

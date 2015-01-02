@@ -11,8 +11,12 @@ public class Troll extends Monster {
 <span class="nc" id="L11">		this.setArmour(playerLevel + 12);</span>
 <span class="nc" id="L12">		this.setDamage(20 + playerLevel * 3);</span>
 <span class="nc" id="L13">		this.setCritChance(0.05);</span>
-<span class="nc" id="L14">        this.setXPGain(75 + playerLevel * 3);</span>
-<span class="nc" id="L15">		this.setGold(25 + playerLevel * 10);</span>
-<span class="nc" id="L16">	}</span>
+<span class="nc" id="L14">                this.setIntelligence(1);</span>
+<span class="nc" id="L15">                this.setStealth(1);</span>
+<span class="nc" id="L16">                this.setDexterity(1);</span>
+<span class="nc" id="L17">                this.setXPGain(75 + playerLevel * 3);</span>
+<span class="nc" id="L18">		this.setGold(25 + playerLevel * 10);</span>
+<span class="nc" id="L19">                addRandomItems(playerLevel, &quot;wbrd1&quot;, &quot;ashi1&quot;, &quot;pmil2&quot;);</span>
+<span class="nc" id="L20">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

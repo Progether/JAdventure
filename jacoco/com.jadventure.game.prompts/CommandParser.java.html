@@ -75,7 +75,7 @@ public class CommandParser {
                         }
 <span class="nc" id="L76">                    }</span>
 <span class="nc bnc" id="L77" title="All 2 branches missed.">                } else if (method.getParameterTypes()[0] == String.class) {</span>
-<span class="nc" id="L78">                    String arg = command.substring(key.length());</span>
+<span class="nc" id="L78">                    String arg = command.substring(key.length()).trim();</span>
                     try {
 <span class="nc bnc" id="L80" title="All 2 branches missed.">                        if (method.getAnnotation(Command.class).debug()) {</span>
 <span class="nc bnc" id="L81" title="All 2 branches missed.">                            if (&quot;test&quot;.equals(player.getName())) {</span>

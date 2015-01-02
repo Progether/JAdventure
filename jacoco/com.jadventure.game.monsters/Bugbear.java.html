@@ -12,10 +12,13 @@ public class Bugbear extends Monster {
 <span class="nc" id="L12">		this.setHealth(50 + playerLevel * 5);</span>
 <span class="nc" id="L13">		this.setArmour(playerLevel);</span>
 <span class="nc" id="L14">		this.setDamage(10 + playerLevel * 2);</span>
-<span class="nc" id="L15">		this.setCritChance(0.02);</span>
-<span class="nc" id="L16">        this.setXPGain(30 + playerLevel * 3);</span>
-<span class="nc" id="L17">		this.setGold(playerLevel * 3);</span>
-<span class="nc" id="L18">	    this.getStorage().addItem(new ItemStack(1, itemRepo.getItem(&quot;pmil1&quot;)));</span>
-<span class="nc" id="L19">	}</span>
+<span class="nc" id="L15">                this.setIntelligence(1);</span>
+<span class="nc" id="L16">                this.setStealth(1);</span>
+<span class="nc" id="L17">                this.setDexterity(1);</span>
+<span class="nc" id="L18">		this.setCritChance(0.02);</span>
+<span class="nc" id="L19">                this.setXPGain(30 + playerLevel * 3);</span>
+<span class="nc" id="L20">                this.setGold(playerLevel * 3);</span>
+<span class="nc" id="L21">                addRandomItems(playerLevel, &quot;fram1&quot;, &quot;pmil1&quot;);</span>
+<span class="nc" id="L22">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

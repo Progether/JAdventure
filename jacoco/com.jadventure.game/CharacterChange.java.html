@@ -1,42 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CharacterChange.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java Text Adventure</a> &gt; <a href="index.source.html" class="el_package">com.jadventure.game</a> &gt; <span class="el_source">CharacterChange.java</span></div><h1>CharacterChange.java</h1><pre class="source lang-java linenums">package com.jadventure.game;
 
-import com.jadventure.game.entities.Player;
-import com.jadventure.game.QueueProvider;
-
-import com.google.gson.JsonObject;
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonElement;
-
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
-<span class="nc" id="L19">public class CharacterChange {</span>
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.jadventure.game.entities.Player;
+
+<span class="nc" id="L15">public class CharacterChange {</span>
     public void trigger(Player player, String triggerType, String keyword) {
-<span class="nc" id="L21">        JsonParser parser = new JsonParser();</span>
-<span class="nc" id="L22">        String fileName = &quot;json/character_transitions.json&quot;;</span>
+<span class="nc" id="L17">        JsonParser parser = new JsonParser();</span>
+<span class="nc" id="L18">        String fileName = &quot;json/character_transitions.json&quot;;</span>
         try {
-<span class="nc" id="L24">            Reader reader = new FileReader(fileName);</span>
-<span class="nc" id="L25">            JsonObject json = parser.parse(reader).getAsJsonObject();</span>
+<span class="nc" id="L20">            Reader reader = new FileReader(fileName);</span>
+<span class="nc" id="L21">            JsonObject json = parser.parse(reader).getAsJsonObject();</span>
 
-<span class="nc" id="L27">            String currentCharacter = player.getCurrentCharacterType();</span>
+<span class="nc" id="L23">            String currentCharacter = player.getCurrentCharacterType();</span>
 
             JsonObject currentCharacterTransitions;
             JsonObject events;
-<span class="nc" id="L31">            JsonObject characterEffects = new JsonObject();</span>
-<span class="nc" id="L32">            boolean goAhead = false;</span>
-<span class="nc bnc" id="L33" title="All 2 branches missed.">            if (json.has(currentCharacter)) {</span>
-<span class="nc" id="L34">                currentCharacterTransitions = json.get(currentCharacter).getAsJsonObject();</span>
-<span class="nc bnc" id="L35" title="All 2 branches missed.">                if (currentCharacterTransitions.has(triggerType)) {</span>
-<span class="nc" id="L36">                    events = currentCharacterTransitions.get(triggerType).getAsJsonObject();</span>
-<span class="nc bnc" id="L37" title="All 2 branches missed.">                    if (events.has(keyword)) {</span>
-<span class="nc" id="L38">                        characterEffects = events.get(keyword).getAsJsonObject();</span>
-<span class="nc" id="L39">                        goAhead = true;</span>
+<span class="nc" id="L27">            JsonObject characterEffects = new JsonObject();</span>
+<span class="nc" id="L28">            boolean goAhead = false;</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">            if (json.has(currentCharacter)) {</span>
+<span class="nc" id="L30">                currentCharacterTransitions = json.get(currentCharacter).getAsJsonObject();</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">                if (currentCharacterTransitions.has(triggerType)) {</span>
+<span class="nc" id="L32">                    events = currentCharacterTransitions.get(triggerType).getAsJsonObject();</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">                    if (events.has(keyword)) {</span>
+<span class="nc" id="L34">                        characterEffects = events.get(keyword).getAsJsonObject();</span>
+<span class="nc" id="L35">                        goAhead = true;</span>
                     } else {
                         //QueueProvider.offer(&quot;Warning: The effects for the '&quot; + triggerType + &quot;' event and the '&quot; + currentCharacter + &quot;' character was not found&quot;);
                     }
@@ -47,46 +43,46 @@ import java.util.Map.Entry;
                 //QueueProvider.offer(&quot;Warning: The character '&quot; + currentCharacter + &quot;' was not found&quot;);
             }
 
-<span class="nc bnc" id="L50" title="All 2 branches missed.">            if (goAhead == true) {</span>
-<span class="nc bnc" id="L51" title="All 2 branches missed.">                for (Map.Entry&lt;String, JsonElement&gt; entry : characterEffects.entrySet()) {</span>
-<span class="nc" id="L52">                    String characterName = entry.getKey();</span>
-<span class="nc" id="L53">                    int characterLevelEffect = entry.getValue().getAsInt();</span>
-<span class="nc" id="L54">                    int characterLevel = player.getCharacterLevel(characterName); </span>
-<span class="nc" id="L55">                    int newCharacterLevel = characterLevel + characterLevelEffect;</span>
-<span class="nc" id="L56">                    player.setCharacterLevel(characterName, newCharacterLevel);</span>
-<span class="nc" id="L57">                    checkForCharacterChange(player);</span>
-<span class="nc" id="L58">                }</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">            if (goAhead == true) {</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">                for (Map.Entry&lt;String, JsonElement&gt; entry : characterEffects.entrySet()) {</span>
+<span class="nc" id="L48">                    String characterName = entry.getKey();</span>
+<span class="nc" id="L49">                    int characterLevelEffect = entry.getValue().getAsInt();</span>
+<span class="nc" id="L50">                    int characterLevel = player.getCharacterLevel(characterName); </span>
+<span class="nc" id="L51">                    int newCharacterLevel = characterLevel + characterLevelEffect;</span>
+<span class="nc" id="L52">                    player.setCharacterLevel(characterName, newCharacterLevel);</span>
+<span class="nc" id="L53">                    checkForCharacterChange(player);</span>
+<span class="nc" id="L54">                }</span>
             }
 
-<span class="nc" id="L61">        } catch (FileNotFoundException ex) {</span>
-<span class="nc" id="L62">            ex.printStackTrace();</span>
-<span class="nc" id="L63">        }</span>
-<span class="nc" id="L64">    }</span>
+<span class="nc" id="L57">        } catch (FileNotFoundException ex) {</span>
+<span class="nc" id="L58">            ex.printStackTrace();</span>
+<span class="nc" id="L59">        }</span>
+<span class="nc" id="L60">    }</span>
 
     public void checkForCharacterChange(Player player) {
-<span class="nc" id="L67">        HashMap&lt;String, Integer&gt; characterLevels = player.getCharacterLevels();</span>
-<span class="nc" id="L68">        String currentCharacter = player.getCurrentCharacterType();</span>
-<span class="nc" id="L69">        int highestCharacterLevel = player.getCharacterLevel(currentCharacter);</span>
-<span class="nc" id="L70">        String highestCharacter = currentCharacter;</span>
-<span class="nc" id="L71">        Iterator it = characterLevels.entrySet().iterator();</span>
-<span class="nc bnc" id="L72" title="All 2 branches missed.">        while (it.hasNext()) {</span>
-<span class="nc" id="L73">            Map.Entry pairs = (Map.Entry)it.next();</span>
-<span class="nc" id="L74">            int value = (int)pairs.getValue();</span>
-<span class="nc bnc" id="L75" title="All 2 branches missed.">            if (value &gt; highestCharacterLevel) {</span>
-<span class="nc" id="L76">                highestCharacterLevel = value;</span>
-<span class="nc" id="L77">                highestCharacter = (String)pairs.getKey();</span>
+<span class="nc" id="L63">        HashMap&lt;String, Integer&gt; characterLevels = player.getCharacterLevels();</span>
+<span class="nc" id="L64">        String currentCharacter = player.getCurrentCharacterType();</span>
+<span class="nc" id="L65">        int highestCharacterLevel = player.getCharacterLevel(currentCharacter);</span>
+<span class="nc" id="L66">        String highestCharacter = currentCharacter;</span>
+<span class="nc" id="L67">        Iterator it = characterLevels.entrySet().iterator();</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        while (it.hasNext()) {</span>
+<span class="nc" id="L69">            Map.Entry pairs = (Map.Entry)it.next();</span>
+<span class="nc" id="L70">            int value = (int)pairs.getValue();</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            if (value &gt; highestCharacterLevel) {</span>
+<span class="nc" id="L72">                highestCharacterLevel = value;</span>
+<span class="nc" id="L73">                highestCharacter = (String)pairs.getKey();</span>
             }
-<span class="nc" id="L79">        }</span>
-<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (!highestCharacter.equals(currentCharacter)) {</span>
-<span class="nc" id="L81">            player.setCurrentCharacterType(highestCharacter);</span>
-<span class="nc" id="L82">            QueueProvider.offer(&quot;You're character type is now changed! You are now a &quot; + highestCharacter + &quot;!&quot;);</span>
+<span class="nc" id="L75">        }</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (!highestCharacter.equals(currentCharacter)) {</span>
+<span class="nc" id="L77">            player.setCurrentCharacterType(highestCharacter);</span>
+<span class="nc" id="L78">            QueueProvider.offer(&quot;You're character type is now changed! You are now a &quot; + highestCharacter + &quot;!&quot;);</span>
         }
-<span class="nc" id="L84">        it = characterLevels.entrySet().iterator();</span>
-<span class="nc bnc" id="L85" title="All 2 branches missed.">        while (it.hasNext()) {</span>
-<span class="nc" id="L86">            Map.Entry pairs = (Map.Entry)it.next();</span>
-<span class="nc" id="L87">            player.setCharacterLevel((String)pairs.getKey(), (int)pairs.getValue());</span>
-<span class="nc" id="L88">        }</span>
-<span class="nc" id="L89">    }</span>
+<span class="nc" id="L80">        it = characterLevels.entrySet().iterator();</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        while (it.hasNext()) {</span>
+<span class="nc" id="L82">            Map.Entry pairs = (Map.Entry)it.next();</span>
+<span class="nc" id="L83">            player.setCharacterLevel((String)pairs.getKey(), (int)pairs.getValue());</span>
+<span class="nc" id="L84">        }</span>
+<span class="nc" id="L85">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

@@ -10,9 +10,13 @@ public class Giant extends Monster {
 <span class="nc" id="L10">		this.setHealth(150 + playerLevel * 8);</span>
 <span class="nc" id="L11">		this.setArmour(6 + playerLevel * 3);</span>
 <span class="nc" id="L12">		this.setDamage(40 + playerLevel * 3);</span>
-<span class="nc" id="L13">		this.setCritChance(0.03);</span>
-<span class="nc" id="L14">        this.setXPGain(50 + playerLevel * 3);</span>
-<span class="nc" id="L15">		this.setGold(15 + playerLevel * 11);</span>
-<span class="nc" id="L16">	}</span>
+<span class="nc" id="L13">                this.setIntelligence(3);</span>
+<span class="nc" id="L14">                this.setStealth(1);</span>
+<span class="nc" id="L15">                this.setDexterity(1);</span>
+<span class="nc" id="L16">		this.setCritChance(0.03);</span>
+<span class="nc" id="L17">                this.setXPGain(50 + playerLevel * 3);</span>
+<span class="nc" id="L18">		this.setGold(15 + playerLevel * 11);</span>
+<span class="nc" id="L19">                addRandomItems(playerLevel, &quot;wrbd1&quot;);</span>
+<span class="nc" id="L20">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
