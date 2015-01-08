@@ -186,7 +186,7 @@ public enum CommandCollection {
         player.dequipItem(arg.trim());
     }
 
-    @Command(command="view", aliases="v", description="View details", debug=false)
+    @Command(command="view", aliases="v", description="View details for 'stats', 'equipped' or 'backpack'", debug=false)
     public void command_v(String arg) {
         arg = arg.trim();
         switch (arg) {
