@@ -86,7 +86,7 @@ You can download the game with:
 
 ###Run with Ant###
 
-Install apache-ant
+Install [apache-ant](http://ant.apache.org) and [ant-ivy](http://ant.apache.org/ivy/).
 
 Run the game with:
 
