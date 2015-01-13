@@ -223,7 +223,7 @@ public class Player extends Entity {
     public void getStats(){
         Item weapon = itemRepo.getItem(getWeapon());
         String weaponName = weapon.getName();
-        if (weaponName.equals(null) || weaponName.equals("empty")){
+        if (weaponName.equals(null)) {
             weaponName = "hands";
         }
         String message = "\nPlayer name: " + getName();
