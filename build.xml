@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="JAdventure" basedir="." default="main">
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="JAdventure" basedir="." default="main">
 
   <property name="src.dir" value="src/main/java" />
   <property name="src.test.dir" value="src/test/java" />
@@ -23,7 +23,11 @@
   </path>
   <path id="application" location="${jar.dir}/${ant.project.name}.jar"/>
 
-  <target name="compile">
+  <target name="resolve">
+    <ivy:retrieve />
+  </target>
+
+  <target name="compile" depends="resolve">
     <mkdir dir="${classes.dir}"/>
     <javac debug="true" includeantruntime="false" srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath"/>
     <javac debug="true" includeantruntime="false" srcdir="${src.test.dir}" destdir="${classes.dir}" classpathref="classpath"/>
