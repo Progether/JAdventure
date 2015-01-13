@@ -258,7 +258,7 @@ public abstract class Entity {
     public Map<String, String> unequipItem(Item item) {
         double oldDamage = damage;
         for (EquipmentLocation key : equipment.keySet()) {
-            if (equipment.get(key).equals(item)) {
+            if (item.equals(equipment.get(key))) {
                 equipment.put(key, null);
             }
         }
