@@ -146,7 +146,7 @@
       "type": "weapon",
       "name": "broadsword",
       "description": "a two handed broadsword",
-      "position": "twoHand",
+      "position": "bothHands",
       "level": 1,
       "properties": {
         "damage": "+10",

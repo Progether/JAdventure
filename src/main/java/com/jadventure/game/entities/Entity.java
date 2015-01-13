@@ -194,6 +194,20 @@ public abstract class Entity {
                 unequipItem(equipment.get(place));
             }
         }
+        if (place == EquipmentLocation.BOTH_HANDS) {
+            Item leftHand = equipment.get(EquipmentLocation.LEFT_HAND);
+            Item rightHand = equipment.get(EquipmentLocation.RIGHT_HAND);
+            if (leftHand != null && !empty.equals(leftHand)) {
+                unequipItem(leftHand);
+            }
+            if (rightHand != null && !empty.equals(rightHand)) {
+                unequipItem(rightHand);
+            }
+        }
+        Item bothHands = equipment.get(EquipmentLocation.BOTH_HANDS);
+        if (bothHands != null && !empty.equals(bothHands)) {
+            unequipItem(bothHands);
+        }
         equipment.put(place, item);
         removeItemFromStorage(item);
         Map<String, String> result = new HashMap<String, String>();
@@ -244,7 +258,7 @@ public abstract class Entity {
     public Map<String, String> unequipItem(Item item) {
         double oldDamage = damage;
         for (EquipmentLocation key : equipment.keySet()) {
-            if (equipment.get(key).equals(item)) {
+            if (item.equals(equipment.get(key))) {
                 equipment.put(key, null);
             }
         }

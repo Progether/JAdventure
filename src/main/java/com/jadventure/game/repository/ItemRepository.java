@@ -32,6 +32,7 @@ public class ItemRepository {
         EQUIPMENT_POSITION_MAP.put("leftHand", EquipmentLocation.LEFT_HAND);
         EQUIPMENT_POSITION_MAP.put("rightArm", EquipmentLocation.RIGHT_ARM);
         EQUIPMENT_POSITION_MAP.put("rightHand", EquipmentLocation.RIGHT_HAND);
+        EQUIPMENT_POSITION_MAP.put("bothHands", EquipmentLocation.BOTH_HANDS);
         EQUIPMENT_POSITION_MAP.put("legs", EquipmentLocation.LEGS);
         EQUIPMENT_POSITION_MAP.put("boots", EquipmentLocation.FEET);
     }
