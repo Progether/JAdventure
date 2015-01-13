@@ -202,7 +202,7 @@ public abstract class Entity {
             }
         }
         Item bothHands = equipment.get(EquipmentLocation.BOTH_HANDS);
-        if (bothHands != null) { 
+        if (bothHands != null && (EquipmentLocation.LEFT_HAND == place || EquipmentLocation.RIGHT_HAND == place)) { 
             unequipItem(bothHands);
         }
         equipment.put(place, item);
@@ -237,17 +237,17 @@ public abstract class Entity {
                     }
                 }
                 break;
-        }
-        case 'f': {
-            int healthOld = this.getHealth();
-            this.health += item.getProperty("health");
-            this.health = (this.health > this.healthMax) ? this.healthMax
-                    : this.health;
-            unequipItem(item); // One use only
-            removeItemFromStorage(item);
-            result.put("health", String.valueOf(health - healthOld));
-            break;
-        }
+            }
+            case 'f': {
+                int healthOld = this.getHealth();
+                this.health += item.getProperty("health");
+                this.health = (this.health > this.healthMax) ? this.healthMax
+                        : this.health;
+                unequipItem(item); // One use only
+                removeItemFromStorage(item);
+                result.put("health", String.valueOf(health - healthOld));
+                break;
+            }
         }
         return result;
     }
