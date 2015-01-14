@@ -158,7 +158,7 @@
       "type": "armour",
       "name": "wooden shield",
       "description": "a wooden shield, watch out for splinters!",
-      "position": "rightHand",
+      "position": "leftHand",
       "level": 1,
       "properties": {
         "armour": "+3",

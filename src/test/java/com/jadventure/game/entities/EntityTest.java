@@ -171,6 +171,21 @@ public class EntityTest {
         assertEquals(null, equipment.get(EquipmentLocation.BOTH_HANDS));
     }
 
+    @Test
+    public void testEquipItem_armour() {
+        ItemRepository itemRepo = GameBeans.getItemRepository();
+        int oldArmour = entity.getArmour();
+        Item item = itemRepo.getItem("ashi1");
+        Map<String, String> result = entity.equipItem(EquipmentLocation.LEFT_HAND, item);
+        assertFalse(result.get("armour") == null);
+        int newArmour = entity.getArmour();
+        int diffArmour = Integer.parseInt(result.get("armour"));
+
+        assertEquals(diffArmour, newArmour - oldArmour);
+        Map<EquipmentLocation, Item> equipment = entity.getEquipment();
+        assertEquals(item, equipment.get(EquipmentLocation.LEFT_HAND));
+    }
+
     private void testInt(Object test) {
         assertTrue(test instanceof Integer);
     }
