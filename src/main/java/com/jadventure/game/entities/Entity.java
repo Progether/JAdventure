@@ -275,19 +275,6 @@ public abstract class Entity {
             int diffArmour = armour - oldArmour;
             result.put("armour", String.valueOf(diffArmour));
         }
-        if (item.containsProperty("health")) {
-            int oldHealth = health;
-            health -= item.getProperty("health");
-            int diffHealth = health - oldHealth;
-            result.put("health", String.valueOf(diffHealth));
-        }
-        if (item.containsProperty("healthMax")) {
-            int oldHealthMax = armour;
-            healthMax -= item.getProperty("healthMax");
-            health = (health > healthMax) ? healthMax : health;
-            int diffHealthMax = healthMax - oldHealthMax;
-            result.put("healthMax", String.valueOf(diffHealthMax));
-        }
         return result;
     }
 
