@@ -158,7 +158,7 @@
       "type": "armour",
       "name": "wooden shield",
       "description": "a wooden shield, watch out for splinters!",
-      "position": "rightHand",
+      "position": "leftHand",
       "level": 1,
       "properties": {
         "armour": "+3",
@@ -216,14 +216,26 @@
     },
     "algt1": {
       "type": "armour",
-      "name": "leather gauntlet",
-      "description": "a leather gaunlet, it will do for now",
-      "position": "arms",
+      "name": "leather gauntlets",
+      "description": "leather gaunlets, they will do for now",
+      "position": "bothArms",
       "level": 1,
       "properties": {
         "armour": "+3",
         "weight": "10",
         "value": "50"
+      }
+    },
+    "albr1": {
+      "type": "armour",
+      "name": "leather arm brace",
+      "description": "a leather arm brace, like the gladiators of old would wear",
+      "position": "rightArm",
+      "level": 1,
+      "properties": {
+        "armour": "+2",
+        "weight": "5",
+        "value": "30"
       }
     },
     "tlap1": {

@@ -8,6 +8,7 @@ public enum EquipmentLocation {
     RIGHT_ARM,
     RIGHT_HAND,
     BOTH_HANDS,
+    BOTH_ARMS,
     LEGS,
     FEET
 }
