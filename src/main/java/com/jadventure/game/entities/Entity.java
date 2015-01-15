@@ -192,17 +192,16 @@ public abstract class Entity {
             unequipItem(equipment.get(place));
         }
         if (place == EquipmentLocation.BOTH_HANDS) {
-            Item leftHand = equipment.get(EquipmentLocation.LEFT_HAND);
-            Item rightHand = equipment.get(EquipmentLocation.RIGHT_HAND);
-            if (leftHand != null) {
-                unequipItem(leftHand);
-            }
-            if (rightHand != null) { 
-                unequipItem(rightHand);
-            }
-        }
+            unequipTwoPlaces(EquipmentLocation.LEFT_HAND, EquipmentLocation.RIGHT_HAND);
+        } else if (place == EquipmentLocation.BOTH_ARMS) {
+            unequipTwoPlaces(EquipmentLocation.LEFT_ARM, EquipmentLocation.RIGHT_ARM);
+        } 
         Item bothHands = equipment.get(EquipmentLocation.BOTH_HANDS);
         if (bothHands != null && (EquipmentLocation.LEFT_HAND == place || EquipmentLocation.RIGHT_HAND == place)) { 
+            unequipItem(bothHands);
+        }
+        Item bothArms = equipment.get(EquipmentLocation.BOTH_ARMS);
+        if (bothArms != null && (place == EquipmentLocation.LEFT_ARM || place == EquipmentLocation.RIGHT_ARM)) { 
             unequipItem(bothHands);
         }
         equipment.put(place, item);
@@ -250,6 +249,17 @@ public abstract class Entity {
             }
         }
         return result;
+    }
+
+    private void unequipTwoPlaces(EquipmentLocation leftLocation, EquipmentLocation rightLocation) {
+        Item left = equipment.get(leftLocation);
+        Item right = equipment.get(rightLocation);
+        if (left != null) {
+            unequipItem(left);
+        }
+        if (right != null) { 
+            unequipItem(right);
+        }
     }
 
     public Map<String, String> unequipItem(Item item) {

@@ -216,9 +216,9 @@
     },
     "algt1": {
       "type": "armour",
-      "name": "leather gauntlet",
-      "description": "a leather gaunlet, it will do for now",
-      "position": "arms",
+      "name": "leather gauntlets",
+      "description": "leather gaunlets, they will do for now",
+      "position": "bothArms",
       "level": 1,
       "properties": {
         "armour": "+3",
