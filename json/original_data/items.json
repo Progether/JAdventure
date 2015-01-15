@@ -226,6 +226,18 @@
         "value": "50"
       }
     },
+    "albr1": {
+      "type": "armour",
+      "name": "leather arm brace",
+      "description": "a leather arm brace, like the gladiators of old would wear",
+      "position": "rightArm",
+      "level": 1,
+      "properties": {
+        "armour": "+2",
+        "weight": "5",
+        "value": "30"
+      }
+    },
     "tlap1": {
       "type": "tool",
       "name": "lock and pick",

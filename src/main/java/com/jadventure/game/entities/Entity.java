@@ -185,6 +185,7 @@ public abstract class Entity {
 
     public Map<String, String> equipItem(EquipmentLocation place, Item item) {
         double oldDamage = this.damage;
+        int oldArmour = this.armour;
         if (place == null) {
             place = item.getPosition();
         }
@@ -202,7 +203,7 @@ public abstract class Entity {
         }
         Item bothArms = equipment.get(EquipmentLocation.BOTH_ARMS);
         if (bothArms != null && (place == EquipmentLocation.LEFT_ARM || place == EquipmentLocation.RIGHT_ARM)) { 
-            unequipItem(bothHands);
+            unequipItem(bothArms);
         }
         equipment.put(place, item);
         removeItemFromStorage(item);
@@ -217,7 +218,8 @@ public abstract class Entity {
             }
             case 'a': {
                 this.armour += item.getProperty("armour");
-                result.put("armour", String.valueOf(item.getProperty("armour")));
+                int diffArmour = this.armour - oldArmour;
+                result.put("armour", String.valueOf(diffArmour));
                 break;
             }
             case 'p': {
