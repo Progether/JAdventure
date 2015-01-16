@@ -298,9 +298,20 @@ public abstract class Entity {
         } else {
             int i = 0;
             Item hands = itemRepo.getItem("hands");
+            Map<EquipmentLocation, String> locations = new HashMap<>();
+            locations.put(EquipmentLocation.HEAD, "Head");
+            locations.put(EquipmentLocation.CHEST, "Chest");
+            locations.put(EquipmentLocation.LEFT_ARM, "Left arm");
+            locations.put(EquipmentLocation.LEFT_HAND, "Left hand");
+            locations.put(EquipmentLocation.RIGHT_ARM, "Right arm");
+            locations.put(EquipmentLocation.RIGHT_HAND, "Right hand");
+            locations.put(EquipmentLocation.BOTH_HANDS, "Both hands");
+            locations.put(EquipmentLocation.BOTH_ARMS, "Both arms");
+            locations.put(EquipmentLocation.LEGS, "Legs");
+            locations.put(EquipmentLocation.FEET, "Feet");
             for (Map.Entry<EquipmentLocation, Item> item : equipment.entrySet()) {
                 if (item.getKey() != null && !hands.equals(item.getValue()) && item.getValue() != null) {
-                    QueueProvider.offer(item.getKey() + " - " + item.getValue().getName());
+                    QueueProvider.offer(locations.get(item.getKey()) + " - " + item.getValue().getName());
                 } else {
                     i++;
                 }
