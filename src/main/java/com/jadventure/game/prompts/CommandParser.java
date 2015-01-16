@@ -57,22 +57,27 @@ public class CommandParser {
             if (command.startsWith(key)) {
                 Method method = commandMap.get(key);
                 if (method.getParameterTypes().length == 0){
-                    try {
-                        if (method.getAnnotation(Command.class).debug()) {
-                            if ("test".equals(player.getName())) {
-                                method.invoke(com);
+                    if (command.equals(key)) {
+                        try {
+                            if (method.getAnnotation(Command.class).debug()) {
+                                if ("test".equals(player.getName())) {
+                                    method.invoke(com);
+                                } else {
+                                    QueueProvider.offer("Must be using test profile to debug");
+                                }
                             } else {
-                                QueueProvider.offer("Must be using test profile to debug");
+                                method.invoke(com);
                             }
-                        } else {
-                            method.invoke(com);
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            if (e.getCause() instanceof DeathException) {
+                                throw (DeathException) e.getCause();
+                            } else {
+                                e.getCause().printStackTrace();
+                            }
                         }
-                    } catch (IllegalAccessException | InvocationTargetException e) {
-                        if (e.getCause() instanceof DeathException) {
-                            throw (DeathException) e.getCause();
-                        } else {
-                            e.getCause().printStackTrace();
-                        }
+                    } else {
+                        QueueProvider.offer("I don't know what'" + command + "' means.");
+                        return true;
                     }
                 } else if (method.getParameterTypes()[0] == String.class) {
                     String arg = command.substring(key.length()).trim();
