@@ -112,9 +112,10 @@ public class ConversationManager {
     public void startConversation(NPC npc, Player player) throws DeathException {
         List<Line> conversation = null;
         //Workaround as <code>lines.get(npc)</code> is not working.
-        Iterator it = lines.entrySet().iterator();;
+        Iterator it = lines.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry<NPC, List<Line>> entry = (Map.Entry) it.next();
+            @SuppressWarnings("unchecked")
+            Map.Entry<NPC, List<Line>> entry = (Map.Entry<NPC, List<Line>>) it.next();
             if (entry.getKey().equals(npc)) {
                 conversation = entry.getValue();
             }
