@@ -121,7 +121,7 @@ public enum CommandCollection {
         }
     }
 
-    @Command(command="goto", aliases="g", description="Goto a direction", debug=false)
+    @Command(command="go", aliases="g", description="Goto a direction", debug=false)
     public void command_g(String arg) throws DeathException {
         ILocation location = player.getLocation();
 
@@ -133,6 +133,9 @@ public enum CommandCollection {
                 ILocation newLocation = exits.get(Direction.valueOf(arg.toUpperCase()));
                 if (!newLocation.getLocationType().equals(LocationType.WALL)) {
                     player.setLocation(newLocation);
+                    if ("test".equals(player.getName())) {
+                        QueueProvider.offer(player.getLocation().getCoordinate().toString());
+                    }
                     player.getLocation().print();
                     Random random = new Random();
                     if (player.getLocation().getMonsters().size() == 0) {
