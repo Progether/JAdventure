@@ -145,7 +145,6 @@ public class Player extends Entity {
                }
                player.setEquipment(equipmentMap);
             }
-            //player.equipItem(EquipmentLocation.RIGHT_HAND, itemRepo.getItem((json.get("weapon").getAsString())));
             if (json.has("items")) {
                 HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
                 ArrayList<ItemStack> itemList = new ArrayList<>();
