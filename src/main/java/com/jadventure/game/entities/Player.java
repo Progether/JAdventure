@@ -124,10 +124,31 @@ public class Player extends Entity {
             player.setCurrentCharacterType(json.get("type").getAsString());
             HashMap<String, Integer> charLevels = new Gson().fromJson(json.get("types"), new TypeToken<HashMap<String, Integer>>(){}.getType());
             player.setCharacterLevels(charLevels);
-            player.equipItem(EquipmentLocation.RIGHT_HAND, itemRepo.getItem((json.get("weapon").getAsString())));
+            if (json.has("equipment")) {
+                Map<String, EquipmentLocation> locations = new HashMap<>();
+                locations.put("head", EquipmentLocation.HEAD);
+                locations.put("chest", EquipmentLocation.CHEST);
+                locations.put("leftArm", EquipmentLocation.LEFT_ARM);
+                locations.put("leftHand", EquipmentLocation.LEFT_HAND);
+                locations.put("rightArm", EquipmentLocation.RIGHT_ARM);
+                locations.put("rightHand", EquipmentLocation.RIGHT_HAND);
+                locations.put("bothHands", EquipmentLocation.BOTH_HANDS);
+                locations.put("bothArms", EquipmentLocation.BOTH_ARMS);
+                locations.put("legs", EquipmentLocation.LEGS);
+                locations.put("feet", EquipmentLocation.FEET);
+                HashMap<String, String> equipment = new Gson().fromJson(json.get("equipment"), new TypeToken<HashMap<String, String>>(){}.getType());
+               Map<EquipmentLocation, Item> equipmentMap = new HashMap<>();
+               for(Map.Entry<String, String> entry : equipment.entrySet()) {
+                   EquipmentLocation el = locations.get(entry.getKey());
+                   Item i = itemRepo.getItem(entry.getValue());
+                   equipmentMap.put(el, i);
+               }
+               player.setEquipment(equipmentMap);
+            }
+            //player.equipItem(EquipmentLocation.RIGHT_HAND, itemRepo.getItem((json.get("weapon").getAsString())));
             if (json.has("items")) {
                 HashMap<String, Integer> items = new Gson().fromJson(json.get("items"), new TypeToken<HashMap<String, Integer>>(){}.getType());
-                ArrayList<ItemStack> itemList = new ArrayList<ItemStack>();
+                ArrayList<ItemStack> itemList = new ArrayList<>();
                 for (Map.Entry<String, Integer> entry : items.entrySet()) {
                     String itemID = entry.getKey();
                     int amount = entry.getValue();
@@ -269,6 +290,26 @@ public class Player extends Entity {
         }
         JsonElement itemsJsonObj = gson.toJsonTree(items);
         jsonObject.add("items", itemsJsonObj);
+        Map<EquipmentLocation, String> locations = new HashMap<>();
+        locations.put(EquipmentLocation.HEAD, "head");
+        locations.put(EquipmentLocation.CHEST, "chest");
+        locations.put(EquipmentLocation.LEFT_ARM, "leftArm");
+        locations.put(EquipmentLocation.LEFT_HAND, "leftHand");
+        locations.put(EquipmentLocation.RIGHT_ARM, "rightArm");
+        locations.put(EquipmentLocation.RIGHT_HAND, "rightHand");
+        locations.put(EquipmentLocation.BOTH_HANDS, "BothHands");
+        locations.put(EquipmentLocation.BOTH_ARMS, "bothArms");
+        locations.put(EquipmentLocation.LEGS, "legs");
+        locations.put(EquipmentLocation.FEET, "feet");
+        HashMap<String, String> equipment = new HashMap<>();
+        Item hands = itemRepo.getItem("hands");
+        for (Map.Entry<EquipmentLocation, Item> item : getEquipment().entrySet()) {
+            if (item.getKey() != null && !hands.equals(item.getValue()) && item.getValue() != null) {
+                equipment.put(locations.get(item.getKey()), item.getValue().getId());
+            }
+        }
+        JsonElement equipmentJsonObj = gson.toJsonTree(equipment);
+        jsonObject.add("equipment", equipmentJsonObj);
         JsonElement typesJsonObj = gson.toJsonTree(getCharacterLevels());
         jsonObject.add("types", typesJsonObj);
         Coordinate coordinate = getLocation().getCoordinate();

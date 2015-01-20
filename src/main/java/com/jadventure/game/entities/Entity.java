@@ -139,6 +139,10 @@ public abstract class Entity {
         return Collections.unmodifiableMap(equipment);
     }
 
+    public void setEquipment(Map<EquipmentLocation, Item> equipment) {
+        this.equipment = equipment;
+    }
+
     public int getStrength() {
         return strength;
     }
