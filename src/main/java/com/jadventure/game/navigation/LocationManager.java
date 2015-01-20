@@ -64,8 +64,14 @@ public class LocationManager {
     public static LocationManager getInstance(String profileName) {
         if (instance == null) {
             instance = new LocationManager(profileName);
+        } else if (!instance.getFileName().contains(profileName)) {
+            instance = new LocationManager(profileName);
         }
         return instance;
+    }
+
+    private String getFileName() {
+        return fileName;
     }
 
     private Location loadLocation(JsonObject json) {
@@ -165,7 +171,7 @@ public class LocationManager {
     }
 
     private void copyLocationsFile() {
-        File source = new File("json/locations.json");
+        File source = new File("json/original_data/locations.json");
         File dest = new File(fileName);
         dest.mkdirs();
         try {
