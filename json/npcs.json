@@ -166,13 +166,13 @@
 	  "action": "none"
 	},
 	{
-	  "condition": "None",
+	  "condition": "none",
 	  "player": "Never mind then",
 	  "text": "*bows*\n Until next time",
 	  "action": "none"
 	},
         {
-          "condition": "None",
+          "condition": "none",
           "player": "How do I become a syndicate member?",
           "text": "Very simple actually. Just kill one of the brotherhood members for me.",
           "action": "none"
