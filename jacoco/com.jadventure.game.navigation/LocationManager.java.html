@@ -64,115 +64,121 @@ public class LocationManager {
     public static LocationManager getInstance(String profileName) {
 <span class="pc bpc" id="L65" title="1 of 2 branches missed.">        if (instance == null) {</span>
 <span class="fc" id="L66">            instance = new LocationManager(profileName);</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        } else if (!instance.getFileName().contains(profileName)) {</span>
+<span class="nc" id="L68">            instance = new LocationManager(profileName);</span>
         }
-<span class="fc" id="L68">        return instance;</span>
+<span class="fc" id="L70">        return instance;</span>
+    }
+
+    private String getFileName() {
+<span class="nc" id="L74">        return fileName;</span>
     }
 
     private Location loadLocation(JsonObject json) {
-<span class="fc" id="L72">        Location location = new Location();</span>
-<span class="fc" id="L73">        Coordinate coordinate = new Coordinate(json.get(&quot;coordinate&quot;).getAsString());</span>
-<span class="fc" id="L74">        location.setCoordinate(coordinate);</span>
-<span class="fc" id="L75">        location.setTitle(json.get(&quot;title&quot;).getAsString());</span>
-<span class="fc" id="L76">        location.setDescription(json.get(&quot;description&quot;).getAsString());</span>
-<span class="fc" id="L77">        location.setLocationType(LocationType.valueOf(json.get(&quot;locationType&quot;).getAsString()));</span>
-<span class="fc" id="L78">        location.setDangerRating(json.get(&quot;danger&quot;).getAsInt());</span>
-<span class="fc bfc" id="L79" title="All 2 branches covered.">        if (json.has(&quot;items&quot;)) {</span>
-<span class="fc" id="L80">            List&lt;String&gt; items = new Gson().fromJson(json.get(&quot;items&quot;), new TypeToken&lt;List&lt;String&gt;&gt;(){}.getType());</span>
-<span class="fc bfc" id="L81" title="All 2 branches covered.">            for (String id : items) {</span>
-<span class="fc" id="L82">                location.addItem(itemRepo.getItem(id));</span>
-<span class="fc" id="L83">            }</span>
-        }
-<span class="fc bfc" id="L85" title="All 2 branches covered.">        if (json.has(&quot;npcs&quot;)) {</span>
-<span class="fc" id="L86">            List&lt;String&gt; npcs = new Gson().fromJson(json.get(&quot;npcs&quot;), new TypeToken&lt;List&lt;String&gt;&gt;(){}.getType());</span>
-<span class="fc bfc" id="L87" title="All 2 branches covered.">            for (String npc : npcs) {</span>
-<span class="fc" id="L88">                location.addNpc(npc);</span>
+<span class="fc" id="L78">        Location location = new Location();</span>
+<span class="fc" id="L79">        Coordinate coordinate = new Coordinate(json.get(&quot;coordinate&quot;).getAsString());</span>
+<span class="fc" id="L80">        location.setCoordinate(coordinate);</span>
+<span class="fc" id="L81">        location.setTitle(json.get(&quot;title&quot;).getAsString());</span>
+<span class="fc" id="L82">        location.setDescription(json.get(&quot;description&quot;).getAsString());</span>
+<span class="fc" id="L83">        location.setLocationType(LocationType.valueOf(json.get(&quot;locationType&quot;).getAsString()));</span>
+<span class="fc" id="L84">        location.setDangerRating(json.get(&quot;danger&quot;).getAsInt());</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        if (json.has(&quot;items&quot;)) {</span>
+<span class="fc" id="L86">            List&lt;String&gt; items = new Gson().fromJson(json.get(&quot;items&quot;), new TypeToken&lt;List&lt;String&gt;&gt;(){}.getType());</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">            for (String id : items) {</span>
+<span class="fc" id="L88">                location.addItem(itemRepo.getItem(id));</span>
 <span class="fc" id="L89">            }</span>
         }
-<span class="fc" id="L91">        return location;</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        if (json.has(&quot;npcs&quot;)) {</span>
+<span class="fc" id="L92">            List&lt;String&gt; npcs = new Gson().fromJson(json.get(&quot;npcs&quot;), new TypeToken&lt;List&lt;String&gt;&gt;(){}.getType());</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">            for (String npc : npcs) {</span>
+<span class="fc" id="L94">                location.addNpc(npc);</span>
+<span class="fc" id="L95">            }</span>
+        }
+<span class="fc" id="L97">        return location;</span>
     }
 
     public static void writeLocations(String profileName) {
         try {
-<span class="nc" id="L96">            JsonObject jsonObject = new JsonObject();</span>
-<span class="nc bnc" id="L97" title="All 2 branches missed.">            for (Map.Entry&lt;Coordinate,ILocation&gt; entry : Locations.locations.entrySet()) {</span>
-<span class="nc" id="L98">                ILocation location = entry.getValue();</span>
-<span class="nc" id="L99">                JsonObject locationJsonElement = new JsonObject();</span>
-<span class="nc" id="L100">                locationJsonElement.addProperty(&quot;title&quot;, location.getTitle());</span>
-<span class="nc" id="L101">                locationJsonElement.addProperty(&quot;coordinate&quot;, location.getCoordinate().toString());</span>
-<span class="nc" id="L102">                locationJsonElement.addProperty(&quot;description&quot;, location.getDescription());</span>
-<span class="nc" id="L103">                locationJsonElement.addProperty(&quot;locationType&quot;, location.getLocationType().toString());</span>
-<span class="nc" id="L104">                locationJsonElement.addProperty(&quot;danger&quot;, String.valueOf(location.getDangerRating()));</span>
-<span class="nc" id="L105">                JsonArray itemList = new JsonArray();</span>
-<span class="nc" id="L106">                List&lt;Item&gt; items = location.getItems();</span>
-<span class="nc bnc" id="L107" title="All 2 branches missed.">                if (items.size() &gt; 0) {</span>
-<span class="nc bnc" id="L108" title="All 2 branches missed.">                    for (Item item : items) {</span>
-<span class="nc" id="L109">                        JsonPrimitive itemJson = new JsonPrimitive(item.getId());</span>
-<span class="nc" id="L110">                        itemList.add(itemJson);</span>
-<span class="nc" id="L111">                    }</span>
-<span class="nc" id="L112">                    locationJsonElement.add(&quot;items&quot;, itemList);</span>
+<span class="nc" id="L102">            JsonObject jsonObject = new JsonObject();</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">            for (Map.Entry&lt;Coordinate,ILocation&gt; entry : Locations.locations.entrySet()) {</span>
+<span class="nc" id="L104">                ILocation location = entry.getValue();</span>
+<span class="nc" id="L105">                JsonObject locationJsonElement = new JsonObject();</span>
+<span class="nc" id="L106">                locationJsonElement.addProperty(&quot;title&quot;, location.getTitle());</span>
+<span class="nc" id="L107">                locationJsonElement.addProperty(&quot;coordinate&quot;, location.getCoordinate().toString());</span>
+<span class="nc" id="L108">                locationJsonElement.addProperty(&quot;description&quot;, location.getDescription());</span>
+<span class="nc" id="L109">                locationJsonElement.addProperty(&quot;locationType&quot;, location.getLocationType().toString());</span>
+<span class="nc" id="L110">                locationJsonElement.addProperty(&quot;danger&quot;, String.valueOf(location.getDangerRating()));</span>
+<span class="nc" id="L111">                JsonArray itemList = new JsonArray();</span>
+<span class="nc" id="L112">                List&lt;Item&gt; items = location.getItems();</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">                if (items.size() &gt; 0) {</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">                    for (Item item : items) {</span>
+<span class="nc" id="L115">                        JsonPrimitive itemJson = new JsonPrimitive(item.getId());</span>
+<span class="nc" id="L116">                        itemList.add(itemJson);</span>
+<span class="nc" id="L117">                    }</span>
+<span class="nc" id="L118">                    locationJsonElement.add(&quot;items&quot;, itemList);</span>
                 }
-<span class="nc" id="L114">                JsonArray npcList = new JsonArray();</span>
-<span class="nc" id="L115">                List&lt;NPC&gt; npcs = location.getNPCs();</span>
-<span class="nc bnc" id="L116" title="All 2 branches missed.">                if (npcs.size() &gt; 0) {</span>
-<span class="nc bnc" id="L117" title="All 2 branches missed.">                    for (NPC npc : npcs) {</span>
-<span class="nc" id="L118">                        JsonPrimitive npcJson = new JsonPrimitive(npc.getId());</span>
-<span class="nc" id="L119">                        npcList.add(npcJson);</span>
-<span class="nc" id="L120">                    }</span>
-<span class="nc" id="L121">                    locationJsonElement.add(&quot;npcs&quot;, npcList);</span>
+<span class="nc" id="L120">                JsonArray npcList = new JsonArray();</span>
+<span class="nc" id="L121">                List&lt;NPC&gt; npcs = location.getNPCs();</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">                if (npcs.size() &gt; 0) {</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">                    for (NPC npc : npcs) {</span>
+<span class="nc" id="L124">                        JsonPrimitive npcJson = new JsonPrimitive(npc.getId());</span>
+<span class="nc" id="L125">                        npcList.add(npcJson);</span>
+<span class="nc" id="L126">                    }</span>
+<span class="nc" id="L127">                    locationJsonElement.add(&quot;npcs&quot;, npcList);</span>
                 }
-<span class="nc" id="L123">                jsonObject.add(location.getCoordinate().toString(), locationJsonElement);</span>
-<span class="nc" id="L124">            }</span>
-<span class="nc" id="L125">            Writer writer = new FileWriter(&quot;json/profiles/&quot; + profileName + &quot;/locations.json&quot;);</span>
-<span class="nc" id="L126">            Gson gson = new Gson();</span>
-<span class="nc" id="L127">            gson.toJson(jsonObject, writer);</span>
-<span class="nc" id="L128">            writer.close();</span>
-<span class="nc" id="L129">            QueueProvider.offer(&quot;The game locations were saved.&quot;);</span>
-<span class="nc" id="L130">        } catch (IOException ex) {</span>
-<span class="nc" id="L131">            QueueProvider.offer(&quot;Unable to save to file json/profiles/&quot; + profileName + &quot;/locations.json&quot;);</span>
-<span class="nc" id="L132">        }</span>
-<span class="nc" id="L133">    }</span>
+<span class="nc" id="L129">                jsonObject.add(location.getCoordinate().toString(), locationJsonElement);</span>
+<span class="nc" id="L130">            }</span>
+<span class="nc" id="L131">            Writer writer = new FileWriter(&quot;json/profiles/&quot; + profileName + &quot;/locations.json&quot;);</span>
+<span class="nc" id="L132">            Gson gson = new Gson();</span>
+<span class="nc" id="L133">            gson.toJson(jsonObject, writer);</span>
+<span class="nc" id="L134">            writer.close();</span>
+<span class="nc" id="L135">            QueueProvider.offer(&quot;The game locations were saved.&quot;);</span>
+<span class="nc" id="L136">        } catch (IOException ex) {</span>
+<span class="nc" id="L137">            QueueProvider.offer(&quot;Unable to save to file json/profiles/&quot; + profileName + &quot;/locations.json&quot;);</span>
+<span class="nc" id="L138">        }</span>
+<span class="nc" id="L139">    }</span>
 
     public static ILocation getInitialLocation(String profileName) {
-<span class="nc" id="L136">        getInstance(profileName);</span>
-<span class="nc" id="L137">        instance.reload();</span>
-<span class="nc" id="L138">        Coordinate coordinate = new Coordinate(0, 0, -1);</span>
-<span class="nc" id="L139">        return getLocation(coordinate);</span>
+<span class="nc" id="L142">        getInstance(profileName);</span>
+<span class="nc" id="L143">        instance.reload();</span>
+<span class="nc" id="L144">        Coordinate coordinate = new Coordinate(0, 0, -1);</span>
+<span class="nc" id="L145">        return getLocation(coordinate);</span>
     }
 
     public static ILocation getLocation(Coordinate coordinate) {
-<span class="fc" id="L143">        return Locations.locations.get(coordinate);</span>
+<span class="fc" id="L149">        return Locations.locations.get(coordinate);</span>
     }
 
     private void reload() {
-<span class="nc" id="L147">        JsonParser parser = new JsonParser();</span>
-<span class="nc" id="L148">        File f = new File(fileName);</span>
-<span class="nc bnc" id="L149" title="All 2 branches missed.">        if (!f.exists()) {</span>
-<span class="nc" id="L150">            copyLocationsFile();</span>
+<span class="nc" id="L153">        JsonParser parser = new JsonParser();</span>
+<span class="nc" id="L154">        File f = new File(fileName);</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">        if (!f.exists()) {</span>
+<span class="nc" id="L156">            copyLocationsFile();</span>
         }
         try {
-<span class="nc" id="L153">            Reader reader = new FileReader(fileName);</span>
-<span class="nc" id="L154">            JsonObject json = parser.parse(reader).getAsJsonObject();</span>
-<span class="nc bnc" id="L155" title="All 2 branches missed.">            for(Map.Entry&lt;String, JsonElement&gt; entry: json.entrySet()) {</span>
-<span class="nc" id="L156">                Locations.locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));</span>
-<span class="nc" id="L157">            }</span>
-<span class="nc" id="L158">            reader.close();</span>
-<span class="nc" id="L159">        } catch (FileNotFoundException e) {</span>
-<span class="nc" id="L160">            e.printStackTrace();</span>
-<span class="nc" id="L161">            System.exit(-1);</span>
-<span class="nc" id="L162">        } catch (IOException e) {</span>
-<span class="nc" id="L163">            e.printStackTrace();</span>
-<span class="nc" id="L164">        }</span>
-<span class="nc" id="L165">    }</span>
+<span class="nc" id="L159">            Reader reader = new FileReader(fileName);</span>
+<span class="nc" id="L160">            JsonObject json = parser.parse(reader).getAsJsonObject();</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">            for(Map.Entry&lt;String, JsonElement&gt; entry: json.entrySet()) {</span>
+<span class="nc" id="L162">                Locations.locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));</span>
+<span class="nc" id="L163">            }</span>
+<span class="nc" id="L164">            reader.close();</span>
+<span class="nc" id="L165">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L166">            e.printStackTrace();</span>
+<span class="nc" id="L167">            System.exit(-1);</span>
+<span class="nc" id="L168">        } catch (IOException e) {</span>
+<span class="nc" id="L169">            e.printStackTrace();</span>
+<span class="nc" id="L170">        }</span>
+<span class="nc" id="L171">    }</span>
 
     private void copyLocationsFile() {
-<span class="nc" id="L168">        File source = new File(&quot;json/locations.json&quot;);</span>
-<span class="nc" id="L169">        File dest = new File(fileName);</span>
-<span class="nc" id="L170">        dest.mkdirs();</span>
+<span class="nc" id="L174">        File source = new File(&quot;json/original_data/locations.json&quot;);</span>
+<span class="nc" id="L175">        File dest = new File(fileName);</span>
+<span class="nc" id="L176">        dest.mkdirs();</span>
         try {
-<span class="nc" id="L172">        Files.copy(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);</span>
-<span class="nc" id="L173">        } catch (IOException e) {</span>
-<span class="nc" id="L174">            e.printStackTrace();</span>
-<span class="nc" id="L175">        }</span>
-<span class="nc" id="L176">    }</span>
+<span class="nc" id="L178">        Files.copy(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);</span>
+<span class="nc" id="L179">        } catch (IOException e) {</span>
+<span class="nc" id="L180">            e.printStackTrace();</span>
+<span class="nc" id="L181">        }</span>
+<span class="nc" id="L182">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

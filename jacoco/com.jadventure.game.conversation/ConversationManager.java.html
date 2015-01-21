@@ -112,67 +112,68 @@ public class ConversationManager {
     public void startConversation(NPC npc, Player player) throws DeathException {
 <span class="nc" id="L113">        List&lt;Line&gt; conversation = null;</span>
         //Workaround as &lt;code&gt;lines.get(npc)&lt;/code&gt; is not working.
-<span class="nc" id="L115">        Iterator it = lines.entrySet().iterator();;</span>
+<span class="nc" id="L115">        Iterator it = lines.entrySet().iterator();</span>
 <span class="nc bnc" id="L116" title="All 2 branches missed.">        while (it.hasNext()) {</span>
-<span class="nc" id="L117">            Map.Entry&lt;NPC, List&lt;Line&gt;&gt; entry = (Map.Entry) it.next();</span>
-<span class="nc bnc" id="L118" title="All 2 branches missed.">            if (entry.getKey().equals(npc)) {</span>
-<span class="nc" id="L119">                conversation = entry.getValue();</span>
+            @SuppressWarnings(&quot;unchecked&quot;)
+<span class="nc" id="L118">            Map.Entry&lt;NPC, List&lt;Line&gt;&gt; entry = (Map.Entry&lt;NPC, List&lt;Line&gt;&gt;) it.next();</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">            if (entry.getKey().equals(npc)) {</span>
+<span class="nc" id="L120">                conversation = entry.getValue();</span>
             }
-<span class="nc" id="L121">            it.remove();</span>
-<span class="nc" id="L122">        }</span>
-<span class="nc bnc" id="L123" title="All 2 branches missed.">        if (conversation != null) {</span>
-<span class="nc" id="L124">            Line start = null;</span>
-<span class="nc bnc" id="L125" title="All 2 branches missed.">            for (Line l : conversation) {</span>
-<span class="nc bnc" id="L126" title="All 2 branches missed.">                if (ConversationManager.matchesConditions(npc, player, l)) {</span>
-<span class="nc" id="L127">                    start = l;</span>
-<span class="nc" id="L128">                    break;</span>
+<span class="nc" id="L122">            it.remove();</span>
+<span class="nc" id="L123">        }</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        if (conversation != null) {</span>
+<span class="nc" id="L125">            Line start = null;</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">            for (Line l : conversation) {</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">                if (ConversationManager.matchesConditions(npc, player, l)) {</span>
+<span class="nc" id="L128">                    start = l;</span>
+<span class="nc" id="L129">                    break;</span>
                 }
-<span class="nc" id="L130">            }</span>
-<span class="nc bnc" id="L131" title="All 2 branches missed.">            if (start != null) {</span>
-<span class="nc" id="L132">                QueueProvider.offer(start.getText());</span>
-<span class="nc" id="L133">                Line response = start.display(npc, player);</span>
-<span class="nc" id="L134">                triggerAction(start, npc, player);</span>
-<span class="nc bnc" id="L135" title="All 2 branches missed.">               while (response != null) {</span>
-<span class="nc" id="L136">                   QueueProvider.offer(response.getText());</span>
-<span class="nc" id="L137">                   triggerAction(response, npc, player);</span>
-<span class="nc" id="L138">                   Line temp_response = response.display(npc, player);</span>
-<span class="nc" id="L139">                   response = temp_response;</span>
-<span class="nc" id="L140">               }</span>
+<span class="nc" id="L131">            }</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">            if (start != null) {</span>
+<span class="nc" id="L133">                QueueProvider.offer(start.getText());</span>
+<span class="nc" id="L134">                Line response = start.display(npc, player);</span>
+<span class="nc" id="L135">                triggerAction(start, npc, player);</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">               while (response != null) {</span>
+<span class="nc" id="L137">                   QueueProvider.offer(response.getText());</span>
+<span class="nc" id="L138">                   triggerAction(response, npc, player);</span>
+<span class="nc" id="L139">                   Line temp_response = response.display(npc, player);</span>
+<span class="nc" id="L140">                   response = temp_response;</span>
+<span class="nc" id="L141">               }</span>
             }
         }
-<span class="nc" id="L143">    }</span>
+<span class="nc" id="L144">    }</span>
 
     private void triggerAction(Line line, NPC npc, Player player) throws DeathException {
-<span class="nc bnc" id="L146" title="All 3 branches missed.">        switch (line.getAction()) {</span>
+<span class="nc bnc" id="L147" title="All 3 branches missed.">        switch (line.getAction()) {</span>
             case ATTACK:
-<span class="nc" id="L148">                QueueProvider.offer(&quot;\n&quot; + npc.getName() + &quot; is now attacking you!\n&quot;);</span>
-<span class="nc" id="L149">                player.attack(npc.getName());</span>
-<span class="nc" id="L150">                break;</span>
+<span class="nc" id="L149">                QueueProvider.offer(&quot;\n&quot; + npc.getName() + &quot; is now attacking you!\n&quot;);</span>
+<span class="nc" id="L150">                player.attack(npc.getName());</span>
+<span class="nc" id="L151">                break;</span>
             case TRADE:
-<span class="nc" id="L152">                Trading t = new Trading(npc, player);</span>
-<span class="nc" id="L153">                t.trade(true, true);</span>
+<span class="nc" id="L153">                Trading t = new Trading(npc, player);</span>
+<span class="nc" id="L154">                t.trade(true, true);</span>
                 break;
         }     
-<span class="nc" id="L156">    }</span>
+<span class="nc" id="L157">    }</span>
 
     public static boolean matchesConditions(NPC npc, Player player, Line line) {
-<span class="nc bnc" id="L159" title="All 6 branches missed.">        switch(line.getCondition()) {</span>
+<span class="nc bnc" id="L160" title="All 6 branches missed.">        switch(line.getCondition()) {</span>
             case ALLY:
-<span class="nc" id="L161">                return npc.getAllies().contains(player.getCurrentCharacterType());</span>
+<span class="nc" id="L162">                return npc.getAllies().contains(player.getCurrentCharacterType());</span>
             case ENEMY:
-<span class="nc" id="L163">                return npc.getEnemies().contains(player.getCurrentCharacterType());</span>
+<span class="nc" id="L164">                return npc.getEnemies().contains(player.getCurrentCharacterType());</span>
             case LEVEL:
-<span class="nc" id="L165">                int requiredLevel = Integer.parseInt(line.getConditionParameter());</span>
-<span class="nc bnc" id="L166" title="All 2 branches missed.">                return player.getLevel() &gt;= requiredLevel;</span>
+<span class="nc" id="L166">                int requiredLevel = Integer.parseInt(line.getConditionParameter());</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">                return player.getLevel() &gt;= requiredLevel;</span>
             case ITEM:
-<span class="nc" id="L168">                ItemRepository itemRepo = GameBeans.getItemRepository();</span>
-<span class="nc" id="L169">                Item requiredItem = itemRepo.getItem(line.getConditionParameter());</span>
-<span class="nc" id="L170">                return player.hasItem(requiredItem);</span>
+<span class="nc" id="L169">                ItemRepository itemRepo = GameBeans.getItemRepository();</span>
+<span class="nc" id="L170">                Item requiredItem = itemRepo.getItem(line.getConditionParameter());</span>
+<span class="nc" id="L171">                return player.hasItem(requiredItem);</span>
             case CHAR_TYPE:
-<span class="nc" id="L172">                String charType = line.getConditionParameter();</span>
-<span class="nc" id="L173">                return charType.equals(player.getCurrentCharacterType());</span>
+<span class="nc" id="L173">                String charType = line.getConditionParameter();</span>
+<span class="nc" id="L174">                return charType.equals(player.getCurrentCharacterType());</span>
             default: // No condition
-<span class="nc" id="L175">                return true;</span>
+<span class="nc" id="L176">                return true;</span>
         }
     }
 }

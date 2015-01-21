@@ -72,117 +72,123 @@
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../com/jadventure/game/navigation/LocationManager.html">LocationManager</a> getInstance(String profileName) {
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>          <strong class="jxr_keyword">if</strong> (instance == <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>              instance = <strong class="jxr_keyword">new</strong> <a href="../../../../com/jadventure/game/navigation/LocationManager.html">LocationManager</a>(profileName);
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>          }
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>          <strong class="jxr_keyword">return</strong> instance;
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>      }
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>  
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../com/jadventure/game/navigation/Location.html">Location</a> loadLocation(JsonObject json) {
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>          <a href="../../../../com/jadventure/game/navigation/Location.html">Location</a> location = <strong class="jxr_keyword">new</strong> <a href="../../../../com/jadventure/game/navigation/Location.html">Location</a>();
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>          <a href="../../../../com/jadventure/game/navigation/Coordinate.html">Coordinate</a> coordinate = <strong class="jxr_keyword">new</strong> <a href="../../../../com/jadventure/game/navigation/Coordinate.html">Coordinate</a>(json.get(<span class="jxr_string">"coordinate"</span>).getAsString());
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>          location.setCoordinate(coordinate);
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>          location.setTitle(json.get(<span class="jxr_string">"title"</span>).getAsString());
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>          location.setDescription(json.get(<span class="jxr_string">"description"</span>).getAsString());
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>          location.setLocationType(LocationType.valueOf(json.get(<span class="jxr_string">"locationType"</span>).getAsString()));
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>          location.setDangerRating(json.get(<span class="jxr_string">"danger"</span>).getAsInt());
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>          <strong class="jxr_keyword">if</strong> (json.has(<span class="jxr_string">"items"</span>)) {
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>              List&lt;String&gt; items = <strong class="jxr_keyword">new</strong> Gson().fromJson(json.get(<span class="jxr_string">"items"</span>), <strong class="jxr_keyword">new</strong> TypeToken&lt;List&lt;String&gt;&gt;(){}.getType());
-<a class="jxr_linenumber" name="L81" href="#L81">81</a>              <strong class="jxr_keyword">for</strong> (String id : items) {
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>                  location.addItem(itemRepo.getItem(id));
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>              }
-<a class="jxr_linenumber" name="L84" href="#L84">84</a>          }
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>          <strong class="jxr_keyword">if</strong> (json.has(<span class="jxr_string">"npcs"</span>)) {
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>              List&lt;String&gt; npcs = <strong class="jxr_keyword">new</strong> Gson().fromJson(json.get(<span class="jxr_string">"npcs"</span>), <strong class="jxr_keyword">new</strong> TypeToken&lt;List&lt;String&gt;&gt;(){}.getType());
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>              <strong class="jxr_keyword">for</strong> (String npc : npcs) {
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>                  location.addNpc(npc);
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (!instance.getFileName().contains(profileName)) {
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>              instance = <strong class="jxr_keyword">new</strong> <a href="../../../../com/jadventure/game/navigation/LocationManager.html">LocationManager</a>(profileName);
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>          }
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>          <strong class="jxr_keyword">return</strong> instance;
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>      }
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>      <strong class="jxr_keyword">private</strong> String getFileName() {
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>          <strong class="jxr_keyword">return</strong> fileName;
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>      }
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../com/jadventure/game/navigation/Location.html">Location</a> loadLocation(JsonObject json) {
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>          <a href="../../../../com/jadventure/game/navigation/Location.html">Location</a> location = <strong class="jxr_keyword">new</strong> <a href="../../../../com/jadventure/game/navigation/Location.html">Location</a>();
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>          <a href="../../../../com/jadventure/game/navigation/Coordinate.html">Coordinate</a> coordinate = <strong class="jxr_keyword">new</strong> <a href="../../../../com/jadventure/game/navigation/Coordinate.html">Coordinate</a>(json.get(<span class="jxr_string">"coordinate"</span>).getAsString());
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>          location.setCoordinate(coordinate);
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>          location.setTitle(json.get(<span class="jxr_string">"title"</span>).getAsString());
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>          location.setDescription(json.get(<span class="jxr_string">"description"</span>).getAsString());
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>          location.setLocationType(LocationType.valueOf(json.get(<span class="jxr_string">"locationType"</span>).getAsString()));
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>          location.setDangerRating(json.get(<span class="jxr_string">"danger"</span>).getAsInt());
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>          <strong class="jxr_keyword">if</strong> (json.has(<span class="jxr_string">"items"</span>)) {
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>              List&lt;String&gt; items = <strong class="jxr_keyword">new</strong> Gson().fromJson(json.get(<span class="jxr_string">"items"</span>), <strong class="jxr_keyword">new</strong> TypeToken&lt;List&lt;String&gt;&gt;(){}.getType());
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>              <strong class="jxr_keyword">for</strong> (String id : items) {
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>                  location.addItem(itemRepo.getItem(id));
 <a class="jxr_linenumber" name="L89" href="#L89">89</a>              }
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>          }
-<a class="jxr_linenumber" name="L91" href="#L91">91</a>          <strong class="jxr_keyword">return</strong> location;
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>      }
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>  
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> writeLocations(String profileName) {
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>          <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>              JsonObject jsonObject = <strong class="jxr_keyword">new</strong> JsonObject();
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>              <strong class="jxr_keyword">for</strong> (Map.Entry&lt;Coordinate,ILocation&gt; entry : Locations.locations.entrySet()) {
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>                  <a href="../../../../com/jadventure/game/navigation/ILocation.html">ILocation</a> location = entry.getValue();
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>                  JsonObject locationJsonElement = <strong class="jxr_keyword">new</strong> JsonObject();
-<a class="jxr_linenumber" name="L100" href="#L100">100</a>                 locationJsonElement.addProperty(<span class="jxr_string">"title"</span>, location.getTitle());
-<a class="jxr_linenumber" name="L101" href="#L101">101</a>                 locationJsonElement.addProperty(<span class="jxr_string">"coordinate"</span>, location.getCoordinate().toString());
-<a class="jxr_linenumber" name="L102" href="#L102">102</a>                 locationJsonElement.addProperty(<span class="jxr_string">"description"</span>, location.getDescription());
-<a class="jxr_linenumber" name="L103" href="#L103">103</a>                 locationJsonElement.addProperty(<span class="jxr_string">"locationType"</span>, location.getLocationType().toString());
-<a class="jxr_linenumber" name="L104" href="#L104">104</a>                 locationJsonElement.addProperty(<span class="jxr_string">"danger"</span>, String.valueOf(location.getDangerRating()));
-<a class="jxr_linenumber" name="L105" href="#L105">105</a>                 JsonArray itemList = <strong class="jxr_keyword">new</strong> JsonArray();
-<a class="jxr_linenumber" name="L106" href="#L106">106</a>                 List&lt;Item&gt; items = location.getItems();
-<a class="jxr_linenumber" name="L107" href="#L107">107</a>                 <strong class="jxr_keyword">if</strong> (items.size() &gt; 0) {
-<a class="jxr_linenumber" name="L108" href="#L108">108</a>                     <strong class="jxr_keyword">for</strong> (Item item : items) {
-<a class="jxr_linenumber" name="L109" href="#L109">109</a>                         JsonPrimitive itemJson = <strong class="jxr_keyword">new</strong> JsonPrimitive(item.getId());
-<a class="jxr_linenumber" name="L110" href="#L110">110</a>                         itemList.add(itemJson);
-<a class="jxr_linenumber" name="L111" href="#L111">111</a>                     }
-<a class="jxr_linenumber" name="L112" href="#L112">112</a>                     locationJsonElement.add(<span class="jxr_string">"items"</span>, itemList);
-<a class="jxr_linenumber" name="L113" href="#L113">113</a>                 }
-<a class="jxr_linenumber" name="L114" href="#L114">114</a>                 JsonArray npcList = <strong class="jxr_keyword">new</strong> JsonArray();
-<a class="jxr_linenumber" name="L115" href="#L115">115</a>                 List&lt;NPC&gt; npcs = location.getNPCs();
-<a class="jxr_linenumber" name="L116" href="#L116">116</a>                 <strong class="jxr_keyword">if</strong> (npcs.size() &gt; 0) {
-<a class="jxr_linenumber" name="L117" href="#L117">117</a>                     <strong class="jxr_keyword">for</strong> (NPC npc : npcs) {
-<a class="jxr_linenumber" name="L118" href="#L118">118</a>                         JsonPrimitive npcJson = <strong class="jxr_keyword">new</strong> JsonPrimitive(npc.getId());
-<a class="jxr_linenumber" name="L119" href="#L119">119</a>                         npcList.add(npcJson);
-<a class="jxr_linenumber" name="L120" href="#L120">120</a>                     }
-<a class="jxr_linenumber" name="L121" href="#L121">121</a>                     locationJsonElement.add(<span class="jxr_string">"npcs"</span>, npcList);
-<a class="jxr_linenumber" name="L122" href="#L122">122</a>                 }
-<a class="jxr_linenumber" name="L123" href="#L123">123</a>                 jsonObject.add(location.getCoordinate().toString(), locationJsonElement);
-<a class="jxr_linenumber" name="L124" href="#L124">124</a>             }
-<a class="jxr_linenumber" name="L125" href="#L125">125</a>             Writer writer = <strong class="jxr_keyword">new</strong> FileWriter(<span class="jxr_string">"json/profiles/"</span> + profileName + <span class="jxr_string">"/locations.json"</span>);
-<a class="jxr_linenumber" name="L126" href="#L126">126</a>             Gson gson = <strong class="jxr_keyword">new</strong> Gson();
-<a class="jxr_linenumber" name="L127" href="#L127">127</a>             gson.toJson(jsonObject, writer);
-<a class="jxr_linenumber" name="L128" href="#L128">128</a>             writer.close();
-<a class="jxr_linenumber" name="L129" href="#L129">129</a>             QueueProvider.offer(<span class="jxr_string">"The game locations were saved."</span>);
-<a class="jxr_linenumber" name="L130" href="#L130">130</a>         } <strong class="jxr_keyword">catch</strong> (IOException ex) {
-<a class="jxr_linenumber" name="L131" href="#L131">131</a>             QueueProvider.offer(<span class="jxr_string">"Unable to save to file json/profiles/"</span> + profileName + <span class="jxr_string">"/locations.json"</span>);
-<a class="jxr_linenumber" name="L132" href="#L132">132</a>         }
-<a class="jxr_linenumber" name="L133" href="#L133">133</a>     }
-<a class="jxr_linenumber" name="L134" href="#L134">134</a> 
-<a class="jxr_linenumber" name="L135" href="#L135">135</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../com/jadventure/game/navigation/ILocation.html">ILocation</a> getInitialLocation(String profileName) {
-<a class="jxr_linenumber" name="L136" href="#L136">136</a>         getInstance(profileName);
-<a class="jxr_linenumber" name="L137" href="#L137">137</a>         instance.reload();
-<a class="jxr_linenumber" name="L138" href="#L138">138</a>         <a href="../../../../com/jadventure/game/navigation/Coordinate.html">Coordinate</a> coordinate = <strong class="jxr_keyword">new</strong> <a href="../../../../com/jadventure/game/navigation/Coordinate.html">Coordinate</a>(0, 0, -1);
-<a class="jxr_linenumber" name="L139" href="#L139">139</a>         <strong class="jxr_keyword">return</strong> getLocation(coordinate);
-<a class="jxr_linenumber" name="L140" href="#L140">140</a>     }
-<a class="jxr_linenumber" name="L141" href="#L141">141</a> 
-<a class="jxr_linenumber" name="L142" href="#L142">142</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../com/jadventure/game/navigation/ILocation.html">ILocation</a> getLocation(<a href="../../../../com/jadventure/game/navigation/Coordinate.html">Coordinate</a> coordinate) {
-<a class="jxr_linenumber" name="L143" href="#L143">143</a>         <strong class="jxr_keyword">return</strong> Locations.locations.get(coordinate);
-<a class="jxr_linenumber" name="L144" href="#L144">144</a>     }
-<a class="jxr_linenumber" name="L145" href="#L145">145</a> 
-<a class="jxr_linenumber" name="L146" href="#L146">146</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> reload() {
-<a class="jxr_linenumber" name="L147" href="#L147">147</a>         JsonParser parser = <strong class="jxr_keyword">new</strong> JsonParser();
-<a class="jxr_linenumber" name="L148" href="#L148">148</a>         File f = <strong class="jxr_keyword">new</strong> File(fileName);
-<a class="jxr_linenumber" name="L149" href="#L149">149</a>         <strong class="jxr_keyword">if</strong> (!f.exists()) {
-<a class="jxr_linenumber" name="L150" href="#L150">150</a>             copyLocationsFile();
-<a class="jxr_linenumber" name="L151" href="#L151">151</a>         }
-<a class="jxr_linenumber" name="L152" href="#L152">152</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L153" href="#L153">153</a>             Reader reader = <strong class="jxr_keyword">new</strong> FileReader(fileName);
-<a class="jxr_linenumber" name="L154" href="#L154">154</a>             JsonObject json = parser.parse(reader).getAsJsonObject();
-<a class="jxr_linenumber" name="L155" href="#L155">155</a>             <strong class="jxr_keyword">for</strong>(Map.Entry&lt;String, JsonElement&gt; entry: json.entrySet()) {
-<a class="jxr_linenumber" name="L156" href="#L156">156</a>                 Locations.locations.put(<strong class="jxr_keyword">new</strong> <a href="../../../../com/jadventure/game/navigation/Coordinate.html">Coordinate</a>(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));
-<a class="jxr_linenumber" name="L157" href="#L157">157</a>             }
-<a class="jxr_linenumber" name="L158" href="#L158">158</a>             reader.close();
-<a class="jxr_linenumber" name="L159" href="#L159">159</a>         } <strong class="jxr_keyword">catch</strong> (FileNotFoundException e) {
-<a class="jxr_linenumber" name="L160" href="#L160">160</a>             e.printStackTrace();
-<a class="jxr_linenumber" name="L161" href="#L161">161</a>             System.exit(-1);
-<a class="jxr_linenumber" name="L162" href="#L162">162</a>         } <strong class="jxr_keyword">catch</strong> (IOException e) {
-<a class="jxr_linenumber" name="L163" href="#L163">163</a>             e.printStackTrace();
-<a class="jxr_linenumber" name="L164" href="#L164">164</a>         }
-<a class="jxr_linenumber" name="L165" href="#L165">165</a>     }
-<a class="jxr_linenumber" name="L166" href="#L166">166</a> 
-<a class="jxr_linenumber" name="L167" href="#L167">167</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> copyLocationsFile() {
-<a class="jxr_linenumber" name="L168" href="#L168">168</a>         File source = <strong class="jxr_keyword">new</strong> File(<span class="jxr_string">"json/locations.json"</span>);
-<a class="jxr_linenumber" name="L169" href="#L169">169</a>         File dest = <strong class="jxr_keyword">new</strong> File(fileName);
-<a class="jxr_linenumber" name="L170" href="#L170">170</a>         dest.mkdirs();
-<a class="jxr_linenumber" name="L171" href="#L171">171</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L172" href="#L172">172</a>         Files.copy(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-<a class="jxr_linenumber" name="L173" href="#L173">173</a>         } <strong class="jxr_keyword">catch</strong> (IOException e) {
-<a class="jxr_linenumber" name="L174" href="#L174">174</a>             e.printStackTrace();
-<a class="jxr_linenumber" name="L175" href="#L175">175</a>         }
-<a class="jxr_linenumber" name="L176" href="#L176">176</a>     }
-<a class="jxr_linenumber" name="L177" href="#L177">177</a> }
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>          <strong class="jxr_keyword">if</strong> (json.has(<span class="jxr_string">"npcs"</span>)) {
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>              List&lt;String&gt; npcs = <strong class="jxr_keyword">new</strong> Gson().fromJson(json.get(<span class="jxr_string">"npcs"</span>), <strong class="jxr_keyword">new</strong> TypeToken&lt;List&lt;String&gt;&gt;(){}.getType());
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>              <strong class="jxr_keyword">for</strong> (String npc : npcs) {
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>                  location.addNpc(npc);
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>              }
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>          }
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>          <strong class="jxr_keyword">return</strong> location;
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>      }
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>  
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> writeLocations(String profileName) {
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>             JsonObject jsonObject = <strong class="jxr_keyword">new</strong> JsonObject();
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>             <strong class="jxr_keyword">for</strong> (Map.Entry&lt;Coordinate,ILocation&gt; entry : Locations.locations.entrySet()) {
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>                 <a href="../../../../com/jadventure/game/navigation/ILocation.html">ILocation</a> location = entry.getValue();
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>                 JsonObject locationJsonElement = <strong class="jxr_keyword">new</strong> JsonObject();
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>                 locationJsonElement.addProperty(<span class="jxr_string">"title"</span>, location.getTitle());
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>                 locationJsonElement.addProperty(<span class="jxr_string">"coordinate"</span>, location.getCoordinate().toString());
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>                 locationJsonElement.addProperty(<span class="jxr_string">"description"</span>, location.getDescription());
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>                 locationJsonElement.addProperty(<span class="jxr_string">"locationType"</span>, location.getLocationType().toString());
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>                 locationJsonElement.addProperty(<span class="jxr_string">"danger"</span>, String.valueOf(location.getDangerRating()));
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>                 JsonArray itemList = <strong class="jxr_keyword">new</strong> JsonArray();
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>                 List&lt;Item&gt; items = location.getItems();
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>                 <strong class="jxr_keyword">if</strong> (items.size() &gt; 0) {
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>                     <strong class="jxr_keyword">for</strong> (Item item : items) {
+<a class="jxr_linenumber" name="L115" href="#L115">115</a>                         JsonPrimitive itemJson = <strong class="jxr_keyword">new</strong> JsonPrimitive(item.getId());
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>                         itemList.add(itemJson);
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>                     }
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>                     locationJsonElement.add(<span class="jxr_string">"items"</span>, itemList);
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>                 }
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>                 JsonArray npcList = <strong class="jxr_keyword">new</strong> JsonArray();
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>                 List&lt;NPC&gt; npcs = location.getNPCs();
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>                 <strong class="jxr_keyword">if</strong> (npcs.size() &gt; 0) {
+<a class="jxr_linenumber" name="L123" href="#L123">123</a>                     <strong class="jxr_keyword">for</strong> (NPC npc : npcs) {
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>                         JsonPrimitive npcJson = <strong class="jxr_keyword">new</strong> JsonPrimitive(npc.getId());
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>                         npcList.add(npcJson);
+<a class="jxr_linenumber" name="L126" href="#L126">126</a>                     }
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>                     locationJsonElement.add(<span class="jxr_string">"npcs"</span>, npcList);
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>                 }
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>                 jsonObject.add(location.getCoordinate().toString(), locationJsonElement);
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>             }
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>             Writer writer = <strong class="jxr_keyword">new</strong> FileWriter(<span class="jxr_string">"json/profiles/"</span> + profileName + <span class="jxr_string">"/locations.json"</span>);
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>             Gson gson = <strong class="jxr_keyword">new</strong> Gson();
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>             gson.toJson(jsonObject, writer);
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>             writer.close();
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>             QueueProvider.offer(<span class="jxr_string">"The game locations were saved."</span>);
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>         } <strong class="jxr_keyword">catch</strong> (IOException ex) {
+<a class="jxr_linenumber" name="L137" href="#L137">137</a>             QueueProvider.offer(<span class="jxr_string">"Unable to save to file json/profiles/"</span> + profileName + <span class="jxr_string">"/locations.json"</span>);
+<a class="jxr_linenumber" name="L138" href="#L138">138</a>         }
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>     }
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> 
+<a class="jxr_linenumber" name="L141" href="#L141">141</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../com/jadventure/game/navigation/ILocation.html">ILocation</a> getInitialLocation(String profileName) {
+<a class="jxr_linenumber" name="L142" href="#L142">142</a>         getInstance(profileName);
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>         instance.reload();
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>         <a href="../../../../com/jadventure/game/navigation/Coordinate.html">Coordinate</a> coordinate = <strong class="jxr_keyword">new</strong> <a href="../../../../com/jadventure/game/navigation/Coordinate.html">Coordinate</a>(0, 0, -1);
+<a class="jxr_linenumber" name="L145" href="#L145">145</a>         <strong class="jxr_keyword">return</strong> getLocation(coordinate);
+<a class="jxr_linenumber" name="L146" href="#L146">146</a>     }
+<a class="jxr_linenumber" name="L147" href="#L147">147</a> 
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../com/jadventure/game/navigation/ILocation.html">ILocation</a> getLocation(<a href="../../../../com/jadventure/game/navigation/Coordinate.html">Coordinate</a> coordinate) {
+<a class="jxr_linenumber" name="L149" href="#L149">149</a>         <strong class="jxr_keyword">return</strong> Locations.locations.get(coordinate);
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>     }
+<a class="jxr_linenumber" name="L151" href="#L151">151</a> 
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> reload() {
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>         JsonParser parser = <strong class="jxr_keyword">new</strong> JsonParser();
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>         File f = <strong class="jxr_keyword">new</strong> File(fileName);
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>         <strong class="jxr_keyword">if</strong> (!f.exists()) {
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>             copyLocationsFile();
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>         }
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>             Reader reader = <strong class="jxr_keyword">new</strong> FileReader(fileName);
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>             JsonObject json = parser.parse(reader).getAsJsonObject();
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>             <strong class="jxr_keyword">for</strong>(Map.Entry&lt;String, JsonElement&gt; entry: json.entrySet()) {
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>                 Locations.locations.put(<strong class="jxr_keyword">new</strong> <a href="../../../../com/jadventure/game/navigation/Coordinate.html">Coordinate</a>(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>             }
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>             reader.close();
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>         } <strong class="jxr_keyword">catch</strong> (FileNotFoundException e) {
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>             e.printStackTrace();
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>             System.exit(-1);
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>         } <strong class="jxr_keyword">catch</strong> (IOException e) {
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>             e.printStackTrace();
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>         }
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>     }
+<a class="jxr_linenumber" name="L172" href="#L172">172</a> 
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> copyLocationsFile() {
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>         File source = <strong class="jxr_keyword">new</strong> File(<span class="jxr_string">"json/original_data/locations.json"</span>);
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>         File dest = <strong class="jxr_keyword">new</strong> File(fileName);
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>         dest.mkdirs();
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L178" href="#L178">178</a>         Files.copy(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>         } <strong class="jxr_keyword">catch</strong> (IOException e) {
+<a class="jxr_linenumber" name="L180" href="#L180">180</a>             e.printStackTrace();
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>         }
+<a class="jxr_linenumber" name="L182" href="#L182">182</a>     }
+<a class="jxr_linenumber" name="L183" href="#L183">183</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2015. All rights reserved.</div>

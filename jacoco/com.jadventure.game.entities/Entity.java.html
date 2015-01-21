@@ -139,198 +139,213 @@ public abstract class Entity {
 <span class="fc" id="L139">        return Collections.unmodifiableMap(equipment);</span>
     }
 
+    public void setEquipment(Map&lt;EquipmentLocation, Item&gt; equipment) {
+<span class="nc" id="L143">        this.equipment = equipment;</span>
+<span class="nc" id="L144">    }</span>
+
     public int getStrength() {
-<span class="fc" id="L143">        return strength;</span>
+<span class="fc" id="L147">        return strength;</span>
     }
     
     public void setStrength(int strength) {
-<span class="fc" id="L147">        this.strength = strength;</span>
-<span class="fc" id="L148">    }</span>
+<span class="fc" id="L151">        this.strength = strength;</span>
+<span class="fc" id="L152">    }</span>
 
     public int getIntelligence() {
-<span class="fc" id="L151">        return intelligence;</span>
+<span class="fc" id="L155">        return intelligence;</span>
     }
 
     public void setIntelligence(int intelligence) {
-<span class="fc" id="L155">        this.intelligence = intelligence;</span>
-<span class="fc" id="L156">    }</span>
+<span class="fc" id="L159">        this.intelligence = intelligence;</span>
+<span class="fc" id="L160">    }</span>
  
     public int getDexterity() {
-<span class="fc" id="L159">        return dexterity;</span>
+<span class="fc" id="L163">        return dexterity;</span>
     }
 
     public void setDexterity(int dexterity) {
-<span class="fc" id="L163">        this.dexterity = dexterity;</span>
-<span class="fc" id="L164">    }</span>
+<span class="fc" id="L167">        this.dexterity = dexterity;</span>
+<span class="fc" id="L168">    }</span>
 
     public int getLuck() {
-<span class="fc" id="L167">        return luck;</span>
+<span class="fc" id="L171">        return luck;</span>
     }
 
     public void setLuck(int luck) {
-<span class="fc" id="L171">        this.luck = luck;</span>
-<span class="fc" id="L172">    }</span>
+<span class="fc" id="L175">        this.luck = luck;</span>
+<span class="fc" id="L176">    }</span>
 
     public int getStealth() {
-<span class="fc" id="L175">        return stealth;</span>
+<span class="fc" id="L179">        return stealth;</span>
     }
 
     public void setStealth(int stealth) {
-<span class="fc" id="L179">        this.stealth = stealth;</span>
-<span class="fc" id="L180">    }</span>
+<span class="fc" id="L183">        this.stealth = stealth;</span>
+<span class="fc" id="L184">    }</span>
 
     public String getWeapon() {
-<span class="fc" id="L183">        return weapon;</span>
+<span class="fc" id="L187">        return weapon;</span>
     }
 
     public Map&lt;String, String&gt; equipItem(EquipmentLocation place, Item item) {
-<span class="fc" id="L187">        double oldDamage = this.damage;</span>
-<span class="fc" id="L188">        int oldArmour = this.armour;</span>
-<span class="fc bfc" id="L189" title="All 2 branches covered.">        if (place == null) {</span>
-<span class="fc" id="L190">            place = item.getPosition();</span>
+<span class="fc" id="L191">        double oldDamage = this.damage;</span>
+<span class="fc" id="L192">        int oldArmour = this.armour;</span>
+<span class="fc bfc" id="L193" title="All 2 branches covered.">        if (place == null) {</span>
+<span class="fc" id="L194">            place = item.getPosition();</span>
         }
-<span class="pc bpc" id="L192" title="1 of 2 branches missed.">        if (equipment.get(place) != null) {</span>
-<span class="nc" id="L193">            unequipItem(equipment.get(place));</span>
+<span class="pc bpc" id="L196" title="1 of 2 branches missed.">        if (equipment.get(place) != null) {</span>
+<span class="nc" id="L197">            unequipItem(equipment.get(place));</span>
         }
-<span class="fc bfc" id="L195" title="All 2 branches covered.">        if (place == EquipmentLocation.BOTH_HANDS) {</span>
-<span class="fc" id="L196">            unequipTwoPlaces(EquipmentLocation.LEFT_HAND, EquipmentLocation.RIGHT_HAND);</span>
-<span class="fc bfc" id="L197" title="All 2 branches covered.">        } else if (place == EquipmentLocation.BOTH_ARMS) {</span>
-<span class="fc" id="L198">            unequipTwoPlaces(EquipmentLocation.LEFT_ARM, EquipmentLocation.RIGHT_ARM);</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">        if (place == EquipmentLocation.BOTH_HANDS) {</span>
+<span class="fc" id="L200">            unequipTwoPlaces(EquipmentLocation.LEFT_HAND, EquipmentLocation.RIGHT_HAND);</span>
+<span class="fc bfc" id="L201" title="All 2 branches covered.">        } else if (place == EquipmentLocation.BOTH_ARMS) {</span>
+<span class="fc" id="L202">            unequipTwoPlaces(EquipmentLocation.LEFT_ARM, EquipmentLocation.RIGHT_ARM);</span>
         } 
-<span class="fc" id="L200">        Item bothHands = equipment.get(EquipmentLocation.BOTH_HANDS);</span>
-<span class="pc bpc" id="L201" title="2 of 6 branches missed.">        if (bothHands != null &amp;&amp; (EquipmentLocation.LEFT_HAND == place || EquipmentLocation.RIGHT_HAND == place)) { </span>
-<span class="fc" id="L202">            unequipItem(bothHands);</span>
+<span class="fc" id="L204">        Item bothHands = equipment.get(EquipmentLocation.BOTH_HANDS);</span>
+<span class="pc bpc" id="L205" title="2 of 6 branches missed.">        if (bothHands != null &amp;&amp; (EquipmentLocation.LEFT_HAND == place || EquipmentLocation.RIGHT_HAND == place)) { </span>
+<span class="fc" id="L206">            unequipItem(bothHands);</span>
         }
-<span class="fc" id="L204">        Item bothArms = equipment.get(EquipmentLocation.BOTH_ARMS);</span>
-<span class="pc bpc" id="L205" title="2 of 6 branches missed.">        if (bothArms != null &amp;&amp; (place == EquipmentLocation.LEFT_ARM || place == EquipmentLocation.RIGHT_ARM)) { </span>
-<span class="fc" id="L206">            unequipItem(bothArms);</span>
+<span class="fc" id="L208">        Item bothArms = equipment.get(EquipmentLocation.BOTH_ARMS);</span>
+<span class="pc bpc" id="L209" title="2 of 6 branches missed.">        if (bothArms != null &amp;&amp; (place == EquipmentLocation.LEFT_ARM || place == EquipmentLocation.RIGHT_ARM)) { </span>
+<span class="fc" id="L210">            unequipItem(bothArms);</span>
         }
-<span class="fc" id="L208">        equipment.put(place, item);</span>
-<span class="fc" id="L209">        removeItemFromStorage(item);</span>
-<span class="fc" id="L210">        Map&lt;String, String&gt; result = new HashMap&lt;String, String&gt;();</span>
-<span class="pc bpc" id="L211" title="2 of 5 branches missed.">        switch (item.getId().charAt(0)) {</span>
+<span class="fc" id="L212">        equipment.put(place, item);</span>
+<span class="fc" id="L213">        removeItemFromStorage(item);</span>
+<span class="fc" id="L214">        Map&lt;String, String&gt; result = new HashMap&lt;String, String&gt;();</span>
+<span class="pc bpc" id="L215" title="3 of 5 branches missed.">        switch (item.getId().charAt(0)) {</span>
             case 'w': {
-<span class="fc" id="L213">                this.weapon = item.getId();</span>
-<span class="fc" id="L214">                this.damage += item.getProperty(&quot;damage&quot;);</span>
-<span class="fc" id="L215">                double diffDamage = this.damage - oldDamage;</span>
-<span class="fc" id="L216">                result.put(&quot;damage&quot;, String.valueOf(diffDamage));</span>
-<span class="fc" id="L217">                break;</span>
+<span class="fc" id="L217">                this.weapon = item.getId();</span>
+<span class="fc" id="L218">                this.damage += item.getProperty(&quot;damage&quot;);</span>
+<span class="fc" id="L219">                double diffDamage = this.damage - oldDamage;</span>
+<span class="fc" id="L220">                result.put(&quot;damage&quot;, String.valueOf(diffDamage));</span>
+<span class="fc" id="L221">                break;</span>
             }
             case 'a': {
-<span class="fc" id="L220">                this.armour += item.getProperty(&quot;armour&quot;);</span>
-<span class="fc" id="L221">                int diffArmour = this.armour - oldArmour;</span>
-<span class="fc" id="L222">                result.put(&quot;armour&quot;, String.valueOf(diffArmour));</span>
-<span class="fc" id="L223">                break;</span>
+<span class="fc" id="L224">                this.armour += item.getProperty(&quot;armour&quot;);</span>
+<span class="fc" id="L225">                int diffArmour = this.armour - oldArmour;</span>
+<span class="fc" id="L226">                result.put(&quot;armour&quot;, String.valueOf(diffArmour));</span>
+<span class="fc" id="L227">                break;</span>
             }
             case 'p': {
-<span class="nc bnc" id="L226" title="All 2 branches missed.">                if (item.containsProperty(&quot;healthMax&quot;)) {</span>
-<span class="nc" id="L227">                    int healthOld = this.getHealth();</span>
-<span class="nc" id="L228">                    this.healthMax += item.getProperty(&quot;healthMax&quot;);</span>
-<span class="nc" id="L229">                    this.health += item.getProperty(&quot;health&quot;);</span>
-<span class="nc bnc" id="L230" title="All 2 branches missed.">                    this.health = (this.health &gt; this.healthMax) ? this.healthMax : this.health;</span>
-<span class="nc" id="L231">                    int healthNew = this.health;</span>
-<span class="nc" id="L232">                    unequipItem(item); // One use only</span>
-<span class="nc" id="L233">                    removeItemFromStorage(item);</span>
-<span class="nc bnc" id="L234" title="All 2 branches missed.">                    if (healthNew != healthOld) {</span>
-<span class="nc" id="L235">                        result.put(&quot;health&quot;, String.valueOf(health - healthOld));</span>
+<span class="nc bnc" id="L230" title="All 2 branches missed.">                if (item.containsProperty(&quot;healthMax&quot;)) {</span>
+<span class="nc" id="L231">                    int healthOld = this.getHealth();</span>
+<span class="nc" id="L232">                    this.healthMax += item.getProperty(&quot;healthMax&quot;);</span>
+<span class="nc" id="L233">                    this.health += item.getProperty(&quot;health&quot;);</span>
+<span class="nc bnc" id="L234" title="All 2 branches missed.">                    this.health = (this.health &gt; this.healthMax) ? this.healthMax : this.health;</span>
+<span class="nc" id="L235">                    int healthNew = this.health;</span>
+<span class="nc" id="L236">                    unequipItem(item); // One use only</span>
+<span class="nc" id="L237">                    removeItemFromStorage(item);</span>
+<span class="nc bnc" id="L238" title="All 2 branches missed.">                    if (healthNew != healthOld) {</span>
+<span class="nc" id="L239">                        result.put(&quot;health&quot;, String.valueOf(health - healthOld));</span>
                     } else {
-<span class="nc" id="L237">                        result.put(&quot;health&quot;, String.valueOf(item.getProperty(&quot;healthMax&quot;)));</span>
+<span class="nc" id="L241">                        result.put(&quot;health&quot;, String.valueOf(item.getProperty(&quot;healthMax&quot;)));</span>
                     }
-<span class="nc" id="L239">                }</span>
+<span class="nc" id="L243">                }</span>
                 break;
             }
             case 'f': {
-<span class="nc" id="L243">                int healthOld = this.getHealth();</span>
-<span class="nc" id="L244">                this.health += item.getProperty(&quot;health&quot;);</span>
-<span class="nc bnc" id="L245" title="All 2 branches missed.">                this.health = (this.health &gt; this.healthMax) ? this.healthMax</span>
+<span class="nc" id="L247">                int healthOld = this.getHealth();</span>
+<span class="nc" id="L248">                this.health += item.getProperty(&quot;health&quot;);</span>
+<span class="nc bnc" id="L249" title="All 2 branches missed.">                this.health = (this.health &gt; this.healthMax) ? this.healthMax</span>
                         : this.health;
-<span class="nc" id="L247">                unequipItem(item); // One use only</span>
-<span class="nc" id="L248">                removeItemFromStorage(item);</span>
-<span class="nc" id="L249">                result.put(&quot;health&quot;, String.valueOf(health - healthOld));</span>
-<span class="nc" id="L250">                break;</span>
+<span class="nc" id="L251">                unequipItem(item); // One use only</span>
+<span class="nc" id="L252">                removeItemFromStorage(item);</span>
+<span class="nc" id="L253">                result.put(&quot;health&quot;, String.valueOf(health - healthOld));</span>
+<span class="nc" id="L254">                break;</span>
             }
         }
-<span class="fc" id="L253">        return result;</span>
+<span class="fc" id="L257">        return result;</span>
     }
 
     private void unequipTwoPlaces(EquipmentLocation leftLocation, EquipmentLocation rightLocation) {
-<span class="fc" id="L257">        Item left = equipment.get(leftLocation);</span>
-<span class="fc" id="L258">        Item right = equipment.get(rightLocation);</span>
-<span class="pc bpc" id="L259" title="1 of 2 branches missed.">        if (left != null) {</span>
-<span class="nc" id="L260">            unequipItem(left);</span>
+<span class="fc" id="L261">        Item left = equipment.get(leftLocation);</span>
+<span class="fc" id="L262">        Item right = equipment.get(rightLocation);</span>
+<span class="pc bpc" id="L263" title="1 of 2 branches missed.">        if (left != null) {</span>
+<span class="nc" id="L264">            unequipItem(left);</span>
         }
-<span class="pc bpc" id="L262" title="1 of 2 branches missed.">        if (right != null) { </span>
-<span class="nc" id="L263">            unequipItem(right);</span>
+<span class="pc bpc" id="L266" title="1 of 2 branches missed.">        if (right != null) { </span>
+<span class="nc" id="L267">            unequipItem(right);</span>
         }
-<span class="fc" id="L265">    }</span>
+<span class="fc" id="L269">    }</span>
 
     public Map&lt;String, String&gt; unequipItem(Item item) {
-<span class="fc bfc" id="L268" title="All 2 branches covered.">        for (EquipmentLocation key : equipment.keySet()) {</span>
-<span class="pc bpc" id="L269" title="1 of 2 branches missed.">            if (item.equals(equipment.get(key))) {</span>
-<span class="fc" id="L270">                equipment.put(key, null);</span>
+<span class="fc bfc" id="L272" title="All 2 branches covered.">        for (EquipmentLocation key : equipment.keySet()) {</span>
+<span class="pc bpc" id="L273" title="1 of 2 branches missed.">            if (item.equals(equipment.get(key))) {</span>
+<span class="fc" id="L274">                equipment.put(key, null);</span>
             }
-<span class="fc" id="L272">        }</span>
-<span class="pc bpc" id="L273" title="1 of 2 branches missed.">        if (!item.equals(itemRepo.getItem(&quot;hands&quot;))) {</span>
-<span class="fc" id="L274">            addItemToStorage(item);</span>
+<span class="fc" id="L276">        }</span>
+<span class="pc bpc" id="L277" title="1 of 2 branches missed.">        if (!item.equals(itemRepo.getItem(&quot;hands&quot;))) {</span>
+<span class="fc" id="L278">            addItemToStorage(item);</span>
         }
-<span class="fc" id="L276">        Map&lt;String, String&gt; result = new HashMap&lt;String, String&gt;();</span>
-<span class="fc bfc" id="L277" title="All 2 branches covered.">        if (item.containsProperty(&quot;damage&quot;)) {</span>
-<span class="fc" id="L278">            double oldDamage = damage;</span>
-<span class="fc" id="L279">            weapon = &quot;hands&quot;;</span>
-<span class="fc" id="L280">            damage -= item.getProperty(&quot;damage&quot;);</span>
-<span class="fc" id="L281">            double diffDamage = damage - oldDamage;</span>
-<span class="fc" id="L282">            result.put(&quot;damage&quot;, String.valueOf(diffDamage));</span>
+<span class="fc" id="L280">        Map&lt;String, String&gt; result = new HashMap&lt;String, String&gt;();</span>
+<span class="fc bfc" id="L281" title="All 2 branches covered.">        if (item.containsProperty(&quot;damage&quot;)) {</span>
+<span class="fc" id="L282">            double oldDamage = damage;</span>
+<span class="fc" id="L283">            weapon = &quot;hands&quot;;</span>
+<span class="fc" id="L284">            damage -= item.getProperty(&quot;damage&quot;);</span>
+<span class="fc" id="L285">            double diffDamage = damage - oldDamage;</span>
+<span class="fc" id="L286">            result.put(&quot;damage&quot;, String.valueOf(diffDamage));</span>
         } 
-<span class="fc bfc" id="L284" title="All 2 branches covered.">        if (item.containsProperty(&quot;armour&quot;)) {</span>
-<span class="fc" id="L285">            int oldArmour = armour;</span>
-<span class="fc" id="L286">            armour -= item.getProperty(&quot;armour&quot;);</span>
-<span class="fc" id="L287">            int diffArmour = armour - oldArmour;</span>
-<span class="fc" id="L288">            result.put(&quot;armour&quot;, String.valueOf(diffArmour));</span>
+<span class="fc bfc" id="L288" title="All 2 branches covered.">        if (item.containsProperty(&quot;armour&quot;)) {</span>
+<span class="fc" id="L289">            int oldArmour = armour;</span>
+<span class="fc" id="L290">            armour -= item.getProperty(&quot;armour&quot;);</span>
+<span class="fc" id="L291">            int diffArmour = armour - oldArmour;</span>
+<span class="fc" id="L292">            result.put(&quot;armour&quot;, String.valueOf(diffArmour));</span>
         }
-<span class="fc" id="L290">        return result;</span>
+<span class="fc" id="L294">        return result;</span>
     }
 
     public void printEquipment() {
-<span class="nc" id="L294">        QueueProvider.offer(&quot;\n------------------------------------------------------------&quot;);</span>
-<span class="nc" id="L295">        QueueProvider.offer(&quot;Equipped Items:&quot;);</span>
-<span class="nc bnc" id="L296" title="All 2 branches missed.">        if (equipment.keySet().size() == 0) {</span>
-<span class="nc" id="L297">            QueueProvider.offer(&quot;--Empty--&quot;);</span>
+<span class="nc" id="L298">        QueueProvider.offer(&quot;\n------------------------------------------------------------&quot;);</span>
+<span class="nc" id="L299">        QueueProvider.offer(&quot;Equipped Items:&quot;);</span>
+<span class="nc bnc" id="L300" title="All 2 branches missed.">        if (equipment.keySet().size() == 0) {</span>
+<span class="nc" id="L301">            QueueProvider.offer(&quot;--Empty--&quot;);</span>
         } else {
-<span class="nc" id="L299">            int i = 0;</span>
-<span class="nc" id="L300">            Item hands = itemRepo.getItem(&quot;hands&quot;);</span>
-<span class="nc bnc" id="L301" title="All 2 branches missed.">            for (Map.Entry&lt;EquipmentLocation, Item&gt; item : equipment.entrySet()) {</span>
-<span class="nc bnc" id="L302" title="All 6 branches missed.">                if (item.getKey() != null &amp;&amp; !hands.equals(item.getValue()) &amp;&amp; item.getValue() != null) {</span>
-<span class="nc" id="L303">                    QueueProvider.offer(item.getKey() + &quot; - &quot; + item.getValue().getName());</span>
+<span class="nc" id="L303">            int i = 0;</span>
+<span class="nc" id="L304">            Item hands = itemRepo.getItem(&quot;hands&quot;);</span>
+<span class="nc" id="L305">            Map&lt;EquipmentLocation, String&gt; locations = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L306">            locations.put(EquipmentLocation.HEAD, &quot;Head&quot;);</span>
+<span class="nc" id="L307">            locations.put(EquipmentLocation.CHEST, &quot;Chest&quot;);</span>
+<span class="nc" id="L308">            locations.put(EquipmentLocation.LEFT_ARM, &quot;Left arm&quot;);</span>
+<span class="nc" id="L309">            locations.put(EquipmentLocation.LEFT_HAND, &quot;Left hand&quot;);</span>
+<span class="nc" id="L310">            locations.put(EquipmentLocation.RIGHT_ARM, &quot;Right arm&quot;);</span>
+<span class="nc" id="L311">            locations.put(EquipmentLocation.RIGHT_HAND, &quot;Right hand&quot;);</span>
+<span class="nc" id="L312">            locations.put(EquipmentLocation.BOTH_HANDS, &quot;Both hands&quot;);</span>
+<span class="nc" id="L313">            locations.put(EquipmentLocation.BOTH_ARMS, &quot;Both arms&quot;);</span>
+<span class="nc" id="L314">            locations.put(EquipmentLocation.LEGS, &quot;Legs&quot;);</span>
+<span class="nc" id="L315">            locations.put(EquipmentLocation.FEET, &quot;Feet&quot;);</span>
+<span class="nc bnc" id="L316" title="All 2 branches missed.">            for (Map.Entry&lt;EquipmentLocation, Item&gt; item : equipment.entrySet()) {</span>
+<span class="nc bnc" id="L317" title="All 6 branches missed.">                if (item.getKey() != null &amp;&amp; !hands.equals(item.getValue()) &amp;&amp; item.getValue() != null) {</span>
+<span class="nc" id="L318">                    QueueProvider.offer(locations.get(item.getKey()) + &quot; - &quot; + item.getValue().getName());</span>
                 } else {
-<span class="nc" id="L305">                    i++;</span>
+<span class="nc" id="L320">                    i++;</span>
                 }
-<span class="nc" id="L307">            }</span>
-<span class="nc bnc" id="L308" title="All 2 branches missed.">            if (i == equipment.keySet().size()) {</span>
-<span class="nc" id="L309">                QueueProvider.offer(&quot;--Empty--&quot;);</span>
+<span class="nc" id="L322">            }</span>
+<span class="nc bnc" id="L323" title="All 2 branches missed.">            if (i == equipment.keySet().size()) {</span>
+<span class="nc" id="L324">                QueueProvider.offer(&quot;--Empty--&quot;);</span>
             }
         }
-<span class="nc" id="L312">        QueueProvider.offer(&quot;------------------------------------------------------------&quot;); </span>
-<span class="nc" id="L313">    }</span>
+<span class="nc" id="L327">        QueueProvider.offer(&quot;------------------------------------------------------------&quot;); </span>
+<span class="nc" id="L328">    }</span>
 
     public Storage getStorage() {
-<span class="fc" id="L316">        return storage;</span>
+<span class="fc" id="L331">        return storage;</span>
     }
 
     public void setStorage(Storage storage) {
-<span class="fc" id="L320">        this.storage = storage;</span>
-<span class="fc" id="L321">    }</span>
+<span class="fc" id="L335">        this.storage = storage;</span>
+<span class="fc" id="L336">    }</span>
 
     public void printStorage() {
-<span class="nc" id="L324">       storage.display();</span>
-<span class="nc" id="L325">    } </span>
+<span class="nc" id="L339">       storage.display();</span>
+<span class="nc" id="L340">    } </span>
     
     public void addItemToStorage(Item item) {
-<span class="fc" id="L328">        storage.addItem(new ItemStack(1, item));</span>
-<span class="fc" id="L329">    }</span>
+<span class="fc" id="L343">        storage.addItem(new ItemStack(1, item));</span>
+<span class="fc" id="L344">    }</span>
 
     public void removeItemFromStorage(Item item) {
-<span class="fc" id="L332">        storage.removeItem(new ItemStack(1, item)); </span>
-<span class="fc" id="L333">    }</span>
+<span class="fc" id="L347">        storage.removeItem(new ItemStack(1, item)); </span>
+<span class="fc" id="L348">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

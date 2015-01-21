@@ -57,48 +57,53 @@ public class CommandParser {
 <span class="nc bnc" id="L57" title="All 2 branches missed.">            if (command.startsWith(key)) {</span>
 <span class="nc" id="L58">                Method method = commandMap.get(key);</span>
 <span class="nc bnc" id="L59" title="All 2 branches missed.">                if (method.getParameterTypes().length == 0){</span>
-                    try {
-<span class="nc bnc" id="L61" title="All 2 branches missed.">                        if (method.getAnnotation(Command.class).debug()) {</span>
-<span class="nc bnc" id="L62" title="All 2 branches missed.">                            if (&quot;test&quot;.equals(player.getName())) {</span>
-<span class="nc" id="L63">                                method.invoke(com);</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">                    if (command.equals(key)) {</span>
+                        try {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">                            if (method.getAnnotation(Command.class).debug()) {</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">                                if (&quot;test&quot;.equals(player.getName())) {</span>
+<span class="nc" id="L64">                                    method.invoke(com);</span>
+                                } else {
+<span class="nc" id="L66">                                    QueueProvider.offer(&quot;Must be using test profile to debug&quot;);</span>
+                                }
                             } else {
-<span class="nc" id="L65">                                QueueProvider.offer(&quot;Must be using test profile to debug&quot;);</span>
+<span class="nc" id="L69">                                method.invoke(com);</span>
+                            }
+<span class="nc" id="L71">                        } catch (IllegalAccessException | InvocationTargetException e) {</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">                            if (e.getCause() instanceof DeathException) {</span>
+<span class="nc" id="L73">                                throw (DeathException) e.getCause();</span>
+                            } else {
+<span class="nc" id="L75">                                e.getCause().printStackTrace();</span>
+                            }
+<span class="nc" id="L77">                        }</span>
+                    } else {
+<span class="nc" id="L79">                        QueueProvider.offer(&quot;I don't know what'&quot; + command + &quot;' means.&quot;);</span>
+<span class="nc" id="L80">                        return true;</span>
+                    }
+<span class="nc bnc" id="L82" title="All 2 branches missed.">                } else if (method.getParameterTypes()[0] == String.class) {</span>
+<span class="nc" id="L83">                    String arg = command.substring(key.length()).trim();</span>
+                    try {
+<span class="nc bnc" id="L85" title="All 2 branches missed.">                        if (method.getAnnotation(Command.class).debug()) {</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                            if (&quot;test&quot;.equals(player.getName())) {</span>
+<span class="nc" id="L87">                                method.invoke(com, arg);</span>
+                            } else {
+<span class="nc" id="L89">                                QueueProvider.offer(&quot;Must be using test profile to debug&quot;);</span>
                             }
                         } else {
-<span class="nc" id="L68">                            method.invoke(com);</span>
+<span class="nc" id="L92">                            method.invoke(com, arg);</span>
                         }
-<span class="nc" id="L70">                    } catch (IllegalAccessException | InvocationTargetException e) {</span>
-<span class="nc bnc" id="L71" title="All 2 branches missed.">                        if (e.getCause() instanceof DeathException) {</span>
-<span class="nc" id="L72">                            throw (DeathException) e.getCause();</span>
+<span class="nc" id="L94">                    } catch (IllegalAccessException | InvocationTargetException e) {</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">                        if (e.getCause() instanceof DeathException) {</span>
+<span class="nc" id="L96">                            throw (DeathException) e.getCause();</span>
                         } else {
-<span class="nc" id="L74">                            e.getCause().printStackTrace();</span>
+<span class="nc" id="L98">                            e.getCause().printStackTrace();</span>
                         }
-<span class="nc" id="L76">                    }</span>
-<span class="nc bnc" id="L77" title="All 2 branches missed.">                } else if (method.getParameterTypes()[0] == String.class) {</span>
-<span class="nc" id="L78">                    String arg = command.substring(key.length()).trim();</span>
-                    try {
-<span class="nc bnc" id="L80" title="All 2 branches missed.">                        if (method.getAnnotation(Command.class).debug()) {</span>
-<span class="nc bnc" id="L81" title="All 2 branches missed.">                            if (&quot;test&quot;.equals(player.getName())) {</span>
-<span class="nc" id="L82">                                method.invoke(com, arg);</span>
-                            } else {
-<span class="nc" id="L84">                                QueueProvider.offer(&quot;Must be using test profile to debug&quot;);</span>
-                            }
-                        } else {
-<span class="nc" id="L87">                            method.invoke(com, arg);</span>
-                        }
-<span class="nc" id="L89">                    } catch (IllegalAccessException | InvocationTargetException e) {</span>
-<span class="nc bnc" id="L90" title="All 2 branches missed.">                        if (e.getCause() instanceof DeathException) {</span>
-<span class="nc" id="L91">                            throw (DeathException) e.getCause();</span>
-                        } else {
-<span class="nc" id="L93">                            e.getCause().printStackTrace();</span>
-                        }
-<span class="nc" id="L95">                    }</span>
+<span class="nc" id="L100">                    }</span>
                 }
-<span class="nc" id="L97">                return true;</span>
+<span class="nc" id="L102">                return true;</span>
             }
-<span class="nc" id="L99">        }</span>
-<span class="nc" id="L100">        QueueProvider.offer(&quot;I don't know what'&quot; + command + &quot;' means.&quot;);</span>
-<span class="nc" id="L101">        return true;</span>
+<span class="nc" id="L104">        }</span>
+<span class="nc" id="L105">        QueueProvider.offer(&quot;I don't know what'&quot; + command + &quot;' means.&quot;);</span>
+<span class="nc" id="L106">        return true;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
