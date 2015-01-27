@@ -53,6 +53,9 @@ public class NPC extends Entity {
             setDexterity(json.get("dexterity").getAsInt());
             setStealth(json.get("stealth").getAsInt());
             setStrength(json.get("strength").getAsInt());
+            if (json.has("gold")) {
+                setGold(json.get("gold").getAsInt());
+            }
             float maxWeight = (float)Math.sqrt(getStrength()*300);
             setStorage(new Storage(maxWeight));
             if (json.has("sellLimit") && json.has("items")) {

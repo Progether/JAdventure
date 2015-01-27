@@ -12,7 +12,7 @@
       "intelligence": 0,
       "dexterity": 0,
       "stealth": 0,
-
+      "gold": 100,
       "allies": [
 	"Recruit",
 	"Sewer Rat"
@@ -124,6 +124,7 @@
       "intelligence": 2,
       "dexterity": 2,
       "stealth": 2,
+      "gold": 100,
       "location": [
         {
           "head": "empty"
@@ -201,6 +202,7 @@
       "intelligence": 1,
       "dexterity": 1,
       "stealth": 1,
+      "gold": 100,
       "location": [
         {
           "head": "empty"
