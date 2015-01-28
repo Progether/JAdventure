@@ -1,6 +1,7 @@
 package com.jadventure.game;
 
 import com.jadventure.game.repository.ItemRepository;
+import com.jadventure.game.repository.LocationRepository;
 
 /**
  * There is no Dependency Injection framework yet used / chosen, for creating Beans (runtime singletons / prototypes). 
@@ -12,4 +13,11 @@ public final class GameBeans {
         return ItemRepository.createRepo();
     }
 
+    public static LocationRepository getLocationRepository() {
+        return LocationRepository.createRepo("");
+    }
+
+    public static LocationRepository getLocationRepository(String profile) {
+        return LocationRepository.createRepo(profile);
+    }
 }

@@ -77,7 +77,7 @@ public class BattleMenu extends Menus {
                 QueueProvider.offer("Your opponent dropped a " + item.getName());
             }
 
-            this.player.getLocation().removeNPC(npcOpponent);
+            this.player.getLocation().removeNpc(npcOpponent);
             this.player.setGold(this.player.getGold() + npcOpponent.getGold());
             QueueProvider.offer("You killed a " + npcOpponent.getName() + "\nYou have gained " + xp + " XP and " + npcOpponent.getGold() + " gold");
             if (oldLevel < newLevel) {

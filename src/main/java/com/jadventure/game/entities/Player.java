@@ -38,9 +38,9 @@ import com.jadventure.game.menus.BattleMenu;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.navigation.ILocation;
-import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.navigation.LocationType;
 import com.jadventure.game.repository.ItemRepository;
+import com.jadventure.game.repository.LocationRepository;
 
 /**
  * This class deals with the player and all of its properties.
@@ -51,7 +51,7 @@ import com.jadventure.game.repository.ItemRepository;
 public class Player extends Entity {
     // @Resource
     protected static ItemRepository itemRepo = GameBeans.getItemRepository();
-
+    protected static LocationRepository locationRepo = GameBeans.getLocationRepository();
     private ILocation location;
     private int xp;
     /** Player type */
@@ -159,8 +159,8 @@ public class Player extends Entity {
                 player.setStorage(new Storage(maxWeight, itemList));
             }
             Coordinate coordinate = new Coordinate(json.get("location").getAsString());
-            LocationManager.getInstance(player.getName());
-            player.setLocation(LocationManager.getLocation(coordinate));
+            locationRepo = GameBeans.getLocationRepository(player.getName());
+            player.setLocation(locationRepo.getLocation(coordinate));
             reader.close();
             setUpCharacterLevels();
         } catch (FileNotFoundException ex) {
@@ -321,7 +321,8 @@ public class Player extends Entity {
             Writer writer = new FileWriter(fileName);
             gson.toJson(jsonObject, writer);
             writer.close();
-            LocationManager.writeLocations(getName());
+            locationRepo = GameBeans.getLocationRepository(getName());
+            locationRepo.writeLocations();
             QueueProvider.offer("\nYour game data was saved.");
         } catch (IOException ex) {
             QueueProvider.offer("\nUnable to save to file '" + fileName + "'.");
@@ -481,7 +482,7 @@ public class Player extends Entity {
         Monster monsterOpponent = null;
         NPC npcOpponent = null;
         List<Monster> monsters = getLocation().getMonsters();
-        List<NPC> npcs = getLocation().getNPCs();
+        List<NPC> npcs = getLocation().getNpcs();
         for (int i = 0; i < monsters.size(); i++) {
              if (monsters.get(i).monsterType.equalsIgnoreCase(opponentName)) {
                  monsterOpponent = monsters.get(i);
