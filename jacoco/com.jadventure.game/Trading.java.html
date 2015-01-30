@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.jadventure.game.entities.Entity;
 import com.jadventure.game.entities.NPC;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.items.Item;
@@ -13,129 +14,117 @@ import com.jadventure.game.menus.Menus;
 import com.jadventure.game.repository.ItemRepository;
 
 public class Trading {
-    int npcGold;
-    int playerGold;
     NPC npc;
     Player player;
-<span class="nc" id="L20">    ItemRepository itemRepo = GameBeans.getItemRepository();</span>
+<span class="nc" id="L19">    ItemRepository itemRepo = GameBeans.getItemRepository();</span>
 
-<span class="nc" id="L22">    public Trading(NPC npc, Player player) {</span>
-<span class="nc" id="L23">        npcGold = npc.getGold();</span>
-<span class="nc" id="L24">        playerGold = player.getGold();</span>
-<span class="nc" id="L25">        this.npc = npc;</span>
-<span class="nc" id="L26">        this.player = player;</span>
-<span class="nc" id="L27">    }</span>
+<span class="nc" id="L21">    public Trading(NPC npc, Player player) {</span>
+<span class="nc" id="L22">        this.npc = npc;</span>
+<span class="nc" id="L23">        this.player = player;</span>
+<span class="nc" id="L24">    }</span>
 
     public void trade(boolean buy, boolean sell) {
-<span class="nc" id="L30">        List&lt;MenuItem&gt; tradeList = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L31">        String buyCommand = &quot;Buy from &quot; + npc.getName();</span>
-<span class="nc" id="L32">        String sellCommand = &quot;Sell to &quot; + npc.getName();</span>
-<span class="nc bnc" id="L33" title="All 2 branches missed.">        if (buy) {</span>
-<span class="nc" id="L34">            tradeList.add(new MenuItem(buyCommand, null));</span>
+<span class="nc" id="L27">        List&lt;MenuItem&gt; tradeList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L28">        String buyCommand = &quot;Buy from &quot; + npc.getName();</span>
+<span class="nc" id="L29">        String sellCommand = &quot;Sell to &quot; + npc.getName();</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        if (buy) {</span>
+<span class="nc" id="L31">            tradeList.add(new MenuItem(buyCommand, null));</span>
         }
-<span class="nc bnc" id="L36" title="All 2 branches missed.">        if (sell) {</span>
-<span class="nc" id="L37">            tradeList.add(new MenuItem(sellCommand, null));</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        if (sell) {</span>
+<span class="nc" id="L34">            tradeList.add(new MenuItem(sellCommand, null));</span>
         }
-<span class="nc" id="L39">        tradeList.add(new MenuItem(&quot;exit&quot;, null));</span>
-<span class="nc" id="L40">        Menus tradeMenu = new Menus();</span>
-<span class="nc" id="L41">        MenuItem response = tradeMenu.displayMenu(tradeList);</span>
-<span class="nc" id="L42">        String command = response.getCommand();</span>
-<span class="nc bnc" id="L43" title="All 4 branches missed.">        if (command.equals(buyCommand) &amp;&amp; buy) {</span>
-<span class="nc" id="L44">            playerBuy();</span>
-<span class="nc bnc" id="L45" title="All 4 branches missed.">        } else if (command.equals(sellCommand) &amp;&amp; sell) {</span>
-<span class="nc" id="L46">            playerSell();</span>
-<span class="nc bnc" id="L47" title="All 2 branches missed.">        } else if (command.equals(&quot;exit&quot;)) {</span>
-<span class="nc" id="L48">            return;</span>
+<span class="nc" id="L36">        tradeList.add(new MenuItem(&quot;Exit&quot;, null));</span>
+<span class="nc" id="L37">        Menus tradeMenu = new Menus();</span>
+<span class="nc" id="L38">        MenuItem response = tradeMenu.displayMenu(tradeList);</span>
+<span class="nc" id="L39">        String command = response.getCommand();</span>
+<span class="nc bnc" id="L40" title="All 4 branches missed.">        if (command.equals(buyCommand) &amp;&amp; buy) {</span>
+<span class="nc" id="L41">            playerBuy();</span>
+<span class="nc bnc" id="L42" title="All 4 branches missed.">        } else if (command.equals(sellCommand) &amp;&amp; sell) {</span>
+<span class="nc" id="L43">            playerSell();</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        } else if (command.equals(&quot;exit&quot;)) {</span>
+<span class="nc" id="L45">            return;</span>
         }
-<span class="nc" id="L50">        trade(buy, sell);</span>
-<span class="nc" id="L51">    }</span>
+<span class="nc" id="L47">        trade(buy, sell);</span>
+<span class="nc" id="L48">    }</span>
     
     public void playerBuy() {
-<span class="nc" id="L54">        QueueProvider.offer(npc.getName() + &quot;'s items:\n&quot;);</span>
-<span class="nc" id="L55">        QueueProvider.offer(npc.getStorage().displayWithValue());</span>
+<span class="nc" id="L51">        QueueProvider.offer(npc.getName() + &quot;'s items:\t&quot; + npc.getName()  + &quot;'s gold:&quot; + npc.getGold() + &quot;\n&quot;);</span>
+<span class="nc" id="L52">        QueueProvider.offer(npc.getStorage().displayWithValue());</span>
 
-<span class="nc" id="L57">        QueueProvider.offer(&quot;You have &quot; + playerGold + &quot; gold coins.\nWhat do you want to buy?&quot;);</span>
-<span class="nc" id="L58">        String itemName = QueueProvider.take();</span>
+<span class="nc" id="L54">        QueueProvider.offer(&quot;You have &quot; + player.getGold() + &quot; gold coins.\nWhat do you want to buy?&quot;);</span>
+<span class="nc" id="L55">        String itemName = QueueProvider.take();</span>
 
-<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (itemName.equals(&quot;exit&quot;)) {</span>
-<span class="nc" id="L61">            return;</span>
+<span class="nc bnc" id="L57" title="All 4 branches missed.">        if (&quot;exit&quot;.equals(itemName) || &quot;back&quot;.equals(itemName)) {</span>
+<span class="nc" id="L58">            return;</span>
         }
-        
-        // [Clean Code]  Code Copy
-<span class="nc" id="L65">        List&lt;Item&gt; itemList = npc.getStorage().getItems();</span>
-<span class="nc" id="L66">        Map&lt;String, String&gt; itemIds = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L67">        Map&lt;String, Integer&gt; itemValues = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L68">        Map&lt;String, Item&gt; itemIdtoItem = new HashMap&lt;&gt;();</span>
 
-<span class="nc bnc" id="L70" title="All 2 branches missed.">        for (Item item : itemList) {</span>
-<span class="nc" id="L71">            String name = item.getName();</span>
-<span class="nc" id="L72">            String id = item.getId();</span>
-<span class="nc" id="L73">            int value = item.getProperties().get(&quot;value&quot;);</span>
-<span class="nc" id="L74">            itemIds.put(name, id);</span>
-<span class="nc" id="L75">            itemValues.put(id, value);</span>
-<span class="nc" id="L76">            itemIdtoItem.put(id, item);</span>
-<span class="nc" id="L77">        }</span>
-
-<span class="nc bnc" id="L79" title="All 2 branches missed.">        if (itemIds.containsKey(itemName)) {</span>
-<span class="nc" id="L80">            int itemValue = itemValues.get(itemIds.get(itemName));</span>
-<span class="nc" id="L81">            Item item = itemIdtoItem.get(itemIds.get(itemName));</span>
-<span class="nc bnc" id="L82" title="All 2 branches missed.">            if (playerGold &lt; itemValue) {</span>
-<span class="nc" id="L83">                QueueProvider.offer(&quot;You do not have enough money!&quot;);</span>
-<span class="nc" id="L84">                return;</span>
+<span class="nc" id="L61">        Item item = tradeItem(npc, player, itemName);</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if (item != null) {</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            if (item != itemRepo.getItem(&quot;empty&quot;)) {</span>
+<span class="nc" id="L64">                QueueProvider.offer(&quot;You have bought a &quot; + item.getName() + &quot; for &quot; + item.getProperties().get(&quot;value&quot;) + &quot; gold coins.&quot;);</span>
+<span class="nc" id="L65">                QueueProvider.offer(&quot;You now have &quot; + player.getGold() + &quot; gold coins remaining.&quot;);</span>
             }
-<span class="nc" id="L86">            player.addItemToStorage(item);</span>
-<span class="nc" id="L87">            player.setGold(playerGold - itemValue);</span>
-<span class="nc" id="L88">            npc.setGold(npcGold + itemValue);</span>
-<span class="nc" id="L89">            npc.removeItemFromStorage(item);</span>
-<span class="nc" id="L90">            playerGold = playerGold - itemValue;</span>
-<span class="nc" id="L91">            npcGold = npcGold + itemValue;</span>
-<span class="nc" id="L92">            QueueProvider.offer(&quot;You have bought a &quot; + item.getName() + &quot; for &quot; + itemValue + &quot; gold coins.&quot;);</span>
-<span class="nc" id="L93">            QueueProvider.offer(&quot;You now have &quot; + playerGold + &quot; gold coins remaining.&quot;);</span>
-<span class="nc" id="L94">        } else {</span>
+            else {
+<span class="nc" id="L68">                QueueProvider.offer(&quot;You do not have enough money!&quot;);</span>
+            }
+        } else {
+<span class="nc" id="L71">            QueueProvider.offer(&quot;Either this item doesn't exist or this character does not own that item&quot;);</span>
+        }
+<span class="nc" id="L73">    }</span>
+
+    public void playerSell() {
+<span class="nc" id="L76">        QueueProvider.offer(player.getName() + &quot;'s items:\t&quot; + npc.getName()  + &quot;'s gold:&quot; + npc.getGold() + &quot;\n&quot;);</span>
+<span class="nc" id="L77">        QueueProvider.offer(player.getStorage().displayWithValue());</span>
+        
+<span class="nc" id="L79">        QueueProvider.offer(&quot;You have &quot; + player.getGold() + &quot; gold coins.\nWhat do you want to sell?&quot;);</span>
+<span class="nc" id="L80">        String itemName = QueueProvider.take();</span>
+ 
+<span class="nc bnc" id="L82" title="All 4 branches missed.">        if (&quot;exit&quot;.equals(itemName) || &quot;back&quot;.equals(itemName)) {</span>
+<span class="nc" id="L83">            return;</span>
+        }
+<span class="nc" id="L85">        Item item = tradeItem(player, npc, itemName);</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if (item != null) {</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">            if (item != itemRepo.getItem(&quot;empty&quot;)) {</span>
+<span class="nc" id="L88">                QueueProvider.offer(&quot;You have sold a &quot; + item.getName() + &quot; for &quot; + item.getProperties().get(&quot;value&quot;) + &quot; gold coins.&quot;);</span>
+<span class="nc" id="L89">                QueueProvider.offer(&quot;You now have &quot; + player.getGold() + &quot; gold coins remaining.&quot;);</span>
+            }
+            else {
+<span class="nc" id="L92">                QueueProvider.offer(npc.getName() + &quot; does not have enough money!&quot;);</span>
+            }
+        } else {
 <span class="nc" id="L95">            QueueProvider.offer(&quot;Either this item doesn't exist or this character does not own that item&quot;);</span>
         }
 <span class="nc" id="L97">    }</span>
 
-    public void playerSell() {
-<span class="nc" id="L100">        QueueProvider.offer(player.getName() + &quot;'s items:\n&quot;);</span>
-<span class="nc" id="L101">        QueueProvider.offer(player.getStorage().displayWithValue());</span>
-        
-<span class="nc" id="L103">        QueueProvider.offer(&quot;You have &quot; + playerGold + &quot; gold coins.\nWhat do you want to sell?&quot;);</span>
-<span class="nc" id="L104">        String itemName = QueueProvider.take();</span>
+    private Item tradeItem(Entity seller, Entity buyer, String itemName) {
+<span class="nc" id="L100">        List&lt;Item&gt; itemList = seller.getStorage().getItems();</span>
+<span class="nc" id="L101">        Map&lt;String, String&gt; itemIds = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L102">        Map&lt;String, Integer&gt; itemValues = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L103">        Map&lt;String, Item&gt; itemIdtoItem = new HashMap&lt;&gt;();</span>
 
-<span class="nc bnc" id="L106" title="All 2 branches missed.">        if (itemName.equals(&quot;exit&quot;)) {</span>
-<span class="nc" id="L107">            return;</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        for (Item item : itemList) {</span>
+<span class="nc" id="L106">            String name = item.getName();</span>
+<span class="nc" id="L107">            String id = item.getId();</span>
+<span class="nc" id="L108">            int value = item.getProperties().get(&quot;value&quot;);</span>
+<span class="nc" id="L109">            itemIds.put(name, id);</span>
+<span class="nc" id="L110">            itemValues.put(id, value);</span>
+<span class="nc" id="L111">            itemIdtoItem.put(id, item);</span>
+<span class="nc" id="L112">        }</span>
+
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        if (itemIds.containsKey(itemName)) {</span>
+<span class="nc" id="L115">            int itemValue = itemValues.get(itemIds.get(itemName));</span>
+<span class="nc" id="L116">            Item item = itemIdtoItem.get(itemIds.get(itemName));</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">            if (buyer.getGold() &lt; itemValue) {</span>
+<span class="nc" id="L118">                return itemRepo.getItem(&quot;empty&quot;);</span>
+            }
+<span class="nc" id="L120">            buyer.addItemToStorage(item);</span>
+<span class="nc" id="L121">            buyer.setGold(buyer.getGold() - itemValue);</span>
+<span class="nc" id="L122">            seller.setGold(seller.getGold() + itemValue);</span>
+<span class="nc" id="L123">            seller.removeItemFromStorage(item);</span>
+<span class="nc" id="L124">            return item;</span>
+        } else {
+<span class="nc" id="L126">            return null;</span>
         }
-
-        // [Clean Code]  Code Copy
-<span class="nc" id="L111">        List&lt;Item&gt; itemList = player.getStorage().getItems();</span>
-<span class="nc" id="L112">        Map&lt;String, String&gt; itemIds = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L113">        Map&lt;String, Integer&gt; itemValues = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L114">        Map&lt;String, Item&gt; itemIdtoItem = new HashMap&lt;&gt;();</span>
-
-<span class="nc bnc" id="L116" title="All 2 branches missed.">        for (Item item : itemList) {</span>
-<span class="nc" id="L117">            String name = item.getName();</span>
-<span class="nc" id="L118">            String id = item.getId();</span>
-<span class="nc" id="L119">            int value = item.getProperties().get(&quot;value&quot;);</span>
-<span class="nc" id="L120">            itemIds.put(name, id);</span>
-<span class="nc" id="L121">            itemValues.put(id, value);</span>
-<span class="nc" id="L122">            itemIdtoItem.put(id, item);</span>
-<span class="nc" id="L123">        }</span>
-
-<span class="nc bnc" id="L125" title="All 2 branches missed.">        if (itemIds.containsKey(itemName)) {</span>
-<span class="nc" id="L126">            int itemValue = itemValues.get(itemIds.get(itemName));</span>
-<span class="nc" id="L127">            Item item = itemIdtoItem.get(itemIds.get(itemName));</span>
-<span class="nc" id="L128">            npc.addItemToStorage(item);</span>
-<span class="nc" id="L129">            npc.setGold(npcGold - itemValue);</span>
-<span class="nc" id="L130">            player.setGold(playerGold + itemValue);</span>
-<span class="nc" id="L131">            player.removeItemFromStorage(item);</span>
-<span class="nc" id="L132">            playerGold = playerGold + itemValue;</span>
-<span class="nc" id="L133">            npcGold = npcGold - itemValue;</span>
-<span class="nc" id="L134">            QueueProvider.offer(&quot;You have sold a &quot; + item.getName() + &quot; for &quot; + itemValue + &quot; gold coins.&quot;);</span>
-<span class="nc" id="L135">            QueueProvider.offer(&quot;You now have &quot; + playerGold + &quot; gold coins remaining.&quot;);</span>
-<span class="nc" id="L136">        } else {</span>
-<span class="nc" id="L137">            QueueProvider.offer(&quot;Either this item doesn't exist or this character does not own that item&quot;);</span>
-        }
-<span class="nc" id="L139">    }</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

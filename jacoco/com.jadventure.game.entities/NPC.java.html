@@ -53,94 +53,97 @@ public class NPC extends Entity {
 <span class="fc" id="L53">            setDexterity(json.get(&quot;dexterity&quot;).getAsInt());</span>
 <span class="fc" id="L54">            setStealth(json.get(&quot;stealth&quot;).getAsInt());</span>
 <span class="fc" id="L55">            setStrength(json.get(&quot;strength&quot;).getAsInt());</span>
-<span class="fc" id="L56">            float maxWeight = (float)Math.sqrt(getStrength()*300);</span>
-<span class="fc" id="L57">            setStorage(new Storage(maxWeight));</span>
-<span class="pc bpc" id="L58" title="1 of 4 branches missed.">            if (json.has(&quot;sellLimit&quot;) &amp;&amp; json.has(&quot;items&quot;)) {</span>
-<span class="fc" id="L59">                int itemLimit = json.get(&quot;sellLimit&quot;).getAsInt();</span>
-<span class="fc" id="L60">                int i = 0;</span>
-<span class="fc" id="L61">                setItems(json, itemLimit, i);</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">            if (json.has(&quot;gold&quot;)) {</span>
+<span class="fc" id="L57">                setGold(json.get(&quot;gold&quot;).getAsInt());</span>
             }
-<span class="fc" id="L63">            allies = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L64">            JsonArray alliesJson = json.get(&quot;allies&quot;).getAsJsonArray();</span>
-<span class="fc bfc" id="L65" title="All 2 branches covered.">            for (JsonElement ally : alliesJson) {</span>
-<span class="fc" id="L66">                allies.add(ally.getAsString());</span>
-<span class="fc" id="L67">            }</span>
-<span class="fc" id="L68">            enemies = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L69">            JsonArray enemiesJson = json.get(&quot;enemies&quot;).getAsJsonArray();</span>
-<span class="fc bfc" id="L70" title="All 2 branches covered.">            for (JsonElement enemy : enemiesJson) {</span>
-<span class="fc" id="L71">                enemies.add(enemy.getAsString());</span>
-<span class="fc" id="L72">            }</span>
-<span class="nc" id="L73">        } catch (FileNotFoundException ex) {</span>
-<span class="nc" id="L74">            QueueProvider.offer(&quot;Unable to open file '&quot; + fileName + &quot;'.&quot;);</span>
-<span class="fc" id="L75">        }</span>
-<span class="fc" id="L76">    }</span>
+<span class="fc" id="L59">            float maxWeight = (float)Math.sqrt(getStrength()*300);</span>
+<span class="fc" id="L60">            setStorage(new Storage(maxWeight));</span>
+<span class="pc bpc" id="L61" title="1 of 4 branches missed.">            if (json.has(&quot;sellLimit&quot;) &amp;&amp; json.has(&quot;items&quot;)) {</span>
+<span class="fc" id="L62">                int itemLimit = json.get(&quot;sellLimit&quot;).getAsInt();</span>
+<span class="fc" id="L63">                int i = 0;</span>
+<span class="fc" id="L64">                setItems(json, itemLimit, i);</span>
+            }
+<span class="fc" id="L66">            allies = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L67">            JsonArray alliesJson = json.get(&quot;allies&quot;).getAsJsonArray();</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">            for (JsonElement ally : alliesJson) {</span>
+<span class="fc" id="L69">                allies.add(ally.getAsString());</span>
+<span class="fc" id="L70">            }</span>
+<span class="fc" id="L71">            enemies = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L72">            JsonArray enemiesJson = json.get(&quot;enemies&quot;).getAsJsonArray();</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">            for (JsonElement enemy : enemiesJson) {</span>
+<span class="fc" id="L74">                enemies.add(enemy.getAsString());</span>
+<span class="fc" id="L75">            }</span>
+<span class="nc" id="L76">        } catch (FileNotFoundException ex) {</span>
+<span class="nc" id="L77">            QueueProvider.offer(&quot;Unable to open file '&quot; + fileName + &quot;'.&quot;);</span>
+<span class="fc" id="L78">        }</span>
+<span class="fc" id="L79">    }</span>
 
     public void setItems(JsonObject json, int itemLimit, int i) {
-<span class="fc" id="L79">        JsonArray items = json.get(&quot;items&quot;).getAsJsonArray();</span>
-<span class="fc" id="L80">        JsonArray itemTypes = json.get(&quot;tradingEmphasis&quot;).getAsJsonArray();</span>
+<span class="fc" id="L82">        JsonArray items = json.get(&quot;items&quot;).getAsJsonArray();</span>
+<span class="fc" id="L83">        JsonArray itemTypes = json.get(&quot;tradingEmphasis&quot;).getAsJsonArray();</span>
         boolean cont;
-<span class="fc bfc" id="L82" title="All 2 branches covered.">        for (JsonElement item : items) {</span>
-<span class="fc bfc" id="L83" title="All 2 branches covered.">            if (i == itemLimit) {</span>
-<span class="fc" id="L84">                break;</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        for (JsonElement item : items) {</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">            if (i == itemLimit) {</span>
+<span class="fc" id="L87">                break;</span>
             }
 
-<span class="fc" id="L87">            cont = false;</span>
-<span class="fc" id="L88">            char itemType = item.getAsString().charAt(0);</span>
-<span class="fc bfc" id="L89" title="All 2 branches covered.">            for (JsonElement type : itemTypes) {</span>
-<span class="fc bfc" id="L90" title="All 2 branches covered.">                if (itemType == type.getAsString().charAt(0)) {</span>
-<span class="fc" id="L91">                    cont = true;</span>
+<span class="fc" id="L90">            cont = false;</span>
+<span class="fc" id="L91">            char itemType = item.getAsString().charAt(0);</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">            for (JsonElement type : itemTypes) {</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">                if (itemType == type.getAsString().charAt(0)) {</span>
+<span class="fc" id="L94">                    cont = true;</span>
                 }
-<span class="fc" id="L93">            }</span>
+<span class="fc" id="L96">            }</span>
 
-<span class="fc" id="L95">            Random rand = new Random();</span>
-<span class="fc" id="L96">            int j = rand.nextInt(100) + 1;</span>
-<span class="fc bfc" id="L97" title="All 2 branches covered.">            if (cont) {</span>
-<span class="pc bpc" id="L98" title="1 of 4 branches missed.">                if ((j &gt; 0) &amp;&amp; (j &lt;= 95)) {</span>
-<span class="fc" id="L99">                    addItemToStorage(itemRepo.getItem(item.getAsString()));</span>
-<span class="fc" id="L100">                    i++;</span>
+<span class="fc" id="L98">            Random rand = new Random();</span>
+<span class="fc" id="L99">            int j = rand.nextInt(100) + 1;</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">            if (cont) {</span>
+<span class="pc bpc" id="L101" title="2 of 4 branches missed.">                if ((j &gt; 0) &amp;&amp; (j &lt;= 95)) {</span>
+<span class="fc" id="L102">                    addItemToStorage(itemRepo.getItem(item.getAsString()));</span>
+<span class="fc" id="L103">                    i++;</span>
                 }
             } else {
-<span class="pc bpc" id="L103" title="1 of 4 branches missed.">                if ((j &gt; 95) &amp;&amp; (j &lt;= 100)) {</span>
-<span class="fc" id="L104">                    addItemToStorage(itemRepo.getItem(item.getAsString()));</span>
-<span class="fc" id="L105">                    i++;</span>
+<span class="pc bpc" id="L106" title="1 of 4 branches missed.">                if ((j &gt; 95) &amp;&amp; (j &lt;= 100)) {</span>
+<span class="fc" id="L107">                    addItemToStorage(itemRepo.getItem(item.getAsString()));</span>
+<span class="fc" id="L108">                    i++;</span>
                 }
             }
-<span class="fc" id="L108">        }</span>
-<span class="fc bfc" id="L109" title="All 2 branches covered.">        if (i != itemLimit) {</span>
-<span class="fc" id="L110">            setItems(json, itemLimit, i);</span>
+<span class="fc" id="L111">        }</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">        if (i != itemLimit) {</span>
+<span class="fc" id="L113">            setItems(json, itemLimit, i);</span>
         }
-<span class="fc" id="L112">    }</span>
+<span class="fc" id="L115">    }</span>
 
     public List&lt;String&gt; getAllies() {
-<span class="nc" id="L115">        return allies;</span>
+<span class="nc" id="L118">        return allies;</span>
     }
 
     public List&lt;String&gt; getEnemies() {
-<span class="nc" id="L119">        return enemies;</span>
+<span class="nc" id="L122">        return enemies;</span>
     }
 
     public int getXPGain() {
-<span class="nc" id="L123">        return xpGain;</span>
+<span class="nc" id="L126">        return xpGain;</span>
     }
 
     public void setXPGain(int xpGain) {
-<span class="nc" id="L127">        this.xpGain = xpGain;</span>
-<span class="nc" id="L128">    }</span>
+<span class="nc" id="L130">        this.xpGain = xpGain;</span>
+<span class="nc" id="L131">    }</span>
 
     public String getId() {
-<span class="nc" id="L131">        return id;</span>
+<span class="nc" id="L134">        return id;</span>
     }
 
     @Override
     public boolean equals(Object obj) {
-<span class="nc bnc" id="L136" title="All 2 branches missed.">        if (obj == null) {</span>
-<span class="nc" id="L137">            return false;</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        if (obj == null) {</span>
+<span class="nc" id="L140">            return false;</span>
         }
-<span class="nc bnc" id="L139" title="All 2 branches missed.">        if (obj instanceof NPC) {</span>
-<span class="nc" id="L140">            NPC npc = (NPC) obj;</span>
-<span class="nc" id="L141">            return npc.getId().equals(id);</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        if (obj instanceof NPC) {</span>
+<span class="nc" id="L143">            NPC npc = (NPC) obj;</span>
+<span class="nc" id="L144">            return npc.getId().equals(id);</span>
         }
-<span class="nc" id="L143">        return false;</span>
+<span class="nc" id="L146">        return false;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
