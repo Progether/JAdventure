@@ -56,17 +56,7 @@ public class LocationRepository {
         }
         return instance;
     }
-/*
-    public static LocationRepository getInstance(String profileName) {
-        if (instance == null) {
-            instance = new LocationRepository(profileName);
-        } else if (!instance.getFileName().contains(profileName)) {
-            instance = new LocationRepository(profileName);
-        }
-        return instance;
-    }
-    
-*/
+
     private String getFileName() {
         return fileName;
     }
@@ -177,5 +167,9 @@ public class LocationRepository {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addLocation(ILocation location) {
+        locations.put(location.getCoordinate(), location);
     }
 }

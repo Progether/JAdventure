@@ -22,12 +22,12 @@ public class LocationRepositoryTest {
 
     @Test
     public void testGetLocation() {
-        Coordinate coordinate = new Coordinate(0,0,-1);
-        String title = "First Location Ever";
+        Coordinate coordinate = new Coordinate(0,0,-2);
+        String title = "test location";
         String description = "You are in a massive empty room";
         LocationType locationType = LocationType.CAVE;
         ILocation location = new Location(coordinate, title, description, locationType);
-        //TODO: correct test
-        assertTrue(location != locationRepo.getLocation(coordinate));
+        locationRepo.addLocation(location);
+        assertEquals(location, locationRepo.getLocation(coordinate));
     }
 }
