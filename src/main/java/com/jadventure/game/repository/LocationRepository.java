@@ -155,6 +155,12 @@ public class LocationRepository {
     }
 
     public ILocation getLocation(Coordinate coordinate) {
+        if (coordinate == null) {
+            return null;
+        }
+        if (!itemMap.contains(coordinate) {
+            throw new RepositoryException("Argument 'coordinate' with value '" + coordinate.toString + "' not found in reoisitory");
+        }
         return locations.get(coordinate);
     }
 
