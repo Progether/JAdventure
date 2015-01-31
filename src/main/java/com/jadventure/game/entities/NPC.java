@@ -28,54 +28,14 @@ public class NPC extends Entity {
     private List<String> allies;
     private List<String> enemies;
     
+    public NPC() 
+    {
+    }
+    
     public NPC(String entityID) {
+        allies = new ArrayList<>();
+        enemies = new ArrayList<>();
         this.id = entityID;
-        JsonParser parser = new JsonParser();
-        String fileName = "json/npcs.json";
-
-        try {
-            Reader reader = new FileReader(fileName);
-            JsonObject npcs = parser.parse(reader).getAsJsonObject().get("npcs").getAsJsonObject();
-            JsonObject json = new JsonObject();
-            for (Map.Entry<String, JsonElement> entry : npcs.entrySet()) {
-                if (entry.getKey().equals(entityID)) {
-                    json = entry.getValue().getAsJsonObject();
-                }
-            }
-            setName(json.get("name").getAsString());
-            setHealth(json.get("health").getAsInt());
-            setDamage(json.get("damage").getAsInt());
-            setArmour(json.get("armour").getAsInt());
-            setHealthMax(json.get("healthMax").getAsInt());
-            setLevel(json.get("level").getAsInt());
-            setStrength(json.get("strength").getAsInt());
-            setIntelligence(json.get("intelligence").getAsInt());
-            setDexterity(json.get("dexterity").getAsInt());
-            setStealth(json.get("stealth").getAsInt());
-            setStrength(json.get("strength").getAsInt());
-            if (json.has("gold")) {
-                setGold(json.get("gold").getAsInt());
-            }
-            float maxWeight = (float)Math.sqrt(getStrength()*300);
-            setStorage(new Storage(maxWeight));
-            if (json.has("sellLimit") && json.has("items")) {
-                int itemLimit = json.get("sellLimit").getAsInt();
-                int i = 0;
-                setItems(json, itemLimit, i);
-            }
-            allies = new ArrayList<>();
-            JsonArray alliesJson = json.get("allies").getAsJsonArray();
-            for (JsonElement ally : alliesJson) {
-                allies.add(ally.getAsString());
-            }
-            enemies = new ArrayList<>();
-            JsonArray enemiesJson = json.get("enemies").getAsJsonArray();
-            for (JsonElement enemy : enemiesJson) {
-                enemies.add(enemy.getAsString());
-            }
-        } catch (FileNotFoundException ex) {
-            QueueProvider.offer("Unable to open file '" + fileName + "'.");
-        }
     }
 
     public void setItems(JsonObject json, int itemLimit, int i) {
@@ -121,7 +81,15 @@ public class NPC extends Entity {
     public List<String> getEnemies() {
         return enemies;
     }
-
+    
+    public void setAllies( List<String> allies ) {
+        this.allies = allies;
+    }
+    
+    public void setEnemies( List<String> enemies ) {
+        this.enemies = enemies;
+    }
+    
     public int getXPGain() {
         return xpGain;
     }
@@ -133,6 +101,7 @@ public class NPC extends Entity {
     public String getId() {
         return id;
     }
+    
 
     @Override
     public boolean equals(Object obj) {
@@ -145,4 +114,6 @@ public class NPC extends Entity {
         }
         return false;
     }
+    
+    
 }

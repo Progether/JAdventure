@@ -1,6 +1,7 @@
 package com.jadventure.game;
 
 import com.jadventure.game.repository.ItemRepository;
+import com.jadventure.game.repository.NpcRepository;
 
 /**
  * There is no Dependency Injection framework yet used / chosen, for creating Beans (runtime singletons / prototypes). 
@@ -12,4 +13,7 @@ public final class GameBeans {
         return ItemRepository.createRepo();
     }
 
+    public static NpcRepository getNpcRepository() {
+        return NpcRepository.createRepo();
+    }
 }
