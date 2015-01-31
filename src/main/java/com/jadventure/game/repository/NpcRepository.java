@@ -66,8 +66,7 @@ public class NpcRepository {
                 gold = npcData.get("gold").getAsInt();
             }
             // construct npc
-            NPC npc = new NPC();
-            npc.setId(id);
+            NPC npc = new NPC(id);
             npc.setName(name);
             npc.setHealth(health);
             npc.setDamage(damage);
