@@ -57,7 +57,7 @@ public class ItemRepository {
 			e.printStackTrace();
 		}
     }
-    // Load all items, from the given file
+    // Load all items, from the given JsonReader
     protected void load(JsonReader reader) {
         JsonObject jsonItems = new JsonObject();
         try {

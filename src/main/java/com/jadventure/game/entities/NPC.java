@@ -28,6 +28,12 @@ public class NPC extends Entity {
     private List<String> allies;
     private List<String> enemies;
     
+    public NPC() 
+    {
+        allies = new ArrayList<>();
+        enemies = new ArrayList<>();
+    }
+    
     public NPC(String entityID) {
         this.id = entityID;
         JsonParser parser = new JsonParser();
@@ -121,7 +127,15 @@ public class NPC extends Entity {
     public List<String> getEnemies() {
         return enemies;
     }
-
+    
+    public void setAllies( List<String> allies ) {
+        this.allies = allies;
+    }
+    
+    public void setEnemies( List<String> enemies ) {
+        this.enemies = enemies;
+    }
+    
     public int getXPGain() {
         return xpGain;
     }
@@ -132,6 +146,10 @@ public class NPC extends Entity {
 
     public String getId() {
         return id;
+    }
+    
+    public void setId(String id) {
+        this.id= id;
     }
 
     @Override
@@ -145,4 +163,6 @@ public class NPC extends Entity {
         }
         return false;
     }
+    
+    
 }

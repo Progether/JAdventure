@@ -13,6 +13,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.jadventure.game.repository.NpcRepository;
 
 import java.io.File;
 import java.io.FileReader;
@@ -26,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class ConversationManager {
+    private static NpcRepository npcRepository = NpcRepository.createRepo();
     private static ConversationManager instance = null;
     private Map<NPC, List<Line>> lines = new HashMap<NPC, List<Line>>();
     private static final Map<String, ActionType> ACTION_TYPE_MAP = new HashMap<>();
@@ -68,7 +70,7 @@ public class ConversationManager {
             json = json.get("npcs").getAsJsonObject();
             Set<Map.Entry<String, JsonElement>> entries = json.entrySet();
             for (Map.Entry<String, JsonElement> entry : entries) {
-                NPC npc = new NPC(entry.getKey());
+                NPC npc = npcRepository.getNpc(entry.getKey());
                 JsonObject details = entry.getValue().getAsJsonObject();
                 if (details.get("conversations") != null) {
                     JsonArray conversation = details.get("conversations").getAsJsonArray();
