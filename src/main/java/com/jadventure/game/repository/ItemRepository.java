@@ -39,9 +39,9 @@ public class ItemRepository {
     }
 
 	public Item getItem(String id) {
-            if (id == null || id.trim().length() == 0) {
-                return null;
-            }
+        if (id == null || id.trim().length() == 0) {
+            return null;
+        }
 	    if (!itemMap.containsKey(id)) {
 	        throw new RepositoryException("Argument 'id' with value '" + id + "' not found in repository.");
 	    }
@@ -57,7 +57,7 @@ public class ItemRepository {
 			e.printStackTrace();
 		}
     }
-    // Load all items, from the given file
+    // Load all items, from the given JsonReader
     protected void load(JsonReader reader) {
         JsonObject jsonItems = new JsonObject();
         try {

@@ -14,6 +14,7 @@ import com.jadventure.game.items.Storage;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.repository.ItemRepository;
 import com.jadventure.game.repository.LocationRepository;
+import com.jadventure.game.repository.NpcRepository;
 
 /**
  * The location class mostly deals with getting and setting variables.
@@ -22,6 +23,7 @@ import com.jadventure.game.repository.LocationRepository;
 public class Location implements ILocation {
     // @Resource
     protected static ItemRepository itemRepo = GameBeans.getItemRepository();
+    protected static NpcRepository npcRepo = GameBeans.getNpcRepository();
 
     private Coordinate coordinate;
     private String title;
@@ -114,7 +116,7 @@ public class Location implements ILocation {
     }
     
     public void addNpc(String npcId) {
-        npcs.add(new NPC(npcId));
+        npcs.add( npcRepo.getNpc(npcId) );
     }
 
     public void removeNpc(NPC npc) {
