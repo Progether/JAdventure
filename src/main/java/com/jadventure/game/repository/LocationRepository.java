@@ -161,8 +161,8 @@ public class LocationRepository {
         if (coordinate == null) {
             return null;
         }
-        if (!itemMap.contains(coordinate) {
-            throw new RepositoryException("Argument 'coordinate' with value '" + coordinate.toString + "' not found in reoisitory");
+        if (!locations.containsKey(coordinate)) {
+            throw new RepositoryException("Argument 'coordinate' with value '" + coordinate.toString() + "' not found in repository");
         }
         return locations.get(coordinate);
     }

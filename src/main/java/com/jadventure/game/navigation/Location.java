@@ -15,6 +15,7 @@ import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.repository.ItemRepository;
 import com.jadventure.game.repository.LocationRepository;
 import com.jadventure.game.repository.NpcRepository;
+import com.jadventure.game.repository.RepositoryException;
 
 /**
  * The location class mostly deals with getting and setting variables.
@@ -90,14 +91,17 @@ public class Location implements ILocation {
         ILocation borderingLocation;
         LocationRepository locationRepo = GameBeans.getLocationRepository();
         for(Direction direction: Direction.values()) {
-            borderingLocation = locationRepo.getLocation(getCoordinate().getBorderingCoordinate(direction));
-            if (borderingLocation != null) {
+            try {
+                borderingLocation = locationRepo.getLocation(getCoordinate().getBorderingCoordinate(direction));
                 if (borderingLocation.getCoordinate().getZ() == getCoordinate().getZ()) {
                     exits.put(direction, borderingLocation);
                 } else if (getLocationType().equals(LocationType.STAIRS)) {
                     exits.put(direction, borderingLocation);
                 }
-            } 
+            }
+            catch (RepositoryException ex) {
+                //Location does not exist so do nothing
+            }
         }
         return exits;
     }

@@ -20,6 +20,7 @@ public final class GameBeans {
 
     public static LocationRepository getLocationRepository(String profile) {
         return LocationRepository.createRepo(profile);
+    }
 
     public static NpcRepository getNpcRepository() {
         return NpcRepository.createRepo();
