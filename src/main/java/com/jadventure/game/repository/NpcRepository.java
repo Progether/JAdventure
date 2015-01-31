@@ -116,6 +116,12 @@ public class NpcRepository {
     }
     
     public NPC getNpc(String npcId) {
+        if (npcId == null || npcId.trim().length() == 0) {
+            return null;
+        }
+        if (!npcMap.containsKey(npcId)) {
+            throw new RepositoryException("Argument 'npcId' with value '" + npcId + "' not found in repository.");
+        }
         return npcMap.get(npcId);
     }
 
