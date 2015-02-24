@@ -1,8 +1,11 @@
-package com.jadventure.game.navigation;
+package com.jadventure.game.repository;
 
 import com.jadventure.game.entities.NPC;
 import com.jadventure.game.items.Item;
-import com.jadventure.game.repository.ItemRepository;
+import com.jadventure.game.navigation.ILocation;
+import com.jadventure.game.navigation.Location;
+import com.jadventure.game.navigation.LocationType;
+import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
 import com.google.gson.JsonElement;
@@ -33,17 +36,35 @@ import org.slf4j.LoggerFactory;
  * This class loads the locations from the locations.json file on start.
  * It also provides methods for getting the initial location and the current location.
  */
-public class LocationManager {
-    private static ItemRepository itemRepo = GameBeans.getItemRepository();
-    private static LocationManager instance = null;
+public class LocationRepository {
+    private ItemRepository itemRepo = GameBeans.getItemRepository();
     private String fileName;
+    private Map<Coordinate, ILocation> locations;
+    private static LocationRepository instance;
 
-    private static class Locations {
-        private static Map<Coordinate, ILocation> locations = new HashMap<Coordinate, ILocation>();
+    public LocationRepository(String profileName) {
+        locations = new HashMap<Coordinate, ILocation>();
+        fileName = "json/profiles/" + profileName + "/locations.json";
+        load();
     }
 
-    private LocationManager(String profileName) {
-        fileName = "json/profiles/" + profileName + "/locations.json";
+    public static LocationRepository createRepo(String profileName) {
+        if ("".equals(profileName)) {
+            return instance;
+        }
+        if (instance == null) {
+            instance = new LocationRepository(profileName);
+        } else if (!instance.getFileName().contains(profileName)) {
+            instance = new LocationRepository(profileName);
+        }
+        return instance;
+    }
+
+    private String getFileName() {
+        return fileName;
+    }
+
+    private void load() {
         JsonParser parser = new JsonParser();
         File f = new File(fileName);
         if (!f.exists()) {
@@ -53,7 +74,7 @@ public class LocationManager {
             Reader reader = new FileReader(fileName);
             JsonObject json = parser.parse(reader).getAsJsonObject();
             for(Map.Entry<String, JsonElement> entry: json.entrySet()) {
-                Locations.locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));
+                locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));
             }
             reader.close();
         } catch (FileNotFoundException ex) {
@@ -64,26 +85,12 @@ public class LocationManager {
         }
     }
 
-    public static LocationManager getInstance(String profileName) {
-        if (instance == null) {
-            instance = new LocationManager(profileName);
-        } else if (!instance.getFileName().contains(profileName)) {
-            instance = new LocationManager(profileName);
-        }
-        return instance;
-    }
-
-    private String getFileName() {
-        return fileName;
-    }
-
-    private Location loadLocation(JsonObject json) {
-        Location location = new Location();
+    private ILocation loadLocation(JsonObject json) {
         Coordinate coordinate = new Coordinate(json.get("coordinate").getAsString());
-        location.setCoordinate(coordinate);
-        location.setTitle(json.get("title").getAsString());
-        location.setDescription(json.get("description").getAsString());
-        location.setLocationType(LocationType.valueOf(json.get("locationType").getAsString()));
+        String title = json.get("title").getAsString();
+        String description = json.get("description").getAsString();
+        LocationType locationType = LocationType.valueOf(json.get("locationType").getAsString());
+        ILocation location = new Location(coordinate, title, description, locationType);
         location.setDangerRating(json.get("danger").getAsInt());
         if (json.has("items")) {
             List<String> items = new Gson().fromJson(json.get("items"), new TypeToken<List<String>>(){}.getType());
@@ -100,10 +107,10 @@ public class LocationManager {
         return location;
     }
 
-    public static void writeLocations(String profileName) {
+    public void writeLocations() {
         try {
             JsonObject jsonObject = new JsonObject();
-            for (Map.Entry<Coordinate,ILocation> entry : Locations.locations.entrySet()) {
+            for (Map.Entry<Coordinate,ILocation> entry : locations.entrySet()) {
                 ILocation location = entry.getValue();
                 JsonObject locationJsonElement = new JsonObject();
                 locationJsonElement.addProperty("title", location.getTitle());
@@ -121,7 +128,7 @@ public class LocationManager {
                     locationJsonElement.add("items", itemList);
                 }
                 JsonArray npcList = new JsonArray();
-                List<NPC> npcs = location.getNPCs();
+                List<NPC> npcs = location.getNpcs();
                 if (npcs.size() > 0) {
                     for (NPC npc : npcs) {
                         JsonPrimitive npcJson = new JsonPrimitive(npc.getId());
@@ -131,46 +138,33 @@ public class LocationManager {
                 }
                 jsonObject.add(location.getCoordinate().toString(), locationJsonElement);
             }
-            Writer writer = new FileWriter("json/profiles/" + profileName + "/locations.json");
+            Writer writer = new FileWriter(fileName);
             Gson gson = new Gson();
             gson.toJson(jsonObject, writer);
             writer.close();
             QueueProvider.offer("The game locations were saved.");
         } catch (IOException ex) {
-            QueueProvider.offer("Unable to save to file json/profiles/" + profileName + "/locations.json");
+            QueueProvider.offer("Unable to save to file " + fileName);
         }
     }
 
-    public static ILocation getInitialLocation(String profileName) {
-        getInstance(profileName);
-        instance.reload();
+    public ILocation getInitialLocation() {
+        String profileName = fileName.split("/")[2];
+        instance = null;
+        LocationRepository.createRepo(profileName);
+        load();
         Coordinate coordinate = new Coordinate(0, 0, -1);
         return getLocation(coordinate);
     }
 
-    public static ILocation getLocation(Coordinate coordinate) {
-        return Locations.locations.get(coordinate);
-    }
-
-    private void reload() {
-        JsonParser parser = new JsonParser();
-        File f = new File(fileName);
-        if (!f.exists()) {
-            copyLocationsFile();
+    public ILocation getLocation(Coordinate coordinate) {
+        if (coordinate == null) {
+            return null;
         }
-        try {
-            Reader reader = new FileReader(fileName);
-            JsonObject json = parser.parse(reader).getAsJsonObject();
-            for(Map.Entry<String, JsonElement> entry: json.entrySet()) {
-                Locations.locations.put(new Coordinate(entry.getKey()), loadLocation(entry.getValue().getAsJsonObject()));
-            }
-            reader.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.exit(-1);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!locations.containsKey(coordinate)) {
+            throw new RepositoryException("Argument 'coordinate' with value '" + coordinate.toString() + "' not found in repository");
         }
+        return locations.get(coordinate);
     }
 
     private void copyLocationsFile() {
@@ -182,5 +176,9 @@ public class LocationManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addLocation(ILocation location) {
+        locations.put(location.getCoordinate(), location);
     }
 }

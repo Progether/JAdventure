@@ -19,9 +19,9 @@ import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.navigation.Direction;
 import com.jadventure.game.navigation.ILocation;
-import com.jadventure.game.navigation.LocationManager;
 import com.jadventure.game.navigation.LocationType;
 import com.jadventure.game.repository.ItemRepository;
+import com.jadventure.game.repository.LocationRepository;
 import com.jadventure.game.DeathException;
 import com.jadventure.game.GameBeans;
 
@@ -279,7 +279,8 @@ public enum CommandCollection {
 
     @Command(command="teleport", aliases="", description="Moves the player to specified coordinates", debug=true)
     public void command_teleport(String arg) {
-        ILocation newLocation = LocationManager.getLocation(new Coordinate(arg));
+        LocationRepository locationRepo = GameBeans.getLocationRepository(player.getName());
+        ILocation newLocation = locationRepo.getLocation(new Coordinate(arg));
         ILocation oldLocation = player.getLocation();
         try {
             player.setLocation(newLocation);
@@ -298,7 +299,7 @@ public enum CommandCollection {
     @Command(command="talk", aliases="t", description="Talks to a character.", debug=false)
     public void command_talk(String arg) throws DeathException {
         ConversationManager cm = new ConversationManager();
-        List<NPC> npcs = player.getLocation().getNPCs();
+        List<NPC> npcs = player.getLocation().getNpcs();
         NPC npc = null;
         for (NPC i : npcs) {
             if (i.getName().equalsIgnoreCase(arg)) {

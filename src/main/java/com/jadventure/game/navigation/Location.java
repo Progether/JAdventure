@@ -13,7 +13,9 @@ import com.jadventure.game.items.Item;
 import com.jadventure.game.items.Storage;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.repository.ItemRepository;
+import com.jadventure.game.repository.LocationRepository;
 import com.jadventure.game.repository.NpcRepository;
+import com.jadventure.game.repository.RepositoryException;
 
 /**
  * The location class mostly deals with getting and setting variables.
@@ -87,15 +89,19 @@ public class Location implements ILocation {
     public Map<Direction, ILocation> getExits() {
         Map<Direction, ILocation> exits = new HashMap<Direction, ILocation>();
         ILocation borderingLocation;
+        LocationRepository locationRepo = GameBeans.getLocationRepository();
         for(Direction direction: Direction.values()) {
-            borderingLocation = LocationManager.getLocation(getCoordinate().getBorderingCoordinate(direction));
-            if (borderingLocation != null) {
+            try {
+                borderingLocation = locationRepo.getLocation(getCoordinate().getBorderingCoordinate(direction));
                 if (borderingLocation.getCoordinate().getZ() == getCoordinate().getZ()) {
                     exits.put(direction, borderingLocation);
                 } else if (getLocationType().equals(LocationType.STAIRS)) {
                     exits.put(direction, borderingLocation);
                 }
-            } 
+            }
+            catch (RepositoryException ex) {
+                //Location does not exist so do nothing
+            }
         }
         return exits;
     }
@@ -107,7 +113,7 @@ public class Location implements ILocation {
         return storage.getItems();
     }
 
-    public void addNPCs(List<String> npcIds) {
+    public void addNpcs(List<String> npcIds) {
         for (String npcId : npcIds) {
             addNpc(npcId);
         } 
@@ -117,7 +123,15 @@ public class Location implements ILocation {
         npcs.add( npcRepo.getNpc(npcId) );
     }
 
-    public List<NPC> getNPCs() {
+    public void removeNpc(NPC npc) {
+        for (int i = 0; i < npcs.size(); i++) {
+            if (npcs.get(i).equals(npc)) {
+                npcs.remove(i);
+            }
+        }
+    }
+
+    public List<NPC> getNpcs() {
         return Collections.unmodifiableList(npcs);
     }
 
@@ -135,14 +149,6 @@ public class Location implements ILocation {
         }
     }
     
-    public void removeNPC(NPC npc) {
-        for (int i = 0; i < npcs.size(); i++) {
-            if (npcs.get(i).equals(npc)) {
-                npcs.remove(i);
-            }
-        }
-    }
-
     public List<Monster> getMonsters() {
         return monsters;
     }
@@ -165,7 +171,7 @@ public class Location implements ILocation {
                 QueueProvider.offer("    " + item.getName());
             }
         }
-        List<NPC> npcs = getNPCs();
+        List<NPC> npcs = getNpcs();
         if (!npcs.isEmpty()) {
             QueueProvider.offer("NPCs:");
             for (NPC npc : npcs) {
