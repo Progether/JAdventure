@@ -41,7 +41,7 @@ public class Trading {
             playerBuy();
         } else if (command.equals(sellCommand) && sell) {
             playerSell();
-        } else if (command.equals("exit")) {
+        } else if (command.equals("Exit")) {
             return;
         }
         trade(buy, sell);
