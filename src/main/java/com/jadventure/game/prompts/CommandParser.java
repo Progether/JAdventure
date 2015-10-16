@@ -43,13 +43,15 @@ public class CommandParser {
         }
     }
 
-    public boolean parse(Player player, String command) throws DeathException {
+    public boolean parse(Player player, String userCommand) throws DeathException {
         CommandCollection com = CommandCollection.getInstance();
         com.initPlayer(player);
 
-        if (command.equals("exit")) {
+        if (userCommand.equals("exit")) {
             return false;
         }
+
+        String command = removeNaturalText(userCommand);
 
         // descendingKeySet otherwise startsWith will return correspond to longer command
         // e.g. 'de' will match startWith('d')
@@ -76,7 +78,7 @@ public class CommandParser {
                             }
                         }
                     } else {
-                        QueueProvider.offer("I don't know what'" + command + "' means.");
+                        QueueProvider.offer("I don't know what'" + userCommand + "' means.");
                         return true;
                     }
                 } else if (method.getParameterTypes()[0] == String.class) {
@@ -102,7 +104,13 @@ public class CommandParser {
                 return true;
             }
         }
-        QueueProvider.offer("I don't know what'" + command + "' means.");
+        QueueProvider.offer("I don't know what'" + userCommand + "' means.");
         return true;
+    }
+
+    private String removeNaturalText(String command) {
+        command = command.replaceAll(" to ", " ");
+        command = command.replaceAll(" a ", " ");
+        return command;
     }
 }
