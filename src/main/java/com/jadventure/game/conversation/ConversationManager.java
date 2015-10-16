@@ -87,19 +87,17 @@ public class ConversationManager {
         int i = 0;
         for (JsonElement entry : conversation) {
             JsonObject details = entry.getAsJsonObject();
-            if ("".equals(details.get("player").getAsString())) {
-                start.add(getLine(i++, conversation));
-            }
+            start.add(getLine(i++, conversation));
         }
         lines.put(npc, start);
     }
 
     private Line getLine(int index, JsonArray conversation) {
         JsonObject line = conversation.get(index).getAsJsonObject();
-        List<Line> responses = new ArrayList<>();
+        List<Integer> responses = new ArrayList<>();
         if (line.get("response") != null) {
             for (JsonElement i : line.get("response").getAsJsonArray()) {
-                responses.add(getLine(i.getAsInt(), conversation));
+                responses.add(i.getAsInt());
             }
         }
         String playerPrompt = line.get("player").getAsString();
@@ -126,19 +124,20 @@ public class ConversationManager {
         if (conversation != null) {
             Line start = null;
             for (Line l : conversation) {
-                if (ConversationManager.matchesConditions(npc, player, l)) {
+                if ("".equals(l.getPlayerPrompt()) && 
+                            ConversationManager.matchesConditions(npc, player, l)) {
                     start = l;
                     break;
                 }
             }
             if (start != null) {
                 QueueProvider.offer(start.getText());
-                Line response = start.display(npc, player);
+                Line response = start.display(npc, player, conversation);
                 triggerAction(start, npc, player);
-               while (response != null) {
+                while (response != null) {
                    QueueProvider.offer(response.getText());
                    triggerAction(response, npc, player);
-                   Line temp_response = response.display(npc, player);
+                   Line temp_response = response.display(npc, player, conversation);
                    response = temp_response;
                }
             }

@@ -15,11 +15,11 @@ public class Line {
     private String text;
     private ConditionType condition;
     private String conditionParameter;
-    private List<Line> responses;
+    private List<Integer> responses;
     private ActionType action;
 
     public Line(int id, String playerPrompt, String text, ConditionType condition, 
-            String conditionParameter, List<Line> responses, ActionType action) {
+            String conditionParameter, List<Integer> responses, ActionType action) {
         this.id = id;
         this.playerPrompt = playerPrompt;
         this.text = text;
@@ -53,19 +53,21 @@ public class Line {
         return action;
     }
 
-    public Line display(NPC npc, Player player) {
+    public Line display(NPC npc, Player player, List<Line> lines) {
         if (responses.size() == 0) {
             return null;
         }
         List<MenuItem> responseList = new ArrayList<>();
-        for (Line response : responses) { 
+        for (Integer responseNum : responses) { 
+            Line response = lines.get(responseNum);
             if (ConversationManager.matchesConditions(npc, player, response)) {
                 responseList.add(new MenuItem(response.getPlayerPrompt(), null));
             }
         }
         Menus responseMenu = new Menus();
         MenuItem response = responseMenu.displayMenu(responseList);
-        for (Line possibleResponse : responses) {
+        for (int responseNum : responses) {
+            Line possibleResponse = lines.get(responseNum);
             if (possibleResponse.getPlayerPrompt().equals(response.getCommand())) {
                 return possibleResponse;
             }
