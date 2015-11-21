@@ -23,7 +23,7 @@ public class BattleMenu extends Menus {
     private Random random;
     private int armour;
     private double damage;
-    private boolean escapeSuccessful = false;
+    private int escapeSuccessfulAttempts = 0;
 
     public BattleMenu(NPC npcOpponent, Player player) throws DeathException {
         this.random = new Random();
@@ -37,7 +37,7 @@ public class BattleMenu extends Menus {
         this.menuItems.add(new MenuItem("View", "View details about your character"));
         this.armour = player.getArmour();
         this.damage = player.getDamage();
-        while (npcOpponent.getHealth() > 0 && player.getHealth() > 0 && !escapeSuccessful) {
+        while (npcOpponent.getHealth() > 0 && player.getHealth() > 0 && (escapeSuccessfulAttempts <= 0)) {
             QueueProvider.offer("\nWhat is your choice?");
             MenuItem selectedItem = displayMenu(this.menuItems);
             testSelected(selectedItem);
@@ -100,7 +100,7 @@ public class BattleMenu extends Menus {
         this.menuItems.add(new MenuItem("View", "View details about your character"));
         this.armour = player.getArmour();
         this.damage = player.getDamage();
-        while (monsterOpponent.getHealth() > 0 && player.getHealth() > 0 && !escapeSuccessful) {
+        while (monsterOpponent.getHealth() > 0 && player.getHealth() > 0 && (escapeSuccessfulAttempts <= 0)) {
             QueueProvider.offer("\nWhat is your choice?");
             MenuItem selectedItem = displayMenu(this.menuItems);
             testSelected(selectedItem);
@@ -181,9 +181,9 @@ public class BattleMenu extends Menus {
             }
             case "escape": {
                 if (npcOpponent == null) {
-                    escapeSuccessful = escapeAttempt(player, monsterOpponent);
+                    escapeSuccessfulAttempts = escapeAttempt(player, monsterOpponent, escapeSuccessfulAttempts);
                 } else {
-                    escapeSuccessful = escapeAttempt(player, npcOpponent);
+                    escapeSuccessfulAttempts = escapeAttempt(player, npcOpponent, escapeSuccessfulAttempts);
                 }
                 break;
             }
@@ -205,7 +205,11 @@ public class BattleMenu extends Menus {
         }
     }
 
-    private boolean escapeAttempt(Player player, Entity attacker) {
+    private int escapeAttempt(Player player, Entity attacker, int escapeAttempts) {
+        if (escapeAttempts == -10)
+	{
+	     escapeAttempts = 0;
+	}
         double playerEscapeLevel = player.getIntelligence() + player.getStealth() + player.getDexterity();
         double attackerEscapeLevel = attacker.getIntelligence() + attacker.getStealth() + attacker.getDexterity() + 
             (attacker.getDamage() / playerEscapeLevel);
@@ -217,12 +221,17 @@ public class BattleMenu extends Menus {
         int upperBound = 80 - rawLuck;
         double minEscapeLevel = (rand.nextInt((upperBound - lowerBound) + 1) + lowerBound) / 100.0;
       
-        if (escapeLevel > minEscapeLevel) {
+        if (escapeLevel > minEscapeLevel && (escapeAttempts == 0)) {
             QueueProvider.offer("You have managed to escape the: " + attacker.getName());
-            return true;
+            return 1;
+	} else if (escapeAttempts < 0)
+	{
+            QueueProvider.offer("You have tried to escape too many times!");
+	    return escapeAttempts-1;
+	    
         } else {
             QueueProvider.offer("You failed to escape the: " + attacker.getName());
-            return false;
+            return escapeAttempts-1;
         }
     }
 
