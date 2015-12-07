@@ -1,0 +1,2 @@
+We want to add a feature where the player's stats would effect the amount of money he recieves from when he trades with an NPC.
+Files changed: Storage.java,Trading.java
