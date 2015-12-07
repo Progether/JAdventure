@@ -1,0 +1,4 @@
+We want to implement https://github.com/Progether/JAdventure/issues/225
+We want to implement https://github.com/Progether/JAdventure/issues/128
+
+Pull request: https://github.com/Progether/JAdventure/pull/234
