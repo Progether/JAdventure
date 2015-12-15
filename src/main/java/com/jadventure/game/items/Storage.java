@@ -168,14 +168,21 @@ public class Storage {
         return Integer.valueOf(weight);
     }
 
-    public String displayWithValue() {
+    public String displayWithValue(int playerLuck, int playerInt) {
         if (itemStacks.isEmpty()) {
             return "--Empty--";
         } else {
             String content = "";
-            for (ItemStack itemStack : itemStacks) {
-                int value = itemStack.getItem().getProperties().get("value");
-                content += "- " + itemStack.getItem().getName() + " : " + itemStack.getAmount() + " at " + value + " gold coins each\n";
+            if(playerLuck > 0){
+                for (ItemStack itemStack : itemStacks) {
+                    int value = (int)((0.5+0.02*(playerInt+playerLuck))*(itemStack.getItem().getProperties().get("value")));
+                    content += "- " + itemStack.getItem().getName() + " : " + itemStack.getAmount() + " at " + value + " gold coins each\n";
+                }
+            } else {
+                for (ItemStack itemStack : itemStacks) {
+                    int value = itemStack.getItem().getProperties().get("value");
+                    content += "- " + itemStack.getItem().getName() + " : " + itemStack.getAmount() + " at " + value + " gold coins each\n";
+                }
             }
             return content;
         }

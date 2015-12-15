@@ -261,6 +261,18 @@
         "weight": "1",
         "value": "50"
       }
+    },
+	"katana": {
+      "type": "weapon",
+      "name": "Katana",
+      "description": "A long sword once used by a legendary Japanese samurai",
+      "position": "rightHand",
+      "level": 3,
+      "properties": {
+        "damage": "+50",
+		"weight": "3",
+        "value": "0"
+      }
     }
   }
 }

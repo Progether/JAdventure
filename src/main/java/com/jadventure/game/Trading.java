@@ -49,7 +49,7 @@ public class Trading {
     
     public void playerBuy() {
         QueueProvider.offer(npc.getName() + "'s items:\t" + npc.getName()  + "'s gold:" + npc.getGold() + "\n");
-        QueueProvider.offer(npc.getStorage().displayWithValue());
+        QueueProvider.offer(npc.getStorage().displayWithValue(0, 0));
 
         QueueProvider.offer("You have " + player.getGold() + " gold coins.\nWhat do you want to buy?");
         String itemName = QueueProvider.take();
@@ -74,7 +74,7 @@ public class Trading {
 
     public void playerSell() {
         QueueProvider.offer(player.getName() + "'s items:\t" + npc.getName()  + "'s gold:" + npc.getGold() + "\n");
-        QueueProvider.offer(player.getStorage().displayWithValue());
+        QueueProvider.offer(player.getStorage().displayWithValue(player.getLuck(), player.getIntelligence()));
         
         QueueProvider.offer("You have " + player.getGold() + " gold coins.\nWhat do you want to sell?");
         String itemName = QueueProvider.take();
@@ -85,7 +85,7 @@ public class Trading {
         Item item = tradeItem(player, npc, itemName);
         if (item != null) {
             if (item != itemRepo.getItem("empty")) {
-                QueueProvider.offer("You have sold a " + item.getName() + " for " + item.getProperties().get("value") + " gold coins.");
+                QueueProvider.offer("You have sold a " + item.getName() + " for " + (int)((0.5+0.05*(player.getIntelligence()+player.getLuck()))*item.getProperties().get("value")) + " gold coins.");
                 QueueProvider.offer("You now have " + player.getGold() + " gold coins remaining.");
             }
             else {
@@ -114,11 +114,16 @@ public class Trading {
         if (itemIds.containsKey(itemName)) {
             int itemValue = itemValues.get(itemIds.get(itemName));
             Item item = itemIdtoItem.get(itemIds.get(itemName));
+            
+            if(seller instanceof Player){
+                itemValue = (int)((0.5+0.02*(seller.getIntelligence()+seller.getLuck()))*itemValue);
+            }
             if (buyer.getGold() < itemValue) {
                 return itemRepo.getItem("empty");
             }
             buyer.addItemToStorage(item);
             buyer.setGold(buyer.getGold() - itemValue);
+
             seller.setGold(seller.getGold() + itemValue);
             seller.removeItemFromStorage(item);
             return item;
