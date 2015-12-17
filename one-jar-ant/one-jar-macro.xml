@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<project>
+	
+	<macrodef name="one-jar-macro">
+		<attribute name="destfile" default="one-jar.jar" />
+		<attribute name="manifest" />
+		<attribute name="mainmanifest" />
+		<attribute name="onejarboot"/>
+		<element name="main" />
+		<element name="top" optional="true"/>
+		<element name="lib" optional="true"/>
+		<element name="binlib" optional="true"/>
+        <element name="wrap" optional="true"/>      
+		<sequential>
+			<tempfile prefix="one-jar-" property="tmp.dir" />
+			<property name="tmp.jar.dir" value="${tmp.dir}/jars"/>
+			<echo>tmp.jar.dir=${tmp.jar.dir}</echo>
+			<mkdir dir="${tmp.jar.dir}"/>
+            <mkdir dir="${tmp.dir}/top" />
+			<copy todir="${tmp.dir}/top">
+				<top/>
+			</copy>
+            <mkdir dir="${tmp.dir}/main" />
+			<copy todir="${tmp.dir}/main" >
+				<main/>
+			</copy>
+			<mkdir dir="${tmp.jar.dir}/lib" />
+			<copy todir="${tmp.jar.dir}/lib">
+				<lib/>
+                <fileset dir="." excludes="**"/>
+			</copy>
+            <mkdir dir="${tmp.jar.dir}/wrap" />
+            <copy todir="${tmp.jar.dir}/wrap">
+                <wrap/>
+                <fileset dir="." excludes="**"/>
+            </copy>
+			<mkdir dir="${tmp.jar.dir}/binlib" />
+			<copy todir="${tmp.jar.dir}/binlib" >
+				<binlib/>
+				<fileset dir="." excludes="**"/>
+			</copy>
+			<unjar dest="${tmp.jar.dir}" src="@{onejarboot}">
+                <patternset>
+                    <include name="**/*.class"/>
+                    <include name=".version"/>   
+                    <include name="doc/**"/>   
+                </patternset>
+            </unjar>            
+			<mkdir dir="${tmp.jar.dir}/main"/>
+			<jar destfile="${tmp.jar.dir}/main/main.jar" manifest="@{mainmanifest}">
+				<fileset dir="${tmp.dir}/main">
+					<include name="**/*"/>
+				</fileset>
+			</jar>
+			<jar destfile="@{destfile}" manifest="@{manifest}">
+				<fileset dir="${tmp.jar.dir}">
+					<include name="**/*"/>
+				</fileset>
+				<fileset dir="${tmp.dir}/top">
+					<include name="**/*"/>
+				</fileset>
+			</jar>
+			<delete dir="${tmp.dir}"/>
+			<echo>Created @{destfile}</echo>
+		</sequential>
+	</macrodef>
+
+</project>

@@ -12,6 +12,9 @@
   <property name="jar.dir" value="${build.dir}/jar" />
   <property name="lib.dir" value="lib"/>
 
+  <property name="one-jar.dist.dir" value="one-jar-ant"/>
+  <import file="${one-jar.dist.dir}/one-jar-ant-task.xml" />
+
   <path id="libraries.path">
     <fileset dir="${lib.dir}">
       <include name="*.jar"/>
@@ -37,6 +40,28 @@
     <antcall target="compile" />
   </target>
 
+  <target name="one-jar" depends="compile">
+    <mkdir dir="${build.dir}/json"/>
+    <mkdir dir="${build.dir}/json/json"/>
+    <copy todir="${build.dir}/json/json">
+      <fileset dir="json"/>
+    </copy>
+
+    <one-jar destfile="${jar.dir}/${ant.project.name}-single.jar" onejarmainclass="${main-class}">
+      <manifest>
+        <attribute name="Main-Class" value="${main-class}"/>
+      </manifest>
+      
+      <main>
+        <fileset dir="${classes.dir}"/>
+      </main>
+      <lib>
+        <fileset dir="${lib.dir}"/>
+      </lib>
+      <fileset dir="${build.dir}/json"/>
+    </one-jar>
+  </target>
+
   <target name="jar" depends="compile">
     <mkdir dir="${jar.dir}"/>
     <mkdir dir="${classes.dir}/${lib.dir}"/>
@@ -46,7 +71,9 @@
     </copy>
 
     <manifestclasspath property="manifest.classpath" jarfile="${jar.file}">
-      <classpath refid="libraries.path"/>
+      <classpath>
+        <fileset dir="${lib.dir}" includes="*.jar"/>
+      </classpath>
     </manifestclasspath>
 
     <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
@@ -54,10 +81,11 @@
         <attribute name="Main-Class" value="${main-class}"/>
         <attribute name="Class-Path" value="${manifest.classpath}"/>
       </manifest>
+
     </jar>
   </target>
 
-  <target name="dist" depends="jar">
+  <target name="dist" depends="jar, one-jar">
     <copy todir="${jar.dir}/lib">
         <fileset dir="lib" />
      </copy>
