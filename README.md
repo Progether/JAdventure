@@ -84,15 +84,11 @@ You can download the game with:
 
     git clone https://github.com/progether/JAdventure
 
-###Run with Ant###
+### Run with Maven
+1. Install [Maven](http://maven.apache.com)
+2. Go into the game directory and run `mvn exec:java` to play the game or `mvn clean install` to download
+all dependencies.
 
-Install [apache-ant](http://ant.apache.org) and [ant-ivy](http://ant.apache.org/ivy/).
-
-Run the game with:
-
-    ant -emacs run
-
-It will automatically compile, test, and run the game.
 
 
 Playing the Game
