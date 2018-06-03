@@ -452,7 +452,7 @@
 		"coordinate": "0,0,-1"},
 	"1,0,-1":{
 		"danger": 0,
-		"items": [katana],
+		"items": ["katana"],
 		"locationType": "CAVE",
 		"title": "Dark Alcove",
 		"description": "You see a pile of bones. Might be some equipment there.",

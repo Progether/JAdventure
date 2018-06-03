@@ -15,7 +15,7 @@ import com.jadventure.game.entities.Player;
 public class CharacterChange {
     public void trigger(Player player, String triggerType, String keyword) {
         JsonParser parser = new JsonParser();
-        String fileName = "json/character_transitions.json";
+        String fileName = "json/original_data/character_transitions.json";
         try {
             Reader reader = new FileReader(fileName);
             JsonObject json = parser.parse(reader).getAsJsonObject();

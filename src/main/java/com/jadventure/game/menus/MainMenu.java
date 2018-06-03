@@ -62,14 +62,6 @@ public class MainMenu extends Menus implements Runnable {
         String key = m.getKey();
         switch (key){
             case "start":
-                try {
-                    Path orig = Paths.get("json/original_data/locations.json");
-                    Path dest = Paths.get("json/locations.json");
-                    Files.copy(orig, dest, StandardCopyOption.REPLACE_EXISTING);
-                } catch (IOException ex) {
-                    QueueProvider.offer("Unable to load new locations file.");
-                    ex.printStackTrace();
-                }
                 new ChooseClassMenu();
                 break;
             case "exit":

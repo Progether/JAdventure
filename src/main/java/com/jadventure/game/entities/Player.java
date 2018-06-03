@@ -178,7 +178,7 @@ public class Player extends Entity {
     public static Player getInstance(String playerClass){
         player = new Player();
         JsonParser parser = new JsonParser();
-        String fileName = "json/npcs.json";
+        String fileName = "json/original_data/npcs.json";
         try {
             Reader reader = new FileReader(fileName);
             JsonObject npcs = parser.parse(reader).getAsJsonObject().get("npcs").getAsJsonObject();

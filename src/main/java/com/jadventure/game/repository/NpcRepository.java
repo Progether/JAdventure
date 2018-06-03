@@ -23,7 +23,7 @@ import java.util.Map;
  */
 public class NpcRepository {
     private Map<String,NPC> npcMap = new HashMap<String,NPC>();
-    static String fileName = "json/npcs.json";
+    static String fileName = "json/original_data/npcs.json";
     
     // Load all items, from the given file
     protected void load(File repo) {
