@@ -61,7 +61,7 @@ public class ConversationManager {
     }
 
     private void load() {
-        String fileName = "json/npcs.json";
+        String fileName = "json/original_data/npcs.json";
         JsonParser parser = new JsonParser();
         File f = new File(fileName);
         try {
