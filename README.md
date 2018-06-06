@@ -86,7 +86,7 @@ You can download the game with:
 
 ### Run with Maven
 1. Install [Maven](http://maven.apache.com)
-2. Go into the game directory and run `mvn exec:java` to play the game or `mvn clean install` to download
+2. Go into the game directory and run `mvn compile` & `mvn exec:java` to play the game or `mvn clean install` to download
 all dependencies.
 
 
