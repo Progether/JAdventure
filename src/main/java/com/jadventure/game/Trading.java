@@ -85,7 +85,7 @@ public class Trading {
         Item item = tradeItem(player, npc, itemName);
         if (item != null) {
             if (item != itemRepo.getItem("empty")) {
-                QueueProvider.offer("You have sold a " + item.getName() + " for " + (int)((0.5+0.05*(player.getIntelligence()+player.getLuck()))*item.getProperties().get("value")) + " gold coins.");
+                QueueProvider.offer("You have sold a " + item.getName() + " for " + (int)((0.5+0.02*(player.getIntelligence()+player.getLuck()))*item.getProperties().get("value")) + " gold coins.");
                 QueueProvider.offer("You now have " + player.getGold() + " gold coins remaining.");
             }
             else {
