@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Java Text Adventure - Source Code Management</title>
+    <title>Java Text Adventure - Dependency Information</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -72,8 +72,8 @@
                           <a href="dependency-convergence.html" title="Dependency Convergence">Dependency Convergence</a>
             </li>
                       <li class="none">
-                          <a href="dependency-info.html" title="Dependency Information">Dependency Information</a>
-            </li>
+            <strong>Dependency Information</strong>
+          </li>
                       <li class="none">
                           <a href="index.html" title="About">About</a>
             </li>
@@ -87,8 +87,8 @@
                           <a href="plugins.html" title="Plugins">Plugins</a>
             </li>
                       <li class="none">
-            <strong>Source Code Management</strong>
-          </li>
+                          <a href="source-repository.html" title="Source Code Management">Source Code Management</a>
+            </li>
                       <li class="none">
                           <a href="project-summary.html" title="Summary">Summary</a>
             </li>
@@ -105,26 +105,43 @@
     <div id="bodyColumn">
       <div id="contentBox">
         <div class="section">
-<h2>Overview<a name="Overview"></a></h2><a name="Overview"></a>
-<p>This project uses <a class="externalLink" href="http://git-scm.com/">Git</a> to manage its source code. Instructions on Git use can be found at <a class="externalLink" href="http://git-scm.com/documentation">http://git-scm.com/documentation</a>.</p></div>
+<h2>Dependency Information<a name="Dependency_Information"></a></h2><a name="Dependency_Information"></a>
 <div class="section">
-<h2>Web Browser Access<a name="Web_Browser_Access"></a></h2><a name="Web_Browser_Access"></a>
-<p>The following is a link to a browsable version of the source repository:</p>
+<h3>Apache Maven<a name="Apache_Maven"></a></h3><a name="Apache_Maven"></a>
 <div class="source">
-<pre><a class="externalLink" href="https://github.com/Progether/JAdventure">https://github.com/Progether/JAdventure</a></pre></div></div>
+<pre>&lt;dependency&gt;
+  &lt;groupId&gt;com.github.progether&lt;/groupId&gt;
+  &lt;artifactId&gt;jadventure&lt;/artifactId&gt;
+  &lt;version&gt;0.4-SNAPSHOT&lt;/version&gt;
+&lt;/dependency&gt;</pre></div></div>
 <div class="section">
-<h2>Anonymous Access<a name="Anonymous_Access"></a></h2><a name="Anonymous_Access"></a>
-<p>The source can be checked out anonymously from Git with this command (See <a class="externalLink" href="http://git-scm.com/docs/git-clone">http://git-scm.com/docs/git-clone</a>):</p>
+<h3>Apache Buildr<a name="Apache_Buildr"></a></h3><a name="Apache_Buildr"></a>
 <div class="source">
-<pre>$ git clone git://github.com/Progether/JAdventure.git</pre></div></div>
+<pre>'com.github.progether:jadventure:jar:0.4-SNAPSHOT'</pre></div></div>
 <div class="section">
-<h2>Developer Access<a name="Developer_Access"></a></h2><a name="Developer_Access"></a>
-<p>Only project developers can access the Git tree via this method (See <a class="externalLink" href="http://git-scm.com/docs/git-clone">http://git-scm.com/docs/git-clone</a>).</p>
+<h3>Apache Ivy<a name="Apache_Ivy"></a></h3><a name="Apache_Ivy"></a>
 <div class="source">
-<pre>$ git clone git@github.com:Progether/JAdventure.git</pre></div></div>
+<pre>&lt;dependency org=&quot;com.github.progether&quot; name=&quot;jadventure&quot; rev=&quot;0.4-SNAPSHOT&quot;&gt;
+  &lt;artifact name=&quot;jadventure&quot; type=&quot;jar&quot; /&gt;
+&lt;/dependency&gt;</pre></div></div>
 <div class="section">
-<h2>Access from Behind a Firewall<a name="Access_from_Behind_a_Firewall"></a></h2><a name="Access_from_Behind_a_Firewall"></a>
-<p>Refer to the documentation of the SCM used for more information about access behind a firewall.</p></div>
+<h3>Groovy Grape<a name="Groovy_Grape"></a></h3><a name="Groovy_Grape"></a>
+<div class="source">
+<pre>@Grapes(
+@Grab(group='com.github.progether', module='jadventure', version='0.4-SNAPSHOT')
+)</pre></div></div>
+<div class="section">
+<h3>Gradle/Grails<a name="GradleGrails"></a></h3><a name="GradleGrails"></a>
+<div class="source">
+<pre>compile 'com.github.progether:jadventure:0.4-SNAPSHOT'</pre></div></div>
+<div class="section">
+<h3>Scala SBT<a name="Scala_SBT"></a></h3><a name="Scala_SBT"></a>
+<div class="source">
+<pre>libraryDependencies += &quot;com.github.progether&quot; % &quot;jadventure&quot; % &quot;0.4-SNAPSHOT&quot;</pre></div></div>
+<div class="section">
+<h3>Leiningen<a name="Leiningen"></a></h3><a name="Leiningen"></a>
+<div class="source">
+<pre>[com.github.progether/jadventure &quot;0.4-SNAPSHOT&quot;]</pre></div></div></div>
       </div>
     </div>
     <div class="clear">
