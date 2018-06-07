@@ -89,7 +89,6 @@ public class MainMenu extends Menus implements Runnable {
                 break;
             case "delete":
                 listProfiles();
-                QueueProvider.offer("\nWhich profile do you want to delete? Type 'back' to go back");
                 exit = false;
                 while (!exit) {
                     key = QueueProvider.take();
@@ -148,7 +147,7 @@ public class MainMenu extends Menus implements Runnable {
                 }
                     i += 1;
             }
-            QueueProvider.offer("\nWhat is the name of the avatar you want to load? Type 'back' to go back");
+            QueueProvider.offer("\nWhat is the name of the avatar you want to select? Type 'back' to go back");
         } catch (NullPointerException e) {
             QueueProvider.offer("No profiles found. Type \"back\" to go back.");
         }
