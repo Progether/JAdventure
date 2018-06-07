@@ -1,6 +1,6 @@
 package com.jadventure.game.monsters;
 
-import com.jadventure.game.entities.Entity;
+import com.jadventure.game.entities.NPC;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.GameBeans;
 import com.jadventure.game.repository.ItemRepository;
@@ -14,18 +14,9 @@ import java.util.Random;
  * further outlined in its respective file. For now it
  * just holds the monster's name.
  */
-public abstract class Monster extends Entity {
+public abstract class Monster extends NPC {
     public String monsterType;
-    private int xpGain;
     private ItemRepository itemRepo = GameBeans.getItemRepository();
-
-    public int getXPGain() {
-        return xpGain;
-    }
-
-    public void setXPGain(int xpGain) {
-        this.xpGain = xpGain;
-    }
 
     @Override
     public boolean equals(Object obj) {

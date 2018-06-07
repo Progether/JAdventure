@@ -113,14 +113,22 @@ public class Location implements ILocation {
         return storage.getItems();
     }
 
-    public void addNpcs(List<String> npcIds) {
-        for (String npcId : npcIds) {
-            addNpc(npcId);
+    public void addNpcs(List<NPC> npcs) {
+        for (NPC npc : npcs) {
+            addNpc(npc);
         } 
     }
-    
-    public void addNpc(String npcId) {
-        npcs.add( npcRepo.getNpc(npcId) );
+
+    public void addNpc(NPC npc) {
+        npcs.add(npc);
+    }
+
+    public void remove(NPC npc) {
+        if (npc.getClass() == Monster.class) {
+            removeMonster((Monster) npc);
+        } else {
+            removeNpc(npc);
+        }
     }
 
     public void removeNpc(NPC npc) {
