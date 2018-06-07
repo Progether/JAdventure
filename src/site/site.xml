@@ -21,11 +21,11 @@
     <menu name="JAdventure">
 	    <item name="Index" href="index.html" />
     </menu>
-    
+
     <menu name="Development">
       <item name="Improvement Ideas" href="development/improvement-ideas.html" />
       <item name="Issues" href="https://github.com/Progether/JAdventure/issues/" />
-      
+
       <item name="Use Cases" href="development/use-case/index.html" collapse="true">
         <item name="Create New Game" href="development/use-case/use-case-00-create-new-game.html" />
         <item name="Load Saved Game" href="development/use-case/use-case-01-load-saved-game.html" />
@@ -45,10 +45,10 @@
         <item name="Command Statistics" href="development/use-case/use-case-81-command-statistics.html" />
 
         <item name="Command Save" href="development/use-case/use-case-90-command-save.html" />
-        <item name="Command Debug" href="development/use-case/use-case-91-command-debug.html" />      
+        <item name="Command Debug" href="development/use-case/use-case-91-command-debug.html" />
       </item>
 
-      <item name="Code Coverage" href="jacoco/index.html" />
+      <item name="Code Coverage" href="jacoco/" />
     </menu>
 
     <menu ref="reports" />
