@@ -143,7 +143,7 @@ public class MainMenu extends Menus implements Runnable {
             int i = 1;
             for (String name : profiles) {
                 if (new File("json/profiles/" + name).isDirectory()) {
-                    QueueProvider.offer("  " + i + ". " + name);
+                    QueueProvider.offer("  " + name);
                 }
                     i += 1;
             }
