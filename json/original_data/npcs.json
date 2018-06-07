@@ -124,7 +124,7 @@
       "intelligence": 2,
       "dexterity": 2,
       "stealth": 2,
-      "gold": 100,
+      "gold": 50,
       "location": [
         {
           "head": "empty"
@@ -202,7 +202,7 @@
       "intelligence": 1,
       "dexterity": 1,
       "stealth": 1,
-      "gold": 100,
+      "gold": 50,
       "location": [
         {
           "head": "empty"
