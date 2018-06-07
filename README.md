@@ -4,34 +4,34 @@
 
 Description
 -------------
-JAdventure is a Java (text) based implementation of a 
-[Role Playing Game](http://en.wikipedia.org/wiki/Role-playing_game) (RPG) - 
-[Single Player](http://en.wikipedia.org/wiki/Role-playing_game#Single-player). 
+JAdventure is a Java (text) based implementation of a
+[Role Playing Game](http://en.wikipedia.org/wiki/Role-playing_game) (RPG) -
+[Single Player](http://en.wikipedia.org/wiki/Role-playing_game#Single-player).
 
 
 Project Background
 -------------
-It was originally created as a project of the 
+It was originally created as a project of the
 [progether subreddit](http://www.reddit.com/r/progether)
-and worked on by Applzor, add7, geniuus, Malfunction, bdong\_, Qasaur, and 
+and worked on by Applzor, add7, geniuus, Malfunction, bdong\_, Qasaur, and
 tamul. It was revived by Hawk554.
 
 Project Status
--------------
-**Under Construction** This project is in a alpha status. The player can walk 
-through the game, find items and fight with some _nice_ characters! 
+--------------
+**Under Construction** This project is in a alpha status. The player can walk
+through the game, find items and fight with some _nice_ characters!
 
 Developers are Welcome
--------------
+----------------------
 Everyone is welcome to help with the creation of JAdventure!
-    
-The best way to find out more about the game and the ideas that are there, is 
+
+The best way to find out more about the game and the ideas that are there, is
 to have a look at [Reddit - JAdventure](https://www.reddit.com/search?q=jadventure).
 
 Or drop by at our [IRC channel reddit-progether](http://webchat.freenode.net/?channels=reddit-progether&uio=d4)
 
-All documentation is avaiable from the [JAdventure wiki](https://github.com/progether/JAdventure/wiki) 
-and from the [JAdventure website](https://progether.github.io/JAdventure). These 
+All documentation is avaiable from the [JAdventure wiki](https://github.com/progether/JAdventure/wiki)
+and from the [JAdventure website](https://progether.github.io/JAdventure). These
 form the majority of the project's documentation and development guidelines.
 
 ### Contributors ###
@@ -54,9 +54,9 @@ Contributing
 **commit merged yet. Don't make pull requests if you're not willing to merge**
 **that code.**
 
-Rather than opening a pull request, consider opening an issue to discuss the 
-problem you're fixing. Keep the work-in-progress updates to your fork, maybe 
-merging the updates to a separate branch in the main repo if there's enough 
+Rather than opening a pull request, consider opening an issue to discuss the
+problem you're fixing. Keep the work-in-progress updates to your fork, maybe
+merging the updates to a separate branch in the main repo if there's enough
 there to warrant it.
 
  1. Create an issue (optional)
@@ -68,9 +68,10 @@ there to warrant it.
     git branch <branchName>
     git checkout <branchName>
     ```
+
  1. Make your changes
  1. Push to your branch
-    
+
     ```
     git push origin <branchName>
     ```
@@ -78,7 +79,7 @@ there to warrant it.
  1. Make a pull request between your branch and the progether master
 
 Setting Up The Game For Development or Gameplay
------------------
+-----------------------------------------------
 
 You can download the game with:
 
@@ -86,13 +87,20 @@ You can download the game with:
 
 ### Run with Maven
 1. Install [Maven](http://maven.apache.com)
-2. Go into the game directory and run `mvn compile` & `mvn exec:java` to play the game or `mvn clean install` to download
-all dependencies.
+1. Go into the game directory and run
+   ```
+   $ mvn test
+   $ mvn exec:java
+   ```
 
+to play the game.
 
+Maven has other useful targets such as `mvn compile` to compile and
+`mvn install` to install a copy of JAdventure and all its dependencies to the
+local Maven repo on your machine.
 
 Playing the Game
---------------
+----------------
 
 To start a new game:
 
@@ -139,11 +147,11 @@ To equip/unequip item:
     ue <itemName>
 
 To attack:
-    
+
     a <monster>
 
 To look around:
- 
+
     la
 
 To talk to a Non-player Character:
@@ -151,12 +159,12 @@ To talk to a Non-player Character:
     t <npc>
 
 Coding Standard/Convention/Style
--------------------
-To help make code more readable, understandable, and consistent, each 
-contributor should follow the set guidelines laid out below. If you disagree 
-with something or come across a style that has not been decided upon, make an 
-issue or a pull request respectively for discussion on the best style. The 
-standard will be decided based on either majority rule or official documentation 
+--------------------------------
+To help make code more readable, understandable, and consistent, each
+contributor should follow the set guidelines laid out below. If you disagree
+with something or come across a style that has not been decided upon, make an
+issue or a pull request respectively for discussion on the best style. The
+standard will be decided based on either majority rule or official documentation
 (i.e. oracle coding standard).
 
  1. Spaces not tabs
@@ -164,11 +172,11 @@ standard will be decided based on either majority rule or official documentation
  1. No beginning/trailing empty lines
  1. Each file should start with an import statement if necessary single-spaced
  1. After class declaration and between class methods, there should be a space.
- 1. Within methods, there should be no spaces unless to separate specific chunks 
+ 1. Within methods, there should be no spaces unless to separate specific chunks
     of code (i.e not for if statements, return values, or loops)
- 1. Opening curly braces appear a space after the closing parentheses, not 
+ 1. Opening curly braces appear a space after the closing parentheses, not
     directly after.
- 1. Closing curly braces appear on own line unless followed by an else etc. 
+ 1. Closing curly braces appear on own line unless followed by an else etc.
     which will be a space after the curly brace.
  1. Comments should have one space after "//"
  1. Comments 4 lines or greater in length should be multi-line commented
