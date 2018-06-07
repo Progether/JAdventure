@@ -69,7 +69,6 @@ public class MainMenu extends Menus implements Runnable {
                 return false;
             case "load":
                 listProfiles();
-                QueueProvider.offer("\nWhat is the name of the avatar you want to load? Type 'back' to go back");
                 Player player = null;
                 boolean exit = false;
                 while (player == null) {
@@ -90,7 +89,6 @@ public class MainMenu extends Menus implements Runnable {
                 break;
             case "delete":
                 listProfiles();
-                QueueProvider.offer("\nWhich profile do you want to delete? Type 'back' to go back");
                 exit = false;
                 while (!exit) {
                     key = QueueProvider.take();
@@ -138,14 +136,20 @@ public class MainMenu extends Menus implements Runnable {
 
     private static void listProfiles() {
         QueueProvider.offer("Profiles:");
-        File file = new File("json/profiles");
-        String[] profiles = file.list();
-        int i = 1;
-        for (String name : profiles) {
-            if (new File("json/profiles/" + name).isDirectory()) {
-                QueueProvider.offer("  " + i + ". " + name);
+        try {
+                File file = new File("json/profiles");
+                String[] profiles = file.list();
+        
+            int i = 1;
+            for (String name : profiles) {
+                if (new File("json/profiles/" + name).isDirectory()) {
+                    QueueProvider.offer("  " + i + ". " + name);
+                }
+                    i += 1;
             }
-           i += 1;
+            QueueProvider.offer("\nWhat is the name of the avatar you want to select? Type 'back' to go back");
+        } catch (NullPointerException e) {
+            QueueProvider.offer("No profiles found. Type \"back\" to go back.");
         }
     }
 }

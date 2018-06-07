@@ -261,6 +261,24 @@
           </execution>
         </executions>
       </plugin>
+      <!-- Package everything into one archive -->
+        <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-assembly-plugin</artifactId>
+    <configuration>
+      <descriptors>
+        <descriptor>src/assembly/bin.xml</descriptor>
+      </descriptors>
+    </configuration>
+    <executions>
+      <execution>
+        <phase>package</phase>
+        <goals>
+          <goal>single</goal>
+        </goals>
+      </execution>
+    </executions>
+  </plugin>
     </plugins>
   </build>
 

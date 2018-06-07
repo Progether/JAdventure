@@ -61,6 +61,7 @@ public class NpcRepository {
             int dexterity = npcData.get("dexterity").getAsInt();
             int stealth = npcData.get("stealth").getAsInt();
             int strength = npcData.get("strength").getAsInt();
+            int xpGain = npcData.get("xp").getAsInt();
             int gold = 0;
             if (npcData.has("gold")) {
                 gold = npcData.get("gold").getAsInt();
@@ -78,6 +79,7 @@ public class NpcRepository {
             npc.setStealth(stealth);
             npc.setStrength(strength);
             npc.setGold(gold);
+            npc.setXPGain(xpGain);
             float maxWeight = (float)Math.sqrt(strength*300);
             npc.setStorage( new Storage(maxWeight) );
             if (npcData.has("sellLimit") && npcData.has("items")) {
