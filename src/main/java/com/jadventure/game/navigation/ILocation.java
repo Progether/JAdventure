@@ -27,11 +27,12 @@ public interface ILocation {
     List<NPC> getNpcs();
     List<Monster> getMonsters();
 
+    void remove(NPC npc);
     void addMonster(Monster monster);
     void removeMonster(Monster monster);
 
-    void addNpcs(List<String> npcIds);
-    void addNpc(String npcID);
+    void addNpcs(List<NPC> npcs);
+    void addNpc(NPC npc);
     void removeNpc(NPC npc);
 
     int getDangerRating();

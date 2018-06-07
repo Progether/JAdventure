@@ -28,8 +28,9 @@ public class NPC extends Entity {
     private List<String> allies;
     private List<String> enemies;
     
-    public NPC() 
-    {
+    public NPC() {
+        allies = new ArrayList<>();
+        enemies = new ArrayList<>();
     }
     
     public NPC(String entityID) {

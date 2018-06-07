@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
  */
 public class LocationRepository {
     private ItemRepository itemRepo = GameBeans.getItemRepository();
+    private NpcRepository npcRepo = GameBeans.getNpcRepository();
     private String fileName;
     private Map<Coordinate, ILocation> locations;
     private static LocationRepository instance;
@@ -86,22 +87,27 @@ public class LocationRepository {
     }
 
     private ILocation loadLocation(JsonObject json) {
-        Coordinate coordinate = new Coordinate(json.get("coordinate").getAsString());
+        Coordinate coordinate =
+            new Coordinate(json.get("coordinate").getAsString());
         String title = json.get("title").getAsString();
         String description = json.get("description").getAsString();
-        LocationType locationType = LocationType.valueOf(json.get("locationType").getAsString());
-        ILocation location = new Location(coordinate, title, description, locationType);
+        LocationType locationType =
+            LocationType.valueOf(json.get("locationType").getAsString());
+        ILocation location = new Location(coordinate, title, description,
+                locationType);
         location.setDangerRating(json.get("danger").getAsInt());
         if (json.has("items")) {
-            List<String> items = new Gson().fromJson(json.get("items"), new TypeToken<List<String>>(){}.getType());
+            List<String> items = new Gson().fromJson(json.get("items"),
+                    new TypeToken<List<String>>(){}.getType());
             for (String id : items) {
                 location.addItem(itemRepo.getItem(id));
             }
         }
         if (json.has("npcs")) {
-            List<String> npcs = new Gson().fromJson(json.get("npcs"), new TypeToken<List<String>>(){}.getType());
+            List<String> npcs = new Gson().fromJson(json.get("npcs"),
+                    new TypeToken<List<String>>(){}.getType());
             for (String npc : npcs) {
-                location.addNpc(npc);
+                location.addNpc(npcRepo.getNpc(npc));
             }
         }
         return location;
@@ -114,15 +120,20 @@ public class LocationRepository {
                 ILocation location = entry.getValue();
                 JsonObject locationJsonElement = new JsonObject();
                 locationJsonElement.addProperty("title", location.getTitle());
-                locationJsonElement.addProperty("coordinate", location.getCoordinate().toString());
-                locationJsonElement.addProperty("description", location.getDescription());
-                locationJsonElement.addProperty("locationType", location.getLocationType().toString());
-                locationJsonElement.addProperty("danger", String.valueOf(location.getDangerRating()));
+                locationJsonElement.addProperty("coordinate",
+                        location.getCoordinate().toString());
+                locationJsonElement.addProperty("description",
+                        location.getDescription());
+                locationJsonElement.addProperty("locationType",
+                        location.getLocationType().toString());
+                locationJsonElement.addProperty("danger",
+                        String.valueOf(location.getDangerRating()));
                 JsonArray itemList = new JsonArray();
                 List<Item> items = location.getItems();
                 if (items.size() > 0) {
                     for (Item item : items) {
-                        JsonPrimitive itemJson = new JsonPrimitive(item.getId());
+                        JsonPrimitive itemJson =
+                            new JsonPrimitive(item.getId());
                         itemList.add(itemJson);
                     }
                     locationJsonElement.add("items", itemList);
@@ -136,7 +147,8 @@ public class LocationRepository {
                     }
                     locationJsonElement.add("npcs", npcList);
                 }
-                jsonObject.add(location.getCoordinate().toString(), locationJsonElement);
+                jsonObject.add(location.getCoordinate().toString(),
+                        locationJsonElement);
             }
             Writer writer = new FileWriter(fileName);
             Gson gson = new Gson();

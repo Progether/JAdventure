@@ -17,27 +17,23 @@ import java.util.ArrayList;
 
 public class BattleMenu extends Menus {
 
-    private Monster monsterOpponent;
-    private NPC npcOpponent;
+    private NPC opponent;
     private Player player;
     private Random random;
     private int armour;
     private double damage;
     private int escapeSuccessfulAttempts = 0;
 
-    public BattleMenu(NPC npcOpponent, Player player) throws DeathException {
+    public BattleMenu(NPC opponent, Player player) throws DeathException {
         this.random = new Random();
-        this.npcOpponent = npcOpponent;
+        this.opponent = opponent;
         this.player = player;
-        this.menuItems.add(new MenuItem("Attack", "Attack " + npcOpponent.getName() + "."));
-        this.menuItems.add(new MenuItem("Defend", "Defend against " + npcOpponent.getName() + "'s attack."));
-        this.menuItems.add(new MenuItem("Escape", "Try and escape from " + npcOpponent.getName()));
-        this.menuItems.add(new MenuItem("Equip", "Equip an item"));
-        this.menuItems.add(new MenuItem("Unequip", "Unequip an item"));
-        this.menuItems.add(new MenuItem("View", "View details about your character"));
         this.armour = player.getArmour();
         this.damage = player.getDamage();
-        while (npcOpponent.getHealth() > 0 && player.getHealth() > 0 && (escapeSuccessfulAttempts <= 0)) {
+        buildMenu();
+        while (opponent.getHealth() > 0 &&
+                player.getHealth() > 0 &&
+                (escapeSuccessfulAttempts <= 0)) {
             QueueProvider.offer("\nWhat is your choice?");
             MenuItem selectedItem = displayMenu(this.menuItems);
             testSelected(selectedItem);
@@ -54,17 +50,17 @@ public class BattleMenu extends Menus {
             } else if (reply.startsWith("n")) {
                 throw new DeathException("close");
             }
-        }  else if (npcOpponent.getHealth() == 0) {
-            int xp = npcOpponent.getXPGain();
+        }  else if (opponent.getHealth() == 0) {
+            int xp = opponent.getXPGain();
             this.player.setXP(this.player.getXP() + xp);
             int oldLevel = this.player.getLevel();
             int newLevel = (int) (0.075 * Math.sqrt(this.player.getXP()) + 1);
             this.player.setLevel(newLevel);
 
-            // Iterates over the npc's items and if there are any, drops them. 
+            // Iterates over the opponent's items and if there are any, drops them.
             // There are two loops due to a ConcurrentModification Exception that occurs
             // if you try to remove the item while looping through the npc's items.
-            List<ItemStack> itemStacks = npcOpponent.getStorage().getItemStack();
+            List<ItemStack> itemStacks = opponent.getStorage().getItemStack();
             List<String> itemIds = new ArrayList<>();
             for (ItemStack itemStack : itemStacks) {
                 String itemId = itemStack.getItem().getId();
@@ -72,146 +68,88 @@ public class BattleMenu extends Menus {
             }
             for (String itemId : itemIds) {
                 Item item = GameBeans.getItemRepository().getItem(itemId);
-                npcOpponent.removeItemFromStorage(item);
+                opponent.removeItemFromStorage(item);
                 this.player.getLocation().addItem(item);
-                QueueProvider.offer("Your opponent dropped a " + item.getName());
+                QueueProvider.offer("Your opponent dropped a " +
+                        item.getName());
             }
 
-            this.player.getLocation().removeNpc(npcOpponent);
-            this.player.setGold(this.player.getGold() + npcOpponent.getGold());
-            QueueProvider.offer("You killed a " + npcOpponent.getName() + "\nYou have gained " + xp + " XP and " + npcOpponent.getGold() + " gold");
+            this.player.getLocation().remove(opponent);
+            this.player.setGold(this.player.getGold() + opponent.getGold());
+            QueueProvider.offer("You killed a " + opponent.getName() +
+                    "\nYou have gained " + xp + " XP and " +
+                    opponent.getGold() + " gold");
             if (oldLevel < newLevel) {
                 QueueProvider.offer("You've are now level " + newLevel + "!");
             }
             CharacterChange cc = new CharacterChange();
-            cc.trigger(this.player, "kill", npcOpponent.getName());
+            cc.trigger(this.player, "kill", opponent.getName());
         }
     }
 
-    public BattleMenu(Monster monsterOpponent, Player player) throws DeathException {
-        this.random = new Random();
-        this.monsterOpponent = monsterOpponent;
-        this.player = player;
-        this.menuItems.add(new MenuItem("Attack", "Attack " + monsterOpponent.getName() + "."));
-        this.menuItems.add(new MenuItem("Defend", "Defend against " + monsterOpponent.getName() + "'s attack."));
-        this.menuItems.add(new MenuItem("Escape", "Try and escape from " + monsterOpponent.getName()));
+    private void buildMenu() {
+        this.menuItems.add(new MenuItem("Attack",
+                    "Attack " + opponent.getName() + "."));
+        this.menuItems.add(new MenuItem("Defend",
+                    "Defend against " + opponent.getName() + "'s attack."));
+        this.menuItems.add(new MenuItem("Escape",
+                    "Try and escape from " + opponent.getName()));
         this.menuItems.add(new MenuItem("Equip", "Equip an item"));
         this.menuItems.add(new MenuItem("Unequip", "Unequip an item"));
-        this.menuItems.add(new MenuItem("View", "View details about your character"));
-        this.armour = player.getArmour();
-        this.damage = player.getDamage();
-        while (monsterOpponent.getHealth() > 0 && player.getHealth() > 0 && (escapeSuccessfulAttempts <= 0)) {
-            QueueProvider.offer("\nWhat is your choice?");
-            MenuItem selectedItem = displayMenu(this.menuItems);
-            testSelected(selectedItem);
-        }
-        if (player.getHealth() == 0) {
-            QueueProvider.offer("You died... Start again? (y/n)");
-            String reply = QueueProvider.take().toLowerCase();
-            while (!reply.startsWith("y") && !reply.startsWith("n")) {
-                QueueProvider.offer("You died... Start again? (y/n)");
-                reply = QueueProvider.take().toLowerCase();
-            }
-            if (reply.startsWith("y")) {
-                throw new DeathException("restart");
-            } else if (reply.startsWith("n")) {
-                throw new DeathException("close");
-            }
-        }  else if (monsterOpponent.getHealth() == 0) {
-            int xp = monsterOpponent.getXPGain();
-            this.player.setXP(this.player.getXP() + xp);
-            int oldLevel = this.player.getLevel();
-            int newLevel = (int) (0.075 * Math.sqrt(this.player.getXP()) + 1);
-            this.player.setLevel(newLevel);
-
-            // Iterates over monster's items and if there are any, drops them. 
-            // There are two loops due to a ConcurrentModification Exception that occurs
-            // if you try to remove the item while looping through the monster's items.
-            List<ItemStack> itemStacks = monsterOpponent.getStorage().getItemStack();
-            List<String> itemIds = new ArrayList<>();
-            for (ItemStack itemStack : itemStacks) {
-                String itemId = itemStack.getItem().getId();
-                itemIds.add(itemId);
-            }
-            for (String itemId : itemIds) {
-                Item item = GameBeans.getItemRepository().getItem(itemId);
-                monsterOpponent.removeItemFromStorage(item);
-                this.player.getLocation().addItem(item);
-                QueueProvider.offer("Your opponent dropped a " + item.getName());
-            }
-
-            this.player.getLocation().removeMonster(monsterOpponent);
-            this.player.setGold(this.player.getGold() + monsterOpponent.getGold());
-            QueueProvider.offer("You killed a " + monsterOpponent.getName() + "\nYou have gained " + xp + " XP and " + monsterOpponent.getGold() + " gold");
-            if (oldLevel < newLevel) {
-                QueueProvider.offer("You've are now level " + newLevel + "!");
-            }
-            CharacterChange cc = new CharacterChange();
-            cc.trigger(this.player, "kill", monsterOpponent.getName());
-        }
+        this.menuItems.add(new MenuItem("View",
+                    "View details about your character"));
     }
 
     private void testSelected(MenuItem m) {
         switch (m.getKey()) {
             case "attack": {
-                mutateStats(1, 0.5);
-                if (npcOpponent == null) {
-                    attack(player, monsterOpponent);
-                    attack(monsterOpponent, player);
-                } else {
-                    attack(player, npcOpponent);
-                    attack(npcOpponent, player);
-                }
-                resetStats();
-                break;
+                   mutateStats(1, 0.5);
+                   attack(player, opponent);
+                   attack(opponent, player);
+                   resetStats();
+                   break;
             }
             case "defend": {
-                mutateStats(0.5, 1);
-                if (npcOpponent == null) {
-                    QueueProvider.offer("\nYou get ready to defend against the " + monsterOpponent.getName() + ".");
-                    attack(player, monsterOpponent);
-                    attack(monsterOpponent, player);
-                } else {
-                    QueueProvider.offer("\nYou get ready to defend against the " + npcOpponent.getName() + ".");
-                    attack(player, npcOpponent);
-                    attack(npcOpponent, player);
-                }
-                resetStats();
-                break;
+                   mutateStats(0.5, 1);
+                   QueueProvider.offer("\nYou get ready to defend against " +
+                           "the " + opponent.getName() + ".");
+                   attack(player, opponent);
+                   attack(opponent, player);
+                   resetStats();
+                   break;
             }
             case "escape": {
-                if (npcOpponent == null) {
-                    escapeSuccessfulAttempts = escapeAttempt(player, monsterOpponent, escapeSuccessfulAttempts);
-                } else {
-                    escapeSuccessfulAttempts = escapeAttempt(player, npcOpponent, escapeSuccessfulAttempts);
-                }
-                break;
+                       escapeSuccessfulAttempts = escapeAttempt(player,
+                               opponent, escapeSuccessfulAttempts);
+                   break;
             }
             case "equip": {
-                equip();
-                break;
+                   equip();
+                   break;
             }
             case "unequip": {
-                unequip();
-                break;
+                  unequip();
+                  break;
             }
             case "view": {
-                viewStats();
-                break;
+                  viewStats();
+                  break;
             }
             default: {
-                break;
+                  break;
             }
         }
     }
 
-    private int escapeAttempt(Player player, Entity attacker, int escapeAttempts) {
-        if (escapeAttempts == -10)
-	{
-	     escapeAttempts = 0;
-	}
-        double playerEscapeLevel = player.getIntelligence() + player.getStealth() + player.getDexterity();
-        double attackerEscapeLevel = attacker.getIntelligence() + attacker.getStealth() + attacker.getDexterity() + 
+    private int escapeAttempt(Player player, NPC attacker,
+            int escapeAttempts) {
+        if (escapeAttempts == -10) {
+            escapeAttempts = 0;
+        }
+        double playerEscapeLevel = player.getIntelligence() +
+            player.getStealth() + player.getDexterity();
+        double attackerEscapeLevel = attacker.getIntelligence() +
+            attacker.getStealth() + attacker.getDexterity() +
             (attacker.getDamage() / playerEscapeLevel);
         double escapeLevel = playerEscapeLevel / attackerEscapeLevel;
 
@@ -219,18 +157,18 @@ public class BattleMenu extends Menus {
         int rawLuck = rand.nextInt(player.getLuck()*2) + 1;
         int lowerBound = 60 - rawLuck;
         int upperBound = 80 - rawLuck;
-        double minEscapeLevel = (rand.nextInt((upperBound - lowerBound) + 1) + lowerBound) / 100.0;
-      
+        double minEscapeLevel = (rand.nextInt((upperBound - lowerBound) + 1) +
+                lowerBound) / 100.0;
         if (escapeLevel > minEscapeLevel && (escapeAttempts == 0)) {
-            QueueProvider.offer("You have managed to escape the: " + attacker.getName());
+            QueueProvider.offer("You have managed to escape the: " +
+                    attacker.getName());
             return 1;
-	} else if (escapeAttempts < 0)
-	{
+        } else if (escapeAttempts < 0) {
             QueueProvider.offer("You have tried to escape too many times!");
-	    return escapeAttempts-1;
-	    
+            return escapeAttempts - 1;
         } else {
-            QueueProvider.offer("You failed to escape the: " + attacker.getName());
+            QueueProvider.offer("You failed to escape the: " +
+                    attacker.getName());
             return escapeAttempts-1;
         }
     }
@@ -245,14 +183,17 @@ public class BattleMenu extends Menus {
             damage += damage;
             QueueProvider.offer("Crit hit! Damage has been doubled!");
         }
-        int healthReduction = (int) ((((3 * attacker.getLevel() / 50 + 2) * damage * damage / (defender.getArmour() + 1)/ 100) + 2) * (random.nextDouble() + 1));
+        int healthReduction = (int) ((((3 * attacker.getLevel() / 50 + 2) *
+                damage * damage / (defender.getArmour() + 1)/ 100) + 2) *
+                (random.nextDouble() + 1));
         defender.setHealth((defender.getHealth() - healthReduction));
         if (defender.getHealth() < 0) {
             defender.setHealth(0);
         }
         QueueProvider.offer(healthReduction + " damage dealt!");
         if (attacker instanceof Player) {
-            QueueProvider.offer("The " + defender.getName() + "'s health is " + defender.getHealth());
+            QueueProvider.offer("The " + defender.getName() + "'s health is " +
+                    defender.getHealth());
         } else {
             QueueProvider.offer("Your health is " + defender.getHealth());
         }
@@ -289,7 +230,8 @@ public class BattleMenu extends Menus {
     }
 
     private void viewStats() {
-        QueueProvider.offer("\nWhat is your command? ex. View stats(vs), View Backpack(vb), View Equipment(ve) ");
+        QueueProvider.offer("\nWhat is your command? ex. View stats(vs), " +
+                "View Backpack(vb), View Equipment(ve) ");
         String input = QueueProvider.take();
         switch (input) {
             case "vs":
@@ -313,4 +255,3 @@ public class BattleMenu extends Menus {
         }
     }
 }
-
