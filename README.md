@@ -47,6 +47,7 @@ form the majority of the project's documentation and development guidelines.
  1. [tamul](https://github.com/tamul)
  1. [shkesar](https://github.com/shkesar)
  1. [paddatrapper](https://github.com/paddatrapper)
+ 1. [Dev-Osmium](https://github.com/Dev-Osmium)
 
 Contributing
 -------------
@@ -80,11 +81,12 @@ there to warrant it.
 Setting Up The Game For Development or Gameplay
 -----------------
 
-You can download the game with:
+### Gameplay
+1. Download the game from [here](https://github.com/Progether/JAdventure/releases)
+2. Extract the game files
+3. Go into the game directory and run `java -jar jadventure-XX.jar` (where XX is the version)
 
-    git clone https://github.com/progether/JAdventure
-
-### Run with Maven
+### Run with Maven - Developers
 1. Install [Maven](http://maven.apache.com)
 2. Go into the game directory and run `mvn exec:java` to play the game or `mvn clean install` to download
 all dependencies.
