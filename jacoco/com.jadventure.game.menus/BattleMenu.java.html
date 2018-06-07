@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BattleMenu.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java Text Adventure</a> &gt; <a href="index.source.html" class="el_package">com.jadventure.game.menus</a> &gt; <span class="el_source">BattleMenu.java</span></div><h1>BattleMenu.java</h1><pre class="source lang-java linenums">package com.jadventure.game.menus;
+
+import com.jadventure.game.DeathException;
+import com.jadventure.game.entities.Entity;
+import com.jadventure.game.entities.Player;
+import com.jadventure.game.entities.NPC;
+import com.jadventure.game.monsters.Monster;
+import com.jadventure.game.QueueProvider;
+import com.jadventure.game.CharacterChange;
+import com.jadventure.game.items.ItemStack;
+import com.jadventure.game.items.Item;
+import com.jadventure.game.GameBeans;
+
+import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
+
+public class BattleMenu extends Menus {
+
+    private Monster monsterOpponent;
+    private NPC npcOpponent;
+    private Player player;
+    private Random random;
+    private int armour;
+    private double damage;
+<span class="nc" id="L26">    private int escapeSuccessfulAttempts = 0;</span>
+
+<span class="nc" id="L28">    public BattleMenu(NPC npcOpponent, Player player) throws DeathException {</span>
+<span class="nc" id="L29">        this.random = new Random();</span>
+<span class="nc" id="L30">        this.npcOpponent = npcOpponent;</span>
+<span class="nc" id="L31">        this.player = player;</span>
+<span class="nc" id="L32">        this.menuItems.add(new MenuItem(&quot;Attack&quot;, &quot;Attack &quot; + npcOpponent.getName() + &quot;.&quot;));</span>
+<span class="nc" id="L33">        this.menuItems.add(new MenuItem(&quot;Defend&quot;, &quot;Defend against &quot; + npcOpponent.getName() + &quot;'s attack.&quot;));</span>
+<span class="nc" id="L34">        this.menuItems.add(new MenuItem(&quot;Escape&quot;, &quot;Try and escape from &quot; + npcOpponent.getName()));</span>
+<span class="nc" id="L35">        this.menuItems.add(new MenuItem(&quot;Equip&quot;, &quot;Equip an item&quot;));</span>
+<span class="nc" id="L36">        this.menuItems.add(new MenuItem(&quot;Unequip&quot;, &quot;Unequip an item&quot;));</span>
+<span class="nc" id="L37">        this.menuItems.add(new MenuItem(&quot;View&quot;, &quot;View details about your character&quot;));</span>
+<span class="nc" id="L38">        this.armour = player.getArmour();</span>
+<span class="nc" id="L39">        this.damage = player.getDamage();</span>
+<span class="nc bnc" id="L40" title="All 6 branches missed.">        while (npcOpponent.getHealth() &gt; 0 &amp;&amp; player.getHealth() &gt; 0 &amp;&amp; (escapeSuccessfulAttempts &lt;= 0)) {</span>
+<span class="nc" id="L41">            QueueProvider.offer(&quot;\nWhat is your choice?&quot;);</span>
+<span class="nc" id="L42">            MenuItem selectedItem = displayMenu(this.menuItems);</span>
+<span class="nc" id="L43">            testSelected(selectedItem);</span>
+<span class="nc" id="L44">        }</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        if (player.getHealth() == 0) {</span>
+<span class="nc" id="L46">            QueueProvider.offer(&quot;You died... Start again? (y/n)&quot;);</span>
+<span class="nc" id="L47">            String reply = QueueProvider.take().toLowerCase();</span>
+<span class="nc bnc" id="L48" title="All 4 branches missed.">            while (!reply.startsWith(&quot;y&quot;) &amp;&amp; !reply.startsWith(&quot;n&quot;)) {</span>
+<span class="nc" id="L49">                QueueProvider.offer(&quot;You died... Start again? (y/n)&quot;);</span>
+<span class="nc" id="L50">                reply = QueueProvider.take().toLowerCase();</span>
+            }
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            if (reply.startsWith(&quot;y&quot;)) {</span>
+<span class="nc" id="L53">                throw new DeathException(&quot;restart&quot;);</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            } else if (reply.startsWith(&quot;n&quot;)) {</span>
+<span class="nc" id="L55">                throw new DeathException(&quot;close&quot;);</span>
+            }
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        }  else if (npcOpponent.getHealth() == 0) {</span>
+<span class="nc" id="L58">            int xp = npcOpponent.getXPGain();</span>
+<span class="nc" id="L59">            this.player.setXP(this.player.getXP() + xp);</span>
+<span class="nc" id="L60">            int oldLevel = this.player.getLevel();</span>
+<span class="nc" id="L61">            int newLevel = (int) (0.075 * Math.sqrt(this.player.getXP()) + 1);</span>
+<span class="nc" id="L62">            this.player.setLevel(newLevel);</span>
+
+            // Iterates over the npc's items and if there are any, drops them. 
+            // There are two loops due to a ConcurrentModification Exception that occurs
+            // if you try to remove the item while looping through the npc's items.
+<span class="nc" id="L67">            List&lt;ItemStack&gt; itemStacks = npcOpponent.getStorage().getItemStack();</span>
+<span class="nc" id="L68">            List&lt;String&gt; itemIds = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">            for (ItemStack itemStack : itemStacks) {</span>
+<span class="nc" id="L70">                String itemId = itemStack.getItem().getId();</span>
+<span class="nc" id="L71">                itemIds.add(itemId);</span>
+<span class="nc" id="L72">            }</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">            for (String itemId : itemIds) {</span>
+<span class="nc" id="L74">                Item item = GameBeans.getItemRepository().getItem(itemId);</span>
+<span class="nc" id="L75">                npcOpponent.removeItemFromStorage(item);</span>
+<span class="nc" id="L76">                this.player.getLocation().addItem(item);</span>
+<span class="nc" id="L77">                QueueProvider.offer(&quot;Your opponent dropped a &quot; + item.getName());</span>
+<span class="nc" id="L78">            }</span>
+
+<span class="nc" id="L80">            this.player.getLocation().removeNpc(npcOpponent);</span>
+<span class="nc" id="L81">            this.player.setGold(this.player.getGold() + npcOpponent.getGold());</span>
+<span class="nc" id="L82">            QueueProvider.offer(&quot;You killed a &quot; + npcOpponent.getName() + &quot;\nYou have gained &quot; + xp + &quot; XP and &quot; + npcOpponent.getGold() + &quot; gold&quot;);</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">            if (oldLevel &lt; newLevel) {</span>
+<span class="nc" id="L84">                QueueProvider.offer(&quot;You've are now level &quot; + newLevel + &quot;!&quot;);</span>
+            }
+<span class="nc" id="L86">            CharacterChange cc = new CharacterChange();</span>
+<span class="nc" id="L87">            cc.trigger(this.player, &quot;kill&quot;, npcOpponent.getName());</span>
+        }
+<span class="nc" id="L89">    }</span>
+
+<span class="nc" id="L91">    public BattleMenu(Monster monsterOpponent, Player player) throws DeathException {</span>
+<span class="nc" id="L92">        this.random = new Random();</span>
+<span class="nc" id="L93">        this.monsterOpponent = monsterOpponent;</span>
+<span class="nc" id="L94">        this.player = player;</span>
+<span class="nc" id="L95">        this.menuItems.add(new MenuItem(&quot;Attack&quot;, &quot;Attack &quot; + monsterOpponent.getName() + &quot;.&quot;));</span>
+<span class="nc" id="L96">        this.menuItems.add(new MenuItem(&quot;Defend&quot;, &quot;Defend against &quot; + monsterOpponent.getName() + &quot;'s attack.&quot;));</span>
+<span class="nc" id="L97">        this.menuItems.add(new MenuItem(&quot;Escape&quot;, &quot;Try and escape from &quot; + monsterOpponent.getName()));</span>
+<span class="nc" id="L98">        this.menuItems.add(new MenuItem(&quot;Equip&quot;, &quot;Equip an item&quot;));</span>
+<span class="nc" id="L99">        this.menuItems.add(new MenuItem(&quot;Unequip&quot;, &quot;Unequip an item&quot;));</span>
+<span class="nc" id="L100">        this.menuItems.add(new MenuItem(&quot;View&quot;, &quot;View details about your character&quot;));</span>
+<span class="nc" id="L101">        this.armour = player.getArmour();</span>
+<span class="nc" id="L102">        this.damage = player.getDamage();</span>
+<span class="nc bnc" id="L103" title="All 6 branches missed.">        while (monsterOpponent.getHealth() &gt; 0 &amp;&amp; player.getHealth() &gt; 0 &amp;&amp; (escapeSuccessfulAttempts &lt;= 0)) {</span>
+<span class="nc" id="L104">            QueueProvider.offer(&quot;\nWhat is your choice?&quot;);</span>
+<span class="nc" id="L105">            MenuItem selectedItem = displayMenu(this.menuItems);</span>
+<span class="nc" id="L106">            testSelected(selectedItem);</span>
+<span class="nc" id="L107">        }</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        if (player.getHealth() == 0) {</span>
+<span class="nc" id="L109">            QueueProvider.offer(&quot;You died... Start again? (y/n)&quot;);</span>
+<span class="nc" id="L110">            String reply = QueueProvider.take().toLowerCase();</span>
+<span class="nc bnc" id="L111" title="All 4 branches missed.">            while (!reply.startsWith(&quot;y&quot;) &amp;&amp; !reply.startsWith(&quot;n&quot;)) {</span>
+<span class="nc" id="L112">                QueueProvider.offer(&quot;You died... Start again? (y/n)&quot;);</span>
+<span class="nc" id="L113">                reply = QueueProvider.take().toLowerCase();</span>
+            }
+<span class="nc bnc" id="L115" title="All 2 branches missed.">            if (reply.startsWith(&quot;y&quot;)) {</span>
+<span class="nc" id="L116">                throw new DeathException(&quot;restart&quot;);</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">            } else if (reply.startsWith(&quot;n&quot;)) {</span>
+<span class="nc" id="L118">                throw new DeathException(&quot;close&quot;);</span>
+            }
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        }  else if (monsterOpponent.getHealth() == 0) {</span>
+<span class="nc" id="L121">            int xp = monsterOpponent.getXPGain();</span>
+<span class="nc" id="L122">            this.player.setXP(this.player.getXP() + xp);</span>
+<span class="nc" id="L123">            int oldLevel = this.player.getLevel();</span>
+<span class="nc" id="L124">            int newLevel = (int) (0.075 * Math.sqrt(this.player.getXP()) + 1);</span>
+<span class="nc" id="L125">            this.player.setLevel(newLevel);</span>
+
+            // Iterates over monster's items and if there are any, drops them. 
+            // There are two loops due to a ConcurrentModification Exception that occurs
+            // if you try to remove the item while looping through the monster's items.
+<span class="nc" id="L130">            List&lt;ItemStack&gt; itemStacks = monsterOpponent.getStorage().getItemStack();</span>
+<span class="nc" id="L131">            List&lt;String&gt; itemIds = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">            for (ItemStack itemStack : itemStacks) {</span>
+<span class="nc" id="L133">                String itemId = itemStack.getItem().getId();</span>
+<span class="nc" id="L134">                itemIds.add(itemId);</span>
+<span class="nc" id="L135">            }</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">            for (String itemId : itemIds) {</span>
+<span class="nc" id="L137">                Item item = GameBeans.getItemRepository().getItem(itemId);</span>
+<span class="nc" id="L138">                monsterOpponent.removeItemFromStorage(item);</span>
+<span class="nc" id="L139">                this.player.getLocation().addItem(item);</span>
+<span class="nc" id="L140">                QueueProvider.offer(&quot;Your opponent dropped a &quot; + item.getName());</span>
+<span class="nc" id="L141">            }</span>
+
+<span class="nc" id="L143">            this.player.getLocation().removeMonster(monsterOpponent);</span>
+<span class="nc" id="L144">            this.player.setGold(this.player.getGold() + monsterOpponent.getGold());</span>
+<span class="nc" id="L145">            QueueProvider.offer(&quot;You killed a &quot; + monsterOpponent.getName() + &quot;\nYou have gained &quot; + xp + &quot; XP and &quot; + monsterOpponent.getGold() + &quot; gold&quot;);</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">            if (oldLevel &lt; newLevel) {</span>
+<span class="nc" id="L147">                QueueProvider.offer(&quot;You've are now level &quot; + newLevel + &quot;!&quot;);</span>
+            }
+<span class="nc" id="L149">            CharacterChange cc = new CharacterChange();</span>
+<span class="nc" id="L150">            cc.trigger(this.player, &quot;kill&quot;, monsterOpponent.getName());</span>
+        }
+<span class="nc" id="L152">    }</span>
+
+    private void testSelected(MenuItem m) {
+<span class="nc bnc" id="L155" title="All 7 branches missed.">        switch (m.getKey()) {</span>
+            case &quot;attack&quot;: {
+<span class="nc" id="L157">                mutateStats(1, 0.5);</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">                if (npcOpponent == null) {</span>
+<span class="nc" id="L159">                    attack(player, monsterOpponent);</span>
+<span class="nc" id="L160">                    attack(monsterOpponent, player);</span>
+                } else {
+<span class="nc" id="L162">                    attack(player, npcOpponent);</span>
+<span class="nc" id="L163">                    attack(npcOpponent, player);</span>
+                }
+<span class="nc" id="L165">                resetStats();</span>
+<span class="nc" id="L166">                break;</span>
+            }
+            case &quot;defend&quot;: {
+<span class="nc" id="L169">                mutateStats(0.5, 1);</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">                if (npcOpponent == null) {</span>
+<span class="nc" id="L171">                    QueueProvider.offer(&quot;\nYou get ready to defend against the &quot; + monsterOpponent.getName() + &quot;.&quot;);</span>
+<span class="nc" id="L172">                    attack(player, monsterOpponent);</span>
+<span class="nc" id="L173">                    attack(monsterOpponent, player);</span>
+                } else {
+<span class="nc" id="L175">                    QueueProvider.offer(&quot;\nYou get ready to defend against the &quot; + npcOpponent.getName() + &quot;.&quot;);</span>
+<span class="nc" id="L176">                    attack(player, npcOpponent);</span>
+<span class="nc" id="L177">                    attack(npcOpponent, player);</span>
+                }
+<span class="nc" id="L179">                resetStats();</span>
+<span class="nc" id="L180">                break;</span>
+            }
+            case &quot;escape&quot;: {
+<span class="nc bnc" id="L183" title="All 2 branches missed.">                if (npcOpponent == null) {</span>
+<span class="nc" id="L184">                    escapeSuccessfulAttempts = escapeAttempt(player, monsterOpponent, escapeSuccessfulAttempts);</span>
+                } else {
+<span class="nc" id="L186">                    escapeSuccessfulAttempts = escapeAttempt(player, npcOpponent, escapeSuccessfulAttempts);</span>
+                }
+<span class="nc" id="L188">                break;</span>
+            }
+            case &quot;equip&quot;: {
+<span class="nc" id="L191">                equip();</span>
+<span class="nc" id="L192">                break;</span>
+            }
+            case &quot;unequip&quot;: {
+<span class="nc" id="L195">                unequip();</span>
+<span class="nc" id="L196">                break;</span>
+            }
+            case &quot;view&quot;: {
+<span class="nc" id="L199">                viewStats();</span>
+<span class="nc" id="L200">                break;</span>
+            }
+            default: {
+                break;
+            }
+        }
+<span class="nc" id="L206">    }</span>
+
+    private int escapeAttempt(Player player, Entity attacker, int escapeAttempts) {
+<span class="nc bnc" id="L209" title="All 2 branches missed.">        if (escapeAttempts == -10)</span>
+	{
+<span class="nc" id="L211">	     escapeAttempts = 0;</span>
+	}
+<span class="nc" id="L213">        double playerEscapeLevel = player.getIntelligence() + player.getStealth() + player.getDexterity();</span>
+<span class="nc" id="L214">        double attackerEscapeLevel = attacker.getIntelligence() + attacker.getStealth() + attacker.getDexterity() + </span>
+<span class="nc" id="L215">            (attacker.getDamage() / playerEscapeLevel);</span>
+<span class="nc" id="L216">        double escapeLevel = playerEscapeLevel / attackerEscapeLevel;</span>
+
+<span class="nc" id="L218">        Random rand = new Random();</span>
+<span class="nc" id="L219">        int rawLuck = rand.nextInt(player.getLuck()*2) + 1;</span>
+<span class="nc" id="L220">        int lowerBound = 60 - rawLuck;</span>
+<span class="nc" id="L221">        int upperBound = 80 - rawLuck;</span>
+<span class="nc" id="L222">        double minEscapeLevel = (rand.nextInt((upperBound - lowerBound) + 1) + lowerBound) / 100.0;</span>
+      
+<span class="nc bnc" id="L224" title="All 4 branches missed.">        if (escapeLevel &gt; minEscapeLevel &amp;&amp; (escapeAttempts == 0)) {</span>
+<span class="nc" id="L225">            QueueProvider.offer(&quot;You have managed to escape the: &quot; + attacker.getName());</span>
+<span class="nc" id="L226">            return 1;</span>
+<span class="nc bnc" id="L227" title="All 2 branches missed.">	} else if (escapeAttempts &lt; 0)</span>
+	{
+<span class="nc" id="L229">            QueueProvider.offer(&quot;You have tried to escape too many times!&quot;);</span>
+<span class="nc" id="L230">	    return escapeAttempts-1;</span>
+	    
+        } else {
+<span class="nc" id="L233">            QueueProvider.offer(&quot;You failed to escape the: &quot; + attacker.getName());</span>
+<span class="nc" id="L234">            return escapeAttempts-1;</span>
+        }
+    }
+
+    private void attack(Entity attacker, Entity defender) {
+<span class="nc bnc" id="L239" title="All 2 branches missed.">        if (attacker.getHealth() == 0) {</span>
+<span class="nc" id="L240">            return;</span>
+        }
+<span class="nc" id="L242">        double damage = attacker.getDamage();</span>
+<span class="nc" id="L243">        double critCalc = random.nextDouble();</span>
+<span class="nc bnc" id="L244" title="All 2 branches missed.">        if (critCalc &lt; attacker.getCritChance()) {</span>
+<span class="nc" id="L245">            damage += damage;</span>
+<span class="nc" id="L246">            QueueProvider.offer(&quot;Crit hit! Damage has been doubled!&quot;);</span>
+        }
+<span class="nc" id="L248">        int healthReduction = (int) ((((3 * attacker.getLevel() / 50 + 2) * damage * damage / (defender.getArmour() + 1)/ 100) + 2) * (random.nextDouble() + 1));</span>
+<span class="nc" id="L249">        defender.setHealth((defender.getHealth() - healthReduction));</span>
+<span class="nc bnc" id="L250" title="All 2 branches missed.">        if (defender.getHealth() &lt; 0) {</span>
+<span class="nc" id="L251">            defender.setHealth(0);</span>
+        }
+<span class="nc" id="L253">        QueueProvider.offer(healthReduction + &quot; damage dealt!&quot;);</span>
+<span class="nc bnc" id="L254" title="All 2 branches missed.">        if (attacker instanceof Player) {</span>
+<span class="nc" id="L255">            QueueProvider.offer(&quot;The &quot; + defender.getName() + &quot;'s health is &quot; + defender.getHealth());</span>
+        } else {
+<span class="nc" id="L257">            QueueProvider.offer(&quot;Your health is &quot; + defender.getHealth());</span>
+        }
+<span class="nc" id="L259">    }</span>
+
+    private void mutateStats(double damageMult, double armourMult) {
+<span class="nc" id="L262">        armour = player.getArmour();</span>
+<span class="nc" id="L263">        damage = player.getDamage();</span>
+<span class="nc" id="L264">        player.setArmour((int) (armour * armourMult));</span>
+<span class="nc" id="L265">        player.setDamage(damage * damageMult);</span>
+<span class="nc" id="L266">    }</span>
+
+    private void resetStats() {
+<span class="nc" id="L269">        player.setArmour(armour);</span>
+<span class="nc" id="L270">        player.setDamage(damage);</span>
+<span class="nc" id="L271">    }</span>
+
+    private void equip() {
+<span class="nc" id="L274">        player.printStorage();</span>
+<span class="nc" id="L275">        QueueProvider.offer(&quot;What item do you want to use?&quot;);</span>
+<span class="nc" id="L276">        String itemName = QueueProvider.take();</span>
+<span class="nc bnc" id="L277" title="All 2 branches missed.">        if (!itemName.equalsIgnoreCase(&quot;back&quot;)) {</span>
+<span class="nc" id="L278">            player.equipItem(itemName);</span>
+        }
+<span class="nc" id="L280">    }</span>
+
+    private void unequip() {
+<span class="nc" id="L283">        player.printEquipment();</span>
+<span class="nc" id="L284">        QueueProvider.offer(&quot;What item do you want to unequip?&quot;);</span>
+<span class="nc" id="L285">        String itemName = QueueProvider.take();</span>
+<span class="nc bnc" id="L286" title="All 2 branches missed.">        if (!itemName.equalsIgnoreCase(&quot;back&quot;)) {</span>
+<span class="nc" id="L287">            player.dequipItem(itemName);</span>
+        }
+<span class="nc" id="L289">    }</span>
+
+    private void viewStats() {
+<span class="nc" id="L292">        QueueProvider.offer(&quot;\nWhat is your command? ex. View stats(vs), View Backpack(vb), View Equipment(ve) &quot;);</span>
+<span class="nc" id="L293">        String input = QueueProvider.take();</span>
+<span class="nc bnc" id="L294" title="All 5 branches missed.">        switch (input) {</span>
+            case &quot;vs&quot;:
+            case &quot;viewstats&quot;:
+<span class="nc" id="L297">                player.getStats();</span>
+<span class="nc" id="L298">                break;</span>
+            case &quot;ve&quot;:
+            case &quot;viewequipped&quot;:
+<span class="nc" id="L301">                player.printEquipment();</span>
+<span class="nc" id="L302">                break;</span>
+            case &quot;vb&quot;:
+            case &quot;viewbackpack&quot;:
+<span class="nc" id="L305">                player.printStorage();</span>
+<span class="nc" id="L306">                break;</span>
+            case &quot;back&quot;:
+            case &quot;exit&quot;:
+<span class="nc" id="L309">                break;</span>
+            default:
+<span class="nc" id="L311">                viewStats();</span>
+                break;
+        }
+<span class="nc" id="L314">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

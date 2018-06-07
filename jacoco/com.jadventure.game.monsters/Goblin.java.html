@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Goblin.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java Text Adventure</a> &gt; <a href="index.source.html" class="el_package">com.jadventure.game.monsters</a> &gt; <span class="el_source">Goblin.java</span></div><h1>Goblin.java</h1><pre class="source lang-java linenums">package com.jadventure.game.monsters;
+
+/*
+ * A monster that isn't too bad, but does come with slight armour.
+ */
+public class Goblin extends Monster {
+<span class="nc" id="L7">	public Goblin(int playerLevel){</span>
+<span class="nc" id="L8">		this.monsterType = &quot;Goblin&quot;;</span>
+<span class="nc" id="L9">		this.setHealthMax(55 + playerLevel * 6);</span>
+<span class="nc" id="L10">		this.setHealth(55 + playerLevel * 6);</span>
+<span class="nc" id="L11">		this.setArmour(playerLevel + 3);</span>
+<span class="nc" id="L12">		this.setDamage(12 + playerLevel * 2.5);</span>
+<span class="nc" id="L13">                this.setIntelligence(1);</span>
+<span class="nc" id="L14">                this.setStealth(2);</span>
+<span class="nc" id="L15">                this.setDexterity(1);</span>
+<span class="nc" id="L16">		this.setCritChance(0.02);</span>
+<span class="nc" id="L17">                this.setXPGain(10 + playerLevel * 3);</span>
+<span class="nc" id="L18">		this.setGold(playerLevel * 5);</span>
+<span class="nc" id="L19">                addRandomItems(playerLevel, &quot;wdag1&quot;, &quot;agre1&quot;, &quot;albt1&quot;, &quot;algt1&quot;);</span>
+<span class="nc" id="L20">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

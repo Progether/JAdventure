@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MainMenu.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java Text Adventure</a> &gt; <a href="index.source.html" class="el_package">com.jadventure.game.menus</a> &gt; <span class="el_source">MainMenu.java</span></div><h1>MainMenu.java</h1><pre class="source lang-java linenums">package com.jadventure.game.menus;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+import com.jadventure.game.DeathException;
+import com.jadventure.game.Game;
+import com.jadventure.game.GameModeType;
+import com.jadventure.game.JAdventure;
+import com.jadventure.game.QueueProvider;
+import com.jadventure.game.entities.Player;
+
+/**
+ * The first menu displayed on user screen
+ * @see JAdventure
+ * This menu lets the player choose whether to load an exiting game,
+ * start a new one, or exit to the terminal.
+ */
+public class MainMenu extends Menus implements Runnable {
+     
+<span class="nc" id="L26">    public MainMenu(Socket server, GameModeType mode){</span>
+<span class="nc" id="L27">        QueueProvider.startMessenger(mode, server);</span>
+<span class="nc" id="L28">    }</span>
+
+<span class="nc" id="L30">    public MainMenu() {</span>
+<span class="nc" id="L31">        start();</span>
+<span class="nc" id="L32">    }</span>
+    
+    public void run() {
+<span class="nc" id="L35">        start();</span>
+<span class="nc" id="L36">    }</span>
+
+    public void start() {
+<span class="nc" id="L39">        this.menuItems.add(new MenuItem(&quot;Start&quot;, &quot;Starts a new Game&quot;, &quot;new&quot;));</span>
+<span class="nc" id="L40">        this.menuItems.add(new MenuItem(&quot;Load&quot;, &quot;Loads an existing Game&quot;));</span>
+<span class="nc" id="L41">        this.menuItems.add(new MenuItem(&quot;Delete&quot;, &quot;Deletes an existing Game&quot;));</span>
+<span class="nc" id="L42">        this.menuItems.add(new MenuItem(&quot;Exit&quot;, null, &quot;quit&quot;));</span>
+        
+        while(true) {
+            try {
+<span class="nc" id="L46">                MenuItem selectedItem = displayMenu(this.menuItems);</span>
+<span class="nc" id="L47">                boolean exit = testOption(selectedItem);</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">                if (!exit) {</span>
+<span class="nc" id="L49">                    break;</span>
+                }
+<span class="nc" id="L51">            } catch (DeathException e) {</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">                if (e.getLocalisedMessage().equals(&quot;close&quot;)) {</span>
+<span class="nc" id="L53">                    break;</span>
+                }
+<span class="nc" id="L55">            }</span>
+        }
+<span class="nc" id="L57">        QueueProvider.offer(&quot;EXIT&quot;);</span>
+    
+<span class="nc" id="L59">    }</span>
+
+    private static boolean testOption(MenuItem m) throws DeathException {
+<span class="nc" id="L62">        String key = m.getKey();</span>
+<span class="nc bnc" id="L63" title="All 5 branches missed.">        switch (key){</span>
+            case &quot;start&quot;:
+<span class="nc" id="L65">                new ChooseClassMenu();</span>
+<span class="nc" id="L66">                break;</span>
+            case &quot;exit&quot;:
+<span class="nc" id="L68">                QueueProvider.offer(&quot;Goodbye!&quot;);</span>
+<span class="nc" id="L69">                return false;</span>
+            case &quot;load&quot;:
+<span class="nc" id="L71">                listProfiles();</span>
+<span class="nc" id="L72">                Player player = null;</span>
+<span class="nc" id="L73">                boolean exit = false;</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">                while (player == null) {</span>
+<span class="nc" id="L75">                    key = QueueProvider.take();</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">                    if (Player.profileExists(key)) {</span>
+<span class="nc" id="L77">                        player = Player.load(key);</span>
+<span class="nc bnc" id="L78" title="All 4 branches missed.">                    } else if (key.equals(&quot;exit&quot;) || key.equals(&quot;back&quot;)) {</span>
+<span class="nc" id="L79">                        exit = true;</span>
+<span class="nc" id="L80">                        break;</span>
+                    } else {
+<span class="nc" id="L82">                        QueueProvider.offer(&quot;That user doesn't exist. Try again.&quot;);</span>
+                    }
+                }
+<span class="nc bnc" id="L85" title="All 2 branches missed.">                if (exit) {</span>
+<span class="nc" id="L86">                    return true;</span>
+                }
+<span class="nc" id="L88">                new Game(player, &quot;old&quot;);</span>
+<span class="nc" id="L89">                break;</span>
+            case &quot;delete&quot;:
+<span class="nc" id="L91">                listProfiles();</span>
+<span class="nc" id="L92">                exit = false;</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">                while (!exit) {</span>
+<span class="nc" id="L94">                    key = QueueProvider.take();</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">                    if (Player.profileExists(key)) {</span>
+<span class="nc" id="L96">                        String profileName = key;</span>
+<span class="nc" id="L97">                        QueueProvider.offer(&quot;Are you sure you want to delete &quot; + profileName + &quot;? y/n&quot;);</span>
+<span class="nc" id="L98">                        key = QueueProvider.take();</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">                        if (key.equals(&quot;y&quot;)) {</span>
+<span class="nc" id="L100">                            File profile = new File(&quot;json/profiles/&quot; + profileName);</span>
+<span class="nc" id="L101">                            deleteDirectory(profile);</span>
+<span class="nc" id="L102">                            QueueProvider.offer(&quot;Profile Deleted&quot;);</span>
+<span class="nc" id="L103">                            return true;</span>
+                        } else {
+<span class="nc" id="L105">                            listProfiles();</span>
+<span class="nc" id="L106">                            QueueProvider.offer(&quot;\nWhich profile do you want to delete?&quot;);</span>
+                        }
+<span class="nc bnc" id="L108" title="All 4 branches missed.">                    } else if (key.equals(&quot;exit&quot;) || key.equals(&quot;back&quot;)) {</span>
+<span class="nc" id="L109">                        exit = true;</span>
+<span class="nc" id="L110">                        break;</span>
+                    } else {
+<span class="nc" id="L112">                        QueueProvider.offer(&quot;That user doesn't exist. Try again.&quot;);</span>
+                    }
+                }
+                break;
+        }
+<span class="nc" id="L117">        return true;</span>
+    }
+
+    private static boolean deleteDirectory(File directory) {
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        if(directory.exists()){</span>
+<span class="nc" id="L122">            File[] files = directory.listFiles();</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">            if(null!=files){</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">                for(int i=0; i&lt;files.length; i++) {</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">                    if(files[i].isDirectory()) {</span>
+<span class="nc" id="L126">                        deleteDirectory(files[i]);</span>
+                    }
+                    else {
+<span class="nc" id="L129">                        files[i].delete();</span>
+                    }
+                }
+            }
+        }
+<span class="nc" id="L134">        return(directory.delete());</span>
+    }
+
+    private static void listProfiles() {
+<span class="nc" id="L138">        QueueProvider.offer(&quot;Profiles:&quot;);</span>
+        try {
+<span class="nc" id="L140">                File file = new File(&quot;json/profiles&quot;);</span>
+<span class="nc" id="L141">                String[] profiles = file.list();</span>
+        
+<span class="nc" id="L143">            int i = 1;</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">            for (String name : profiles) {</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">                if (new File(&quot;json/profiles/&quot; + name).isDirectory()) {</span>
+<span class="nc" id="L146">                    QueueProvider.offer(&quot;  &quot; + i + &quot;. &quot; + name);</span>
+                }
+<span class="nc" id="L148">                    i += 1;</span>
+            }
+<span class="nc" id="L150">            QueueProvider.offer(&quot;\nWhat is the name of the avatar you want to select? Type 'back' to go back&quot;);</span>
+<span class="nc" id="L151">        } catch (NullPointerException e) {</span>
+<span class="nc" id="L152">            QueueProvider.offer(&quot;No profiles found. Type \&quot;back\&quot; to go back.&quot;);</span>
+<span class="nc" id="L153">        }</span>
+<span class="nc" id="L154">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

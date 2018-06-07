@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Monster.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java Text Adventure</a> &gt; <a href="index.source.html" class="el_package">com.jadventure.game.monsters</a> &gt; <span class="el_source">Monster.java</span></div><h1>Monster.java</h1><pre class="source lang-java linenums">package com.jadventure.game.monsters;
+
+import com.jadventure.game.entities.Entity;
+import com.jadventure.game.items.Item;
+import com.jadventure.game.GameBeans;
+import com.jadventure.game.repository.ItemRepository;
+
+import java.util.List;
+import java.util.Arrays;
+import java.util.Random;
+
+/*
+ * This class just holds a type of monster that is 
+ * further outlined in its respective file. For now it
+ * just holds the monster's name.
+ */
+<span class="nc" id="L17">public abstract class Monster extends Entity {</span>
+    public String monsterType;
+    private int xpGain;
+<span class="nc" id="L20">    private ItemRepository itemRepo = GameBeans.getItemRepository();</span>
+
+    public int getXPGain() {
+<span class="nc" id="L23">        return xpGain;</span>
+    }
+
+    public void setXPGain(int xpGain) {
+<span class="nc" id="L27">        this.xpGain = xpGain;</span>
+<span class="nc" id="L28">    }</span>
+
+    @Override
+    public boolean equals(Object obj) {
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        if (obj == null) {</span>
+<span class="nc" id="L33">            return false;</span>
+        }
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (obj instanceof Monster) {</span>
+<span class="nc" id="L36">            Monster m = (Monster) obj;</span>
+<span class="nc" id="L37">            return m.monsterType.equals(this.monsterType);</span>
+        }
+<span class="nc" id="L39">        return false;</span>
+    }
+
+    public void addRandomItems(int playerLevel, String... children) {
+<span class="nc" id="L43">        List&lt;String&gt; itemList = Arrays.asList(children);</span>
+<span class="nc" id="L44">        Random rand = new Random();</span>
+
+<span class="nc" id="L46">        int numItems = 1;</span>
+<span class="nc" id="L47">        int i = 0;</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        while (i != numItems) {</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">            for (String itemName : itemList) {</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">                if (i == numItems) {</span>
+<span class="nc" id="L51">                    break;</span>
+                }
+
+<span class="nc" id="L54">                int j = rand.nextInt(5) + 1;</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">                if (j == 1) {</span>
+<span class="nc" id="L56">                    Item item = itemRepo.getItem(itemName);</span>
+<span class="nc" id="L57">                    addItemToStorage(item);</span>
+<span class="nc" id="L58">                    i++;</span>
+                }
+<span class="nc" id="L60">            }</span>
+        }
+<span class="nc" id="L62">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

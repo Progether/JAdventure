@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Line.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java Text Adventure</a> &gt; <a href="index.source.html" class="el_package">com.jadventure.game.conversation</a> &gt; <span class="el_source">Line.java</span></div><h1>Line.java</h1><pre class="source lang-java linenums">package com.jadventure.game.conversation;
+
+import com.jadventure.game.QueueProvider;
+import com.jadventure.game.entities.NPC;
+import com.jadventure.game.entities.Player;
+import com.jadventure.game.menus.Menus;
+import com.jadventure.game.menus.MenuItem;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Line {
+    private int id;
+    private String playerPrompt;
+    private String text;
+    private ConditionType condition;
+    private String conditionParameter;
+    private List&lt;Integer&gt; responses;
+    private ActionType action;
+
+    public Line(int id, String playerPrompt, String text, ConditionType condition, 
+<span class="fc" id="L22">            String conditionParameter, List&lt;Integer&gt; responses, ActionType action) {</span>
+<span class="fc" id="L23">        this.id = id;</span>
+<span class="fc" id="L24">        this.playerPrompt = playerPrompt;</span>
+<span class="fc" id="L25">        this.text = text;</span>
+<span class="fc" id="L26">        this.condition = condition;</span>
+<span class="fc" id="L27">        this.conditionParameter = conditionParameter;</span>
+<span class="fc" id="L28">        this.responses = responses;</span>
+<span class="fc" id="L29">        this.action = action;</span>
+<span class="fc" id="L30">    }</span>
+
+    public int getId() {
+<span class="fc" id="L33">        return id;</span>
+    }
+
+    public String getText() {
+<span class="fc" id="L37">        return text;</span>
+    }
+
+    public String getPlayerPrompt() {
+<span class="fc" id="L41">        return playerPrompt;</span>
+    }
+
+    public ConditionType getCondition() {
+<span class="fc" id="L45">        return condition;</span>
+    }
+
+    public String getConditionParameter() {
+<span class="nc" id="L49">        return conditionParameter;</span>
+    }
+
+    public ActionType getAction() {
+<span class="fc" id="L53">        return action;</span>
+    }
+
+    public Line display(NPC npc, Player player, List&lt;Line&gt; lines) {
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (responses.size() == 0) {</span>
+<span class="nc" id="L58">            return null;</span>
+        }
+<span class="nc" id="L60">        List&lt;MenuItem&gt; responseList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        for (Integer responseNum : responses) { </span>
+<span class="nc" id="L62">            Line response = lines.get(responseNum);</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            if (ConversationManager.matchesConditions(npc, player, response)) {</span>
+<span class="nc" id="L64">                responseList.add(new MenuItem(response.getPlayerPrompt(), null));</span>
+            }
+<span class="nc" id="L66">        }</span>
+<span class="nc" id="L67">        Menus responseMenu = new Menus();</span>
+<span class="nc" id="L68">        MenuItem response = responseMenu.displayMenu(responseList);</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        for (int responseNum : responses) {</span>
+<span class="nc" id="L70">            Line possibleResponse = lines.get(responseNum);</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            if (possibleResponse.getPlayerPrompt().equals(response.getCommand())) {</span>
+<span class="nc" id="L72">                return possibleResponse;</span>
+            }
+<span class="nc" id="L74">        }</span>
+<span class="nc" id="L75">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

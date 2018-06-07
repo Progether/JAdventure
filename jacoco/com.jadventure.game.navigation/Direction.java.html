@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Direction.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java Text Adventure</a> &gt; <a href="index.source.html" class="el_package">com.jadventure.game.navigation</a> &gt; <span class="el_source">Direction.java</span></div><h1>Direction.java</h1><pre class="source lang-java linenums">package com.jadventure.game.navigation;
+
+/**
+ * An enumeration with four properties: A description for in-game text and three integers.
+ * The integers are added to a coordinate to get the new direction (i.e. to get a north coordinate
+ * you add 1 to the y property of a coordinate).
+ */
+<span class="nc" id="L8">public enum Direction {</span>
+<span class="nc" id="L9">    NORTH(&quot;To the North&quot;, 0, 1, 0),</span>
+<span class="nc" id="L10">    SOUTH(&quot;To the South&quot;, 0, -1, 0),</span>
+<span class="nc" id="L11">    EAST(&quot;To the East&quot;, 1, 0, 0),</span>
+<span class="nc" id="L12">    WEST(&quot;To the West&quot;, -1, 0, 0),</span>
+<span class="nc" id="L13">    DOWN(&quot;Heading down&quot;, 0, 0, -1),</span>
+<span class="nc" id="L14">    UP(&quot;Heading up&quot;, 0, 0, 1);</span>
+
+    private final String description;
+    private final int dx;
+    private final int dy;
+    private final int dz;
+
+<span class="nc" id="L21">    private Direction(String description, int dx, int dy, int dz) {</span>
+<span class="nc" id="L22">        this.description = description;</span>
+<span class="nc" id="L23">        this.dx = dx;</span>
+<span class="nc" id="L24">        this.dy = dy;</span>
+<span class="nc" id="L25">        this.dz = dz;</span>
+<span class="nc" id="L26">    }</span>
+
+    public String getDescription() {
+<span class="nc" id="L29">        return description;</span>
+    }
+
+    public int getDx() {
+<span class="nc" id="L33">        return dx;</span>
+    }
+
+    public int getDy() {
+<span class="nc" id="L37">        return dy;</span>
+    }
+
+    public int getDz() {
+<span class="nc" id="L41">        return dz;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

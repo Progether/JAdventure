@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Location.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java Text Adventure</a> &gt; <a href="index.source.html" class="el_package">com.jadventure.game.navigation</a> &gt; <span class="el_source">Location.java</span></div><h1>Location.java</h1><pre class="source lang-java linenums">package com.jadventure.game.navigation;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.jadventure.game.GameBeans;
+import com.jadventure.game.QueueProvider;
+import com.jadventure.game.entities.NPC;
+import com.jadventure.game.items.Item;
+import com.jadventure.game.items.Storage;
+import com.jadventure.game.monsters.Monster;
+import com.jadventure.game.repository.ItemRepository;
+import com.jadventure.game.repository.LocationRepository;
+import com.jadventure.game.repository.NpcRepository;
+import com.jadventure.game.repository.RepositoryException;
+
+/**
+ * The location class mostly deals with getting and setting variables.
+ * It also contains the method to print a location's details.
+ */
+public class Location implements ILocation {
+    // @Resource
+<span class="fc" id="L26">    protected static ItemRepository itemRepo = GameBeans.getItemRepository();</span>
+<span class="fc" id="L27">    protected static NpcRepository npcRepo = GameBeans.getNpcRepository();</span>
+
+    private Coordinate coordinate;
+    private String title;
+    private String description;
+    private LocationType locationType;
+    private int dangerRating;
+<span class="pc" id="L34">    private Storage storage = new Storage();</span>
+<span class="pc" id="L35">    private List&lt;NPC&gt; npcs = new ArrayList&lt;&gt;();</span>
+<span class="pc" id="L36">    private List&lt;Monster&gt; monsters = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L38">    public Location() {</span>
+
+<span class="nc" id="L40">    }</span>
+<span class="fc" id="L41">    public Location(Coordinate coordinate, String title, String description, LocationType locationType) {</span>
+<span class="fc" id="L42">        this.coordinate = coordinate;</span>
+<span class="fc" id="L43">        this.title = title;</span>
+<span class="fc" id="L44">        this.description = description;</span>
+<span class="fc" id="L45">        this.locationType = locationType;</span>
+<span class="fc" id="L46">    }</span>
+
+    public Coordinate getCoordinate() {
+<span class="fc" id="L49">        return coordinate;</span>
+    }
+
+    public void setCoordinate(Coordinate coordinate) {
+<span class="nc" id="L53">        this.coordinate = coordinate;</span>
+<span class="nc" id="L54">    }</span>
+
+    public String getTitle() {
+<span class="fc" id="L57">        return title;</span>
+    }
+
+    public void setTitle(String title) {
+<span class="nc" id="L61">        this.title = title;</span>
+<span class="nc" id="L62">    }</span>
+
+    public String getDescription() {
+<span class="fc" id="L65">        return description;</span>
+    }
+
+    public void setDescription(String description) {
+<span class="nc" id="L69">        this.description = description;</span>
+<span class="nc" id="L70">    }</span>
+
+    public LocationType getLocationType() {
+<span class="fc" id="L73">        return locationType;</span>
+    }
+
+    public void setLocationType(LocationType locationType) {
+<span class="nc" id="L77">        this.locationType = locationType;</span>
+<span class="nc" id="L78">    }</span>
+
+    public int getDangerRating() {
+<span class="nc" id="L81">        return dangerRating;</span>
+    }
+
+    public void setDangerRating(int dangerRating) {
+<span class="fc" id="L85">        this.dangerRating = dangerRating;</span>
+<span class="fc" id="L86">    }</span>
+
+    // It checks each direction for an exit and adds it to the exits hashmap if it exists.
+    public Map&lt;Direction, ILocation&gt; getExits() {
+<span class="nc" id="L90">        Map&lt;Direction, ILocation&gt; exits = new HashMap&lt;Direction, ILocation&gt;();</span>
+        ILocation borderingLocation;
+<span class="nc" id="L92">        LocationRepository locationRepo = GameBeans.getLocationRepository();</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        for(Direction direction: Direction.values()) {</span>
+            try {
+<span class="nc" id="L95">                borderingLocation = locationRepo.getLocation(getCoordinate().getBorderingCoordinate(direction));</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">                if (borderingLocation.getCoordinate().getZ() == getCoordinate().getZ()) {</span>
+<span class="nc" id="L97">                    exits.put(direction, borderingLocation);</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">                } else if (getLocationType().equals(LocationType.STAIRS)) {</span>
+<span class="nc" id="L99">                    exits.put(direction, borderingLocation);</span>
+                }
+            }
+<span class="nc" id="L102">            catch (RepositoryException ex) {</span>
+                //Location does not exist so do nothing
+<span class="nc" id="L104">            }</span>
+        }
+<span class="nc" id="L106">        return exits;</span>
+    }
+
+    public Storage getStorage() {
+<span class="nc" id="L110">        return storage;</span>
+    }
+    public List&lt;Item&gt; getItems() {
+<span class="nc" id="L113">        return storage.getItems();</span>
+    }
+
+    public void addNpcs(List&lt;String&gt; npcIds) {
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        for (String npcId : npcIds) {</span>
+<span class="nc" id="L118">            addNpc(npcId);</span>
+<span class="nc" id="L119">        } </span>
+<span class="nc" id="L120">    }</span>
+    
+    public void addNpc(String npcId) {
+<span class="fc" id="L123">        npcs.add( npcRepo.getNpc(npcId) );</span>
+<span class="fc" id="L124">    }</span>
+
+    public void removeNpc(NPC npc) {
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        for (int i = 0; i &lt; npcs.size(); i++) {</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">            if (npcs.get(i).equals(npc)) {</span>
+<span class="nc" id="L129">                npcs.remove(i);</span>
+            }
+        }
+<span class="nc" id="L132">    }</span>
+
+    public List&lt;NPC&gt; getNpcs() {
+<span class="nc" id="L135">        return Collections.unmodifiableList(npcs);</span>
+    }
+
+    public void addMonster(Monster monster) {
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        if (monster != null) {</span>
+<span class="nc" id="L140">            monsters.add(monster);</span>
+        }
+<span class="nc" id="L142">    }</span>
+
+    public void removeMonster(Monster monster) {
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        for (int i = 0; i &lt; monsters.size(); i++) {</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">            if (monsters.get(i).equals(monster)) {</span>
+<span class="nc" id="L147">                monsters.remove(i);</span>
+            }
+        }
+<span class="nc" id="L150">    }</span>
+    
+    public List&lt;Monster&gt; getMonsters() {
+<span class="nc" id="L153">        return monsters;</span>
+    }
+
+    public Item removeItem(Item item) {
+<span class="fc" id="L157">        return storage.remove(item);</span>
+    }
+
+    public void addItem(Item item) {
+<span class="fc" id="L161">        storage.add(item);</span>
+<span class="fc" id="L162">    }</span>
+
+    public void print() {
+<span class="nc" id="L165">        QueueProvider.offer(&quot;\n&quot; + getTitle() + &quot;:&quot;);</span>
+<span class="nc" id="L166">        QueueProvider.offer(&quot;    &quot; + getDescription());</span>
+<span class="nc" id="L167">        List&lt;Item&gt; items = getItems();</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        if (!items.isEmpty()) {</span>
+<span class="nc" id="L169">            QueueProvider.offer(&quot;Items:&quot;);</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">            for (Item item : items) {</span>
+<span class="nc" id="L171">                QueueProvider.offer(&quot;    &quot; + item.getName());</span>
+<span class="nc" id="L172">            }</span>
+        }
+<span class="nc" id="L174">        List&lt;NPC&gt; npcs = getNpcs();</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">        if (!npcs.isEmpty()) {</span>
+<span class="nc" id="L176">            QueueProvider.offer(&quot;NPCs:&quot;);</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">            for (NPC npc : npcs) {</span>
+<span class="nc" id="L178">                QueueProvider.offer(&quot;   &quot; + npc.getName());</span>
+<span class="nc" id="L179">            }</span>
+        }
+<span class="nc" id="L181">        QueueProvider.offer(&quot;&quot;);</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">        for (Map.Entry&lt;Direction,ILocation&gt; direction : getExits().entrySet()) {</span>
+<span class="nc" id="L183">		QueueProvider.offer(direction.getKey().getDescription() + &quot;: &quot;);</span>
+<span class="nc" id="L184">    		QueueProvider.offer(&quot;    &quot; + direction.getValue().getDescription());</span>
+<span class="nc" id="L185">        }</span>
+<span class="nc" id="L186">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Menus.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java Text Adventure</a> &gt; <a href="index.source.html" class="el_package">com.jadventure.game.menus</a> &gt; <span class="el_source">Menus.java</span></div><h1>Menus.java</h1><pre class="source lang-java linenums">package com.jadventure.game.menus;
+
+import com.jadventure.game.QueueProvider;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * All menus in JAdventure extend this class
+ * Add MenuItems to menuItems, call displayMenu and you're happy
+ */
+<span class="nc" id="L14">public class Menus {</span>
+<span class="nc" id="L15">    protected List&lt;MenuItem&gt; menuItems = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L16">    protected Map&lt;String, MenuItem&gt; commandMap = new HashMap&lt;String, MenuItem&gt;();</span>
+
+    public MenuItem displayMenu(List&lt;MenuItem&gt; m) {
+<span class="nc" id="L19">        int i = 1;</span>
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        for (MenuItem menuItem: m) {</span>
+<span class="nc" id="L21">            commandMap.put(String.valueOf(i), menuItem);</span>
+<span class="nc" id="L22">            commandMap.put(menuItem.getKey(), menuItem);</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">            for (String command: menuItem.getAltCommands()) {</span>
+<span class="nc" id="L24">                commandMap.put(command.toLowerCase(), menuItem);</span>
+<span class="nc" id="L25">            }</span>
+<span class="nc" id="L26">            i ++;</span>
+<span class="nc" id="L27">        }</span>
+<span class="nc" id="L28">        MenuItem selectedItem = selectMenu(m);</span>
+<span class="nc" id="L29">        return selectedItem;</span>
+    }
+
+    // calls for user input from command line
+    protected MenuItem selectMenu(List&lt;MenuItem&gt; m) {
+<span class="nc" id="L34">        this.printMenuItems(m);</span>
+<span class="nc" id="L35">        String command = QueueProvider.take();</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        if (commandMap.containsKey(command.toLowerCase())) {</span>
+<span class="nc" id="L37">            return commandMap.get(command.toLowerCase());</span>
+        } else {
+<span class="nc" id="L39">            QueueProvider.offer(&quot;I don't know what '&quot; + command + &quot;' means.&quot;);</span>
+<span class="nc" id="L40">            return this.displayMenu(m);</span>
+        }
+    }
+
+    private void printMenuItems(List&lt;MenuItem&gt; m) {
+<span class="nc" id="L45">        int i = 1;</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        for (MenuItem menuItem: m) {</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">            if (menuItem.getDescription() != null) {</span>
+<span class="nc" id="L48">                QueueProvider.offer(&quot;[&quot; + i + &quot;] &quot; + menuItem.getCommand() + &quot; - &quot; + menuItem.getDescription());</span>
+            } else {
+<span class="nc" id="L50">                QueueProvider.offer(&quot;[&quot; + i + &quot;] &quot; + menuItem.getCommand());</span>
+            }
+<span class="nc" id="L52">            i++;</span>
+<span class="nc" id="L53">        }</span>
+<span class="nc" id="L54">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>
