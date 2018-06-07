@@ -10,6 +10,7 @@ json/locations.json
 *.war
 *.ear
 build/jar/*.jar
+dependency-reduced-pom.xml
 
 # Directories #
 bin/
@@ -21,10 +22,6 @@ bin/
 .project
 .classpath
 .idea
-
-/nbproject/private/
-/nbbuild/
-
 
 # NetBeans specific #
 nbproject/private/
@@ -41,4 +38,3 @@ nb-configuration.xml
 
 # Log files #
 *.log
-package.zip
