@@ -14,9 +14,6 @@ import static org.junit.Assert.assertEquals;
 
 public class PlayerTest {
 
-    
-    
-
     @Test
     public void newRecruit() {
         Player player = Player.getInstance("recruit");
@@ -24,13 +21,13 @@ public class PlayerTest {
         int actual = player.getArmour();
         assertEquals("Failure - new recruit not properly created", expected, actual);
     }
-    
+
     @Test
     public void newSewerRat() {
         Player player = Player.getInstance("sewerrat");
         int expected = 0;
         int actual = player.getArmour();
-        assertEquals("Failure - new recruit not properly created", expected, actual);
+        assertEquals("Failure - new sewer rat not properly created", expected, actual);
     }
 
     @Test
