@@ -15,7 +15,7 @@ Java Text Adventure,com.jadventure.game.navigation,Coordinate,54,88,5,7,5,22,10,
 Java Text Adventure,com.jadventure.game.entities,Entity,276,428,34,31,59,118,30,46,6,36
 Java Text Adventure,com.jadventure.game.entities,Player.new TypeToken() {...},0,3,0,0,0,1,0,1,0,1
 Java Text Adventure,com.jadventure.game.entities,Player.new TypeToken() {...},0,3,0,0,0,1,0,1,0,1
-Java Text Adventure,com.jadventure.game.entities,NPC,33,128,7,17,12,35,11,12,6,5
+Java Text Adventure,com.jadventure.game.entities,NPC,33,128,6,18,12,35,10,13,6,5
 Java Text Adventure,com.jadventure.game.entities,Player.new TypeToken() {...},3,0,0,0,1,0,1,0,1,0
 Java Text Adventure,com.jadventure.game.entities,EquipmentLocation,0,104,0,0,0,11,0,1,0,1
 Java Text Adventure,com.jadventure.game.entities,Player,1271,484,76,13,224,100,63,16,22,11
