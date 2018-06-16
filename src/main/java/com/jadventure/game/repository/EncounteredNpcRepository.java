@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EncounteredNpcRepository extends NpcRepository{
-    private Map<String,NPC> encNpcMap = new HashMap<String,NPC>();
     static String fileName;
     
     private static NpcRepository npcRepository = null;
@@ -23,5 +22,10 @@ public class EncounteredNpcRepository extends NpcRepository{
         return npcRepository;
     }
     
-
+    public static void addNpc(String profileName, String name, int health, String id) {
+        EncounteredNpcRepository repo = new EncounteredNpcRepository();
+        File repoFile = new File("json/profiles/" + profileName + "/encNpcs.json");
+        repo.load(repoFile);
+        
+    }
 }
