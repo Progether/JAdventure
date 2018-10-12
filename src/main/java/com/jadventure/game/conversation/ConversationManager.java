@@ -4,6 +4,7 @@ import com.jadventure.game.GameBeans;
 import com.jadventure.game.entities.NPC;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.items.Item;
+import com.jadventure.game.repository.EncounteredNpcRepository;
 import com.jadventure.game.repository.ItemRepository;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.DeathException;
@@ -27,7 +28,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class ConversationManager {
-    private static NpcRepository npcRepository = NpcRepository.createRepo();
+    private static NpcRepository npcRepository = EncounteredNpcRepository.createRepo();
     private static ConversationManager instance = null;
     private Map<NPC, List<Line>> lines = new HashMap<NPC, List<Line>>();
     private static final Map<String, ActionType> ACTION_TYPE_MAP = new HashMap<>();
