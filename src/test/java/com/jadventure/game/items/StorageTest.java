@@ -64,15 +64,15 @@ public class StorageTest {
 
 	private Item createWiskyBottle() {
         Map<String, Integer> properties = new HashMap<>();
-        properties.put("health", Integer.valueOf(2));
-        properties.put("weight", Integer.valueOf(5));
+        properties.put("health", 2);
+        properties.put("weight", 5);
 		return new Item("wisky-bottle", "food-liquid", "wisky", "Nice brand", null, 1, properties);
 	}
 
     private Item createBook() {
         Map<String, Integer> properties = new HashMap<>();
-        properties.put("health", Integer.valueOf(0));
-        properties.put("weight", Integer.valueOf(4));
+        properties.put("health", 0);
+        properties.put("weight", 4);
         return new Item("book", "item", "book", "Old book, containing lots of spells", null, 1, properties);
     }
 }

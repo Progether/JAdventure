@@ -62,10 +62,10 @@ public abstract class Entity {
     }
 
     public void setHealth(int health) {
-        this.health = health;
         if (health > healthMax) {
             health = healthMax;
         }
+        this.health = health;
     }
 
     public int getGold() {

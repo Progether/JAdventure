@@ -28,10 +28,10 @@ public class MonsterTest {
         Troll anotherTroll = new Troll(playerLevel);
         Goblin notTroll = new Goblin(playerLevel);
 
-        assertTrue(troll.equals(anotherTroll));
-        assertFalse(troll.equals(notTroll));
-        assertFalse(troll.equals(null));
-        assertFalse(troll.equals(new Object()));
+        assertEquals(troll, anotherTroll);
+        assertNotEquals(troll, notTroll);
+        assertNotEquals(null, troll);
+        assertNotEquals(troll, new Object());
     }
 
     @Test
@@ -44,27 +44,27 @@ public class MonsterTest {
     @Test
     public void XPTest() {
         dummyMonster.setXPGain(1000);
-        assertTrue(dummyMonster.getXPGain() == 1000);
+        assertEquals(1000, dummyMonster.getXPGain());
     }
 
     @Test
     public void monsterGenerateTest() {
         Goblin goblin = new Goblin(playerLevel);
-        assertTrue(goblin.monsterType.equals("Goblin"));
+        assertEquals("Goblin", goblin.monsterType);
 
         Bugbear bugbear = new Bugbear(playerLevel);
-        assertTrue(bugbear.monsterType.equals("Bugbear"));
+        assertEquals("Bugbear", bugbear.monsterType);
 
         Giant giant = new Giant(playerLevel);
-        assertTrue(giant.monsterType.equals("Giant"));
+        assertEquals("Giant", giant.monsterType);
 
         Skeleton skeleton = new Skeleton(playerLevel);
-        assertTrue(skeleton.monsterType.equals("Skeleton"));
+        assertEquals("Skeleton", skeleton.monsterType);
 
         Troll troll = new Troll(playerLevel);
-        assertTrue(troll.monsterType.equals("Troll"));
+        assertEquals("Troll", troll.monsterType);
 
         Wolf wolf = new Wolf(playerLevel);
-        assertTrue(wolf.monsterType.equals("Wolf"));
+        assertEquals("Wolf", wolf.monsterType);
     }
 }

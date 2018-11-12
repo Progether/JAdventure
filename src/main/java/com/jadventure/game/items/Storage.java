@@ -82,7 +82,7 @@ public class Storage {
     }
 
     private boolean hasMaxWeight() {
-        return (maxWeight == -1) ? false : true;
+        return !(maxWeight == -1);
     }
 
     /**

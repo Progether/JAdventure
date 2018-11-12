@@ -42,8 +42,6 @@ public class NpcRepository {
             JsonObject json = parser.parse(reader).getAsJsonObject();
             jsonNPCs = json.get("npcs").getAsJsonObject();
             reader.close();
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

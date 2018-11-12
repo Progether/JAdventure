@@ -1,6 +1,8 @@
 package com.jadventure.game.entities;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
@@ -30,7 +32,7 @@ public class EntityTest {
 
     @Test
     public void testCreation() {
-        assertTrue(entity instanceof Entity);
+        assertNotNull(entity);
     }
 
     @Test
@@ -38,7 +40,7 @@ public class EntityTest {
         testInt(entity.getHealthMax());
         testInt(entity.getHealth());
         Object test = entity.getName();
-        assertTrue(test instanceof String);
+        assertNotNull(test);
         testInt(entity.getLevel());
         testInt(entity.getStrength());
         testInt(entity.getIntelligence());
@@ -47,11 +49,11 @@ public class EntityTest {
         testInt(entity.getStealth());
         testInt(entity.getGold());
         test = entity.getDamage();
-        assertTrue(test instanceof Double);
+        assertNotNull(test);
         test = entity.getWeapon();
-        assertTrue(test instanceof String);
+        assertNotNull(test);
         test = entity.getEquipment();
-        assertTrue(test instanceof Map);
+        assertNotNull(test);
     }
 
     @Test
@@ -88,11 +90,11 @@ public class EntityTest {
         double oldDamage = entity.getDamage();
         Item item = itemRepo.getItem("wshi1");
         Map<String, String> result = entity.equipItem(item.getPosition(), item);
-        assertFalse(result.get("damage") == null);
+        assertNotNull(result.get("damage"));
         double newDamage = entity.getDamage();
         double diffDamage = Double.parseDouble(result.get("damage"));
 
-        assertTrue("wshi1".equals(entity.getWeapon()));
+        assertEquals("wshi1", entity.getWeapon());
         assertEquals(diffDamage, newDamage - oldDamage, 0.2);
 
         Map<EquipmentLocation, Item> equipment = entity.getEquipment();
@@ -105,15 +107,15 @@ public class EntityTest {
         double oldDamage = entity.getDamage();
         Item item = itemRepo.getItem("wshi1");
         Map<String, String> result = entity.unequipItem(item);
-        assertFalse(result.get("damage") == null);
+        assertNotNull(result.get("damage"));
         double newDamage = entity.getDamage();
         double diffDamage = Double.parseDouble(result.get("damage"));
 
-        assertTrue("hands".equals(entity.getWeapon()));
+        assertEquals("hands", entity.getWeapon());
         assertEquals(diffDamage, newDamage - oldDamage, 0.2);
 
         Map<EquipmentLocation, Item> equipment = entity.getEquipment();
-        assertEquals(null, equipment.get(EquipmentLocation.RIGHT_HAND));
+        assertNull(equipment.get(EquipmentLocation.RIGHT_HAND));
     }
 
     @Test
@@ -122,17 +124,17 @@ public class EntityTest {
         double oldDamage = entity.getDamage();
         Item item = itemRepo.getItem("wbrd1");
         Map<String, String> result = entity.equipItem(item.getPosition(), item);
-        assertFalse(result.get("damage") == null);
+        assertNotNull(result.get("damage"));
         double newDamage = entity.getDamage();
         double diffDamage = Double.parseDouble(result.get("damage"));
 
-        assertTrue("wbrd1".equals(entity.getWeapon()));
+        assertEquals("wbrd1", entity.getWeapon());
         assertEquals(diffDamage, newDamage - oldDamage, 0.2);
 
         Map<EquipmentLocation, Item> equipment = entity.getEquipment();
         assertEquals(item, equipment.get(EquipmentLocation.BOTH_HANDS));
-        assertEquals(null, equipment.get(EquipmentLocation.LEFT_HAND));
-        assertEquals(null, equipment.get(EquipmentLocation.RIGHT_HAND));
+        assertNull(equipment.get(EquipmentLocation.LEFT_HAND));
+        assertNull(equipment.get(EquipmentLocation.RIGHT_HAND));
     }
 
     @Test
@@ -141,15 +143,15 @@ public class EntityTest {
         double oldDamage = entity.getDamage();
         Item item = itemRepo.getItem("wbrd1");
         Map<String, String> result = entity.unequipItem(item);
-        assertFalse(result.get("damage") == null);
+        assertNotNull(result.get("damage"));
         double newDamage = entity.getDamage();
         double diffDamage = Double.parseDouble(result.get("damage"));
 
-        assertTrue("hands".equals(entity.getWeapon()));
+        assertEquals("hands", entity.getWeapon());
         assertEquals(diffDamage, newDamage - oldDamage, 0.2);
 
         Map<EquipmentLocation, Item> equipment = entity.getEquipment();
-        assertEquals(null, equipment.get(EquipmentLocation.BOTH_HANDS));
+        assertNull(equipment.get(EquipmentLocation.BOTH_HANDS));
     }
 
     @Test
@@ -159,16 +161,16 @@ public class EntityTest {
         double oldDamage = entity.getDamage();
         Item item = itemRepo.getItem("wshi1");
         Map<String, String> result = entity.equipItem(item.getPosition(), item);
-        assertFalse(result.get("damage") == null);
+        assertNotNull(result.get("damage"));
         double newDamage = entity.getDamage();
         double diffDamage = Double.parseDouble(result.get("damage"));
 
-        assertTrue("wshi1".equals(entity.getWeapon()));
+        assertEquals("wshi1", entity.getWeapon());
         assertEquals(diffDamage, newDamage - oldDamage, 0.2);
 
         Map<EquipmentLocation, Item> equipment = entity.getEquipment();
         assertEquals(item, equipment.get(EquipmentLocation.RIGHT_HAND));
-        assertEquals(null, equipment.get(EquipmentLocation.BOTH_HANDS));
+        assertNull(equipment.get(EquipmentLocation.BOTH_HANDS));
     }
 
     @Test
@@ -177,7 +179,7 @@ public class EntityTest {
         int oldArmour = entity.getArmour();
         Item item = itemRepo.getItem("ashi1");
         Map<String, String> result = entity.equipItem(EquipmentLocation.LEFT_HAND, item);
-        assertFalse(result.get("armour") == null);
+        assertNotNull(result.get("armour"));
         int newArmour = entity.getArmour();
         int diffArmour = Integer.parseInt(result.get("armour"));
 
@@ -192,15 +194,15 @@ public class EntityTest {
         int oldArmour = entity.getArmour();
         Item item = itemRepo.getItem("ashi1");
         Map<String, String> result = entity.unequipItem(item);
-        assertFalse(result.get("armour") == null);
+        assertNotNull(result.get("armour"));
         int newArmour = entity.getArmour();
         int diffArmour = Integer.parseInt(result.get("armour"));
 
-        assertTrue("hands".equals(entity.getWeapon()));
+        assertEquals("hands", entity.getWeapon());
         assertEquals(diffArmour, newArmour - oldArmour);
 
         Map<EquipmentLocation, Item> equipment = entity.getEquipment();
-        assertEquals(null, equipment.get(EquipmentLocation.LEFT_HAND));
+        assertNull(equipment.get(EquipmentLocation.LEFT_HAND));
     }
 
     @Test
@@ -209,7 +211,7 @@ public class EntityTest {
         int oldArmour = entity.getArmour();
         Item item = itemRepo.getItem("algt1");
         Map<String, String> result = entity.equipItem(item.getPosition(), item);
-        assertFalse(result.get("armour") == null);
+        assertNotNull(result.get("armour"));
         int newArmour = entity.getArmour();
         int diffArmour = Integer.parseInt(result.get("armour"));
 
@@ -217,8 +219,8 @@ public class EntityTest {
 
         Map<EquipmentLocation, Item> equipment = entity.getEquipment();
         assertEquals(item, equipment.get(EquipmentLocation.BOTH_ARMS));
-        assertEquals(null, equipment.get(EquipmentLocation.LEFT_ARM));
-        assertEquals(null, equipment.get(EquipmentLocation.RIGHT_ARM));
+        assertNull(equipment.get(EquipmentLocation.LEFT_ARM));
+        assertNull(equipment.get(EquipmentLocation.RIGHT_ARM));
     }
 
     @Test
@@ -227,11 +229,11 @@ public class EntityTest {
         int oldArmour = entity.getArmour();
         Item item = itemRepo.getItem("algt1");
         Map<String, String> result = entity.unequipItem(item);
-        assertFalse(result.get("armour") == null);
+        assertNotNull(result.get("armour"));
         int newArmour = entity.getArmour();
         int diffArmour = Integer.parseInt(result.get("armour"));
 
-        assertTrue("hands".equals(entity.getWeapon()));
+        assertEquals("hands", entity.getWeapon());
         assertEquals(diffArmour, newArmour - oldArmour);
 
         Map<EquipmentLocation, Item> equipment = entity.getEquipment();
@@ -245,7 +247,7 @@ public class EntityTest {
         int oldArmour = entity.getArmour();
         Item item = itemRepo.getItem("albr1");
         Map<String, String> result = entity.equipItem(item.getPosition(), item);
-        assertFalse(result.get("armour") == null);
+        assertNotNull(result.get("armour"));
         int newArmour = entity.getArmour();
         int diffArmour = Integer.parseInt(result.get("armour"));
 
@@ -253,7 +255,7 @@ public class EntityTest {
 
         Map<EquipmentLocation, Item> equipment = entity.getEquipment();
         assertEquals(item, equipment.get(EquipmentLocation.RIGHT_ARM));
-        assertEquals(null, equipment.get(EquipmentLocation.BOTH_ARMS));
+        assertNull(equipment.get(EquipmentLocation.BOTH_ARMS));
     }
 
     private void testInt(Object test) {

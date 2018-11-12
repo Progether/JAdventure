@@ -45,8 +45,6 @@ public class JAdventure {
                         Runnable r = new MainMenu(server, mode);
                         new Thread(r).start();
                     }
-                } catch (SocketException e) { 
-                    e.printStackTrace();
                 } catch (IOException c) {
                     c.printStackTrace();
                 } finally {

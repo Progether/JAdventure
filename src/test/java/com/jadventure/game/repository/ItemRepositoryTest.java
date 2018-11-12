@@ -127,17 +127,17 @@ public class ItemRepositoryTest {
         Item armour = itemRepo.getRandomArmour(1);
         Item potion = itemRepo.getRandomPotion(1);
 
-        assertTrue(food instanceof Item);
-        assertTrue(weapon instanceof Item);
-        assertTrue(armour instanceof Item);
-        assertTrue(potion instanceof Item);
+        assertNotNull(food);
+        assertNotNull(weapon);
+        assertNotNull(armour);
+        assertNotNull(potion);
     }
     
     private Item createMilk() {
         Map<String, Integer> properties = new TreeMap<>();
-        properties.put("health", Integer.valueOf(5));
-        properties.put("weight", Integer.valueOf(1));
-        properties.put("value", Integer.valueOf(10));
+        properties.put("health", 5);
+        properties.put("weight", 1);
+        properties.put("value", 10);
         
         Item item = new Item("milk-bottle", "potion", "milk", "Milk in a bottle", 1, properties);
         return item;
@@ -145,9 +145,9 @@ public class ItemRepositoryTest {
 
     private Item createEgg() {
         Map<String, Integer> properties = new TreeMap<>();
-        properties.put("health", Integer.valueOf(2));
-        properties.put("weight", Integer.valueOf(1));
-        properties.put("value", Integer.valueOf(3));
+        properties.put("health", 2);
+        properties.put("weight", 1);
+        properties.put("value", 3);
         
         Item item = new Item("egg-1", "food", "egg", "A nice egg", 1, properties);
         return item;
