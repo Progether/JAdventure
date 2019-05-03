@@ -4,16 +4,23 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.jadventure.game.menus.MainMenu;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * This is the starting point of the game.
@@ -28,14 +35,19 @@ public class JAdventure extends Application {
     
     @Override
     public void init() {
-        // TODO
     }
     
     @Override
     public void start(Stage primaryStage) {
         try {
             this.primaryStage = primaryStage;
-            this.primaryStage.setTitle("JAdventure"); // TODO set stage(window) title
+            primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent e) {
+                    close(e);
+                }
+            });
+            this.primaryStage.setTitle("JAdventure");
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -128,6 +140,39 @@ public class JAdventure extends Application {
             controller.setMainApp(this);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    
+    public void close(WindowEvent e) {
+        e.consume();
+        ButtonType save = new ButtonType("Save");
+        ButtonType dontSave = new ButtonType("Don't save");
+        ButtonType cancel = new ButtonType("Cancel");
+        Alert alert = new Alert(AlertType.CONFIRMATION,
+                "",
+                save, dontSave, cancel);
+        alert.initOwner(getPrimaryStage());
+        alert.setTitle("Quit");
+        alert.setHeaderText("Are you sure you want to quit?");
+        alert.setContentText("Do you want to save your current progress?");
+        alert.setGraphic(null);
+        Optional<ButtonType> clicked = alert.showAndWait();
+        String selection = clicked.get().getText();
+        if (selection.equals("Don't save")) {
+            try {
+                Platform.exit();
+                stop();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else if (selection.equals("Save")) {
+            // Save game
+            try {
+                Platform.exit();
+                stop();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
