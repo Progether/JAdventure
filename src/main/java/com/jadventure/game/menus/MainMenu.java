@@ -17,20 +17,31 @@ import com.jadventure.game.entities.Player;
  * start a new one, or exit to the terminal.
  */
 public class MainMenu extends Menus implements Runnable {
-     
-    public MainMenu(Socket server, GameModeType mode){
+    
+    private JAdventure jAdventure;
+    
+    public MainMenu(Socket server, GameModeType mode, JAdventure jAdventure){
+        this.jAdventure = jAdventure;
         QueueProvider.startMessenger(mode, server);
     }
 
-    public MainMenu() {
-        start();
+    public MainMenu(JAdventure jAdventure) {
+        this.jAdventure = jAdventure;
     }
     
     public void run() {
         start();
     }
-
+    
     public void start() {
+        try {
+            jAdventure.loadMainMenu();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void start_old() {
         menuItems.add(new MenuItem("Start", "Starts a new Game", "new"));
         menuItems.add(new MenuItem("Load", "Loads an existing Game"));
         menuItems.add(new MenuItem("Delete", "Deletes an existing Game"));
