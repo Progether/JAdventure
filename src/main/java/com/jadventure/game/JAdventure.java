@@ -1,16 +1,11 @@
 package com.jadventure.game;
 
-import com.jadventure.game.menus.MainMenu;
-import com.jadventure.game.QueueProvider;
-import com.jadventure.game.Client;
-
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.io.IOException;
-import java.net.SocketException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.jadventure.game.menus.MainMenu;
 
 /**
  * This is the starting point of the game.

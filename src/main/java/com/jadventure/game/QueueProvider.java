@@ -94,15 +94,13 @@ public class QueueProvider {
                 message = "exit";
             }
         } else {
-        	Scanner input = null;
-        	try {
-	            input = new Scanner(System.in);
+        	//Scanner input;
+        	try (Scanner input = new Scanner(System.in)) {
+	            //input = new Scanner(System.in);
 	            message = input.nextLine();
-        	}
-        	catch (NoSuchElementException nsee) {
+        	} catch (NoSuchElementException nsee) {
         	    nsee.printStackTrace();
-        	}
-        	catch (IllegalStateException ise) {
+        	} catch (IllegalStateException ise) {
                 ise.printStackTrace();
         	}
         }

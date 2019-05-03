@@ -15,8 +15,6 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.jadventure.game.JAdventure;
-
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.io.File;
@@ -29,8 +27,6 @@ import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class loads the locations from the locations.json file on start.

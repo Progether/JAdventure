@@ -1,7 +1,5 @@
 package com.jadventure.game.monsters;
 
-import com.jadventure.game.items.ItemStack;
-
 /*
  * A hybrid animal with the matching armour and high damage, but low health.
  */

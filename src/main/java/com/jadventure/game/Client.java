@@ -56,9 +56,9 @@ public class Client {
     }
 
     public void getInput() {
-         Scanner input;
-         try {
-             input = new Scanner(System.in);
+         //Scanner input;
+         try (Scanner input = new Scanner(System.in)) {
+             //input = new Scanner(System.in);
              String userInput = input.nextLine();
              out.writeUTF(userInput);
          } catch (IOException e) {
