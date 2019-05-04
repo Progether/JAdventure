@@ -4,12 +4,9 @@ import java.io.File;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import com.jadventure.game.DeathException;
-import com.jadventure.game.Game;
 import com.jadventure.game.GameModeType;
 import com.jadventure.game.JAdventure;
 import com.jadventure.game.QueueProvider;
-import com.jadventure.game.entities.Player;
 
 /**
  * The first menu displayed on user screen
@@ -36,118 +33,6 @@ public class MainMenu extends Menus implements Runnable {
     
     public void start() {
         jAdventure.loadMainMenu();
-    }
-
-    public void start_old() {
-        menuItems.add(new MenuItem("Start", "Starts a new Game", "new"));
-        menuItems.add(new MenuItem("Load", "Loads an existing Game"));
-        menuItems.add(new MenuItem("Delete", "Deletes an existing Game"));
-        menuItems.add(new MenuItem("Exit", null, "quit"));
-
-        boolean continuing = true;
-        do {
-            MenuItem selectedItem = displayMenu(menuItems);
-            try {
-                continuing = testOption_old(selectedItem);
-            } catch (DeathException e) {
-                if (e.getLocalisedMessage().equals("close")) {
-                    continuing = false;
-                }
-            }
-        } while(continuing);
-        QueueProvider.offer("EXIT");
-    }
-
-    public static boolean testOption(String option) throws DeathException {
-        switch (option) {
-        case "start":
-            new ChooseClassMenu();
-            break;
-        case "load":
-            loadProfileFromMenu();
-            break;
-        case "delete":
-            deleteProfileFromMenu();
-            break;
-        case "exit":
-            QueueProvider.offer("Goodbye!");
-            return false;
-        }
-        return true;
-    }
-    
-    private static boolean testOption_old(MenuItem m) throws DeathException {
-        String key = m.getKey();
-        switch (key){
-            case "start":
-                new ChooseClassMenu();
-                break;
-            case "load":
-                loadProfileFromMenu();
-                break;
-            case "delete":
-                deleteProfileFromMenu();
-                break;
-            case "exit":
-                QueueProvider.offer("Goodbye!");
-                return false;
-        }
-        return true;
-    }
-
-    private static void loadProfileFromMenu() throws DeathException {
-        String key;
-        if (isProfileDirEmpty()) {
-            QueueProvider.offer("\nThere are no profiles to load. Please start a new game instead.");
-            return;
-        }
-        Player player = null;
-        do {
-            listProfiles_old();
-            QueueProvider.offer("\nSelect a profile to load. Type 'back' to go back.");
-            key = QueueProvider.take();
-            if (key.equals("exit") || key.equals("back")) {
-                return;
-            } else if (Player.profileExists(key)) {
-                player = Player.load(key);
-            } else {
-                QueueProvider.offer("That user doesn't exist. Try again.");
-            }
-        } while (player == null);
-        new Game(player, "old");
-    }
-
-    private static void deleteProfileFromMenu() {
-        String key;
-        while (true) {
-            if (isProfileDirEmpty()) {
-                QueueProvider.offer("\nThere are no profiles to delete.");
-                return;
-            }
-            listProfiles_old();
-            QueueProvider.offer("\nWhich profile do you want to delete? Type 'back' to go back.");
-            key = QueueProvider.take();
-            if ((key.equals("exit") || key.equals("back"))) {
-                return;
-            }
-            if (Player.profileExists(key)) {
-                String profileName = key;
-                QueueProvider.offer("Are you sure you want to delete " + profileName + "? y/n");
-                key = QueueProvider.take();
-                if ((key.equals("exit") || key.equals("back"))) {
-                    return;
-                } else if (key.equals("y")) {
-                    File profile = new File("json/profiles/" + profileName);
-                    deleteDirectory(profile);
-                    QueueProvider.offer(profileName + " has been deleted.");
-                    return;
-                } else {
-                    QueueProvider.offer(profileName + " will NOT be deleted.");
-                }
-            } else {
-                QueueProvider.offer("That user doesn't exist. Try again.");
-            }
-        }
     }
 
     public static boolean deleteDirectory(File directory) {
@@ -186,21 +71,6 @@ public class MainMenu extends Menus implements Runnable {
                 }
             }
             return profiles;
-        }
-    }
-    
-    private static void listProfiles_old() {
-        if (isProfileDirEmpty()) {
-            QueueProvider.offer("No profiles found.");
-            return;
-        }
-        File file = new File("json/profiles");
-        String[] profiles = file.list();
-        QueueProvider.offer("Profiles:");
-        for (String name : profiles) {
-            if (new File("json/profiles/" + name).isDirectory()) {
-                QueueProvider.offer("  " + name);
-            }
         }
     }
 }
