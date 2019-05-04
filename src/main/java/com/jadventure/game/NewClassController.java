@@ -1,37 +1,44 @@
 package com.jadventure.game;
 
+import com.jadventure.game.entities.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.stage.WindowEvent;
 
-public class MainMenuController {
-    
-    // Reference to the main application.
+public class NewClassController {
+ // Reference to the main application.
     private JAdventure jAdventure;
 
-    public MainMenuController() {
+    public NewClassController() {
     }
     
+    @FXML
+    private MenuItem back;
     @FXML
     private MenuItem close;
     @FXML
     private MenuItem github;
     @FXML
-    private Button start;
+    private Button recruit;
     @FXML
-    private Button load;
-    @FXML
-    private Button quit;
+    private Button sewerRat;
     
     @FXML
-    public void startGame() throws DeathException {
-        jAdventure.loadNewClass();
+    public void newRecruit() throws DeathException {
+        Player player = Player.getInstance("recruit");
+        new Game(player, "new");
     }
     
     @FXML
-    public void loadProfile() {
-        jAdventure.loadProfileMenu();
+    public void newSewerRat() throws DeathException {
+        Player player = Player.getInstance("sewerrat");
+        new Game(player, "new");
+    }
+
+    @FXML
+    public void goToMainMenu() {
+        jAdventure.loadMainMenu();
     }
     
     @FXML

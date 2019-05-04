@@ -18,8 +18,8 @@
         <menus>
           <Menu mnemonicParsing="false" text="Game">
             <items>
-                  <MenuItem fx:id="save" mnemonicParsing="false" onAction="#saveGame" text="Save" />
-                  <MenuItem fx:id="back" mnemonicParsing="false" onAction="#goToMainMenu" text="Back to menu..." />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Save" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Back to menu..." />
               <MenuItem fx:id="close" mnemonicParsing="false" onAction="#quitGame" text="Close" />
             </items>
           </Menu>
@@ -44,7 +44,7 @@
             <Insets />
          </BorderPane.margin>
          <children>
-            <GridPane prefHeight="223.0" prefWidth="364.0" GridPane.rowIndex="1">
+            <GridPane prefHeight="223.0" prefWidth="364.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                </columnConstraints>
@@ -58,10 +58,13 @@
                <children>
                   <Button fx:id="start" mnemonicParsing="false" onAction="#startGame" prefHeight="32.0" prefWidth="215.0" text="New Game" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                   <Button fx:id="load" mnemonicParsing="false" onAction="#loadProfile" prefHeight="24.0" prefWidth="212.0" text="Load Profile" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                  <Button fx:id="exit" mnemonicParsing="false" onAction="#quitGame" prefHeight="37.0" prefWidth="219.0" text="Quit Game" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                  <Button fx:id="exit" mnemonicParsing="false" onAction="#quitGame" prefHeight="37.0" prefWidth="219.0" text="Quit Game" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin></Button>
                </children>
                <GridPane.margin>
-                  <Insets bottom="60.0" left="200.0" right="200.0" />
+                  <Insets bottom="60.0" />
                </GridPane.margin>
             </GridPane>
             <ImageView pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">

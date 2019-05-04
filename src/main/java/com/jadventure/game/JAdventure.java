@@ -130,7 +130,7 @@ public class JAdventure extends Application {
     public void loadMainMenu() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/MainMenu.fxml")); // TODO Change class name accordingly
+            loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/MainMenu.fxml"));
             root = (BorderPane) loader.load();
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
@@ -145,18 +145,36 @@ public class JAdventure extends Application {
     
     /**
      * Shows ProfileMenu scene
-     * @throws DeathException
      */
     public void loadProfileMenu() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/ProfileMenu.fxml")); // TODO Change class name accordingly
+            loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/ProfileMenu.fxml"));
             root = (BorderPane) loader.load();
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             setStageSize();
             primaryStage.show();
             ProfileMenuController controller = loader.getController();
+            controller.setMainApp(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Shows NewClass scene
+     */
+    public void loadNewClass() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/NewClass.fxml"));
+            root = (BorderPane) loader.load();
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            setStageSize();
+            primaryStage.show();
+            NewClassController controller = loader.getController();
             controller.setMainApp(this);
         } catch (IOException e) {
             e.printStackTrace();

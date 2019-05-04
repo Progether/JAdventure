@@ -34,8 +34,6 @@ public class ProfileMenuController {
     }
     
     @FXML
-    private MenuItem save;
-    @FXML
     private MenuItem back;
     @FXML
     private MenuItem close;
@@ -47,11 +45,6 @@ public class ProfileMenuController {
     private GridPane profileGrid;
     @FXML
     private Button menu;
-    
-    @FXML
-    public void saveGame() {
-        // Does nothing
-    }
     
     @FXML
     public void goToMainMenu() {
