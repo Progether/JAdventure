@@ -1,7 +1,9 @@
 package com.jadventure.game;
 
 import java.util.List;
+import com.jadventure.game.entities.Player;
 import com.jadventure.game.menus.MainMenu;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
@@ -72,6 +75,21 @@ public class ProfileMenuController {
                 profileGrid.add(profName, 0, i);
                 
                 ImageView load = new ImageView(new Image("/com/jadventure/game/images/load.png"));
+                load.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        ImageView img = (ImageView) e.getSource();
+                        int profileIndex = GridPane.getRowIndex(img);
+                        Text profName = (Text) profileGrid.getChildren().get(profileIndex * 3);
+                        Player player = null;
+                        player = Player.load(profName.getText());
+                        try {
+                            new Game(player, "old");
+                        } catch (DeathException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                });
                 profileGrid.add(load, 1, i);
                 
                 ImageView del = new ImageView(new Image("/com/jadventure/game/images/delete.png"));
