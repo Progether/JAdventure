@@ -83,7 +83,7 @@ public class ProfileMenuController {
                         Player player = null;
                         player = Player.load(profileName);
                         try {
-                            new Game(player, "old");
+                            new Game(player, "old", jAdventure);
                         } catch (DeathException e1) {
                             e1.printStackTrace();
                         }

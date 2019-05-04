@@ -2,15 +2,15 @@ package com.jadventure.game;
 
 import com.jadventure.game.entities.Player;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.stage.WindowEvent;
 
-public class NewClassController {
+public class CharacterNameController {
  // Reference to the main application.
     private JAdventure jAdventure;
+    private Player player;
 
-    public NewClassController() {
+    public CharacterNameController() {
     }
     
     @FXML
@@ -19,23 +19,7 @@ public class NewClassController {
     private MenuItem close;
     @FXML
     private MenuItem github;
-    @FXML
-    private Button recruit;
-    @FXML
-    private Button sewerRat;
     
-    @FXML
-    public void newRecruit() throws DeathException {
-        Player player = Player.getInstance("recruit");
-        new Game(player, "new", jAdventure);
-    }
-    
-    @FXML
-    public void newSewerRat() throws DeathException {
-        Player player = Player.getInstance("sewerrat");
-        new Game(player, "new", jAdventure);
-    }
-
     @FXML
     public void goToMainMenu() {
         jAdventure.loadMainMenu();
@@ -60,5 +44,9 @@ public class NewClassController {
     public void setMainApp(JAdventure jAdventure) {
         this.jAdventure = jAdventure;
         // TODO init
+    }
+    
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

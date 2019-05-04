@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.jadventure.game.entities.Player;
 import com.jadventure.game.menus.MainMenu;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -176,6 +177,27 @@ public class JAdventure extends Application {
             primaryStage.show();
             NewClassController controller = loader.getController();
             controller.setMainApp(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Shows CharacterName scene
+     * @param player 
+     */
+    public void loadCharacterName(Player player) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/CharacterName.fxml"));
+            root = (BorderPane) loader.load();
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            setStageSize();
+            primaryStage.show();
+            CharacterNameController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.setPlayer(player);
         } catch (IOException e) {
             e.printStackTrace();
         }
