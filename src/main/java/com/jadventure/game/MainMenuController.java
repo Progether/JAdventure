@@ -1,6 +1,6 @@
 package com.jadventure.game;
 
-import com.jadventure.game.menus.MainMenu;
+import com.jadventure.game.menus.ChooseClassMenu;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
@@ -15,12 +15,6 @@ public class MainMenuController {
     }
     
     @FXML
-    private Button start;
-    @FXML
-    private Button load;
-    @FXML
-    private Button quit;
-    @FXML
     private MenuItem save;
     @FXML
     private MenuItem back;
@@ -28,14 +22,20 @@ public class MainMenuController {
     private MenuItem close;
     @FXML
     private MenuItem github;
+    @FXML
+    private Button start;
+    @FXML
+    private Button load;
+    @FXML
+    private Button quit;
     
     @FXML
     public void startGame() throws DeathException {
-        MainMenu.testOption("start");
+        new ChooseClassMenu();
     }
     
     @FXML
-    public void loadProfile() throws DeathException {
+    public void loadProfile() {
         jAdventure.loadProfileMenu();
     }
     

@@ -147,7 +147,7 @@ public class JAdventure extends Application {
      * Shows ProfileMenu scene
      * @throws DeathException 
      */
-    public void loadProfileMenu() throws DeathException {
+    public void loadProfileMenu() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/ProfileMenu.fxml")); // TODO Change class name accordingly

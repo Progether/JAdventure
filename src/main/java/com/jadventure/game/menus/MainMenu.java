@@ -102,7 +102,7 @@ public class MainMenu extends Menus implements Runnable {
         }
         Player player = null;
         do {
-            listProfiles();
+            listProfiles_old();
             QueueProvider.offer("\nSelect a profile to load. Type 'back' to go back.");
             key = QueueProvider.take();
             if (key.equals("exit") || key.equals("back")) {
@@ -123,7 +123,7 @@ public class MainMenu extends Menus implements Runnable {
                 QueueProvider.offer("\nThere are no profiles to delete.");
                 return;
             }
-            listProfiles();
+            listProfiles_old();
             QueueProvider.offer("\nWhich profile do you want to delete? Type 'back' to go back.");
             key = QueueProvider.take();
             if ((key.equals("exit") || key.equals("back"))) {
@@ -168,7 +168,24 @@ public class MainMenu extends Menus implements Runnable {
         return (numProfiles == 0);
     }
 
-    private static void listProfiles() {
+    public static String[] listProfiles() {
+        if (isProfileDirEmpty()) {
+            QueueProvider.offer("No profiles found.");
+            return new String[0];
+        } else {
+            File file = new File("json/profiles");
+            String[] profiles = file.list();
+            QueueProvider.offer("Profiles:");
+            for (String name : profiles) {
+                if (new File("json/profiles/" + name).isDirectory()) {
+                    QueueProvider.offer("  " + name);
+                }
+            }
+            return profiles;
+        }
+    }
+    
+    private static void listProfiles_old() {
         if (isProfileDirEmpty()) {
             QueueProvider.offer("No profiles found.");
             return;

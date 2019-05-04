@@ -2,7 +2,10 @@ package com.jadventure.game;
 
 import com.jadventure.game.menus.MainMenu;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.stage.WindowEvent;
 
 public class ProfileMenuController {
@@ -21,6 +24,12 @@ public class ProfileMenuController {
     private MenuItem close;
     @FXML
     private MenuItem github;
+    @FXML
+    private Text exists;
+    @FXML
+    private GridPane profileGrid;
+    @FXML
+    private Button menu;
     
     @FXML
     public void saveGame() {
@@ -43,14 +52,23 @@ public class ProfileMenuController {
                 new WindowEvent(jAdventure.getPrimaryStage(), WindowEvent.WINDOW_CLOSE_REQUEST));
     }
     
+    public void loadProfiles() {
+        String[] profiles = MainMenu.listProfiles();
+        if (profiles.length == 0) {
+            exists.setText("There are no profiles to load. Please start a new game instead.");
+        } else {
+            
+        }
+    }
+    
     /**
      * Is called by the main application to give a reference back to itself.
      * 
      * @param jAdventure
      * @throws DeathException 
      */
-    public void setMainApp(JAdventure jAdventure) throws DeathException {
+    public void setMainApp(JAdventure jAdventure) {
         this.jAdventure = jAdventure;
-        //MainMenu.testOption("load");
+        loadProfiles();
     }
 }
