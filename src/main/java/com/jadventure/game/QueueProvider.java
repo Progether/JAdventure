@@ -97,7 +97,7 @@ public class QueueProvider {
         	//Scanner input;
         	try (Scanner input = new Scanner(System.in)) {
 	            //input = new Scanner(System.in);
-	            message = input.nextLine();
+	            //message = input.nextLine();
         	} catch (NoSuchElementException nsee) {
         	    nsee.printStackTrace();
         	} catch (IllegalStateException ise) {

@@ -59,10 +59,8 @@ public class Client {
          //Scanner input;
          try (Scanner input = new Scanner(System.in)) {
              //input = new Scanner(System.in);
-             String userInput = input.nextLine();
-             out.writeUTF(userInput);
-         } catch (IOException e) {
-             e.printStackTrace(); 
+             //String userInput = input.nextLine();
+             //out.writeUTF(userInput);
          } 
     }
 }

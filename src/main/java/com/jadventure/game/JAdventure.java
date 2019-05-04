@@ -145,7 +145,7 @@ public class JAdventure extends Application {
     
     /**
      * Shows ProfileMenu scene
-     * @throws DeathException 
+     * @throws DeathException
      */
     public void loadProfileMenu() {
         try {

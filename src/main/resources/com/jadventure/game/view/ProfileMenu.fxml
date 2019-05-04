@@ -44,11 +44,11 @@
          <children>
             <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                <content>
-                  <GridPane>
+                  <GridPane fx:id="profileGrid" alignment="CENTER">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="320.0" minWidth="10.0" prefWidth="318.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="50.0" prefWidth="50.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="50.0" prefWidth="50.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="24.0" prefWidth="50.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="50.0" prefWidth="61.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />

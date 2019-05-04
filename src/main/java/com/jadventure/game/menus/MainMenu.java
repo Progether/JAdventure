@@ -2,7 +2,8 @@ package com.jadventure.game.menus;
 
 import java.io.File;
 import java.net.Socket;
-
+import java.util.ArrayList;
+import java.util.List;
 import com.jadventure.game.DeathException;
 import com.jadventure.game.Game;
 import com.jadventure.game.GameModeType;
@@ -168,17 +169,19 @@ public class MainMenu extends Menus implements Runnable {
         return (numProfiles == 0);
     }
 
-    public static String[] listProfiles() {
+    public static List<String> listProfiles() {
         if (isProfileDirEmpty()) {
             QueueProvider.offer("No profiles found.");
-            return new String[0];
+            return new ArrayList<String>();
         } else {
             File file = new File("json/profiles");
-            String[] profiles = file.list();
+            String[] possibleProfiles = file.list();
+            List<String> profiles = new ArrayList<String>();
             QueueProvider.offer("Profiles:");
-            for (String name : profiles) {
+            for (String name : possibleProfiles) {
                 if (new File("json/profiles/" + name).isDirectory()) {
                     QueueProvider.offer("  " + name);
+                    profiles.add(name);
                 }
             }
             return profiles;
