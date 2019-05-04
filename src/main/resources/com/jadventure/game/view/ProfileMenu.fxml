@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jadventure.game.ProfileMenuController">
+  <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Game">
+            <items>
+                  <MenuItem fx:id="save" mnemonicParsing="false" onAction="#saveGame" text="Save" />
+                  <MenuItem fx:id="back" mnemonicParsing="false" onAction="#goToMainMenu" text="Back to menu..." />
+              <MenuItem fx:id="close" mnemonicParsing="false" onAction="#quitGame" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="About">
+            <items>
+              <MenuItem fx:id="github" mnemonicParsing="false" onAction="#goToGithub" text="GitHub..." />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="170.0" minHeight="10.0" prefHeight="128.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="260.0" minHeight="10.0" prefHeight="243.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+               <content>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="320.0" minWidth="10.0" prefWidth="318.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="50.0" prefWidth="50.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="50.0" prefWidth="50.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <padding>
+                        <Insets bottom="50.0" left="100.0" right="100.0" top="50.0" />
+                     </padding>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profiles" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <font>
+                  <Font size="39.0" />
+               </font>
+            </Text>
+         </children>
+      </GridPane>
+   </center>
+</BorderPane>

@@ -2,24 +2,17 @@ package com.jadventure.game;
 
 import com.jadventure.game.menus.MainMenu;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.stage.WindowEvent;
 
-public class MainMenuController {
+public class ProfileMenuController {
     
     // Reference to the main application.
     private JAdventure jAdventure;
 
-    public MainMenuController() {
+    public ProfileMenuController() {
     }
     
-    @FXML
-    private Button start;
-    @FXML
-    private Button load;
-    @FXML
-    private Button quit;
     @FXML
     private MenuItem save;
     @FXML
@@ -30,28 +23,18 @@ public class MainMenuController {
     private MenuItem github;
     
     @FXML
-    public void startGame() throws DeathException {
-        MainMenu.testOption("start");
-    }
-    
-    @FXML
-    public void loadProfile() throws DeathException {
-        jAdventure.loadProfileMenu();
-    }
-    
-    @FXML
     public void saveGame() {
         // Does nothing
     }
     
     @FXML
     public void goToMainMenu() {
-        // Does nothing
+        jAdventure.loadMainMenu();
     }
     
     @FXML
     public void goToGithub() {
-        
+        // Goes to https://github.com/Progether/JAdventure
     }
     
     @FXML
@@ -64,9 +47,10 @@ public class MainMenuController {
      * Is called by the main application to give a reference back to itself.
      * 
      * @param jAdventure
+     * @throws DeathException 
      */
-    public void setMainApp(JAdventure jAdventure) {
+    public void setMainApp(JAdventure jAdventure) throws DeathException {
         this.jAdventure = jAdventure;
-        // TODO init
+        //MainMenu.testOption("load");
     }
 }

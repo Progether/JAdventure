@@ -34,11 +34,7 @@ public class MainMenu extends Menus implements Runnable {
     }
     
     public void start() {
-        try {
-            jAdventure.loadMainMenu();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+        jAdventure.loadMainMenu();
     }
 
     public void start_old() {
@@ -51,7 +47,7 @@ public class MainMenu extends Menus implements Runnable {
         do {
             MenuItem selectedItem = displayMenu(menuItems);
             try {
-                continuing = testOption(selectedItem);
+                continuing = testOption_old(selectedItem);
             } catch (DeathException e) {
                 if (e.getLocalisedMessage().equals("close")) {
                     continuing = false;
@@ -61,7 +57,25 @@ public class MainMenu extends Menus implements Runnable {
         QueueProvider.offer("EXIT");
     }
 
-    private static boolean testOption(MenuItem m) throws DeathException {
+    public static boolean testOption(String option) throws DeathException {
+        switch (option) {
+        case "start":
+            new ChooseClassMenu();
+            break;
+        case "load":
+            loadProfileFromMenu();
+            break;
+        case "delete":
+            deleteProfileFromMenu();
+            break;
+        case "exit":
+            QueueProvider.offer("Goodbye!");
+            return false;
+        }
+        return true;
+    }
+    
+    private static boolean testOption_old(MenuItem m) throws DeathException {
         String key = m.getKey();
         switch (key){
             case "start":

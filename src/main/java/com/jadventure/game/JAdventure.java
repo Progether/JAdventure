@@ -143,6 +143,26 @@ public class JAdventure extends Application {
         }
     }
     
+    /**
+     * Shows ProfileMenu scene
+     * @throws DeathException 
+     */
+    public void loadProfileMenu() throws DeathException {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/ProfileMenu.fxml")); // TODO Change class name accordingly
+            root = (BorderPane) loader.load();
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            setStageSize();
+            primaryStage.show();
+            ProfileMenuController controller = loader.getController();
+            controller.setMainApp(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     public void close(WindowEvent e) {
         e.consume();
         ButtonType save = new ButtonType("Save");
@@ -219,4 +239,5 @@ public class JAdventure extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+
 }
