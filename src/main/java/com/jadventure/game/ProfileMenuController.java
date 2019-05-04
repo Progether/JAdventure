@@ -1,14 +1,19 @@
 package com.jadventure.game;
 
+import java.io.File;
 import java.util.List;
+import java.util.Optional;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.menus.MainMenu;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -80,9 +85,10 @@ public class ProfileMenuController {
                     public void handle(MouseEvent e) {
                         ImageView img = (ImageView) e.getSource();
                         int profileIndex = GridPane.getRowIndex(img);
-                        Text profName = (Text) profileGrid.getChildren().get(profileIndex * 3);
+                        Text profileNameT = (Text) profileGrid.getChildren().get(profileIndex * 3);
+                        String profileName = profileNameT.getText();
                         Player player = null;
-                        player = Player.load(profName.getText());
+                        player = Player.load(profileName);
                         try {
                             new Game(player, "old");
                         } catch (DeathException e1) {
@@ -93,6 +99,34 @@ public class ProfileMenuController {
                 profileGrid.add(load, 1, i);
                 
                 ImageView del = new ImageView(new Image("/com/jadventure/game/images/delete.png"));
+                del.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        ImageView img = (ImageView) e.getSource();
+                        int profileIndex = GridPane.getRowIndex(img);
+                        Text profileNameT = (Text) profileGrid.getChildren().get(profileIndex * 3);
+                        String profileName = profileNameT.getText();
+                        
+                        ButtonType yes = new ButtonType("Yes");
+                        ButtonType cancel = new ButtonType("Cancel");
+                        Alert alert = new Alert(AlertType.CONFIRMATION,
+                                "",
+                                yes, cancel);
+                        alert.initOwner(jAdventure.getPrimaryStage());
+                        alert.setTitle("Delete profile");
+                        alert.setHeaderText("Are you sure you want to delete " + profileName + "?");
+                        alert.setContentText("The profile will be deleted permanently.");
+                        alert.setGraphic(null);
+                        Optional<ButtonType> clicked = alert.showAndWait();
+                        String selection = clicked.get().getText();
+                        if (selection.equals("Yes")) {
+                            File profile = new File("json/profiles/" + profileName);
+                            boolean deleted = MainMenu.deleteDirectory(profile);
+                            System.out.println(deleted);
+                        }
+                        jAdventure.loadProfileMenu();
+                    }
+                });
                 profileGrid.add(del, 2, i);
                 
             }

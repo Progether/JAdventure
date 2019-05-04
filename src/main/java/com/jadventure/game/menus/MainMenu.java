@@ -150,7 +150,8 @@ public class MainMenu extends Menus implements Runnable {
         }
     }
 
-    private static boolean deleteDirectory(File directory) {
+    public static boolean deleteDirectory(File directory) {
+        System.out.println(directory);
         if(directory.exists()){
             File[] files = directory.listFiles();
             for (File file : files) {
