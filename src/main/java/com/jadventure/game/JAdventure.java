@@ -185,8 +185,9 @@ public class JAdventure extends Application {
     /**
      * Shows CharacterName scene
      * @param player 
+     * @param game 
      */
-    public void loadCharacterName(Player player) {
+    public void loadCharacterName(Player player, Game game) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/CharacterName.fxml"));
@@ -198,6 +199,7 @@ public class JAdventure extends Application {
             CharacterNameController controller = loader.getController();
             controller.setMainApp(this);
             controller.setPlayer(player);
+            controller.setGame(game);
         } catch (IOException e) {
             e.printStackTrace();
         }

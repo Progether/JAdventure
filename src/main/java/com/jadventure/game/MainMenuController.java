@@ -52,6 +52,5 @@ public class MainMenuController {
      */
     public void setMainApp(JAdventure jAdventure) {
         this.jAdventure = jAdventure;
-        // TODO init
     }
 }

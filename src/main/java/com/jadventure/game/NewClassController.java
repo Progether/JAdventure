@@ -59,6 +59,5 @@ public class NewClassController {
      */
     public void setMainApp(JAdventure jAdventure) {
         this.jAdventure = jAdventure;
-        // TODO init
     }
 }

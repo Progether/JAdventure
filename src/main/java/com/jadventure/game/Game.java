@@ -25,7 +25,7 @@ public class Game {
         this.player = player;
         switch (playerType) {
         case "new":
-            jAdventure.loadCharacterName(player);
+            jAdventure.loadCharacterName(player, this);
             //newGameStart(player);
             break;
         case "old":
@@ -46,14 +46,12 @@ public class Game {
      * character and welcomes him / her. After that, it goes to the normal game prompt.
      */
     public void newGameStart(Player player) throws DeathException {
-        
-        //player.setName(userInput);
         LocationRepository locationRepo = GameBeans.getLocationRepository(player.getName());
         this.player.setLocation(locationRepo.getInitialLocation());
         player.save();
-        QueueProvider.offer("Welcome to Silliya, " + player.getName() + ".");
-        player.getLocation().print();
-        gamePrompt(player);
+        //QueueProvider.offer("Welcome to Silliya, " + player.getName() + ".");
+        //player.getLocation().print();
+        //gamePrompt(player);
     }
     
     public void newGameStart_old(Player player) throws DeathException {
