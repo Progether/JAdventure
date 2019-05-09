@@ -4,18 +4,17 @@ import com.jadventure.game.entities.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.WindowEvent;
 
-public class CharacterNameController {
+public class WelcomeController {
     
     // Reference to the main application.
     private JAdventure jAdventure;
     private Player player;
     private Game game;
 
-    public CharacterNameController() {
+    public WelcomeController() {
     }
     
     @FXML
@@ -25,17 +24,13 @@ public class CharacterNameController {
     @FXML
     private MenuItem github;
     @FXML
-    private Text intro;
+    private Text welcome;
     @FXML
-    private TextField name;
-    @FXML
-    private Button create;
+    private Button cont;
     
     @FXML
-    public void createCharacter() throws DeathException {
-        player.setName(name.getText());
-        game.newGameStart(player);
-        jAdventure.loadWelcome(player, game);
+    public void play() {
+        jAdventure.loadGame();
     }
     
     @FXML
@@ -55,7 +50,7 @@ public class CharacterNameController {
     }
     
     public void showIntro() {
-        intro.setText(player.getIntro());
+        welcome.setText("Welcome to Silliya," + player.getName() + "!");
     }
     
     /**

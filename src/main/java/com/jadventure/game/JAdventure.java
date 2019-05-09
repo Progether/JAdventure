@@ -205,6 +205,48 @@ public class JAdventure extends Application {
         }
     }
     
+    /**
+     * Shows Welcome scene
+     * @param player 
+     * @param game 
+     */
+    public void loadWelcome(Player player, Game game) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/Welcome.fxml"));
+            root = (BorderPane) loader.load();
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            setStageSize();
+            primaryStage.show();
+            WelcomeController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.setPlayer(player);
+            controller.setGame(game);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Shows Game scene
+     */
+    public void loadGame() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/Game.fxml"));
+            root = (BorderPane) loader.load();
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            setStageSize();
+            primaryStage.show();
+            CharacterNameController controller = loader.getController();
+            controller.setMainApp(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     public void close(WindowEvent e) {
         e.consume();
         ButtonType save = new ButtonType("Save");

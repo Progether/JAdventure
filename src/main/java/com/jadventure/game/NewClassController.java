@@ -7,7 +7,8 @@ import javafx.scene.control.MenuItem;
 import javafx.stage.WindowEvent;
 
 public class NewClassController {
- // Reference to the main application.
+    
+    // Reference to the main application.
     private JAdventure jAdventure;
 
     public NewClassController() {
