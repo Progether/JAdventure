@@ -238,10 +238,11 @@ public class JAdventure extends Application {
             loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/Game.fxml"));
             root = (BorderPane) loader.load();
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/com/jadventure/game/css/game.css").toExternalForm());
             primaryStage.setScene(scene);
             setStageSize();
             primaryStage.show();
-            CharacterNameController controller = loader.getController();
+            GameController controller = loader.getController();
             controller.setMainApp(this);
             controller.setPlayer(player);
         } catch (IOException e) {

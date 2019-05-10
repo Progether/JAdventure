@@ -1,0 +1,4 @@
+.health-bar {
+    -fx-box-border: red;
+    -fx-accent: red; 
+}

@@ -1,8 +1,15 @@
 package com.jadventure.game;
 
 import com.jadventure.game.entities.Player;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.WindowEvent;
 
 public class GameController {
@@ -22,7 +29,33 @@ public class GameController {
     private MenuItem close;
     @FXML
     private MenuItem github;
-
+    @FXML
+    private Text locationTitle;
+    @FXML
+    private Text locationDesc;
+    @FXML
+    private ProgressBar health;
+    @FXML
+    private Text hpString;
+    
+    public void loadState() {
+        loadCurrentLocation();
+        loadHealthBar();
+    }
+    
+    public void loadCurrentLocation() {
+        locationTitle.setText(player.getLocation().getTitle());
+        locationDesc.setText(player.getLocation().getDescription());
+    }
+    
+    public void loadHealthBar() {
+        int currentHealth = player.getHealth();
+        int maxHealth = player.getHealthMax();
+        double healthPercentage = (double) currentHealth / (double) maxHealth;
+        health.setProgress(healthPercentage);
+        hpString.setText(currentHealth + "/" + maxHealth);
+    }
+    
     @FXML
     public void saveGame() {
         player.save();
@@ -55,5 +88,6 @@ public class GameController {
     
     public void setPlayer(Player player) {
         this.player = player;
+        loadState();
     }
 }
