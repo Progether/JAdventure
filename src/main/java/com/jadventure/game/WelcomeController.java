@@ -12,7 +12,7 @@ public class WelcomeController {
     // Reference to the main application.
     private JAdventure jAdventure;
     private Player player;
-    private Game game;
+    private String type;
 
     public WelcomeController() {
     }
@@ -30,7 +30,7 @@ public class WelcomeController {
     
     @FXML
     public void play() {
-        jAdventure.loadGame();
+        jAdventure.loadGame(player);
     }
     
     @FXML
@@ -49,8 +49,12 @@ public class WelcomeController {
                 new WindowEvent(jAdventure.getPrimaryStage(), WindowEvent.WINDOW_CLOSE_REQUEST));
     }
     
-    public void showIntro() {
-        welcome.setText("Welcome to Silliya," + player.getName() + "!");
+    public void showWelcome() {
+        if (type.equals("new")) {
+            welcome.setText("Welcome to Silliya, " + player.getName() + "!");
+        } else if (type.equals("old")) {
+            welcome.setText("Welcome back, " + player.getName() + "!");
+        }
     }
     
     /**
@@ -64,10 +68,10 @@ public class WelcomeController {
     
     public void setPlayer(Player player) {
         this.player = player;
-        showIntro();
+        showWelcome();
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setType(String type) {
+        this.type = type;
     }
 }

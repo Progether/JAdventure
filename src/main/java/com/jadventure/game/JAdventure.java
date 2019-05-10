@@ -208,9 +208,10 @@ public class JAdventure extends Application {
     /**
      * Shows Welcome scene
      * @param player 
+     * @param type 
      * @param game 
      */
-    public void loadWelcome(Player player, Game game) {
+    public void loadWelcome(Player player, String type) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/Welcome.fxml"));
@@ -222,7 +223,7 @@ public class JAdventure extends Application {
             WelcomeController controller = loader.getController();
             controller.setMainApp(this);
             controller.setPlayer(player);
-            controller.setGame(game);
+            controller.setType(type);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -231,7 +232,7 @@ public class JAdventure extends Application {
     /**
      * Shows Game scene
      */
-    public void loadGame() {
+    public void loadGame(Player player) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/Game.fxml"));
@@ -242,6 +243,7 @@ public class JAdventure extends Application {
             primaryStage.show();
             CharacterNameController controller = loader.getController();
             controller.setMainApp(this);
+            controller.setPlayer(player);
         } catch (IOException e) {
             e.printStackTrace();
         }

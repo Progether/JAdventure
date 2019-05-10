@@ -35,7 +35,7 @@ public class CharacterNameController {
     public void createCharacter() throws DeathException {
         player.setName(name.getText());
         game.newGameStart(player);
-        jAdventure.loadWelcome(player, game);
+        jAdventure.loadWelcome(player, "new");
     }
     
     @FXML

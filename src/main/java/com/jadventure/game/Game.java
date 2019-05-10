@@ -26,13 +26,11 @@ public class Game {
         switch (playerType) {
         case "new":
             jAdventure.loadCharacterName(player, this);
-            //newGameStart(player);
             break;
         case "old":
-            QueueProvider.offer("Welcome back, " + player.getName() + "!");
-            QueueProvider.offer("");
-            player.getLocation().print();
-            gamePrompt(player);
+            jAdventure.loadWelcome(player, "old");
+            //player.getLocation().print();
+            //gamePrompt(player);
             break;
         default:
             QueueProvider.offer("Invalid player type");
