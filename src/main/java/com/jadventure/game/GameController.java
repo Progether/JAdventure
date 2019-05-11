@@ -5,8 +5,10 @@ import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -37,6 +39,38 @@ public class GameController {
     private ProgressBar health;
     @FXML
     private Text hpString;
+    @FXML
+    private ImageView up;
+    @FXML
+    private ImageView down;
+    @FXML
+    private Button north;
+    @FXML
+    private Button west;
+    @FXML
+    private Button south;
+    @FXML
+    private Button east;
+
+    @FXML
+    void goDown() {
+
+    }
+
+    @FXML
+    void goEast() {
+
+    }
+
+    @FXML
+    void goNorth() {
+
+    }
+
+    @FXML
+    void goSouth() {
+
+    }
     
     public void loadState() {
         loadCurrentLocation();
