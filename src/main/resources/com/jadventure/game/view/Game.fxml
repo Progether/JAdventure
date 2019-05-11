@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -12,6 +11,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -35,23 +35,19 @@
       </MenuBar>
    </top>
    <center>
-      <GridPane hgap="30.0" BorderPane.alignment="CENTER">
+      <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="25.0" />
+            <ColumnConstraints halignment="CENTER" minWidth="10.0" percentWidth="50.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <GridPane GridPane.columnIndex="2" GridPane.columnSpan="3">
+            <GridPane GridPane.columnIndex="1">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -60,12 +56,6 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ProgressBar fx:id="health" prefHeight="30.0" prefWidth="300.0" progress="0.39" styleClass="health-bar" stylesheets="@../css/game.css" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </ProgressBar>
-                  <Text fx:id="hpString" stroke="#eeeeee" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                   <GridPane>
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -87,75 +77,93 @@
                         </Text>
                      </children>
                   </GridPane>
+                  <TilePane fx:id="minimap" alignment="CENTER" prefColumns="3" prefRows="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
+                  <ProgressBar fx:id="health" prefHeight="30.0" prefWidth="300.0" progress="0.39" styleClass="health-bar" stylesheets="@../css/game.css" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </ProgressBar>
+                  <Text fx:id="hpString" stroke="#eeeeee" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
-            <GridPane GridPane.columnSpan="2">
+            <GridPane>
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints minWidth="10.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="NEVER" />
               </rowConstraints>
                <children>
-                  <GridPane GridPane.rowIndex="2">
+                  <GridPane GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="10.0" prefWidth="111.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="69.0" minWidth="10.0" prefWidth="39.0" />
+                      <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" />
+                      <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" valignment="BOTTOM" vgrow="NEVER" />
                     </rowConstraints>
                      <children>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                           <image>
-                              <Image url="@../images/cross.png" />
-                           </image>
-                        </ImageView>
-                        <GridPane GridPane.columnIndex="1">
+                        <GridPane alignment="BOTTOM_LEFT">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" prefWidth="40.0" />
+                            <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" prefWidth="40.0" />
+                            <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" prefWidth="40.0" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="40.0" valignment="BOTTOM" vgrow="NEVER" />
+                            <RowConstraints minHeight="10.0" prefHeight="40.0" valignment="BOTTOM" vgrow="NEVER" />
+                            <RowConstraints minHeight="10.0" prefHeight="40.0" valignment="BOTTOM" vgrow="NEVER" />
                           </rowConstraints>
                            <children>
-                              <ImageView fx:id="up" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goUp" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                              <ImageView fx:id="north" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goNorth" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                 <image>
+                                    <Image url="@../images/north.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="west" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goWest" pickOnBounds="true" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                 <image>
+                                    <Image url="@../images/west.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="east" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goEast" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                 <image>
+                                    <Image url="@../images/east.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="south" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goSouth" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                                 <image>
+                                    <Image url="@../images/south.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </GridPane>
+                        <GridPane alignment="BOTTOM_CENTER" prefWidth="53.0" GridPane.columnIndex="1">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" prefWidth="40.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="60.0" valignment="BOTTOM" vgrow="NEVER" />
+                            <RowConstraints minHeight="10.0" prefHeight="60.0" valignment="BOTTOM" vgrow="NEVER" />
+                          </rowConstraints>
+                           <children>
+                              <ImageView fx:id="up" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goUp" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                  <image>
                                     <Image url="@../images/up.png" />
                                  </image>
                                  <GridPane.margin>
-                                    <Insets bottom="10.0" />
+                                    <Insets />
                                  </GridPane.margin>
                               </ImageView>
-                              <ImageView fx:id="down" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goDown" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                              <ImageView fx:id="down" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goDown" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                  <image>
                                     <Image url="@../images/down.png" />
                                  </image>
                                  <GridPane.margin>
-                                    <Insets top="10.0" />
+                                    <Insets />
                                  </GridPane.margin>
                               </ImageView>
-                           </children>
-                        </GridPane>
-                        <GridPane>
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <Button fx:id="north" mnemonicParsing="false" onAction="#goNorth" prefHeight="28.0" prefWidth="34.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
-                              <Button fx:id="west" mnemonicParsing="false" onAction="#goWest" prefHeight="35.0" prefWidth="31.0" style="-fx-background-color: transparent;" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                              <Button fx:id="south" mnemonicParsing="false" onAction="#goSouth" prefHeight="28.0" prefWidth="34.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-                              <Button fx:id="east" mnemonicParsing="false" onAction="#goEast" prefHeight="35.0" prefWidth="32.0" style="-fx-background-color: transparent;" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                            </children>
                         </GridPane>
                      </children>
@@ -163,6 +171,9 @@
                </children>
             </GridPane>
          </children>
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </BorderPane.margin>
       </GridPane>
    </center>
 </BorderPane>
