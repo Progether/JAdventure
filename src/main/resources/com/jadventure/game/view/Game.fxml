@@ -122,15 +122,21 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <ImageView fx:id="up" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goUp" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                              <ImageView fx:id="up" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goUp" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                  <image>
                                     <Image url="@../images/up.png" />
                                  </image>
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" />
+                                 </GridPane.margin>
                               </ImageView>
-                              <ImageView fx:id="down" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goDown" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                              <ImageView fx:id="down" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goDown" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                                  <image>
                                     <Image url="@../images/down.png" />
                                  </image>
+                                 <GridPane.margin>
+                                    <Insets top="10.0" />
+                                 </GridPane.margin>
                               </ImageView>
                            </children>
                         </GridPane>

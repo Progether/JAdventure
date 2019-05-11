@@ -1,16 +1,11 @@
 package com.jadventure.game;
 
 import com.jadventure.game.entities.Player;
-import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.WindowEvent;
 
@@ -53,12 +48,21 @@ public class GameController {
     private Button east;
 
     @FXML
+    void goUp() {
+        
+    }
+    @FXML
     void goDown() {
 
     }
 
     @FXML
     void goEast() {
+        
+    }
+    
+    @FXML
+    void goWest() {
 
     }
 
