@@ -11,11 +11,14 @@ import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationType;
 import com.jadventure.game.repository.ItemRepository;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.WindowEvent;
 
@@ -58,7 +61,23 @@ public class GameController {
     private ImageView east;
     @FXML
     private TilePane minimap;
-
+    @FXML
+    private AnchorPane northTile;
+    @FXML
+    private AnchorPane westTile;
+    @FXML
+    private AnchorPane eastTile;
+    @FXML
+    private AnchorPane southTile;
+    @FXML
+    private AnchorPane middleTile;
+    @FXML
+    private ImageView playerImage;
+    @FXML
+    private ImageView stairsUp;
+    @FXML
+    private ImageView stairsDown;
+    
     @FXML
     void goUp() throws DeathException {
         command_g("up");
@@ -166,6 +185,7 @@ public class GameController {
     public void loadState() {
         loadCurrentLocation();
         loadHealthBar();
+        loadMinimap();
     }
     
     public void loadCurrentLocation() {
@@ -179,6 +199,22 @@ public class GameController {
         double healthPercentage = (double) currentHealth / (double) maxHealth;
         health.setProgress(healthPercentage);
         hpString.setText(currentHealth + "/" + maxHealth);
+    }
+    
+    public void loadMinimap() {
+        loadPlayerImage();
+    }
+    
+    public void loadPlayerImage() {
+        String characterClass = "";
+        if (player.getCurrentCharacterType().equals("Recruit")) {
+            characterClass = "hero_idle-l_300";
+            playerImage.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+        } else if (player.getCurrentCharacterType().equals("Sewer Rat")) {
+            characterClass = "Rat_Idle";
+            playerImage.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        }
+        playerImage.setImage(new Image("/com/jadventure/game/images/" + characterClass + ".gif"));;
     }
     
     @FXML

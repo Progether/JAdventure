@@ -7,11 +7,11 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -51,11 +51,61 @@
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" percentHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
+                  <GridPane alignment="CENTER" gridLinesVisible="true" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <columnConstraints>
+                        <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" percentWidth="33.0" prefWidth="40.0" />
+                        <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" percentWidth="34.0" prefWidth="40.0" />
+                        <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" percentWidth="33.0" prefWidth="40.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" percentHeight="33.0" prefHeight="40.0" valignment="BOTTOM" vgrow="NEVER" />
+                        <RowConstraints minHeight="10.0" percentHeight="34.0" prefHeight="40.0" valignment="BOTTOM" vgrow="NEVER" />
+                        <RowConstraints minHeight="10.0" percentHeight="33.0" prefHeight="40.0" valignment="BOTTOM" vgrow="NEVER" />
+                     </rowConstraints>
+                     <children>
+                        <AnchorPane style="-fx-background-color: gray;" />
+                        <AnchorPane style="-fx-background-color: gray;" GridPane.columnIndex="2" />
+                        <AnchorPane style="-fx-background-color: gray;" GridPane.rowIndex="2" />
+                        <AnchorPane style="-fx-background-color: gray;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <AnchorPane fx:id="northTile" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: gray;" GridPane.columnIndex="1" />
+                        <AnchorPane fx:id="westTile" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: gray;" GridPane.rowIndex="1" />
+                        <AnchorPane fx:id="middleTile" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: saddlebrown;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <children>
+                              <GridPane prefHeight="90.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <ImageView fx:id="playerImage" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                    <ImageView fx:id="stairsUp" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                       <image>
+                                          <Image url="@../images/stairs_up.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="stairsDown" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                       <image>
+                                          <Image url="@../images/stairs_down.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="eastTile" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: gray;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <AnchorPane fx:id="southTile" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: gray;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </children>
+                  </GridPane>
                   <GridPane>
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -77,13 +127,12 @@
                         </Text>
                      </children>
                   </GridPane>
-                  <TilePane fx:id="minimap" alignment="CENTER" prefColumns="3" prefRows="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
-                  <ProgressBar fx:id="health" prefHeight="30.0" prefWidth="300.0" progress="0.39" styleClass="health-bar" stylesheets="@../css/game.css" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                  <ProgressBar fx:id="health" prefHeight="30.0" prefWidth="300.0" progress="0.39" styleClass="health-bar" stylesheets="@../css/game.css" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                   </ProgressBar>
-                  <Text fx:id="hpString" stroke="#eeeeee" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                  <Text fx:id="hpString" stroke="#eeeeee" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
             <GridPane>
