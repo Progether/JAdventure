@@ -5,6 +5,9 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -45,6 +48,108 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints minWidth="10.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="NEVER" />
+              </rowConstraints>
+               <children>
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <children>
+                              <GridPane>
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+                  <GridPane GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                    <columnConstraints>
+                      <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" />
+                      <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" valignment="BOTTOM" vgrow="NEVER" />
+                    </rowConstraints>
+                     <children>
+                        <GridPane alignment="BOTTOM_LEFT">
+                          <columnConstraints>
+                              <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" prefWidth="40.0" />
+                            <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" prefWidth="40.0" />
+                            <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" prefWidth="40.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="40.0" valignment="BOTTOM" vgrow="NEVER" />
+                            <RowConstraints minHeight="10.0" prefHeight="40.0" valignment="BOTTOM" vgrow="NEVER" />
+                            <RowConstraints minHeight="10.0" prefHeight="40.0" valignment="BOTTOM" vgrow="NEVER" />
+                          </rowConstraints>
+                           <children>
+                              <ImageView fx:id="north" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goNorth" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                 <image>
+                                    <Image url="@../images/north.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="west" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goWest" pickOnBounds="true" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                 <image>
+                                    <Image url="@../images/west.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="east" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goEast" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                 <image>
+                                    <Image url="@../images/east.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="south" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goSouth" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                                 <image>
+                                    <Image url="@../images/south.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </GridPane>
+                        <GridPane alignment="BOTTOM_CENTER" prefWidth="53.0" GridPane.columnIndex="1">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" prefWidth="40.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="60.0" valignment="BOTTOM" vgrow="NEVER" />
+                            <RowConstraints minHeight="10.0" prefHeight="60.0" valignment="BOTTOM" vgrow="NEVER" />
+                          </rowConstraints>
+                           <children>
+                              <ImageView fx:id="up" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goUp" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                 <image>
+                                    <Image url="@../images/up.png" />
+                                 </image>
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                              </ImageView>
+                              <ImageView fx:id="down" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goDown" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                 <image>
+                                    <Image url="@../images/down.png" />
+                                 </image>
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                              </ImageView>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </GridPane>
+               </children>
+            </GridPane>
             <GridPane GridPane.columnIndex="1">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -135,89 +240,38 @@
                   <Text fx:id="hpString" stroke="#eeeeee" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
-            <GridPane>
+            <GridPane GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
               <columnConstraints>
-                <ColumnConstraints minWidth="10.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" vgrow="NEVER" />
+                <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="NEVER" />
               </rowConstraints>
                <children>
-                  <GridPane GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                    <content>
+                        <TextArea fx:id="terminal" editable="false" />
+                    </content>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </ScrollPane>
+                  <GridPane GridPane.rowIndex="1">
                     <columnConstraints>
-                      <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" />
-                      <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints minHeight="10.0" valignment="BOTTOM" vgrow="NEVER" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <GridPane alignment="BOTTOM_LEFT">
-                          <columnConstraints>
-                              <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" prefWidth="40.0" />
-                            <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" prefWidth="40.0" />
-                            <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" prefWidth="40.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="40.0" valignment="BOTTOM" vgrow="NEVER" />
-                            <RowConstraints minHeight="10.0" prefHeight="40.0" valignment="BOTTOM" vgrow="NEVER" />
-                            <RowConstraints minHeight="10.0" prefHeight="40.0" valignment="BOTTOM" vgrow="NEVER" />
-                          </rowConstraints>
-                           <children>
-                              <ImageView fx:id="north" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goNorth" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
-                                 <image>
-                                    <Image url="@../images/north.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="west" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goWest" pickOnBounds="true" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="@../images/west.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="east" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goEast" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="@../images/east.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="south" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goSouth" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <image>
-                                    <Image url="@../images/south.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </GridPane>
-                        <GridPane alignment="BOTTOM_CENTER" prefWidth="53.0" GridPane.columnIndex="1">
-                          <columnConstraints>
-                            <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" prefWidth="40.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="60.0" valignment="BOTTOM" vgrow="NEVER" />
-                            <RowConstraints minHeight="10.0" prefHeight="60.0" valignment="BOTTOM" vgrow="NEVER" />
-                          </rowConstraints>
-                           <children>
-                              <ImageView fx:id="up" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goUp" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="@../images/up.png" />
-                                 </image>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </ImageView>
-                              <ImageView fx:id="down" fitHeight="39.0" fitWidth="39.0" onMouseClicked="#goDown" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="@../images/down.png" />
-                                 </image>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </ImageView>
-                           </children>
-                        </GridPane>
+                        <TextField fx:id="send" onAction="#sendInput" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                      </children>
                   </GridPane>
                </children>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
             </GridPane>
          </children>
          <BorderPane.margin>
