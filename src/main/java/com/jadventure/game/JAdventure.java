@@ -316,5 +316,4 @@ public class JAdventure extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-
 }

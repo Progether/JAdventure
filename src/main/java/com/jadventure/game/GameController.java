@@ -14,8 +14,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -78,10 +76,6 @@ public class GameController {
     private ImageView stairsUp;
     @FXML
     private ImageView stairsDown;
-    @FXML
-    private TextArea terminal;
-    @FXML
-    private TextField send;
     
     @FXML
     void goUp() throws DeathException {
@@ -257,12 +251,6 @@ public class GameController {
         } else {
             stairsDown.setVisible(false);
         }
-    }
-    
-    @FXML
-    public void sendInput() {
-        terminal.setText(terminal.getText().concat(send.getText() + "\n\n"));
-        send.setText("");
     }
     
     @FXML
