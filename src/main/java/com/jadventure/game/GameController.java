@@ -155,6 +155,8 @@ public class GameController {
             QueueProvider.offer("That direction doesn't exist");
         } catch (NullPointerException ex) {
             QueueProvider.offer("That direction doesn't exist");
+        } finally {
+            jAdventure.loadGame(player);
         }
     }
     
@@ -203,6 +205,7 @@ public class GameController {
     
     public void loadMinimap() {
         loadPlayerImage();
+        loadPossibleExits();
     }
     
     public void loadPlayerImage() {
@@ -215,6 +218,40 @@ public class GameController {
             playerImage.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         }
         playerImage.setImage(new Image("/com/jadventure/game/images/" + characterClass + ".gif"));;
+    }
+    
+    public void loadPossibleExits() {
+        Map<Direction, ILocation> exits = player.getLocation().getExits();
+        if ((exits.get(Direction.NORTH) != null) && !(exits.get(Direction.NORTH).getLocationType().equals(LocationType.WALL))) {
+            northTile.setStyle("-fx-background-color: saddlebrown;");
+        } else {
+            northTile.setStyle("-fx-background-color: gray;");
+        }
+        if ((exits.get(Direction.SOUTH) != null) && !(exits.get(Direction.SOUTH).getLocationType().equals(LocationType.WALL))) {
+            southTile.setStyle("-fx-background-color: saddlebrown;");
+        } else {
+            southTile.setStyle("-fx-background-color: gray;");
+        }
+        if ((exits.get(Direction.EAST) != null) && !(exits.get(Direction.EAST).getLocationType().equals(LocationType.WALL))) {
+            eastTile.setStyle("-fx-background-color: saddlebrown;");
+        } else {
+            eastTile.setStyle("-fx-background-color: gray;");
+        }
+        if ((exits.get(Direction.WEST) != null) && !(exits.get(Direction.WEST).getLocationType().equals(LocationType.WALL))) {
+            westTile.setStyle("-fx-background-color: saddlebrown;");
+        } else {
+            westTile.setStyle("-fx-background-color: gray;");
+        }
+        if (exits.get(Direction.UP) != null) {
+            stairsUp.setVisible(true);
+        } else {
+            stairsUp.setVisible(false);
+        }
+        if (exits.get(Direction.DOWN) != null) {
+            stairsDown.setVisible(true);
+        } else {
+            stairsDown.setVisible(false);
+        }
     }
     
     @FXML
