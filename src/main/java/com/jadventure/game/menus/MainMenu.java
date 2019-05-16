@@ -57,16 +57,16 @@ public class MainMenu extends Menus implements Runnable {
 
     public static List<String> listProfiles() {
         if (isProfileDirEmpty()) {
-            QueueProvider.offer("No profiles found.");
+            //QueueProvider.offer("No profiles found.");
             return new ArrayList<String>();
         } else {
             File file = new File("json/profiles");
             String[] possibleProfiles = file.list();
             List<String> profiles = new ArrayList<String>();
-            QueueProvider.offer("Profiles:");
+            //QueueProvider.offer("Profiles:");
             for (String name : possibleProfiles) {
                 if (new File("json/profiles/" + name).isDirectory()) {
-                    QueueProvider.offer("  " + name);
+                    //QueueProvider.offer("  " + name);
                     profiles.add(name);
                 }
             }

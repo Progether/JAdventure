@@ -314,6 +314,14 @@ public class JAdventure extends Application {
 	}
 	
 	public static void main(String[] args) {
-		launch(args);
+	    try {
+	        launch(args);
+	    } catch (Exception e) {
+	        if (!e.toString().contains("MenuBarSkin")) {
+	            e.printStackTrace();
+	        } else {
+	            int i;
+	        }
+	    }
 	}
 }
