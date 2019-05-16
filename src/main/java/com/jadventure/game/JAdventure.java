@@ -252,28 +252,18 @@ public class JAdventure extends Application {
     
     public void close(WindowEvent e) {
         e.consume();
-        ButtonType save = new ButtonType("Save");
-        ButtonType dontSave = new ButtonType("Don't save");
+        ButtonType yes = new ButtonType("Yes");
         ButtonType cancel = new ButtonType("Cancel");
-        Alert alert = new Alert(AlertType.CONFIRMATION,
-                "",
-                save, dontSave, cancel);
+        Alert alert = new Alert(AlertType.CONFIRMATION, "",
+                yes, cancel);
         alert.initOwner(getPrimaryStage());
         alert.setTitle("Quit");
         alert.setHeaderText("Are you sure you want to quit?");
-        alert.setContentText("Do you want to save your current progress?");
+        alert.setContentText("All unsaved progress will be lost.");
         alert.setGraphic(null);
         Optional<ButtonType> clicked = alert.showAndWait();
         String selection = clicked.get().getText();
-        if (selection.equals("Don't save")) {
-            try {
-                Platform.exit();
-                stop();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        } else if (selection.equals("Save")) {
-            // TODO Save game
+        if (selection.equals("Yes")) {
             try {
                 Platform.exit();
                 stop();
