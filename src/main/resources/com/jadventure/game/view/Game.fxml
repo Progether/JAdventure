@@ -6,6 +6,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -55,11 +56,11 @@
                 <RowConstraints minHeight="10.0" vgrow="NEVER" />
               </rowConstraints>
                <children>
-                  <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0">
-                           <children>
-                              <GridPane>
+                  <TitledPane text="Backpack">
+                     <content>
+                        <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                          <content>
+                              <GridPane fx:id="backpack" gridLinesVisible="true" prefHeight="90.0" prefWidth="200.0">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -70,10 +71,10 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                               </GridPane>
-                           </children>
-                        </AnchorPane>
-                    </content>
-                  </ScrollPane>
+                          </content>
+                        </ScrollPane>
+                     </content>
+                  </TitledPane>
                   <GridPane GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                     <columnConstraints>
                       <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" />

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import com.jadventure.game.entities.Player;
+import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.monsters.MonsterFactory;
 import com.jadventure.game.navigation.Direction;
@@ -11,14 +12,22 @@ import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationType;
 import com.jadventure.game.repository.ItemRepository;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
+import javafx.geometry.Pos;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.WindowEvent;
 
 public class GameController {
@@ -106,6 +115,8 @@ public class GameController {
     private ImageView monsterSouth;
     @FXML
     private ImageView npcSouth;
+    @FXML
+    private GridPane backpack;
     
     @FXML
     void goUp() throws DeathException {
@@ -217,6 +228,7 @@ public class GameController {
         loadCurrentLocation();
         loadHealthBar();
         loadMinimap();
+        loadBackpack();
     }
     
     public void loadCurrentLocation() {
@@ -369,6 +381,29 @@ public class GameController {
             npcMiddle.setVisible(true);
         } else {
             npcMiddle.setVisible(false);
+        }
+    }
+    
+    public void loadBackpack() {
+        List<ItemStack> items = player.getStorage().getItemStack();
+        if (!items.isEmpty()) {
+            for (int i=0; i<items.size(); i++) {
+                Text itemName = new Text(items.get(i).getItem().getName());
+                int amount = items.get(i).getAmount();
+                Text itemAmount = new Text(String.valueOf(amount));
+                backpack.add(itemName, 0, i);
+                backpack.add(itemAmount, 1, i);
+                backpack.setHalignment(itemName, HPos.CENTER);
+                backpack.setHalignment(itemAmount, HPos.CENTER);
+            }
+            /*
+            backpack.getRowConstraints().add(new RowConstraints(55, 55, Region.USE_COMPUTED_SIZE));
+            backpack.getColumnConstraints().add(new ColumnConstraints(55, 55, Region.USE_COMPUTED_SIZE));
+            backpack.setVgap(20);
+            backpack.setHgap(20);
+            backpack.setPadding(new Insets(50, 100, 0, 100));
+             */
+            backpack.setAlignment(Pos.CENTER);
         }
     }
     
