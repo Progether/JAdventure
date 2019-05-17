@@ -76,6 +76,36 @@ public class GameController {
     private ImageView stairsUp;
     @FXML
     private ImageView stairsDown;
+    @FXML
+    private ImageView itemMiddle;
+    @FXML
+    private ImageView monsterMiddle;
+    @FXML
+    private ImageView npcMiddle;
+    @FXML
+    private ImageView itemNorth;
+    @FXML
+    private ImageView monsterNorth;
+    @FXML
+    private ImageView npcNorth;
+    @FXML
+    private ImageView itemWest;
+    @FXML
+    private ImageView monsterWest;
+    @FXML
+    private ImageView npcWest;
+    @FXML
+    private ImageView itemEast;
+    @FXML
+    private ImageView monsterEast;
+    @FXML
+    private ImageView npcEast;
+    @FXML
+    private ImageView itemSouth;
+    @FXML
+    private ImageView monsterSouth;
+    @FXML
+    private ImageView npcSouth;
     
     @FXML
     void goUp() throws DeathException {
@@ -204,6 +234,7 @@ public class GameController {
     
     public void loadMinimap() {
         loadPlayerImage();
+        lookCurrentLocation();
         loadPossibleExits();
     }
     
@@ -250,6 +281,94 @@ public class GameController {
             stairsDown.setVisible(true);
         } else {
             stairsDown.setVisible(false);
+        }
+        
+        for (Map.Entry<Direction, ILocation> entry : exits.entrySet()) {
+            Direction key = entry.getKey();
+            ILocation value = entry.getValue();
+            if (key.equals(Direction.NORTH)) {
+                if (!value.getItems().isEmpty()) {
+                    itemNorth.setVisible(true);
+                } else {
+                    itemNorth.setVisible(false);
+                }
+                if (!value.getMonsters().isEmpty()) {
+                    monsterNorth.setVisible(true);
+                } else {
+                    monsterNorth.setVisible(false);
+                }
+                if (!value.getNpcs().isEmpty()) {
+                    npcNorth.setVisible(true);
+                } else {
+                    npcNorth.setVisible(false);
+                }
+            } else if (key.equals(Direction.WEST)) {
+                if (!value.getItems().isEmpty()) {
+                    itemWest.setVisible(true);
+                } else {
+                    itemWest.setVisible(false);
+                }
+                if (!value.getMonsters().isEmpty()) {
+                    monsterWest.setVisible(true);
+                } else {
+                    monsterWest.setVisible(false);
+                }
+                if (!value.getNpcs().isEmpty()) {
+                    npcWest.setVisible(true);
+                } else {
+                    npcWest.setVisible(false);
+                }
+            } else if (key.equals(Direction.EAST)) {
+                if (!value.getItems().isEmpty()) {
+                    itemEast.setVisible(true);
+                } else {
+                    itemEast.setVisible(false);
+                }
+                if (!value.getMonsters().isEmpty()) {
+                    monsterEast.setVisible(true);
+                } else {
+                    monsterEast.setVisible(false);
+                }
+                if (!value.getNpcs().isEmpty()) {
+                    npcEast.setVisible(true);
+                } else {
+                    npcEast.setVisible(false);
+                }
+            } else if (key.equals(Direction.SOUTH)) {
+                if (!value.getItems().isEmpty()) {
+                    itemSouth.setVisible(true);
+                } else {
+                    itemSouth.setVisible(false);
+                }
+                if (!value.getMonsters().isEmpty()) {
+                    monsterSouth.setVisible(true);
+                } else {
+                    monsterSouth.setVisible(false);
+                }
+                if (!value.getNpcs().isEmpty()) {
+                    npcSouth.setVisible(true);
+                } else {
+                    npcSouth.setVisible(false);
+                }
+            }
+        }
+    }
+    
+    public void lookCurrentLocation() {
+        if (!player.getLocation().getItems().isEmpty()) {
+            itemMiddle.setVisible(true);
+        } else {
+            itemMiddle.setVisible(false);
+        }
+        if (!player.getLocation().getMonsters().isEmpty()) {
+            monsterMiddle.setVisible(true);
+        } else {
+            monsterMiddle.setVisible(false);
+        }
+        if (!player.getLocation().getNpcs().isEmpty()) {
+            npcMiddle.setVisible(true);
+        } else {
+            npcMiddle.setVisible(false);
         }
     }
     
