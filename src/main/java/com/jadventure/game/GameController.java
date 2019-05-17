@@ -396,14 +396,6 @@ public class GameController {
                 backpack.setHalignment(itemName, HPos.CENTER);
                 backpack.setHalignment(itemAmount, HPos.CENTER);
             }
-            /*
-            backpack.getRowConstraints().add(new RowConstraints(55, 55, Region.USE_COMPUTED_SIZE));
-            backpack.getColumnConstraints().add(new ColumnConstraints(55, 55, Region.USE_COMPUTED_SIZE));
-            backpack.setVgap(20);
-            backpack.setHgap(20);
-            backpack.setPadding(new Insets(50, 100, 0, 100));
-             */
-            backpack.setAlignment(Pos.CENTER);
         }
     }
     
