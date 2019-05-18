@@ -13,21 +13,15 @@ import com.jadventure.game.navigation.LocationType;
 import com.jadventure.game.repository.ItemRepository;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
-import javafx.geometry.Pos;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.WindowEvent;
 
 public class GameController {
