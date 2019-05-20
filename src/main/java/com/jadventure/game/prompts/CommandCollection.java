@@ -22,7 +22,6 @@ import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationType;
 import com.jadventure.game.repository.ItemRepository;
 import com.jadventure.game.repository.LocationRepository;
-import com.jadventure.game.DeathException;
 import com.jadventure.game.GameBeans;
 
 /**

@@ -3,13 +3,9 @@ package com.jadventure.game.repository;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
-import com.jadventure.game.entities.NPC;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.HashMap;
-import java.util.Map;
 
 public class EncounteredNpcRepository extends NpcRepository{
     static String fileName;
@@ -28,7 +24,7 @@ public class EncounteredNpcRepository extends NpcRepository{
     }
     
     public static void addNpc(String profileName, String name, int health, String id) {
-        EncounteredNpcRepository repo = new EncounteredNpcRepository();
+        //EncounteredNpcRepository repo = new EncounteredNpcRepository();
         File repoFile = new File("json/profiles/" + profileName + "/encNpcs.json");
         if (!repoFile.exists()) {
             throw new RuntimeException("Could not find NPC Repository");

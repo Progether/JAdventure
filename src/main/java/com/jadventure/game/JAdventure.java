@@ -1,16 +1,27 @@
 package com.jadventure.game;
-
-import com.jadventure.game.menus.MainMenu;
-import com.jadventure.game.QueueProvider;
-import com.jadventure.game.Client;
-
+	
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.io.IOException;
-import java.net.SocketException;
-
+import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.jadventure.game.entities.Player;
+import com.jadventure.game.menus.MainMenu;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * This is the starting point of the game.
@@ -18,10 +29,30 @@ import org.slf4j.LoggerFactory;
  * a new MainMenu that will handle the rest of
  * the game.
  */
-public class JAdventure {
+public class JAdventure extends Application {
+    private Stage primaryStage;
+    private BorderPane root;
     private static Logger logger = LoggerFactory.getLogger(JAdventure.class);
-
-    public static void main(String[] args) {
+    
+    @Override
+    public void init() {
+    }
+    
+    @Override
+    public void start(Stage primaryStage) {
+        try {
+            this.primaryStage = primaryStage;
+            primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent e) {
+                    close(e);
+                }
+            });
+            this.primaryStage.setTitle("JAdventure");
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        String[] args = getArguments();
         logger.info("Starting JAdventure " + toString(args));
         GameModeType mode = getGameMode(args);
         logger.debug("Starting in mode " + mode.name());
@@ -37,30 +68,30 @@ public class JAdventure {
             new Client(serverName, port);
         } else if (GameModeType.SERVER == mode) {
             while (true) {
-            	ServerSocket listener = null;
+                ServerSocket listener = null;
                 try {
                     listener = new ServerSocket(port);
                     while (true) {
                         Socket server = listener.accept();
-                        Runnable r = new MainMenu(server, mode);
+                        Runnable r = new MainMenu(server, mode, this);
                         new Thread(r).start();
                     }
                 } catch (IOException c) {
                     c.printStackTrace();
                 } finally {
-                	try {
-						listener.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+                    try {
+                        listener.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         } else {
             QueueProvider.startMessenger(GameModeType.STAND_ALONE);
-            new MainMenu();
+            new MainMenu(this).start();
         }
     }
-
+    
     private static GameModeType getGameMode(String[] args) {
         if (args == null || args.length == 0 || "".equals(args[0].trim())) {
             return GameModeType.STAND_ALONE;
@@ -93,4 +124,204 @@ public class JAdventure {
         bldr.append(" ]");
         return bldr.toString();
     }
+    
+    /**
+     * Shows MainMenu scene
+     */
+    public void loadMainMenu() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/MainMenu.fxml"));
+            root = (BorderPane) loader.load();
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            setStageSize();
+            primaryStage.show();
+            MainMenuController controller = loader.getController();
+            controller.setMainApp(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Shows ProfileMenu scene
+     */
+    public void loadProfileMenu() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/ProfileMenu.fxml"));
+            root = (BorderPane) loader.load();
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            setStageSize();
+            primaryStage.show();
+            ProfileMenuController controller = loader.getController();
+            controller.setMainApp(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Shows NewClass scene
+     */
+    public void loadNewClass() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/NewClass.fxml"));
+            root = (BorderPane) loader.load();
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            setStageSize();
+            primaryStage.show();
+            NewClassController controller = loader.getController();
+            controller.setMainApp(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Shows CharacterName scene
+     * @param player 
+     * @param game 
+     */
+    public void loadCharacterName(Player player, Game game) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/CharacterName.fxml"));
+            root = (BorderPane) loader.load();
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            setStageSize();
+            primaryStage.show();
+            CharacterNameController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.setPlayer(player);
+            controller.setGame(game);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Shows Welcome scene
+     * @param player 
+     * @param type 
+     * @param game 
+     */
+    public void loadWelcome(Player player, String type) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/Welcome.fxml"));
+            root = (BorderPane) loader.load();
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            setStageSize();
+            primaryStage.show();
+            WelcomeController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.setPlayer(player);
+            controller.setType(type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Shows Game scene
+     */
+    public void loadGame(Player player) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(JAdventure.class.getResource("/com/jadventure/game/view/Game.fxml"));
+            root = (BorderPane) loader.load();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/com/jadventure/game/css/game.css").toExternalForm());
+            primaryStage.setScene(scene);
+            setStageSize();
+            primaryStage.show();
+            GameController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.setPlayer(player);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void close(WindowEvent e) {
+        e.consume();
+        ButtonType yes = new ButtonType("Yes");
+        ButtonType cancel = new ButtonType("Cancel");
+        Alert alert = new Alert(AlertType.CONFIRMATION, "",
+                yes, cancel);
+        alert.initOwner(getPrimaryStage());
+        alert.setTitle("Quit");
+        alert.setHeaderText("Are you sure you want to quit?");
+        alert.setContentText("All unsaved progress will be lost.");
+        alert.setGraphic(null);
+        Optional<ButtonType> clicked = alert.showAndWait();
+        String selection = clicked.get().getText();
+        if (selection.equals("Yes")) {
+            try {
+                Platform.exit();
+                stop();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public String[] getArguments() {
+        List<String> params = getParameters().getRaw();
+        if (params.size() > 0) {
+            String[] args = new String[params.size()];
+            int index = 0;
+            for (String param : params) {
+                args[index] = param;
+                index++;
+            }
+            return args;
+        } else {
+            return new String[0];
+        }
+	}
+	
+	public void setStageSize() {
+	    // Sets height and width to match screen size
+	    Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+	    primaryStage.setX(bounds.getMinX());
+	    primaryStage.setY(bounds.getMinY());
+	    primaryStage.setWidth(bounds.getWidth());
+	    primaryStage.setHeight(bounds.getHeight());
+	}
+	
+	public Stage getPrimaryStage() {
+	    return primaryStage;
+	}
+	
+	public void setPrimaryStage(Stage primaryStage) {
+	    this.primaryStage = primaryStage;
+	}
+	
+	public BorderPane getRoot() {
+	    return root;
+	}
+	
+	public void setRoot(BorderPane root) {
+	    this.root = root;
+	}
+	
+	public static void main(String[] args) {
+	    try {
+	        launch(args);
+	    } catch (Exception e) {
+	        if (!e.toString().contains("MenuBarSkin")) {
+	            e.printStackTrace();
+	        } else {
+	            int i;
+	        }
+	    }
+	}
 }

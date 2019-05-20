@@ -2,12 +2,6 @@ package com.jadventure.game.monsters;
 
 import static org.junit.Assert.*;
 
-import java.util.Hashtable;
-
-import javax.naming.NamingException;
-import javax.naming.spi.ObjectFactory;
-import javax.naming.spi.ObjectFactoryBuilder;
-
 import org.junit.Before;
 import org.junit.Test;
 

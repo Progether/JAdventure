@@ -19,23 +19,23 @@ public class Game {
     public Monster monster;
     Player player = null;
 
-    public Game(Player player, String playerType) throws DeathException {
-          this.parser = new CommandParser(player);
-          this.player = player;
-          switch (playerType) {
-              case "new":
-                  newGameStart(player);
-                  break;
-              case "old":
-                  QueueProvider.offer("Welcome back, " + player.getName() + "!");
-                  QueueProvider.offer("");
-                  player.getLocation().print();
-                  gamePrompt(player);
-                  break;
-              default:
-                  QueueProvider.offer("Invalid player type");
-                  break;
-          }
+    public Game(Player player, String playerType, JAdventure jAdventure) throws DeathException {
+          
+        this.parser = new CommandParser(player);
+        this.player = player;
+        switch (playerType) {
+        case "new":
+            jAdventure.loadCharacterName(player, this);
+            break;
+        case "old":
+            jAdventure.loadWelcome(player, "old");
+            //player.getLocation().print();
+            //gamePrompt(player);
+            break;
+        default:
+            QueueProvider.offer("Invalid player type");
+            break;
+        } 
     }
    
     /**
@@ -44,6 +44,15 @@ public class Game {
      * character and welcomes him / her. After that, it goes to the normal game prompt.
      */
     public void newGameStart(Player player) throws DeathException {
+        LocationRepository locationRepo = GameBeans.getLocationRepository(player.getName());
+        this.player.setLocation(locationRepo.getInitialLocation());
+        player.save();
+        //QueueProvider.offer("Welcome to Silliya, " + player.getName() + ".");
+        //player.getLocation().print();
+        //gamePrompt(player);
+    }
+    
+    public void newGameStart_old(Player player) throws DeathException {
         QueueProvider.offer(player.getIntro());
         String userInput = QueueProvider.take();
         player.setName(userInput);

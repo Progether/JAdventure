@@ -3,24 +3,16 @@ package com.jadventure.game.prompts;
 import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.Collection;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.gson.internal.bind.CollectionTypeAdapterFactory;
 import com.jadventure.game.DeathException;
 import com.jadventure.game.GameBeans;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.monsters.Troll;
 import com.jadventure.game.navigation.Coordinate;
-import com.jadventure.game.navigation.Direction;
 import com.jadventure.game.navigation.Location;
 import com.jadventure.game.navigation.LocationType;
 import com.jadventure.game.repository.LocationRepository;

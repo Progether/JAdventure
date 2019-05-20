@@ -1,8 +1,6 @@
 package com.jadventure.game.repository;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 import org.junit.Before;
 
@@ -10,7 +8,6 @@ import com.jadventure.game.navigation.Coordinate;
 import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.Location;
 import com.jadventure.game.navigation.LocationType;
-import com.jadventure.game.GameBeans;
 
 public class LocationRepositoryTest {
     LocationRepository locationRepo;
