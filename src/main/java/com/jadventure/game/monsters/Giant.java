@@ -5,7 +5,7 @@ package com.jadventure.game.monsters;
  */
 public class Giant extends Monster {
     public Giant(int playerLevel){
-        this.monsterType = "Giant";
+       monsterType("Giant");
         this.setHealthMax(150 + playerLevel * 8);
         this.setHealth(150 + playerLevel * 8);
         this.setArmour(6 + playerLevel * 3);
@@ -16,6 +16,10 @@ public class Giant extends Monster {
         this.setCritChance(0.03);
         this.setXPGain(50 + playerLevel * 3);
         this.setGold(15 + playerLevel * 11);
-        addRandomItems(playerLevel, "wbrd1");
+                       addRandomItems(playerLevel, "wbrd1");
+    }
+    @Override
+    public String monsterType(String type) {
+        return this.monsterType = type;
     }
 }

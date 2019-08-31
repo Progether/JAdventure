@@ -14,7 +14,7 @@ import java.util.Random;
  * further outlined in its respective file. For now it
  * just holds the monster's name.
  */
-public abstract class Monster extends NPC {
+public abstract class Monster extends NPC implements CreateNonster {
     public String monsterType;
     private ItemRepository itemRepo = GameBeans.getItemRepository();
 

@@ -5,17 +5,21 @@ package com.jadventure.game.monsters;
  */
 public class Troll extends Monster {
 	public Troll(int playerLevel){
-		this.monsterType = "Troll";
+		monsterType("Troll");
 		this.setHealthMax(70 + playerLevel * 11);
 		this.setHealth(70 + playerLevel * 11);
 		this.setArmour(playerLevel + 12);
 		this.setDamage(20 + playerLevel * 3);
 		this.setCritChance(0.05);
-                this.setIntelligence(1);
-                this.setStealth(1);
-                this.setDexterity(1);
-                this.setXPGain(75 + playerLevel * 3);
+		this.setIntelligence(1);
+		this.setStealth(1);
+		this.setDexterity(1);
+		this.setXPGain(75 + playerLevel * 3);
 		this.setGold(25 + playerLevel * 10);
                 addRandomItems(playerLevel, "wbrd1", "ashi1", "pmil2");
+	}
+	@Override
+	public String monsterType(String type) {
+		return this.monsterType = type;
 	}
 }
