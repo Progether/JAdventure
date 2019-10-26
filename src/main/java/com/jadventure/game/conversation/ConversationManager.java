@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.jadventure.game.repository.NpcRepository;
 
-import java.io.File;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -64,7 +64,6 @@ public class ConversationManager {
     private void load() {
         String fileName = "json/original_data/npcs.json";
         JsonParser parser = new JsonParser();
-        File f = new File(fileName);
         try {
             Reader reader = new FileReader(fileName);
             JsonObject json = parser.parse(reader).getAsJsonObject();
