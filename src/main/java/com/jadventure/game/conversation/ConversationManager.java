@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.jadventure.game.repository.NpcRepository;
 
-import java.io.File;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
