@@ -7,7 +7,6 @@ import com.jadventure.game.Client;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.IOException;
-import java.net.SocketException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
