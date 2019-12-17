@@ -22,7 +22,19 @@ public final class TestingQueueProvider extends QueueProvider {
     }
 
     public String[] getMessageHistory() {
-        return (String[]) messageHistory.toArray();
+        return messageHistory.toArray(new String[0]);
+    }
+
+    public String getMessageHistoryAsString() {
+        // concatenate message history into a single string
+        StringBuilder sb = new StringBuilder();
+
+        for (String msg : messageHistory) {
+            sb.append(msg);
+            sb.append("\n");
+        }
+
+        return sb.toString();
     }
 
     public void pushToInputQueue(String input) {

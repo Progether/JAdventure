@@ -10,6 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Collection;
 
+import com.jadventure.game.queueprovider.QueueProvider;
+import com.jadventure.game.queueprovider.TestingQueueProvider;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,11 +28,10 @@ import com.jadventure.game.navigation.LocationType;
 import com.jadventure.game.repository.LocationRepository;
 
 public class CommandCollectionTest {
-    Player player;
-    Location location;
-    CommandCollection collection;
-    PrintStream stdout;
-    ByteArrayOutputStream outContent;
+    private Player player;
+    private Location location;
+    private CommandCollection collection;
+    private TestingQueueProvider testingQueueProvider;
 
     @Before
     public void setUp() {
@@ -49,21 +50,15 @@ public class CommandCollectionTest {
         collection = CommandCollection.getInstance();
         collection.initPlayer(player);
 
-        stdout = System.out;
-
-        outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-    }
-
-    @After
-    public void tearDown() {
-        System.setOut(stdout);
+        QueueProvider.startTestingMessenger();
+        // get a reference to the created TestingQueueProvider object for testing
+        testingQueueProvider = (TestingQueueProvider) QueueProvider.getInstance();
     }
 
     @Test
     public void commandHelpTest() {
         collection.command_help();
-        int n = countLines(outContent.toString());
+        int n = testingQueueProvider.getMessageHistory().length;
 
         //13 help commands + 1 extra line
         assertTrue(n == 14);
@@ -72,19 +67,18 @@ public class CommandCollectionTest {
     @Test
     public void commandSaveTest() {
         collection.command_save();
-        assertTrue(outContent.toString().contains("data was saved"));
+        assertTrue(testingQueueProvider.getMessageHistoryAsString().contains("data was saved"));
     }
 
     @Test
     public void commandMonsterTest() {
         collection.command_m();
-        assertTrue(outContent.toString().contains("no monsters"));
+        assertTrue(testingQueueProvider.getMessageHistoryAsString().contains("no monsters"));
 
         Troll troll = new Troll(player.getLevel());
         player.getLocation().addMonster(troll);
         collection.command_m();
-        assertTrue(outContent.toString().contains(troll.monsterType));
-
+        assertTrue(testingQueueProvider.getMessageHistoryAsString().contains(troll.monsterType));
     }
 
     @Test
@@ -96,30 +90,24 @@ public class CommandCollectionTest {
 
         collection.command_g("s");
 
-        assertTrue(outContent.toString().contains("Stairs:"));
+        assertTrue(testingQueueProvider.getMessageHistoryAsString().contains("Stairs:"));
     }
 
     @Test
     public void commandInspectTest() {
         collection.command_i("");
-        assertTrue(outContent.toString().contains("Item doesn't exist"));
+        assertTrue(testingQueueProvider.getMessageHistoryAsString().contains("Item doesn't exist"));
     }
 
     @Test
     public void commandViewTest() {
         collection.command_v("b");
-        assertTrue(outContent.toString().contains("Backpack"));
+        assertTrue(testingQueueProvider.getMessageHistoryAsString().contains("Backpack"));
 
         collection.command_v("s");
-        assertTrue(outContent.toString().contains("Player name:"));
+        assertTrue(testingQueueProvider.getMessageHistoryAsString().contains("Player name:"));
 
         collection.command_v("e");
-        assertTrue(outContent.toString().contains("Equipped Items:"));
+        assertTrue(testingQueueProvider.getMessageHistoryAsString().contains("Equipped Items:"));
     }
-
-    private static int countLines(String str) {
-        String[] lines = str.split("\r\n|\r|\n");
-        return  lines.length;
-    }
-
 }
