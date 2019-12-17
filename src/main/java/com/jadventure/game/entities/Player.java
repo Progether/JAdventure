@@ -7,10 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,12 +21,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 import com.jadventure.game.DeathException;
 import com.jadventure.game.GameBeans;
-import com.jadventure.game.QueueProvider;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Storage;
@@ -41,6 +34,7 @@ import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationType;
 import com.jadventure.game.repository.ItemRepository;
 import com.jadventure.game.repository.LocationRepository;
+import com.jadventure.game.queueprovider.QueueProvider;
 
 /**
  * This class deals with the player and all of its properties.
@@ -164,7 +158,7 @@ public class Player extends Entity {
             reader.close();
             setUpCharacterLevels();
         } catch (FileNotFoundException ex) {
-            QueueProvider.offer( "Unable to open file '" + fileName + "'.");
+            QueueProvider.getInstance().offer( "Unable to open file '" + fileName + "'.");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -214,12 +208,12 @@ public class Player extends Entity {
             } else if (player.getName().equals("Sewer Rat")) {
                 player.type = "Sewer Rat";
             } else {
-                QueueProvider.offer("Not a valid class");
+                QueueProvider.getInstance().offer("Not a valid class");
             }
             reader.close();
             setUpCharacterLevels();
         } catch (FileNotFoundException ex) {
-            QueueProvider.offer( "Unable to open file '" + fileName + "'.");
+            QueueProvider.getInstance().offer( "Unable to open file '" + fileName + "'.");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -259,7 +253,7 @@ public class Player extends Entity {
               message += "\nStealth: " + getStealth();
               message += "\nXP: " + getXP();
               message += "\n" + getName() + "'s level: " + getLevel();
-        QueueProvider.offer(message);
+        QueueProvider.getInstance().offer(message);
     }
 
     public void printBackPack() {
@@ -323,9 +317,9 @@ public class Player extends Entity {
             writer.close();
             locationRepo = GameBeans.getLocationRepository(getName());
             locationRepo.writeLocations();
-            QueueProvider.offer("\nYour game data was saved.");
+            QueueProvider.getInstance().offer("\nYour game data was saved.");
         } catch (IOException ex) {
-            QueueProvider.offer("\nUnable to save to file '" + fileName + "'.");
+            QueueProvider.getInstance().offer("\nUnable to save to file '" + fileName + "'.");
         }
     }
 
@@ -360,7 +354,7 @@ public class Player extends Entity {
             Item item = items.get(0);
             addItemToStorage(item);
             location.removeItem(item);
-            QueueProvider.offer(item.getName()+ " picked up");
+            QueueProvider.getInstance().offer(item.getName()+ " picked up");
         }
     }
 
@@ -380,7 +374,7 @@ public class Player extends Entity {
             }
             removeItemFromStorage(itemToDrop);
             location.addItem(itemToDrop);
-            QueueProvider.offer(item.getName() + " dropped");
+            QueueProvider.getInstance().offer(item.getName() + " dropped");
         }
     }
 
@@ -390,13 +384,13 @@ public class Player extends Entity {
             Item item = items.get(0);
             if (getLevel() >= item.getLevel()) {
                 Map<String, String> change = equipItem(item.getPosition(), item);
-                QueueProvider.offer(item.getName()+ " equipped");
+                QueueProvider.getInstance().offer(item.getName()+ " equipped");
                 printStatChange(change);
             } else {
-                QueueProvider.offer("You do not have the required level to use this item");
+                QueueProvider.getInstance().offer("You do not have the required level to use this item");
             }
         } else {
-            QueueProvider.offer("You do not have that item");
+            QueueProvider.getInstance().offer("You do not have that item");
         }
     }
 
@@ -405,7 +399,7 @@ public class Player extends Entity {
          if (!items.isEmpty()) {
             Item item = items.get(0);
             Map<String, String> change = unequipItem(item);
-            QueueProvider.offer(item.getName()+" unequipped");
+            QueueProvider.getInstance().offer(item.getName()+" unequipped");
 	        printStatChange(change);
          }
     }
@@ -419,33 +413,33 @@ public class Player extends Entity {
               switch ((String) me.getKey()) {
                   case "damage": {
                           if (value >= 0.0) {
-                              QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")");
+                              QueueProvider.getInstance().offer(me.getKey() + ": " + this.getDamage() + " (+" + me.getValue() + ")");
                           } else {
-                              QueueProvider.offer(me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")");
+                              QueueProvider.getInstance().offer(me.getKey() + ": " + this.getDamage() + " (" + me.getValue() + ")");
                           }
                           break;
                     }
                     case "health": {
                           if (value >= 0) {
-                              QueueProvider.offer(me.getKey() + ": " + this.getHealth() + " (+" + me.getValue() + ")");
+                              QueueProvider.getInstance().offer(me.getKey() + ": " + this.getHealth() + " (+" + me.getValue() + ")");
                           } else {
-                              QueueProvider.offer(me.getKey() + ": " + this.getHealth() + " (" + me.getValue() + ")");
+                              QueueProvider.getInstance().offer(me.getKey() + ": " + this.getHealth() + " (" + me.getValue() + ")");
                           }
                           break;
                     }
                     case "armour": {
                           if (value >= 0) {
-                              QueueProvider.offer(me.getKey() + ": " + this.getArmour() + " (+" + me.getValue() + ")");
+                              QueueProvider.getInstance().offer(me.getKey() + ": " + this.getArmour() + " (+" + me.getValue() + ")");
                           } else {
-                              QueueProvider.offer(me.getKey() + ": " + this.getArmour() + " (" + me.getValue() + ")");
+                              QueueProvider.getInstance().offer(me.getKey() + ": " + this.getArmour() + " (" + me.getValue() + ")");
                           }
                           break;
                     }
                     case "maxHealth": {
                           if (value  >= 0) {
-                              QueueProvider.offer(me.getKey() + ": " + this.getHealthMax() + " (+" + me.getValue() + ")");
+                              QueueProvider.getInstance().offer(me.getKey() + ": " + this.getHealthMax() + " (+" + me.getValue() + ")");
                           } else {
-                              QueueProvider.offer(me.getKey() + ": " + this.getHealthMax() + " (" + me.getValue() + ")");
+                              QueueProvider.getInstance().offer(me.getKey() + ": " + this.getHealthMax() + " (" + me.getValue() + ")");
                           }
                           break;
                     }
@@ -462,7 +456,7 @@ public class Player extends Entity {
             Item item = itemMap.get(0);
             item.display();
         } else {
-            QueueProvider.offer("Item doesn't exist within your view.");
+            QueueProvider.getInstance().offer("Item doesn't exist within your view.");
         }
     }
 
@@ -499,7 +493,7 @@ public class Player extends Entity {
         } else if (npcOpponent != null) {
             new BattleMenu(npcOpponent, this);
         } else {
-             QueueProvider.offer("Opponent not found");
+             QueueProvider.getInstance().offer("Opponent not found");
         }
     }
 

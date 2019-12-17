@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.jadventure.game.GameBeans;
-import com.jadventure.game.QueueProvider;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Storage;
 import com.jadventure.game.repository.ItemRepository;
+import com.jadventure.game.queueprovider.QueueProvider;
 
 /**
  * superclass for all entities (includes player, monsters...)
@@ -295,10 +295,10 @@ public abstract class Entity {
     }
 
     public void printEquipment() {
-        QueueProvider.offer("\n------------------------------------------------------------");
-        QueueProvider.offer("Equipped Items:");
+        QueueProvider.getInstance().offer("\n------------------------------------------------------------");
+        QueueProvider.getInstance().offer("Equipped Items:");
         if (equipment.keySet().size() == 0) {
-            QueueProvider.offer("--Empty--");
+            QueueProvider.getInstance().offer("--Empty--");
         } else {
             int i = 0;
             Item hands = itemRepo.getItem("hands");
@@ -315,16 +315,16 @@ public abstract class Entity {
             locations.put(EquipmentLocation.FEET, "Feet");
             for (Map.Entry<EquipmentLocation, Item> item : equipment.entrySet()) {
                 if (item.getKey() != null && !hands.equals(item.getValue()) && item.getValue() != null) {
-                    QueueProvider.offer(locations.get(item.getKey()) + " - " + item.getValue().getName());
+                    QueueProvider.getInstance().offer(locations.get(item.getKey()) + " - " + item.getValue().getName());
                 } else {
                     i++;
                 }
             }
             if (i == equipment.keySet().size()) {
-                QueueProvider.offer("--Empty--");
+                QueueProvider.getInstance().offer("--Empty--");
             }
         }
-        QueueProvider.offer("------------------------------------------------------------"); 
+        QueueProvider.getInstance().offer("------------------------------------------------------------");
     }
 
     public Storage getStorage() {

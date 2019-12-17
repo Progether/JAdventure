@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.net.Socket;
 
 public abstract class QueueProvider {
-    protected static Logger logger = LoggerFactory.getLogger(com.jadventure.game.QueueProvider.class);
+    protected static Logger logger = LoggerFactory.getLogger(QueueProvider.class);
 
     private static QueueProvider instance;
 

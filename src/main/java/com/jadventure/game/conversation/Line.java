@@ -1,6 +1,5 @@
 package com.jadventure.game.conversation;
 
-import com.jadventure.game.QueueProvider;
 import com.jadventure.game.entities.NPC;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.menus.Menus;

@@ -1,14 +1,12 @@
 package com.jadventure.game;
 
 import com.jadventure.game.menus.MainMenu;
-import com.jadventure.game.QueueProvider;
-import com.jadventure.game.Client;
 
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.IOException;
-import java.net.SocketException;
 
+import com.jadventure.game.queueprovider.QueueProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +54,7 @@ public class JAdventure {
                 }
             }
         } else {
-            QueueProvider.startMessenger(GameModeType.STAND_ALONE);
+            QueueProvider.startStandaloneMessenger();
             new MainMenu();
         }
     }

@@ -5,7 +5,7 @@ import com.jadventure.game.items.Item;
 import com.jadventure.game.repository.RepositoryException;
 import com.jadventure.game.repository.ItemRepository;
 import com.jadventure.game.GameBeans;
-import com.jadventure.game.QueueProvider;
+import com.jadventure.game.queueprovider.QueueProvider;
 
 
 /**
@@ -27,8 +27,8 @@ public class BackpackDebugPrompt{
     public BackpackDebugPrompt(Player player){
         boolean continuePrompt = true;
         while(continuePrompt){
-            QueueProvider.offer("Edit backpack:");
-            String command = QueueProvider.take();
+            QueueProvider.getInstance().offer("Edit backpack:");
+            String command = QueueProvider.getInstance().take();
             continuePrompt = parse(player, command.toLowerCase());
         }
     }
@@ -42,7 +42,7 @@ public class BackpackDebugPrompt{
                     if (appendItem.getName() != null)
                         player.addItemToStorage(appendItem);
                 } catch (RepositoryException ex) {
-                    QueueProvider.offer(ex.getMessage());
+                    QueueProvider.getInstance().offer(ex.getMessage());
                 }
             }
             else if (command.startsWith("remove")){
@@ -53,11 +53,11 @@ public class BackpackDebugPrompt{
                 player.printBackPack();
             }
             else if (command.equals("help"))
-                QueueProvider.offer(helpText);
+                QueueProvider.getInstance().offer(helpText);
             else if (command.equals("exit"))
                 continuePrompt = false;
         } catch (NumberFormatException e){
-            QueueProvider.offer("Invalid item name");
+            QueueProvider.getInstance().offer("Invalid item name");
         }
         
         return continuePrompt;

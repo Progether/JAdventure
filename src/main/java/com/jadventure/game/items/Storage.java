@@ -1,9 +1,9 @@
 package com.jadventure.game.items;
 
+import com.jadventure.game.queueprovider.QueueProvider;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.jadventure.game.QueueProvider;
 
 /**
  * Defines an interface for any type of storage in this game.
@@ -118,10 +118,10 @@ public class Storage {
      * Prints out the content of the backpack to the console.
      */
     public void display() {
-            QueueProvider.offer("\n--------------------------------------------------------------------");
-            QueueProvider.offer("Backpack: ");
-            QueueProvider.offer(this.toString());
-            QueueProvider.offer("--------------------------------------------------------------------");
+            QueueProvider.getInstance().offer("\n--------------------------------------------------------------------");
+            QueueProvider.getInstance().offer("Backpack: ");
+            QueueProvider.getInstance().offer(this.toString());
+            QueueProvider.getInstance().offer("--------------------------------------------------------------------");
     }
 
     public boolean isEmpty() {

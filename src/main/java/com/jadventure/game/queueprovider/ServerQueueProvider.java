@@ -61,7 +61,7 @@ public class ServerQueueProvider extends QueueProvider{
             logger.debug("Inside getInput( " + message + " )", ioe);
             input = "error";
         }
-        
+
         return input;
     }
 }
