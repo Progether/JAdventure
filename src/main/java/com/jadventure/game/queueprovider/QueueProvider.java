@@ -8,7 +8,7 @@ import java.net.Socket;
 public abstract class QueueProvider {
     protected static Logger logger = LoggerFactory.getLogger(QueueProvider.class);
 
-    private static QueueProvider instance;
+    private static QueueProvider instance = null;
 
     public static QueueProvider getInstance() {
         return instance;
@@ -30,6 +30,13 @@ public abstract class QueueProvider {
         logger.debug("Starting messenger for automated testing purposes");
 
         instance = new TestingQueueProvider();
+    }
+
+    /**
+     * Used for testing
+     */
+    public static void clearInstance() {
+        instance = null;
     }
 
     public void offer(String message) {

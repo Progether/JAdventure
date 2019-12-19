@@ -16,8 +16,8 @@ public class ServerQueueProvider extends QueueProvider{
         try {
             out = new DataOutputStream(socket.getOutputStream());
             in = new DataInputStream(socket.getInputStream());
-        } catch (IOException ioe) {
-            logger.debug("Inside ServerQueueProvider( " + socket+ " )", ioe);
+        } catch (Exception e) {
+            logger.debug("Inside ServerQueueProvider( " + socket+ " )", e);
         }
     }
 

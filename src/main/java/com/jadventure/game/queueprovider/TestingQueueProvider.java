@@ -37,19 +37,18 @@ public final class TestingQueueProvider extends QueueProvider {
         return sb.toString();
     }
 
-    public void pushToInputQueue(String input) {
-        inputQueue.push(input);
+    public void offerToInputQueue(String input) {
+        inputQueue.offer(input);
     }
 
     @Override
     public void offer(String message) {
         super.offer(message);
-
-        messageHistory.push(message);
+        messageHistory.offer(message);
     }
 
     @Override
     public String take() {
-        return inputQueue.pop();
+        return inputQueue.poll();
     }
 }
