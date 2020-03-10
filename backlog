@@ -1,35 +1,42 @@
+#0 - Have the instructions of how to play the game satated at the beginning of the game. 
+   - As a JAdventure player, I want to know the commands that are used in game. In order to play the game.
+
+   Task 0A. Identifiying how commands are accepted into the interface - points = 5 
+   Task 0B. Create a 'help' command that then spits out a list of commands that are needed to play the game. - points = 1
+   Task 0C. Integrate this command into the beginning of the game so that a new player knows how to access it. - points = 2
+
 #1 - generic npcs should respawn after x amount of time. 
    - As a JAdventure player, I want to have enemies spawn at random times. So that I can fight them.
 
-   Task 1A. Understand how to create an enemy in the game world
-   Task 1B. Spawn in an enemy
-   Task 1C. Create a method of spawning enemies at a certain time.
-   Task 1D. Create a method of spawning enemies at random times
+   Task 1A. Understand how to create an enemy in the game world - points = 13
+   Task 1B. Spawn in an enemy - points = 5
+   Task 1C. Create a method of spawning enemies at a certain time. - points = 8
+   Task 1D. Create a method of spawning enemies at random times - points = 5
 
 #2 - flesh out teleporting for debugging purposes
    - As a JAdventure developer, I want to be able to telepot anywhere in the world. So that I can debug world issues.
 
-   Task 2A. Understand how a player moves throughout the world.
-   Task 2B. have a way for a player to teleport short distances in game
-   Task 2C. Attemp to move the player larger distances
+   Task 2A. Understand how a player moves throughout the world. - points = 13
+   Task 2B. have a way for a player to teleport short distances in game - points = 8
+   Task 2C. Attempt to move the player larger distances - points = 8
 
 #3 - initial recruit quest
    - As a JAdventure player, I want to have a beginning quest. So that I have an introduction to the game.
 
-   Task 3A. Understand where the player starts and what actions they can take
-   Task 3B. Have npc that give out the initial quest for them to solve
-   Task 3C. Create a quest for the player to solve reletively easily.
+   Task 3A. Understand where the player starts and what actions they can take - points = 5
+   Task 3B. Have npc that give out the initial quest for them to solve - points = 3
+   Task 3C. Create a quest for the player to solve reletively easily. - points = 13
 
 #4 - initial sewer rat quest
    - As a JAdventure player, I want to have a beginning quest. So that I have an introduction to the game.
 
-   Task 4A. Understand where the player starts and what actions they can take
-   Task 4B. Have npc that give out the initial quest for them to solve
-   Task 4C. Create a sewer rat quest for the player to solve reletively easily.
+   Task 4A. Understand where the player starts and what actions they can take - points = 5
+   Task 4B. Have npc that give out the initial quest for them to solve - points = 3
+   Task 4C. Create a sewer rat quest for the player to solve reletively easily. - points = 13
 
 #5 - implement npc organizations
    - As a JAdenture player, I want to have npc that represent groups/clans in the game world. So that it feels immersive.
 
-   Task 5A. Understand how to generate an npc within the game world.
-   Task 5B. give certain npc's variables that distinguish them apart from other npc's
-   Task 5C. have the npc recognises those who have the same org variables
+   Task 5A. Understand how to generate an npc within the game world. - points = 13
+   Task 5B. give certain npc's variables that distinguish them apart from other npc's - points = 8
+   Task 5C. have the npc recognises those who have the same org variables - points = 8
