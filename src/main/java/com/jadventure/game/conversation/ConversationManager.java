@@ -6,9 +6,9 @@ import com.jadventure.game.entities.Player;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.repository.EncounteredNpcRepository;
 import com.jadventure.game.repository.ItemRepository;
-import com.jadventure.game.QueueProvider;
 import com.jadventure.game.DeathException;
 import com.jadventure.game.Trading;
+import com.jadventure.game.queueprovider.QueueProvider;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -131,11 +131,11 @@ public class ConversationManager {
                 }
             }
             if (start != null) {
-                QueueProvider.offer(start.getText());
+                QueueProvider.getInstance().offer(start.getText());
                 Line response = start.display(npc, player, conversation);
                 triggerAction(start, npc, player);
                 while (response != null) {
-                   QueueProvider.offer(response.getText());
+                   QueueProvider.getInstance().offer(response.getText());
                    triggerAction(response, npc, player);
                    Line temp_response = response.display(npc, player, conversation);
                    response = temp_response;
@@ -147,7 +147,7 @@ public class ConversationManager {
     private void triggerAction(Line line, NPC npc, Player player) throws DeathException {
         switch (line.getAction()) {
             case ATTACK:
-                QueueProvider.offer("\n" + npc.getName() + " is now attacking you!\n");
+                QueueProvider.getInstance().offer("\n" + npc.getName() + " is now attacking you!\n");
                 player.attack(npc.getName());
                 break;
             case TRADE:

@@ -3,7 +3,7 @@ package com.jadventure.game.menus;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.DeathException;
 import com.jadventure.game.Game;
-import com.jadventure.game.QueueProvider;
+import com.jadventure.game.queueprovider.QueueProvider;
 
 /**
  * Called when creating a new Player
@@ -15,7 +15,7 @@ public class ChooseClassMenu extends Menus {
         this.menuItems.add(new MenuItem("SewerRat", "A member of the underground of Silliya"));
 
         while(true) {
-            QueueProvider.offer("Choose a class to get started with:");
+            QueueProvider.getInstance().offer("Choose a class to get started with:");
             MenuItem selectedItem = displayMenu(this.menuItems);
             if(testOption(selectedItem)) {
             	break;

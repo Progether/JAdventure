@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.jadventure.game.GameBeans;
-import com.jadventure.game.QueueProvider;
 import com.jadventure.game.entities.NPC;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.items.Storage;
@@ -16,6 +15,7 @@ import com.jadventure.game.repository.ItemRepository;
 import com.jadventure.game.repository.LocationRepository;
 import com.jadventure.game.repository.NpcRepository;
 import com.jadventure.game.repository.RepositoryException;
+import com.jadventure.game.queueprovider.QueueProvider;
 
 /**
  * The location class mostly deals with getting and setting variables.
@@ -170,26 +170,26 @@ public class Location implements ILocation {
     }
 
     public void print() {
-        QueueProvider.offer("\n" + getTitle() + ":");
-        QueueProvider.offer("    " + getDescription());
+        QueueProvider.getInstance().offer("\n" + getTitle() + ":");
+        QueueProvider.getInstance().offer("    " + getDescription());
         List<Item> items = getItems();
         if (!items.isEmpty()) {
-            QueueProvider.offer("Items:");
+            QueueProvider.getInstance().offer("Items:");
             for (Item item : items) {
-                QueueProvider.offer("    " + item.getName());
+                QueueProvider.getInstance().offer("    " + item.getName());
             }
         }
         List<NPC> npcs = getNpcs();
         if (!npcs.isEmpty()) {
-            QueueProvider.offer("NPCs:");
+            QueueProvider.getInstance().offer("NPCs:");
             for (NPC npc : npcs) {
-                QueueProvider.offer("   " + npc.getName());
+                QueueProvider.getInstance().offer("   " + npc.getName());
             }
         }
-        QueueProvider.offer("");
+        QueueProvider.getInstance().offer("");
         for (Map.Entry<Direction,ILocation> direction : getExits().entrySet()) {
-		QueueProvider.offer(direction.getKey().getDescription() + ": ");
-    		QueueProvider.offer("    " + direction.getValue().getDescription());
+		QueueProvider.getInstance().offer(direction.getKey().getDescription() + ": ");
+    		QueueProvider.getInstance().offer("    " + direction.getValue().getDescription());
         }
     }
 }

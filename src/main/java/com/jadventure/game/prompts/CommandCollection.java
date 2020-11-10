@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jadventure.game.DeathException;
-import com.jadventure.game.QueueProvider;
 import com.jadventure.game.conversation.ConversationManager;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.entities.NPC;
@@ -22,8 +21,8 @@ import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.LocationType;
 import com.jadventure.game.repository.ItemRepository;
 import com.jadventure.game.repository.LocationRepository;
-import com.jadventure.game.DeathException;
 import com.jadventure.game.GameBeans;
+import com.jadventure.game.queueprovider.QueueProvider;
 
 /**
  * CommandCollection contains the declaration of the methods mapped to game commands
@@ -64,7 +63,7 @@ public enum CommandCollection {
         Method[] methods = CommandCollection.class.getMethods();
         int commandWidth = 0;
         int descriptionWidth = 0;
-        QueueProvider.offer("");
+        QueueProvider.getInstance().offer("");
         for (Method method : methods) {
             if (!method.isAnnotationPresent(Command.class)) {
                 continue;
@@ -91,10 +90,10 @@ public enum CommandCollection {
                     annotation.description());
             if (annotation.debug()) {
                 if ("test".equals(player.getName())) {
-                    QueueProvider.offer(message);
+                    QueueProvider.getInstance().offer(message);
                 }
             } else {
-                QueueProvider.offer(message);
+                QueueProvider.getInstance().offer(message);
                 
             }
         }
@@ -110,14 +109,14 @@ public enum CommandCollection {
     public void command_m() {
         List<Monster> monsterList = player.getLocation().getMonsters();
         if (monsterList.size() > 0) {
-            QueueProvider.offer("Monsters around you:");
-            QueueProvider.offer("----------------------------");
+            QueueProvider.getInstance().offer("Monsters around you:");
+            QueueProvider.getInstance().offer("----------------------------");
             for (Monster monster : monsterList) {
-                QueueProvider.offer(monster.monsterType);
+                QueueProvider.getInstance().offer(monster.monsterType);
             }
-            QueueProvider.offer("----------------------------");
+            QueueProvider.getInstance().offer("----------------------------");
         } else {
-            QueueProvider.offer("There are no monsters around you'n");
+            QueueProvider.getInstance().offer("There are no monsters around you'n");
         }
     }
 
@@ -134,7 +133,7 @@ public enum CommandCollection {
                 if (!newLocation.getLocationType().equals(LocationType.WALL)) {
                     player.setLocation(newLocation);
                     if ("test".equals(player.getName())) {
-                        QueueProvider.offer(player.getLocation().getCoordinate().toString());
+                        QueueProvider.getInstance().offer(player.getLocation().getCoordinate().toString());
                     }
                     player.getLocation().print();
                     Random random = new Random();
@@ -157,20 +156,20 @@ public enum CommandCollection {
                         if (monsters.size() > 0) {
                             int posMonster = random.nextInt(monsters.size());
                             String monster = monsters.get(posMonster).monsterType;
-                            QueueProvider.offer("A " + monster + " is attacking you!");
+                            QueueProvider.getInstance().offer("A " + monster + " is attacking you!");
                             player.attack(monster);
                         }
                     }
                 } else {
-                    QueueProvider.offer("You cannot walk through walls.");
+                    QueueProvider.getInstance().offer("You cannot walk through walls.");
                 }
             } else {
-                QueueProvider.offer("The is no exit that way.");
+                QueueProvider.getInstance().offer("The is no exit that way.");
             }
         } catch (IllegalArgumentException ex) {
-            QueueProvider.offer("That direction doesn't exist");
+            QueueProvider.getInstance().offer("That direction doesn't exist");
         } catch (NullPointerException ex) {
-            QueueProvider.offer("That direction doesn't exist");
+            QueueProvider.getInstance().offer("That direction doesn't exist");
         }
     }
 
@@ -206,7 +205,7 @@ public enum CommandCollection {
                 player.printStorage();
                 break;
             default:
-                QueueProvider.offer("That is not a valid display");
+                QueueProvider.getInstance().offer("That is not a valid display");
                 break;
         }
     }
@@ -245,7 +244,7 @@ public enum CommandCollection {
         if (healthMax > 0) {
             player.setHealthMax(healthMax);
         } else {
-            QueueProvider.offer("Maximum health must be possitive");
+            QueueProvider.getInstance().offer("Maximum health must be possitive");
         }
     }
 
@@ -255,7 +254,7 @@ public enum CommandCollection {
         if (health > 0) {
             player.setHealth(health);
         } else {
-            QueueProvider.offer("Health must be possitive");
+            QueueProvider.getInstance().offer("Health must be possitive");
         }
     }
 
@@ -287,7 +286,7 @@ public enum CommandCollection {
             player.getLocation().print();
         } catch (NullPointerException e) {
             player.setLocation(oldLocation);
-            QueueProvider.offer("There is no such location");
+            QueueProvider.getInstance().offer("There is no such location");
         }
     }
 
@@ -309,7 +308,7 @@ public enum CommandCollection {
         if (npc != null) {
             cm.startConversation(npc, player);
         } else {
-            QueueProvider.offer("Unable to talk to " + arg);
+            QueueProvider.getInstance().offer("Unable to talk to " + arg);
         }
     }
 

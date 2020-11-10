@@ -8,7 +8,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-
 /**
  * This class deals with Non Player Character (NPC) and all of their properties.
  * Any method that changes a NPC or a player  interacts with it should

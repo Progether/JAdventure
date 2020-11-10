@@ -13,6 +13,8 @@ import com.jadventure.game.menus.MenuItem;
 import com.jadventure.game.menus.Menus;
 import com.jadventure.game.repository.ItemRepository;
 
+import com.jadventure.game.queueprovider.QueueProvider;
+
 public class Trading {
     NPC npc;
     Player player;
@@ -48,11 +50,11 @@ public class Trading {
     }
     
     public void playerBuy() {
-        QueueProvider.offer(npc.getName() + "'s items:\t" + npc.getName()  + "'s gold:" + npc.getGold() + "\n");
-        QueueProvider.offer(npc.getStorage().displayWithValue(0, 0));
+        QueueProvider.getInstance().offer(npc.getName() + "'s items:\t" + npc.getName()  + "'s gold:" + npc.getGold() + "\n");
+        QueueProvider.getInstance().offer(npc.getStorage().displayWithValue(0, 0));
 
-        QueueProvider.offer("You have " + player.getGold() + " gold coins.\nWhat do you want to buy?");
-        String itemName = QueueProvider.take();
+        QueueProvider.getInstance().offer("You have " + player.getGold() + " gold coins.\nWhat do you want to buy?");
+        String itemName = QueueProvider.getInstance().take();
 
         if ("exit".equals(itemName) || "back".equals(itemName)) {
             return;
@@ -61,23 +63,23 @@ public class Trading {
         Item item = tradeItem(npc, player, itemName);
         if (item != null) {
             if (item != itemRepo.getItem("empty")) {
-                QueueProvider.offer("You have bought a " + item.getName() + " for " + item.getProperties().get("value") + " gold coins.");
-                QueueProvider.offer("You now have " + player.getGold() + " gold coins remaining.");
+                QueueProvider.getInstance().offer("You have bought a " + item.getName() + " for " + item.getProperties().get("value") + " gold coins.");
+                QueueProvider.getInstance().offer("You now have " + player.getGold() + " gold coins remaining.");
             }
             else {
-                QueueProvider.offer("You do not have enough money!");
+                QueueProvider.getInstance().offer("You do not have enough money!");
             }
         } else {
-            QueueProvider.offer("Either this item doesn't exist or this character does not own that item");
+            QueueProvider.getInstance().offer("Either this item doesn't exist or this character does not own that item");
         }
     }
 
     public void playerSell() {
-        QueueProvider.offer(player.getName() + "'s items:\t" + npc.getName()  + "'s gold:" + npc.getGold() + "\n");
-        QueueProvider.offer(player.getStorage().displayWithValue(player.getLuck(), player.getIntelligence()));
+        QueueProvider.getInstance().offer(player.getName() + "'s items:\t" + npc.getName()  + "'s gold:" + npc.getGold() + "\n");
+        QueueProvider.getInstance().offer(player.getStorage().displayWithValue(player.getLuck(), player.getIntelligence()));
         
-        QueueProvider.offer("You have " + player.getGold() + " gold coins.\nWhat do you want to sell?");
-        String itemName = QueueProvider.take();
+        QueueProvider.getInstance().offer("You have " + player.getGold() + " gold coins.\nWhat do you want to sell?");
+        String itemName = QueueProvider.getInstance().take();
  
         if ("exit".equals(itemName) || "back".equals(itemName)) {
             return;
@@ -86,14 +88,14 @@ public class Trading {
         Item item = tradeItem(player, npc, itemName);
         if (item != null) {
             if (item != itemRepo.getItem("empty")) {
-                QueueProvider.offer("You have sold a " + item.getName() + " for " + (player.getGold() - goldBefore) + " gold coins.");
-                QueueProvider.offer("You now have " + player.getGold() + " gold coins remaining.");
+                QueueProvider.getInstance().offer("You have sold a " + item.getName() + " for " + (player.getGold() - goldBefore) + " gold coins.");
+                QueueProvider.getInstance().offer("You now have " + player.getGold() + " gold coins remaining.");
             }
             else {
-                QueueProvider.offer(npc.getName() + " does not have enough money!");
+                QueueProvider.getInstance().offer(npc.getName() + " does not have enough money!");
             }
         } else {
-            QueueProvider.offer("Either this item doesn't exist or this character does not own that item");
+            QueueProvider.getInstance().offer("Either this item doesn't exist or this character does not own that item");
         }
     }
 

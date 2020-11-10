@@ -1,10 +1,11 @@
 package com.jadventure.game.items;
 
+import com.jadventure.game.queueprovider.QueueProvider;
+
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.jadventure.game.QueueProvider;
 import com.jadventure.game.entities.EquipmentLocation;
 
 /**
@@ -96,10 +97,10 @@ public class Item {
     }
 
     public void display() {
-        QueueProvider.offer("Name: " + name +
+        QueueProvider.getInstance().offer("Name: " + name +
                 "\nDescription: " + description + "\nLevel: " + level);
         for (Map.Entry<String, Integer> entry : properties.entrySet()) {
-            QueueProvider.offer(entry.getKey() + ": " + entry.getValue());
+            QueueProvider.getInstance().offer(entry.getKey() + ": " + entry.getValue());
         }
     }
 

@@ -4,12 +4,11 @@ import com.jadventure.game.DeathException;
 import com.jadventure.game.entities.Entity;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.entities.NPC;
-import com.jadventure.game.monsters.Monster;
-import com.jadventure.game.QueueProvider;
 import com.jadventure.game.CharacterChange;
 import com.jadventure.game.items.ItemStack;
 import com.jadventure.game.items.Item;
 import com.jadventure.game.GameBeans;
+import com.jadventure.game.queueprovider.QueueProvider;
 
 import java.util.Random;
 import java.util.List;
@@ -34,16 +33,16 @@ public class BattleMenu extends Menus {
         while (opponent.getHealth() > 0 &&
                 player.getHealth() > 0 &&
                 (escapeSuccessfulAttempts <= 0)) {
-            QueueProvider.offer("\nWhat is your choice?");
+            QueueProvider.getInstance().offer("\nWhat is your choice?");
             MenuItem selectedItem = displayMenu(this.menuItems);
             testSelected(selectedItem);
         }
         if (player.getHealth() == 0) {
-            QueueProvider.offer("You died... Start again? (y/n)");
-            String reply = QueueProvider.take().toLowerCase();
+            QueueProvider.getInstance().offer("You died... Start again? (y/n)");
+            String reply = QueueProvider.getInstance().take().toLowerCase();
             while (!reply.startsWith("y") && !reply.startsWith("n")) {
-                QueueProvider.offer("You died... Start again? (y/n)");
-                reply = QueueProvider.take().toLowerCase();
+                QueueProvider.getInstance().offer("You died... Start again? (y/n)");
+                reply = QueueProvider.getInstance().take().toLowerCase();
             }
             if (reply.startsWith("y")) {
                 throw new DeathException("restart");
@@ -70,17 +69,17 @@ public class BattleMenu extends Menus {
                 Item item = GameBeans.getItemRepository().getItem(itemId);
                 opponent.removeItemFromStorage(item);
                 this.player.getLocation().addItem(item);
-                QueueProvider.offer("Your opponent dropped a " +
+                QueueProvider.getInstance().offer("Your opponent dropped a " +
                         item.getName());
             }
 
             this.player.getLocation().remove(opponent);
             this.player.setGold(this.player.getGold() + opponent.getGold());
-            QueueProvider.offer("You killed a " + opponent.getName() +
+            QueueProvider.getInstance().offer("You killed a " + opponent.getName() +
                     "\nYou have gained " + xp + " XP and " +
                     opponent.getGold() + " gold");
             if (oldLevel < newLevel) {
-                QueueProvider.offer("You've are now level " + newLevel + "!");
+                QueueProvider.getInstance().offer("You've are now level " + newLevel + "!");
             }
             CharacterChange cc = new CharacterChange();
             cc.trigger(this.player, "kill", opponent.getName());
@@ -111,7 +110,7 @@ public class BattleMenu extends Menus {
             }
             case "defend": {
                    mutateStats(0.5, 1);
-                   QueueProvider.offer("\nYou get ready to defend against " +
+                   QueueProvider.getInstance().offer("\nYou get ready to defend against " +
                            "the " + opponent.getName() + ".");
                    attack(player, opponent);
                    attack(opponent, player);
@@ -160,14 +159,14 @@ public class BattleMenu extends Menus {
         double minEscapeLevel = (rand.nextInt((upperBound - lowerBound) + 1) +
                 lowerBound) / 100.0;
         if (escapeLevel > minEscapeLevel && (escapeAttempts == 0)) {
-            QueueProvider.offer("You have managed to escape the: " +
+            QueueProvider.getInstance().offer("You have managed to escape the: " +
                     attacker.getName());
             return 1;
         } else if (escapeAttempts < 0) {
-            QueueProvider.offer("You have tried to escape too many times!");
+            QueueProvider.getInstance().offer("You have tried to escape too many times!");
             return escapeAttempts - 1;
         } else {
-            QueueProvider.offer("You failed to escape the: " +
+            QueueProvider.getInstance().offer("You failed to escape the: " +
                     attacker.getName());
             return escapeAttempts-1;
         }
@@ -181,7 +180,7 @@ public class BattleMenu extends Menus {
         double critCalc = random.nextDouble();
         if (critCalc < attacker.getCritChance()) {
             damage += damage;
-            QueueProvider.offer("Crit hit! Damage has been doubled!");
+            QueueProvider.getInstance().offer("Crit hit! Damage has been doubled!");
         }
         int healthReduction = (int) ((((3 * attacker.getLevel() / 50 + 2) *
                 damage * damage / (defender.getArmour() + 1)/ 100) + 2) *
@@ -190,12 +189,12 @@ public class BattleMenu extends Menus {
         if (defender.getHealth() < 0) {
             defender.setHealth(0);
         }
-        QueueProvider.offer(healthReduction + " damage dealt!");
+        QueueProvider.getInstance().offer(healthReduction + " damage dealt!");
         if (attacker instanceof Player) {
-            QueueProvider.offer("The " + defender.getName() + "'s health is " +
+            QueueProvider.getInstance().offer("The " + defender.getName() + "'s health is " +
                     defender.getHealth());
         } else {
-            QueueProvider.offer("Your health is " + defender.getHealth());
+            QueueProvider.getInstance().offer("Your health is " + defender.getHealth());
         }
     }
 
@@ -213,8 +212,8 @@ public class BattleMenu extends Menus {
 
     private void equip() {
         player.printStorage();
-        QueueProvider.offer("What item do you want to use?");
-        String itemName = QueueProvider.take();
+        QueueProvider.getInstance().offer("What item do you want to use?");
+        String itemName = QueueProvider.getInstance().take();
         if (!itemName.equalsIgnoreCase("back")) {
             player.equipItem(itemName);
         }
@@ -222,17 +221,17 @@ public class BattleMenu extends Menus {
 
     private void unequip() {
         player.printEquipment();
-        QueueProvider.offer("What item do you want to unequip?");
-        String itemName = QueueProvider.take();
+        QueueProvider.getInstance().offer("What item do you want to unequip?");
+        String itemName = QueueProvider.getInstance().take();
         if (!itemName.equalsIgnoreCase("back")) {
             player.dequipItem(itemName);
         }
     }
 
     private void viewStats() {
-        QueueProvider.offer("\nWhat is your command? ex. View stats(vs), " +
+        QueueProvider.getInstance().offer("\nWhat is your command? ex. View stats(vs), " +
                 "View Backpack(vb), View Equipment(ve) ");
-        String input = QueueProvider.take();
+        String input = QueueProvider.getInstance().take();
         switch (input) {
             case "vs":
             case "viewstats":
