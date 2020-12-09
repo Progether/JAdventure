@@ -2,6 +2,7 @@ package com.jadventure.game.prompts;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.TreeMap;
 
 import com.jadventure.game.DeathException;
@@ -34,7 +35,7 @@ public class CommandParser {
             }
             Command annotation = method.getAnnotation(Command.class);
             this.commandMap.put(annotation.command(), method);
-            for(String alias : annotation.aliases().split(",")){
+            for(String alias : annotation.aliases()){
                 if (alias.length() == 0) {
                     break;
                 }
@@ -78,7 +79,7 @@ public class CommandParser {
                             }
                         }
                     } else {
-                        QueueProvider.offer("I don't know what'" + userCommand + "' means.");
+                        QueueProvider.offer("I don't know what '" + userCommand + "' means.");
                         return true;
                     }
                 } else if (method.getParameterTypes()[0] == String.class) {
@@ -104,7 +105,7 @@ public class CommandParser {
                 return true;
             }
         }
-        QueueProvider.offer("I don't know what'" + userCommand + "' means.");
+        QueueProvider.offer("I don't know what '" + userCommand + "' means.");
         return true;
     }
 
