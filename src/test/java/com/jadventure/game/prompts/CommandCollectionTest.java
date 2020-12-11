@@ -6,9 +6,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Collection;
+import java.util.TreeMap;
 
 import org.junit.After;
 import org.junit.Before;
@@ -31,9 +33,12 @@ public class CommandCollectionTest {
     CommandCollection collection;
     PrintStream stdout;
     ByteArrayOutputStream outContent;
+    TreeMap<String, Method> commandMap = new TreeMap<>();
 
     @Before
     public void setUp() {
+        initCommandMap();
+
         Coordinate coordinate = new Coordinate(1, 1, 0);
         String title = "At the edge of a forest";
         String description = "The are many big trees and some tick busses, " +
@@ -106,6 +111,26 @@ public class CommandCollectionTest {
     }
 
     @Test
+    public void commandInspectAliasesTest() {
+        Method inspectMethod = commandMap.get("inspect");
+        Method inspectFirstMethodAlias = commandMap.get("lookat");
+        Method inspectSecondMethodAlias = commandMap.get("i");
+
+        assertEquals(inspectMethod, inspectFirstMethodAlias);
+        assertEquals(inspectMethod, inspectSecondMethodAlias);
+    }
+
+    @Test
+    public void commandPickAliasesTest() {
+        Method inspectMethod = commandMap.get("pick");
+        Method inspectFirstMethodAlias = commandMap.get("pickup");
+        Method inspectSecondMethodAlias = commandMap.get("p");
+
+        assertEquals(inspectMethod, inspectFirstMethodAlias);
+        assertEquals(inspectMethod, inspectSecondMethodAlias);
+    }
+
+    @Test
     public void commandViewTest() {
         collection.command_v("b");
         assertTrue(outContent.toString().contains("Backpack"));
@@ -120,6 +145,24 @@ public class CommandCollectionTest {
     private static int countLines(String str) {
         String[] lines = str.split("\r\n|\r|\n");
         return  lines.length;
+    }
+
+    private void initCommandMap() {
+        Method[] methods = CommandCollection.class.getMethods();
+
+        for(Method method: methods){
+            if (!method.isAnnotationPresent(Command.class)) {
+                continue;
+            }
+            Command annotation = method.getAnnotation(Command.class);
+            this.commandMap.put(annotation.command(), method);
+            for(String alias : annotation.aliases()){
+                if (alias.length() == 0) {
+                    break;
+                }
+                this.commandMap.put(alias, method);
+            }
+        }
     }
 
 }

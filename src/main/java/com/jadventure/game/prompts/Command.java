@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Command {
     String command();
-    String aliases();
+    String[] aliases();
     String description();
     boolean debug();
 }
