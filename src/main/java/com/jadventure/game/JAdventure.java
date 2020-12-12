@@ -1,8 +1,6 @@
 package com.jadventure.game;
 
 import com.jadventure.game.menus.MainMenu;
-import com.jadventure.game.QueueProvider;
-import com.jadventure.game.Client;
 
 import java.net.ServerSocket;
 import java.net.Socket;

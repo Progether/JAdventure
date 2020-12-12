@@ -3,13 +3,10 @@ package com.jadventure.game.repository;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
-import com.jadventure.game.entities.NPC;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.HashMap;
-import java.util.Map;
 
 public class EncounteredNpcRepository extends NpcRepository{
     static String fileName;

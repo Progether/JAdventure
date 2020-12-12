@@ -1,7 +1,6 @@
 package com.jadventure.game.repository;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
@@ -10,7 +9,6 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -23,7 +21,7 @@ import com.jadventure.game.items.Item;
 public class ItemRepositoryTest {
 
     @Test
-    public void addItem() throws IOException {
+    public void addItem() {
         ItemRepository itemRepo = new ItemRepository();
         
         itemRepo.addItem(createMilk());
@@ -42,7 +40,7 @@ public class ItemRepositoryTest {
     }
 
     @Test
-    public void addItems() throws IOException {
+    public void addItems() {
         ItemRepository itemRepo = new ItemRepository();
         
         itemRepo.addItem(createMilk());
@@ -78,7 +76,7 @@ public class ItemRepositoryTest {
     }
 
     @Test
-    public void retrieveItems() throws IOException {
+    public void retrieveItems() {
         String input = "{\"items\":{"
                 + "\"fegg1\":{\"id\":\"fegg1\",\"type\": \"food\",\"name\":\"egg\",\"description\":\"A nice egg\","
                 + "\"position\":\"mouth\",\"level\":1,"
@@ -138,9 +136,8 @@ public class ItemRepositoryTest {
         properties.put("health", 5);
         properties.put("weight", 1);
         properties.put("value", 10);
-        
-        Item item = new Item("milk-bottle", "potion", "milk", "Milk in a bottle", 1, properties);
-        return item;
+
+        return new Item("milk-bottle", "potion", "milk", "Milk in a bottle", 1, properties);
     }
 
     private Item createEgg() {
@@ -148,9 +145,8 @@ public class ItemRepositoryTest {
         properties.put("health", 2);
         properties.put("weight", 1);
         properties.put("value", 3);
-        
-        Item item = new Item("egg-1", "food", "egg", "A nice egg", 1, properties);
-        return item;
+
+        return new Item("egg-1", "food", "egg", "A nice egg", 1, properties);
     }
 
 }
