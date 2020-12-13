@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 import java.util.Map;
 
@@ -237,7 +236,7 @@ public class EntityTest {
         assertEquals(diffArmour, newArmour - oldArmour);
 
         Map<EquipmentLocation, Item> equipment = entity.getEquipment();
-        assertEquals(null, equipment.get(EquipmentLocation.BOTH_ARMS));
+        assertNull(equipment.get(EquipmentLocation.BOTH_ARMS));
     }
 
     @Test

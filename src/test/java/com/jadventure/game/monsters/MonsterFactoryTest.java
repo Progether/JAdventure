@@ -1,17 +1,15 @@
 package com.jadventure.game.monsters;
 
-import static org.junit.Assert.*;
-
-import java.security.PublicKey;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.navigation.Coordinate;
-import com.jadventure.game.navigation.ILocation;
 import com.jadventure.game.navigation.Location;
 import com.jadventure.game.navigation.LocationType;
+
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class MonsterFactoryTest {
     private Player player;

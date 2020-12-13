@@ -4,7 +4,6 @@ import com.jadventure.game.DeathException;
 import com.jadventure.game.entities.Entity;
 import com.jadventure.game.entities.Player;
 import com.jadventure.game.entities.NPC;
-import com.jadventure.game.monsters.Monster;
 import com.jadventure.game.QueueProvider;
 import com.jadventure.game.CharacterChange;
 import com.jadventure.game.items.ItemStack;
