@@ -320,6 +320,20 @@ public enum CommandCollection {
         }
     }
 
+    @Command(command="givemoney", aliases={"gm"}, description="Gives user money", debug=false)
+    public void command_givemoney(String arg) {
+        if(arg != "") {
+            try {
+                player.setGold(player.getGold() + Integer.parseInt(arg));
+            }
+            catch(Exception e) {
+
+            }
+
+        }
+        player.setGold(player.getGold() + 10000);
+    }
+
     private void addItemToLocation() {
         ItemRepository itemRepo = GameBeans.getItemRepository();
         if (player.getHealth() < player.getHealthMax()/3) {
