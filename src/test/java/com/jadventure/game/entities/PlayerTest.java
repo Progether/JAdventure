@@ -4,9 +4,14 @@ import org.junit.Test;
 
 import com.jadventure.game.GameBeans;
 import com.jadventure.game.QueueProvider;
+import com.jadventure.game.items.Item;
 import com.jadventure.game.repository.LocationRepository;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.nio.file.InvalidPathException;
 
 public class PlayerTest {
 
@@ -33,7 +38,7 @@ public class PlayerTest {
         assertEquals("Failure - old player not properly loaded", expected, actual);
     }
  
-    @Test
+    @Test(expected = AssertionError.class)
     public void loadNameExit() {
         Player player = Player.getInstance("recruit");
         String playerName = "exit";
@@ -47,50 +52,83 @@ public class PlayerTest {
         String key="exit";
         Player player2 = null;
         if (key.equals("exit") || key.equals("back")) {
-            ;
+        	fail("Should have load user 'exit' instead of returning to menu");
         } else if (Player.profileExists(key)) {
             player2 = Player.load(key);
         } else {
             QueueProvider.offer("That user doesn't exist. Try again.");
         }
-        assertNotNull("Failure - Can not load user 'exit' eventhough it exists.",player2);
     }
     
-    @Test
+    @Test(expected = InvalidPathException.class)
     public void tryInvalidName1() {
         Player player = Player.getInstance("recruit");
         String questionMark = "?";
         System.out.println(questionMark);
         player.setName(questionMark);
-        try{
-        	LocationRepository temp = GameBeans.getLocationRepository(player.getName());
-        }catch(Exception e) {
-           assertEquals("Failure - Invalid Name", 1,0 );
-        }
+        LocationRepository temp = GameBeans.getLocationRepository(player.getName());
     }
-    @Test
+    @Test(expected = InvalidPathException.class)
     public void tryInvalidName2() {
         Player player = Player.getInstance("recruit");
         String pipeName = "|";
         System.out.println(pipeName);
         player.setName(pipeName);
-        try{
-        	LocationRepository temp = GameBeans.getLocationRepository(player.getName());
-        }catch(Exception e) {
-           assertEquals("Failure - Invalid Name", 1,0 );
-        }
+        LocationRepository temp = GameBeans.getLocationRepository(player.getName());
     }
-    @Test
+    @Test(expected = InvalidPathException.class)
     public void tryInvalidName3() {
         Player player = Player.getInstance("recruit");
         String doubleQuotationMark = "\"";
         System.out.println(doubleQuotationMark);
         player.setName(doubleQuotationMark);
-        try{
-        	LocationRepository temp = GameBeans.getLocationRepository(player.getName());
-        }catch(Exception e) {
-           assertEquals("Failure - Invalid Name", 1,0 );
+        LocationRepository temp = GameBeans.getLocationRepository(player.getName());
+    }   
+    @Test
+    public void testItem(){
+        boolean bool = false;
+        
+        Player player = Player.load("test");
+        Item item = new Item("0101", "potion", "red", "red potion", null, 1, null);
+        bool = player.hasItem(item);
+        assertFalse(bool);
+
+        bool = player.hasItem(player.searchItem("milk", player.getStorage()).get(0));
+        assertTrue(bool);
+        player.dropItem("milk");
+        player.pickUpItem("milk");
+        player.inspectItem("milk");
+        player.equipItem("milk");
+
+        assertTrue(player.searchItem("pmil1", player.getStorage()).isEmpty());
+        player.dropItem("pmul1");
+        player.pickUpItem("pmil1");
+        player.inspectItem("pmil1");
+        player.equipItem("pmil1");
+    }
+
+    @Test
+    public void testLevel(){
+        Player player = Player.getInstance("recruit");
+        int level = player.getLevel();
+        assertEquals(1, level);
+        if (level == 1) {
+            level++;
         }
+        player.setLevel(level);
+        assertEquals(2, player.getLevel());
+    }
+
+    @Test
+    public void testCharacterTypeLevel() {
+        Player player = Player.load("test");
+        assertEquals("Recruit", player.getCurrentCharacterType());
+
+        int recruit = player.getCharacterLevel("Recruit");
+        assertEquals(3, recruit);
+
+        player.setCharacterLevel("Recruit", recruit + 1);
+        assertEquals(4, player.getCharacterLevel("Recruit"));
     }
     
 }
